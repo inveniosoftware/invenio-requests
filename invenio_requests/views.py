@@ -6,25 +6,10 @@
 # Invenio-Requests is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
-"""Invenio module for generic and customizable requests."""
-
-# TODO: This is an example file. Remove it if you do not need it, including
-# the templates and static folders as well as the test case.
-
-from flask import Blueprint, render_template
-from flask_babelex import gettext as _
-
-blueprint = Blueprint(
-    "invenio_requests",
-    __name__,
-    template_folder="templates",
-    static_folder="static",
-)
+"""View functions for the requests."""
 
 
-@blueprint.route("/")
-def index():
-    """Render a basic view."""
-    return render_template(
-        "invenio_requests/index.html", module_name=_("Invenio-Requests")
-    )
+def create_requests_bp(app):
+    """Create requests blueprint."""
+    ext = app.extensions["invenio-requests"]
+    return ext.requests_resource.as_blueprint()

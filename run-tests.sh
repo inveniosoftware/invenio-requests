@@ -51,6 +51,7 @@ if [[ ${keep_services} -eq 0 ]]; then
 	trap cleanup EXIT
 fi
 
+black --check --diff invenio_requests tests
 python -m check_manifest --ignore ".*-requirements.txt"
 python -m sphinx.cmd.build -qnN docs docs/_build/html
 eval "$(docker-services-cli up --db ${DB:-postgresql} --search ${SEARCH:-elasticsearch} --cache ${CACHE:-redis} --env)"

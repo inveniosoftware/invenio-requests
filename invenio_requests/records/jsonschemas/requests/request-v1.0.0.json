@@ -10,11 +10,60 @@
     "id": {
       "$ref": "local://definitions-v1.0.0.json#/identifier"
     },
-    "pid": {
-      "$ref": "local://definitions-v1.0.0.json#/internal-pid"
-    },
     "request_type": {
       "type": "string"
+    },
+    "title": {
+      "$type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "payload": {
+      "type": "object",
+      "patternProperties": {
+        "^.*$": {
+          "type": "string"
+        }
+      }
+    },
+    "subject": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "receiver": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "created_by": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "user": {
+              "type": "integer"
+            }
+          }
+        }
+      ]
     }
   }
 }

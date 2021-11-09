@@ -6,7 +6,17 @@
         "type": "keyword",
         "index": "false"
       },
+      "version_id": {
+        "type": "integer",
+        "index": "false"
+      },
       "id": {
+        "type": "keyword"
+      },
+      "uuid": {
+        "type": "keyword"
+      },
+      "external_id": {
         "type": "keyword"
       },
       "created": {
@@ -49,10 +59,10 @@
         "type": "object",
         "properties": {
           "type": {
-            "type": "text"
+            "type": "keyword"
           },
           "id": {
-            "type": "text"
+            "type": "keyword"
           }
         }
       },
@@ -60,10 +70,10 @@
         "type": "object",
         "properties": {
           "type": {
-            "type": "text"
+            "type": "keyword"
           },
           "id": {
-            "type": "text"
+            "type": "keyword"
           }
         }
       }

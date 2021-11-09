@@ -12,13 +12,14 @@
 from invenio_requests.proxies import current_requests
 
 
-def test_simple_flow(
-        app, identity_simple, comments_service_data, example_request):
+def test_simple_flow(app, identity_simple, comments_service_data, example_request):
     """Interact with comments."""
     # Create a comment
     comments_service = current_requests.request_comments_service
+    # TODO should probably use the request's internal id?
     item = comments_service.create(
-        example_request["id"], identity_simple, comments_service_data)
+        example_request.id, identity_simple, comments_service_data
+    )
     id_ = item.id
 
     # # Read it

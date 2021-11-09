@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2021 CERN.
-# Copyright (C) 2021 Northwestern University.
 # Copyright (C) 2021 TU Wien.
 #
 # Invenio-Requests is free software; you can redistribute it and/or
@@ -10,12 +9,17 @@
 
 """Services module."""
 
-from .comments import RequestCommentsService, RequestCommentsServiceConfig
-from .registry import RequestTypeRegistry
-from .requests import RequestsService, RequestsServiceConfig
+from .components import IdentifierComponent
+from .config import RequestsServiceConfig
+from .links import RequestLink
+from .results import RequestItem, RequestList
+from .service import RequestsService
 
 __all__ = (
+    "IdentifierComponent",
+    "RequestLink",
+    "RequestItem",
+    "RequestList",
     "RequestsService",
     "RequestsServiceConfig",
-    "RequestTypeRegistry",
 )

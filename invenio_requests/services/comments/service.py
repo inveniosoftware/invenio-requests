@@ -9,24 +9,11 @@
 
 from invenio_records_resources.services import RecordService
 
-
-class RequestsService(RecordService):
-    """RequestsService."""
-    pass
-
-
-# TODO: Implement me
-class CommentResultItem:
-    """Comment Result Item."""
-
-    def __init__(self):
-        """Constructor."""
-        self.id = 1
+from .results import CommentResultItem
 
 
 class RequestCommentsService(RecordService):
     """Request Comments service."""
-
 
     def create(self, request_id, identity, data):
         """Create a request comment."""
@@ -40,7 +27,7 @@ class RequestCommentsService(RecordService):
 
     def _get_request(self, *args, **kwargs):
         """Get associated request."""
-        # TODO: Impklement me
+        # TODO: Implement me
         return {}
 
     def _comment_result_item(self, *args, **kwargs):

@@ -11,9 +11,5 @@
 from invenio_records_resources.services import RecordServiceConfig
 
 
-class RequestsServiceConfig(RecordServiceConfig):
-    pass
-
-
 class RequestCommentsServiceConfig(RecordServiceConfig):
     pass

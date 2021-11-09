@@ -19,10 +19,11 @@ from flask_principal import Identity, Need, UserNeed
 from invenio_app.factory import create_api as _create_api
 
 from invenio_requests.records.api import Request
+
 # from invenio_requests.views import blueprint
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def celery_config():
     """Override pytest-invenio fixture.
 
@@ -46,31 +47,34 @@ def celery_config():
 #         ]
 #     }
 
-@pytest.fixture(scope='module')
+
+@pytest.fixture(scope="module")
 def app_config(app_config):
     """Mimic an instance's configuration."""
-    app_config["JSONSCHEMAS_HOST"] = 'localhost'
-    app_config["BABEL_DEFAULT_LOCALE"] = 'en'
+    app_config["JSONSCHEMAS_HOST"] = "localhost"
+    app_config["BABEL_DEFAULT_LOCALE"] = "en"
     # app_config["I18N_LANGUAGES"] = [('da', 'Danish')]
-    app_config['RECORDS_REFRESOLVER_CLS'] = \
-        "invenio_records.resolver.InvenioRefResolver"
-    app_config['RECORDS_REFRESOLVER_STORE'] = \
-        "invenio_jsonschemas.proxies.current_refresolver_store"
+    app_config[
+        "RECORDS_REFRESOLVER_CLS"
+    ] = "invenio_records.resolver.InvenioRefResolver"
+    app_config[
+        "RECORDS_REFRESOLVER_STORE"
+    ] = "invenio_jsonschemas.proxies.current_refresolver_store"
     return app_config
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def create_app(instance_path):
     # """Application factory fixture."""
     return _create_api
 
 
-@pytest.fixture(scope='module')
+@pytest.fixture(scope="module")
 def identity_simple():
     """Simple identity fixture."""
     i = Identity(1)
     i.provides.add(UserNeed(1))
-    i.provides.add(Need(method='system_role', value='any_user'))
+    i.provides.add(Need(method="system_role", value="any_user"))
     return i
 
 

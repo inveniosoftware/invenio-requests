@@ -9,6 +9,21 @@
 """Invenio module for generic and customizable requests."""
 
 from .ext import InvenioRequests
+from .proxies import (
+    current_registry,
+    current_request_comments_service,
+    current_requests,
+    current_requests_resource,
+    current_requests_service,
+)
 from .version import __version__
 
-__all__ = ("__version__", "InvenioRequests")
+__all__ = (
+    "__version__",
+    "current_registry",
+    "current_requests",
+    "current_request_comments_service",
+    "current_requests_resource",
+    "current_requests_service",
+    "InvenioRequests",
+)

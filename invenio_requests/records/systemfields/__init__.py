@@ -5,8 +5,12 @@
 # Invenio-Requests is free software; you can redistribute it and/or modify
 # it under the terms of the MIT License; see LICENSE file for more details.
 
-"""JSONSchema directory."""
+"""Systemfields for request records."""
 
-# TODO it'd be nice to re-use the #agent $ref, but that's defined in
-#      rdm-records
-#      -> move that $ref to a more generic package? records-resources maybe?
+from .identity import IdentityField
+from .status import RequestStatusField
+
+__all__ = (
+    "IdentityField",
+    "RequestStatusField",
+)

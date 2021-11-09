@@ -7,9 +7,6 @@
 
 """Create Requests branch."""
 
-import sqlalchemy as sa
-from alembic import op
-
 # revision identifiers, used by Alembic.
 revision = "5cd30a3503c9"
 down_revision = None

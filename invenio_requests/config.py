@@ -8,11 +8,20 @@
 
 """Invenio module for generic and customizable requests."""
 
-# TODO: This is an example file. Remove it if your package does not use any
-# extra configuration variables.
+from .records.api import Request
+from .resources import RequestsResourceConfig
+from .services import RequestCommentsServiceConfig, RequestsServiceConfig
 
-REQUESTS_DEFAULT_VALUE = "foobar"
-"""Default value for the application."""
+REQUESTS_SERVICE_CONFIG = RequestsServiceConfig
+"""Configuration for the requests service."""
 
-REQUESTS_BASE_TEMPLATE = "invenio_requests/base.html"
-"""Default base template for the demo page."""
+REQUESTS_RESOURCE_CONFIG = RequestsResourceConfig
+"""Configuration for the requests resource."""
+
+REQUESTS_COMMENTS_SERVICE_CONFIG = RequestCommentsServiceConfig
+"""Configuration for the request comments service."""
+
+# TODO maybe only a list of classes?
+#      because we can get the 'request_type' strings from the classes
+REQUESTS_REGISTERED_TYPES = {Request.request_type.value: Request}
+"""Configuration for registered Request Types."""
