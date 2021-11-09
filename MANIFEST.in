@@ -19,3 +19,10 @@ recursive-include invenio_requests/translations *.po *.pot *.mo
 recursive-include invenio_requests *.py
 recursive-include invenio_requests *.json
 recursive-include invenio_requests *.html
+
+# added by check-manifest
+recursive-include docs *.bat
+recursive-include docs *.py
+recursive-include docs *.rst
+recursive-include docs *.txt
+recursive-include docs Makefile
