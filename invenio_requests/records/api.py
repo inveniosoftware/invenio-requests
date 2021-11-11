@@ -33,6 +33,9 @@ class Request(Record):
 
     id = IdentityField("external_id")
 
+    metadata = None
+    """Disabled metadata field from the base class."""
+
     # TODO figure out aliases, multiple mappings, common search fields
     index = IndexField("requests-request-v1.0.0", search_alias="requests")
 
