@@ -8,9 +8,11 @@
 """Systemfields for request records."""
 
 from .identity import IdentityField
+from .open_state import OpenStateCalculatedField
 from .status import RequestStatusField
 
 __all__ = (
     "IdentityField",
+    "OpenStateCalculatedField",
     "RequestStatusField",
 )

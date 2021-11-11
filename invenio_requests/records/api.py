@@ -17,9 +17,10 @@ from invenio_records_resources.records.api import Record
 from invenio_records_resources.records.systemfields import IndexField
 
 from .actions import AcceptAction, CancelAction, DeclineAction
-from .models import RequestMetadata, RequestEventModel
+from .dumpers import CalculatedFieldDumperExt
+from .models import RequestEventModel, RequestMetadata
 from .schema import RequestSchema
-from .systemfields import IdentityField, RequestStatusField
+from .systemfields import IdentityField, OpenStateCalculatedField, RequestStatusField
 
 
 class Request(Record):
@@ -29,7 +30,8 @@ class Request(Record):
 
     dumper = ElasticsearchDumper(
         extensions=[
-            # TODO
+            CalculatedFieldDumperExt("is_open"),
+            CalculatedFieldDumperExt("is_expired"),
         ]
     )
 
@@ -86,10 +88,7 @@ class Request(Record):
     argument.
     """
 
-    # TODO systemfield?
-    @property
-    def is_open(self):
-        return self.available_statuses.get(self.status)
+    is_open = OpenStateCalculatedField("is_open")
 
     @property
     def expires_at(self):
