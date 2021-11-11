@@ -10,6 +10,12 @@
 
 from invenio_records_resources.services import RecordServiceConfig
 
+from ..permissions import PermissionPolicy
+from .customization import RequestCommentsConfigMixin
 
-class RequestCommentsServiceConfig(RecordServiceConfig):
-    pass
+
+class RequestCommentsServiceConfig(RecordServiceConfig, RequestCommentsConfigMixin):
+    """Request comments service configuration."""
+
+    # common configuration
+    permission_policy_cls = PermissionPolicy

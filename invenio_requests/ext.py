@@ -9,9 +9,17 @@
 
 """Invenio module for generic and customizable requests."""
 
+from invenio_base.utils import load_or_import_from_config
+
 from . import config
-from .resources import RequestsResource
-from .services import RequestCommentsService, RequestsService, RequestTypeRegistry
+from .resources import RequestsResource, RequestsResourceConfig
+from .services import (
+    RequestCommentsService,
+    RequestCommentsServiceConfig,
+    RequestsService,
+    RequestsServiceConfig,
+    RequestTypeRegistry,
+)
 
 
 class InvenioRequests:
@@ -29,6 +37,7 @@ class InvenioRequests:
         """Flask application initialization."""
         self.init_config(app)
         self.init_services(app)
+        self.init_resources()
         self.init_registry(app)
         app.extensions["invenio-requests"] = self
 
@@ -38,17 +47,38 @@ class InvenioRequests:
             if k.startswith("REQUESTS_"):
                 app.config.setdefault(k, getattr(config, k))
 
+    def service_configs(self, app):
+        """Customized service configs."""
+        # overall requests/comments permission policy
+        permission_policy = load_or_import_from_config(
+            key="REQUESTS_PERMISSION_POLICY", app=app
+        )
+
+        class ServiceConfigs:
+            requests = RequestsServiceConfig.customize(
+                permission_policy=permission_policy,
+            )
+            request_comments = RequestCommentsServiceConfig.customize(
+                permission_policy=permission_policy,
+            )
+
+        return ServiceConfigs
+
     def init_services(self, app):
         """Initialize the service and resource for Requests."""
+        service_configs = self.service_configs(app)
+
         self.requests_service = RequestsService(
-            config=app.config["REQUESTS_SERVICE_CONFIG"],
-        )
-        self.requests_resource = RequestsResource(
-            service=self.requests_service,
-            config=app.config["REQUESTS_RESOURCE_CONFIG"],
+            config=service_configs.requests,
         )
         self.request_comments_service = RequestCommentsService(
-            config=app.config["REQUESTS_COMMENTS_SERVICE_CONFIG"],
+            config=service_configs.request_comments,
+        )
+
+    def init_resources(self):
+        self.requests_resource = RequestsResource(
+            service=self.requests_service,
+            config=RequestsResourceConfig,
         )
 
     def init_registry(self, app):

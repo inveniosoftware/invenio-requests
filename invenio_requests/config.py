@@ -9,17 +9,10 @@
 """Invenio module for generic and customizable requests."""
 
 from .records.api import Request
-from .resources import RequestsResourceConfig
-from .services import RequestCommentsServiceConfig, RequestsServiceConfig
+from .services.permissions import PermissionPolicy
 
-REQUESTS_SERVICE_CONFIG = RequestsServiceConfig
-"""Configuration for the requests service."""
-
-REQUESTS_RESOURCE_CONFIG = RequestsResourceConfig
-"""Configuration for the requests resource."""
-
-REQUESTS_COMMENTS_SERVICE_CONFIG = RequestCommentsServiceConfig
-"""Configuration for the request comments service."""
+REQUESTS_PERMISSION_POLICY = PermissionPolicy
+"""Override the default requests/comments permission policy."""
 
 # TODO maybe only a list of classes?
 #      because we can get the 'request_type' strings from the classes
