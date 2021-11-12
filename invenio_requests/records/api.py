@@ -55,7 +55,11 @@ class Request(Record):
     """
 
     marshmallow_schema = RequestSchema
-    """Schema used for de/serialization of requests of this type."""
+    """Schema used for de/serialization of requests of this type.
+
+    To be overridden in subclasses, if the custom request type follows a
+    different or more specific schema.
+    """
 
     status = RequestStatusField("status")
     """The current status of the request."""

@@ -9,9 +9,12 @@
 
 """Requests service schema."""
 
+
+from datetime import timezone
+
 from invenio_records_resources.services.records.schema import BaseRecordSchema
 from marshmallow import Schema, fields
-from marshmallow_utils.fields import SanitizedUnicode
+from marshmallow_utils.fields import SanitizedUnicode, TZDateTime
 
 
 class AgentSchema(Schema):
@@ -31,11 +34,16 @@ class ObjectSchema(Schema):
 class RequestSchema(BaseRecordSchema):
     """Schema for requests."""
 
+    request_type = fields.String(dump_only=True)
     title = SanitizedUnicode(required=True)
     description = SanitizedUnicode()
-    status = fields.String(dump_only=True)
     payload = fields.Dict(dump_only=True)
-    subject = fields.Nested(ObjectSchema)
-    receiver = fields.Nested(ObjectSchema, required=True)
+
     created_by = fields.Nested(AgentSchema, dump_only=True)
-    request_type = fields.String(dump_only=True)
+    receiver = fields.Nested(ObjectSchema, required=True)
+    subject = fields.Nested(ObjectSchema)
+
+    status = fields.String(dump_only=True)
+    is_open = fields.Boolean(dump_only=True)
+    expires_at = TZDateTime(timezone=timezone.utc, format="iso", dump_only=True)
+    is_expired = fields.Boolean(dump_only=True)
