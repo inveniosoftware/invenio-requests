@@ -26,5 +26,5 @@ class RequestEventSchema(BaseRecordSchema):
     content = utils_fields.SanitizedHTML()
     format = fields.Str(
         validate=validate.OneOf(choices=[e.value for e in RequestEventFormat]),
-        load_default=RequestEventFormat.HTML.value
+        load_default=RequestEventFormat.HTML.value,
     )

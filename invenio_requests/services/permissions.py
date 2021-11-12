@@ -12,8 +12,7 @@
 from flask_principal import UserNeed
 from invenio_access.permissions import any_user
 from invenio_records_permissions import RecordPermissionPolicy
-from invenio_records_permissions.generators import Generator
-from invenio_records_permissions.generators import AnyUser, SystemProcess
+from invenio_records_permissions.generators import AnyUser, Generator, SystemProcess
 
 
 class Requesters(Generator):
@@ -30,7 +29,6 @@ class Requesters(Generator):
         #     UserNeed(owner.owner_id) for owner in record.access.owners
         # ]
         # even above could be optimized without caching by using raw ids
-
 
     def query_filter(self, identity=None, **kwargs):
         """Filters for current identity as owner."""
@@ -52,7 +50,6 @@ class Reviewers(Generator):
         #     UserNeed(owner.owner_id) for owner in record.access.owners
         # ]
         # even above could be optimized without caching by using raw ids
-
 
     def query_filter(self, identity=None, **kwargs):
         """Filters for current identity as owner."""

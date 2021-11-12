@@ -80,10 +80,7 @@ def identity_simple():
 @pytest.fixture()
 def request_record_input_data():
     """Input data to a Request record."""
-    return {
-        "title": "Foo bar",
-        "receiver": {"type": "baz", "id": "nyx"}
-    }
+    return {"title": "Foo bar", "receiver": {"type": "baz", "id": "nyx"}}
 
 
 @pytest.fixture()
@@ -91,6 +88,5 @@ def example_request(db, identity_simple, request_record_input_data):
     """Example record."""
     # Need to use the service to get the id I guess...
     requests_service = current_requests.requests_service
-    item = requests_service.create(
-        identity_simple, request_record_input_data, Request)
+    item = requests_service.create(identity_simple, request_record_input_data, Request)
     return item._request

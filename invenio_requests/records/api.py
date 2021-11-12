@@ -146,9 +146,7 @@ class RequestEvent(Record):
     type = ModelField("type")
     """The human-readable event type."""
 
-    index = IndexField(
-        "request_events-event-v1.0.0", search_alias="request_events"
-    )
+    index = IndexField("request_events-event-v1.0.0", search_alias="request_events")
     """The ES index used."""
 
     id = ModelField("id")

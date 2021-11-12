@@ -18,8 +18,7 @@ from ..schemas import RequestEventSchema
 from .customization import CustomizationConfigMixin
 
 
-class RequestEventsServiceConfig(
-        RecordServiceConfig, CustomizationConfigMixin):
+class RequestEventsServiceConfig(RecordServiceConfig, CustomizationConfigMixin):
     """Config."""
 
     request_cls = Request

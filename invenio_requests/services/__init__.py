@@ -10,9 +10,9 @@
 
 """Services module."""
 
+from .events import RequestEventsService, RequestEventsServiceConfig
 from .registry import RequestTypeRegistry
 from .requests import RequestsService, RequestsServiceConfig
-from .events import RequestEventsService, RequestEventsServiceConfig
 
 __all__ = (
     "RequestEventsService",

@@ -38,16 +38,14 @@ class RequestEventsService(RecordService):
 
         # It's the components that save the actual data in the record.
         record = self.record_cls.create(
-            {}, request=request.model, type=data["type"],
+            {},
+            request=request.model,
+            type=data["type"],
         )
 
         # Run components
         self.run_components(
-            "create",
-            identity=identity,
-            record=record,
-            request=request,
-            data=data
+            "create", identity=identity, record=record, request=request, data=data
         )
 
         # Persist record (DB and index)
@@ -89,12 +87,7 @@ class RequestEventsService(RecordService):
         self.require_permission(identity, permission, record=record)
 
         data, _ = self.schema.load(
-            data,
-            context=dict(
-                identity=identity,
-                pid=record.pid,
-                record=record
-            )
+            data, context=dict(identity=identity, pid=record.pid, record=record)
         )
 
         # Run components
@@ -154,21 +147,23 @@ class RequestEventsService(RecordService):
             links_tpl=self.links_item_tpl,
         )
 
-    def search(
-        self, identity, params=None, es_preference=None, **kwargs):
+    def search(self, identity, params=None, es_preference=None, **kwargs):
         """Search for records matching the querystring."""
         params = params or {}
 
         # Permissions
         request_id = params.get("request_id")
         request = self._get_request(request_id) if request_id else None
-        self.require_permission(identity, 'search', request=request)
+        self.require_permission(identity, "search", request=request)
 
         # Prepare and execute the search
         search = self._search(
-            'search', identity, params, es_preference,
-            permission_action='read_event',
-            **kwargs
+            "search",
+            identity,
+            params,
+            es_preference,
+            permission_action="read_event",
+            **kwargs,
         )
         search_result = search.execute()
 
@@ -203,10 +198,8 @@ class RequestEventsService(RecordService):
         """Get associated request."""
         # TODO: Replace with whatever interface Request provides to get one
         from ..requests import RequestsService, RequestsServiceConfig
-        return (
-            RequestsService(config=RequestsServiceConfig())
-            ._get_request(request_id)
-        )
+
+        return RequestsService(config=RequestsServiceConfig())._get_request(request_id)
 
     def _get_event(self, event_id, with_deleted=True):
         """Get associated event_id."""
