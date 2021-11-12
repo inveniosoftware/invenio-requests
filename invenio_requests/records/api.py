@@ -106,13 +106,11 @@ class Request(Record):
     def get_action(self, action_name):
         return self.available_actions[action_name](self)
 
-    # TODO which arguments could be of interest here? user?
-    # executor/requestor in general?
-    def can_execute_action(self, action_name, executor):
-        return self.get_action(action_name).can_execute(executor)
+    def can_execute_action(self, action_name, identity):
+        return self.get_action(action_name).can_execute(identity)
 
-    def execute_action(self, action_name, executor):
-        return self.get_action(action_name).execute(executor)
+    def execute_action(self, action_name, identity):
+        return self.get_action(action_name).execute(identity)
 
 
 class RequestEventType(Enum):
