@@ -11,6 +11,7 @@ import uuid
 
 from invenio_db import db
 from invenio_records.models import RecordMetadataBase
+from sqlalchemy.dialects import mysql
 from sqlalchemy.types import String
 from sqlalchemy_utils import UUIDType
 
@@ -23,6 +24,12 @@ class RequestMetadata(db.Model, RecordMetadataBase):
     id = db.Column(UUIDType, primary_key=True, default=uuid.uuid4)
 
     external_id = db.Column(String(50), unique=True, index=True, nullable=True)
+
+    expires_at = db.Column(
+        db.DateTime().with_variant(mysql.DATETIME(fsp=6), "mysql"),
+        default=None,
+        nullable=True,
+    )
 
     # TODO later
     # labels: maybe per-community CVs

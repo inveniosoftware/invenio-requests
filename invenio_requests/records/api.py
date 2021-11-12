@@ -11,6 +11,7 @@ from collections import namedtuple
 from datetime import datetime
 from enum import Enum
 
+import pytz
 from invenio_records.dumpers import ElasticsearchDumper
 from invenio_records.systemfields import ConstantField, DictField, ModelField
 from invenio_records_resources.records.api import Record
@@ -90,18 +91,22 @@ class Request(Record):
 
     is_open = OpenStateCalculatedField("is_open")
 
-    @property
-    def expires_at(self):
-        # TODO implement
-        return None
+    expires_at = ModelField("expires_at")
 
     @property
     def is_expired(self):
+        """Check if the Request is expired."""
         if self.expires_at is None:
             return False
 
-        # TODO check tzinfo
-        self.expires_at < datetime.utcnow()
+        # comparing timezone-aware and naive datetimes results in an error
+        # https://docs.python.org/3/library/datetime.html#determining-if-an-object-is-aware-or-naive # noqa
+        now = datetime.utcnow()
+        d = self.expires_at
+        if d.tzinfo and d.tzinfo.utcoffset(d) is not None:
+            now = now.replace(tzinfo=pytz.utc)
+
+        return d < now
 
     def get_action(self, action_name):
         return self.available_actions[action_name](self)

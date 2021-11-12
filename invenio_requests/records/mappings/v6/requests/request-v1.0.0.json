@@ -29,6 +29,12 @@
         "closed": {
           "type": "date"
         },
+        "expires_at": {
+          "type": "date"
+        },
+        "is_expired": {
+          "type": "boolean"
+        },
         "request_type": {
           "type": "keyword"
         },
