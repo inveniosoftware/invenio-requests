@@ -60,3 +60,13 @@ class CancelAction(RequestAction):
 
     def execute(self, identity):
         self.request.status = "cancelled"
+
+
+class ExpireAction(RequestAction):
+    """Expire a request."""
+
+    def can_execute(self, identity):
+        return self.request.is_open
+
+    def execute(self, identity):
+        self.request.status = "expired"

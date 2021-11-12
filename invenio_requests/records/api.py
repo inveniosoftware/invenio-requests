@@ -17,7 +17,7 @@ from invenio_records.systemfields import ConstantField, DictField, ModelField
 from invenio_records_resources.records.api import Record
 from invenio_records_resources.records.systemfields import IndexField
 
-from .actions import AcceptAction, CancelAction, DeclineAction
+from .actions import AcceptAction, CancelAction, DeclineAction, ExpireAction
 from .dumpers import CalculatedFieldDumperExt
 from .models import RequestEventModel, RequestMetadata
 from .schema import RequestSchema
@@ -79,6 +79,7 @@ class Request(Record):
         "accept": AcceptAction,
         "cancel": CancelAction,
         "decline": DeclineAction,
+        "expire": ExpireAction,
     }
     """Available actions for this Request.
 
