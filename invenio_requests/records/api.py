@@ -21,7 +21,12 @@ from .actions import AcceptAction, CancelAction, DeclineAction, ExpireAction
 from .dumpers import CalculatedFieldDumperExt
 from .models import RequestEventModel, RequestMetadata
 from .schema import RequestSchema
-from .systemfields import IdentityField, OpenStateCalculatedField, RequestStatusField
+from .systemfields import (
+    IdentityField,
+    OpenStateCalculatedField,
+    ReferencedEntityField,
+    RequestStatusField,
+)
 
 
 class Request(Record):
@@ -60,6 +65,15 @@ class Request(Record):
     To be overridden in subclasses, if the custom request type follows a
     different or more specific schema.
     """
+
+    subject = ReferencedEntityField("subject")
+    """Subject (associated object) of the request."""
+
+    created_by = ReferencedEntityField("created_by")
+    """The entity that created the request."""
+
+    receiver = ReferencedEntityField("receiver")
+    """The entity that will receive the request."""
 
     status = RequestStatusField("status")
     """The current status of the request."""

@@ -9,6 +9,8 @@
 """Invenio module for generic and customizable requests."""
 
 from .records.api import Request
+from .resolvers import UserResolver
+from .resolvers.requests import RequestResolver
 from .services.permissions import PermissionPolicy
 
 REQUESTS_PERMISSION_POLICY = PermissionPolicy
@@ -18,3 +20,9 @@ REQUESTS_PERMISSION_POLICY = PermissionPolicy
 #      because we can get the 'request_type' strings from the classes
 REQUESTS_REGISTERED_TYPES = {Request.request_type.value: Request}
 """Configuration for registered Request Types."""
+
+REQUESTS_ENTITY_RESOLVERS = [
+    UserResolver(),
+    RequestResolver(),
+]
+"""Registered resolvers for resolving/creating references in request metadata."""
