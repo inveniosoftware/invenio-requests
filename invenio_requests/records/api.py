@@ -12,10 +12,12 @@ from datetime import datetime
 from enum import Enum
 
 import pytz
+from invenio_db import db
 from invenio_records.dumpers import ElasticsearchDumper
 from invenio_records.systemfields import ConstantField, DictField, ModelField
 from invenio_records_resources.records.api import Record
 from invenio_records_resources.records.systemfields import IndexField
+from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from ..errors import NoSuchActionError
 from .dumpers import CalculatedFieldDumperExt, RequestTypeDumperExt
@@ -126,6 +128,38 @@ class Request(Record):
         :return: The return value of the executed action.
         """
         return self.get_action(action_name).execute(identity)
+
+    @classmethod
+    def get_record(cls, id_, with_deleted=False):
+        """Retrieve the request by id.
+
+        :param id_: The record ID (external or internal).
+        :param with_deleted: If `True`, then it includes deleted requests.
+        :returns: The :class:`Request` instance.
+        """
+        # note: in case of concurrency errors, `with db.session.no_autoflush` might help
+        try:
+            query = cls.model_cls.query.filter_by(external_id=str(id_))
+            if not with_deleted:
+                query = query.filter(cls.model_cls.is_deleted != True)  # noqa
+
+            model = query.one()
+
+        except (MultipleResultsFound, NoResultFound):
+            # either no results or ambiguous results
+            # (e.g. if external_id is None)
+            # NOTE: if 'id_' is None, this will return None!
+            query = cls.model_cls.query.filter_by(id=id_)
+            if not with_deleted:
+                query = query.filter(cls.model_cls.is_deleted != True)  # noqa
+
+            model = query.one()
+
+        if model is None:
+            # TODO maybe some kind of `NullRequest`?
+            return None
+
+        return cls(model.data, model=model)
 
 
 class RequestEventType(Enum):

@@ -12,7 +12,6 @@
 
 from invenio_db import db
 from invenio_records_resources.services import RecordService, ServiceSchemaWrapper
-from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from ...errors import CannotExecuteActionError, NoSuchActionError
 from ...proxies import current_registry
@@ -36,22 +35,6 @@ class RequestsService(RecordService):
     def _wrap_schema(self, schema):
         """Wrap schema."""
         return ServiceSchemaWrapper(self, schema)
-
-    def _get_request(self, id_):
-        """Placeholder docstring."""
-        # TODO first query by external ID, then by internal?
-        try:
-            model = self.record_cls.model_cls.query.filter_by(
-                external_id=str(id_)
-            ).one()
-
-        except (MultipleResultsFound, NoResultFound):
-            # either no results or ambiguous results
-            # (e.g. if external_id is None)
-            # NOTE: if 'id_' is None, this will return None!
-            model = self.record_cls.model_cls.query.get(id_)
-
-        return self.record_cls(model.data, model=model)
 
     def create(self, identity, data, request_type, receiver, creator=None, topic=None):
         """Create a record."""
@@ -101,7 +84,7 @@ class RequestsService(RecordService):
     def read(self, id_, identity):
         """Retrieve a request."""
         # resolve and require permission
-        request = self._get_request(id_)
+        request = self.record_cls.get_record(id_)
         self.require_permission(identity, "read", record=request)
 
         # run components
@@ -139,7 +122,7 @@ class RequestsService(RecordService):
 
     def update(self, id_, identity, data):
         """Replace a request."""
-        request = self._get_request(id_)
+        request = self.record_cls.get_record(id_)
 
         # TODO do we need revisions for requests?
         # self.check_revision_id(request, revision_id)
@@ -177,7 +160,7 @@ class RequestsService(RecordService):
 
     def delete(self, id_, identity):
         """Delete a request from database and search indexes."""
-        request = self._get_request(id_)
+        request = self.record_cls.get_record(id_)
 
         # TODO do we need revisions for requests?
         # self.check_revision_id(request, revision_id)
@@ -217,7 +200,7 @@ class RequestsService(RecordService):
         For instance, it would be not possible to execute the specified
         action on the request, if the latter has the wrong status.
         """
-        request = self._get_request(id_)
+        request = self.record_cls.get_record(id_)
 
         # TODO permission checks
 

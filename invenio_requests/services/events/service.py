@@ -196,10 +196,7 @@ class RequestEventsService(RecordService):
 
     def _get_request(self, request_id):
         """Get associated request."""
-        # TODO: Replace with whatever interface Request provides to get one
-        from ..requests import RequestsService, RequestsServiceConfig
-
-        return RequestsService(config=RequestsServiceConfig())._get_request(request_id)
+        return self.request_cls.get_record(request_id)
 
     def _get_event(self, event_id, with_deleted=True):
         """Get associated event_id."""
