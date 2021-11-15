@@ -17,15 +17,14 @@ from invenio_records.systemfields import ConstantField, DictField, ModelField
 from invenio_records_resources.records.api import Record
 from invenio_records_resources.records.systemfields import IndexField
 
-from .actions import AcceptAction, CancelAction, DeclineAction, ExpireAction
-from .dumpers import CalculatedFieldDumperExt
+from .dumpers import CalculatedFieldDumperExt, RequestTypeDumperExt
 from .models import RequestEventModel, RequestMetadata
-from .schema import RequestSchema
 from .systemfields import (
     IdentityField,
     OpenStateCalculatedField,
     ReferencedEntityField,
     RequestStatusField,
+    RequestTypeField,
 )
 
 
@@ -33,37 +32,36 @@ class Request(Record):
     """A generic request record."""
 
     model_cls = RequestMetadata
+    """The model class for the request."""
 
     dumper = ElasticsearchDumper(
         extensions=[
             CalculatedFieldDumperExt("is_open"),
             CalculatedFieldDumperExt("is_expired"),
+            RequestTypeDumperExt("request_type"),
         ]
     )
+    """Elasticsearch dumper with configured extensions."""
 
     id = IdentityField("external_id")
+    """The request's external identity."""
 
     metadata = None
     """Disabled metadata field from the base class."""
 
-    # TODO figure out aliases, multiple mappings, common search fields
     index = IndexField("requests-request-v1.0.0", search_alias="requests")
+    """The Elasticsearch index to use for the request."""
 
     schema = ConstantField("$schema", "local://requests/request-v1.0.0.json")
+    """The JSON Schema to use for validation."""
 
-    request_type = ConstantField("request_type", "Generic Request")
-    """The human-readable request type.
+    request_type = RequestTypeField("request_type_id")
+    """System field for management of the request type.
 
-    To be overridden in subclasses with unique values, as this is used
-    in the RequestsService to choose the correct API class to use for a
-    request.
-    """
-
-    marshmallow_schema = RequestSchema
-    """Schema used for de/serialization of requests of this type.
-
-    To be overridden in subclasses, if the custom request type follows a
-    different or more specific schema.
+    This field manages loading of the correct RequestType classes associated with
+    `Requests`, based on their `request_type_id` field.
+    This is important because the `RequestType` classes are the place where the
+    custom request actions are registered.
     """
 
     subject = ReferencedEntityField("subject")
@@ -78,39 +76,11 @@ class Request(Record):
     status = RequestStatusField("status")
     """The current status of the request."""
 
-    available_statuses = {
-        "draft": True,
-        "open": True,
-        "cancelled": False,
-        "declined": False,
-        "accepted": False,
-        "expired": False,
-    }
-    """Available statuses for the Request.
-
-    The keys in this dictionary is the set of available statuses, and their
-    values are indicators whether this Request is still considered to be
-    "open" in this state.
-    """
-
-    available_actions = {
-        "accept": AcceptAction,
-        "cancel": CancelAction,
-        "decline": DeclineAction,
-        "expire": ExpireAction,
-    }
-    """Available actions for this Request.
-
-    The keys are the internal identifiers for the actions, the values are
-    the actual RequestAction classes (not objects).
-    Whenever an action is looked up, a new object of the registered
-    RequestAction class is instantiated with the current Request object as
-    argument.
-    """
-
     is_open = OpenStateCalculatedField("is_open")
+    """Whether or not the current status can be seen as an 'open' state."""
 
     expires_at = ModelField("expires_at")
+    """Expiration date of the request."""
 
     @property
     def is_expired(self):
@@ -128,12 +98,29 @@ class Request(Record):
         return d < now
 
     def get_action(self, action_name):
-        return self.available_actions[action_name](self)
+        """Get the action registered under the given name.
+
+        :param action_name: The registered name of the action.
+        :return: The action registered under the given name.
+        """
+        return self.request_type.available_actions[action_name](self)
 
     def can_execute_action(self, action_name, identity):
+        """Check if the action registered under the given name can be executed.
+
+        :param action_name: The registered name of the action.
+        :param identity: The identity who wants to execute the action.
+        :return: Whether or not the action can be executed.
+        """
         return self.get_action(action_name).can_execute(identity)
 
     def execute_action(self, action_name, identity):
+        """Execute the action registered under the given name.
+
+        :param action_name: The registered name of the action.
+        :param identity: The identity who wants to execute the action.
+        :return: The return value of the executed action.
+        """
         return self.get_action(action_name).execute(identity)
 
 

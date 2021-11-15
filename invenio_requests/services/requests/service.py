@@ -40,15 +40,6 @@ class RequestsService(RecordService):
         """Wrap schema."""
         return ServiceSchemaWrapper(self, schema)
 
-    def _request_from_model(self, model):
-        """Request from model."""
-        # TODO handle 'model is None' more gracefully
-        #      -> may happen e.g. when reading a deleted request
-        request_cls = self.request_type_registry.lookup(
-            model.data.get("request_type", None)
-        )
-        return request_cls(model.data, model=model)
-
     def _get_request(self, id_):
         """Placeholder docstring."""
         # TODO first query by external ID, then by internal?
@@ -63,22 +54,20 @@ class RequestsService(RecordService):
             # NOTE: if 'id_' is None, this will return None!
             model = self.record_cls.model_cls.query.get(id_)
 
-        # TODO add registry as part of the configuration
-        request = self._request_from_model(model)
-        return request
+        return self.record_cls(model.data, model=model)
 
-    def create(self, identity, data, request_class):
+    def create(self, identity, data, request_type):
         """Create a record."""
         self.require_permission(identity, "create")
 
-        schema = self._wrap_schema(request_class.marshmallow_schema)
+        schema = self._wrap_schema(request_type.marshmallow_schema)
         data, errors = schema.load(
             data,
             context={"identity": identity},
         )
 
         # it's the components that will populate the actual data
-        request = request_class.create({})
+        request = self.record_cls.create({}, request_type=request_type)
 
         # run components
         for component in self.components:
@@ -120,7 +109,7 @@ class RequestsService(RecordService):
             self,
             identity,
             request,
-            schema=self._wrap_schema(request.marshmallow_schema),
+            schema=self._wrap_schema(request.request_type.marshmallow_schema),
             links_tpl=self.links_item_tpl,
         )
 
@@ -154,7 +143,7 @@ class RequestsService(RecordService):
         # check permissions
         self.require_permission(identity, "update", record=request)
 
-        schema = self._wrap_schema(request.marshmallow_schema)
+        schema = self._wrap_schema(request.request_type.marshmallow_schema)
         data, _ = schema.load(
             data,
             context={

@@ -16,7 +16,7 @@ class RequestStatusField(SystemField):
     def __set__(self, record, value):
         assert record is not None
 
-        if value not in record.available_statuses:
+        if value not in record.request_type.available_statuses:
             raise ValueError(f"unknown status: {value}")
 
         self.set_dictkey(record, value)
@@ -28,7 +28,7 @@ class RequestStatusField(SystemField):
 
         status = self.get_dictkey(record)
         if status is None:
-            statuses = list(record.available_statuses.keys())
+            statuses = list(record.request_type.available_statuses.keys())
             status = statuses[0] if statuses else None
 
         return status

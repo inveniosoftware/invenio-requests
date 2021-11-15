@@ -61,6 +61,10 @@
         "is_expired": {
           "type": "boolean"
         },
+        "request_type_id": {
+          "type": "keyword",
+          "index": false
+        },
         "request_type": {
           "type": "keyword"
         },

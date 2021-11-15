@@ -19,7 +19,7 @@ from flask_principal import Identity, Need, UserNeed
 from invenio_app.factory import create_api as _create_api
 
 from invenio_requests import current_requests
-from invenio_requests.records.api import Request
+from invenio_requests.records.request_types import RequestType
 
 
 @pytest.fixture(scope="module")
@@ -80,10 +80,7 @@ def identity_simple():
 @pytest.fixture()
 def request_record_input_data():
     """Input data to a Request record."""
-    return {
-        "title": "Foo bar",
-        "receiver": {"user": 1}
-    }
+    return {"title": "Foo bar", "receiver": {"user": "1"}}
 
 
 @pytest.fixture()
@@ -91,5 +88,7 @@ def example_request(db, identity_simple, request_record_input_data):
     """Example record."""
     # Need to use the service to get the id I guess...
     requests_service = current_requests.requests_service
-    item = requests_service.create(identity_simple, request_record_input_data, Request)
+    item = requests_service.create(
+        identity_simple, request_record_input_data, RequestType
+    )
     return item._request

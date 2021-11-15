@@ -10,6 +10,7 @@
 from .entity_reference import ReferencedEntityField
 from .identity import IdentityField
 from .open_state import OpenStateCalculatedField
+from .request_type import RequestTypeField
 from .status import RequestStatusField
 
 __all__ = (
@@ -17,4 +18,5 @@ __all__ = (
     "OpenStateCalculatedField",
     "ReferencedEntityField",
     "RequestStatusField",
+    "RequestTypeField",
 )

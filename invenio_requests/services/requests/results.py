@@ -32,7 +32,9 @@ class RequestItem(RecordItem):
         self._request = request
         self._service = service
         self._links_tpl = links_tpl
-        self._schema = schema or service._wrap_schema(request.marshmallow_schema)
+        self._schema = schema or service._wrap_schema(
+            request.request_type.marshmallow_schema
+        )
 
     @property
     def id(self):
@@ -119,7 +121,7 @@ class RequestList(RecordList):
                 hit["request_type"]
             )
             request = request_cls.loads(hit.to_dict())
-            schema = self._service._wrap_schema(request.marshmallow_schema)
+            schema = self._service._wrap_schema(request.request_type.marshmallow_schema)
 
             # project the request
             projection = schema.dump(

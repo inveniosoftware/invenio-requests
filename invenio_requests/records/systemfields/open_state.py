@@ -15,7 +15,7 @@ class OpenStateCalculatedField(SystemField):
 
     def calculate(self, record):
         """Calculate the is_open property of the request."""
-        return record.available_statuses.get(record.status, False)
+        return record.request_type.available_statuses.get(record.status, False)
 
     def __get__(self, record, owner=None):
         if record is None:
