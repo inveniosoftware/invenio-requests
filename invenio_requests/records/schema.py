@@ -21,14 +21,10 @@ class AgentSchema(Schema):
     """An agent schema."""
 
     # straight out of RDM-Records!
-    user = fields.Integer(required=True)
-
-
-class ObjectSchema(Schema):
-    """Schema for a generic object."""
-
-    type = SanitizedUnicode(required=True)
-    id = SanitizedUnicode(required=True)
+    # TODO will need to accomodate for communities (as receivers), records (as
+    #      subjects/associated objects) and probably a few more
+    #      - but only for one of them at a time!
+    user = fields.String(required=True)
 
 
 class RequestSchema(BaseRecordSchema):
@@ -40,8 +36,8 @@ class RequestSchema(BaseRecordSchema):
     payload = fields.Dict(dump_only=True)
 
     created_by = fields.Nested(AgentSchema, dump_only=True)
-    receiver = fields.Nested(ObjectSchema, required=True)
-    subject = fields.Nested(ObjectSchema)
+    receiver = fields.Nested(AgentSchema, required=True)
+    subject = fields.Nested(AgentSchema)
 
     status = fields.String(dump_only=True)
     is_open = fields.Boolean(dump_only=True)

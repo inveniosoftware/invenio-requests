@@ -80,7 +80,10 @@ def identity_simple():
 @pytest.fixture()
 def request_record_input_data():
     """Input data to a Request record."""
-    return {"title": "Foo bar", "receiver": {"type": "baz", "id": "nyx"}}
+    return {
+        "title": "Foo bar",
+        "receiver": {"user": 1}
+    }
 
 
 @pytest.fixture()

@@ -23,47 +23,16 @@
       "type": "string"
     },
     "payload": {
-      "type": "object",
-      "patternProperties": {
-        "^.*$": {
-          "type": "string"
-        }
-      }
+      "$ref": "local://requests/definitions-v1.0.0.json#/anything"
     },
     "subject": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        }
-      }
+      "$ref": "local://requests/definitions-v1.0.0.json#/agent"
     },
     "receiver": {
-      "type": "object",
-      "properties": {
-        "type": {
-          "type": "string"
-        },
-        "id": {
-          "type": "string"
-        }
-      }
+      "$ref": "local://requests/definitions-v1.0.0.json#/agent"
     },
     "created_by": {
-      "oneOf": [
-        {
-          "type": "object",
-          "additionalProperties": false,
-          "properties": {
-            "user": {
-              "type": "integer"
-            }
-          }
-        }
-      ]
+      "$ref": "local://requests/definitions-v1.0.0.json#/agent"
     }
   }
 }

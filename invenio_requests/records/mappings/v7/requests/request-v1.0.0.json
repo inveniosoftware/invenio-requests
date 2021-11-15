@@ -1,6 +1,32 @@
 {
   "mappings": {
     "dynamic": "strict",
+    "dynamic_templates": [
+        {
+          "creators": {
+            "path_match": "created_by.*",
+            "mapping": {
+              "type": "keyword"
+            }
+          }
+        },
+        {
+          "subjects": {
+            "path_match": "subject.*",
+            "mapping": {
+              "type": "keyword"
+            }
+          }
+        },
+        {
+          "receivers": {
+            "path_match": "receiver.*",
+            "mapping": {
+              "type": "keyword"
+            }
+          }
+        }
+    ],
     "properties": {
       "$schema": {
         "type": "keyword",
@@ -55,33 +81,15 @@
       },
       "created_by": {
         "type": "object",
-        "properties": {
-          "user": {
-            "type": "keyword"
-          }
-        }
+        "dynamic": true
       },
       "subject": {
         "type": "object",
-        "properties": {
-          "type": {
-            "type": "keyword"
-          },
-          "id": {
-            "type": "keyword"
-          }
-        }
+        "dynamic": true
       },
       "receiver": {
         "type": "object",
-        "properties": {
-          "type": {
-            "type": "keyword"
-          },
-          "id": {
-            "type": "keyword"
-          }
-        }
+        "dynamic": true
       }
     }
   }
