@@ -9,8 +9,7 @@
 """Module for resolvers."""
 
 from flask import current_app
-
-from .base import EntityResolver
+from invenio_access.permissions import system_process
 
 
 def resolve_entity(reference_dict, raise_=False):
@@ -31,6 +30,12 @@ def resolve_entity(reference_dict, raise_=False):
 
 
 def reference_entity(entity, raise_=False):
+    """Create a reference dict for the given entity via the configured resolvers.
+
+    If `REQUESTS_ENTITY_RESOLVERS` does not contain a matching EntityResolver
+    for the given `entity`, the `raise_` parameter determines whether a `ValueError`
+    is raised or `None` is returned.
+    """
     for resolver in current_app.config.get("REQUESTS_ENTITY_RESOLVERS", []):
         if resolver.matches_entity(entity):
             return resolver.reference(entity, check=False)
@@ -41,4 +46,9 @@ def reference_entity(entity, raise_=False):
     return None
 
 
-__all__ = ("EntityResolver",)
+def reference_identity(identity, raise_=False):
+    """TODO."""
+
+    # TODO this should be incorporated into the resolvers?
+    created_by = {"user": "1"} if system_process not in identity.provides else None
+    return created_by

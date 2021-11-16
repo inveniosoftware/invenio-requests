@@ -11,7 +11,7 @@
 from flask import current_app
 
 from .base import EntityResolver
-from .helpers import reference_entity, resolve_entity
+from .helpers import reference_entity, reference_identity, resolve_entity
 from .records import RecordResolver
 
 # from .requests import RequestResolver
@@ -22,4 +22,7 @@ __all__ = (
     "RecordResolver",
     # "RequestResolver",
     "UserResolver",
+    "reference_entity",
+    "reference_identity",
+    "resolve_entity",
 )

@@ -72,6 +72,9 @@ class EntityResolver:
         will be raised.
         Otherwise, a boolean value indicating the success of the check will be returned.
         """
+        if reference_dict is None:
+            return False
+
         type_ = self._get_type(reference_dict)
 
         if self.ENTITY_TYPE_KEY != type_:
@@ -136,7 +139,7 @@ class EntityResolver:
         be different from `entity.id`), this method should be overridden in the
         subclass.
         """
-        return {self.ENTITY_TYPE_KEY: entity.id}
+        return {self.ENTITY_TYPE_KEY: str(entity.id)}
 
     def reference(self, entity, check=True):
         """Check compatibility and create a reference dict for the given entity.
