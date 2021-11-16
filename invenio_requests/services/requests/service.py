@@ -22,6 +22,7 @@ from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from ...proxies import current_registry
 from ...records.api import Request
+from ...resolvers import reference_entity, reference_identity
 from .components import IdentifierComponent
 from .config import RequestsServiceConfig
 from .links import RequestLink
@@ -56,7 +57,9 @@ class RequestsService(RecordService):
 
         return self.record_cls(model.data, model=model)
 
-    def create(self, identity, data, request_type):
+    def create(
+        self, identity, data, request_type, receiver, creator=None, subject=None
+    ):
         """Create a record."""
         self.require_permission(identity, "create")
 
@@ -66,8 +69,15 @@ class RequestsService(RecordService):
             context={"identity": identity},
         )
 
-        # it's the components that will populate the actual data
-        request = self.record_cls.create({}, request_type=request_type)
+        # it's the components that will populate most of the actual data
+        creator = reference_entity(creator) if creator else reference_identity(identity)
+        request = self.record_cls.create(
+            {},
+            request_type=request_type,
+            created_by=creator,
+            subject=reference_entity(subject),
+            receiver=reference_entity(receiver),
+        )
 
         # run components
         for component in self.components:

@@ -35,10 +35,12 @@ class RequestSchema(BaseRecordSchema):
     description = SanitizedUnicode()
     payload = fields.Dict(dump_only=True)
 
+    # routing information can likely be inferred during creation
     created_by = fields.Nested(AgentSchema, dump_only=True)
-    receiver = fields.Nested(AgentSchema, required=True)
-    subject = fields.Nested(AgentSchema)
+    receiver = fields.Nested(AgentSchema, dump_only=True)
+    subject = fields.Nested(AgentSchema, dump_only=True)
 
+    # status information is also likely set by the service
     status = fields.String(dump_only=True)
     is_open = fields.Boolean(dump_only=True)
     expires_at = TZDateTime(timezone=timezone.utc, format="iso", dump_only=True)

@@ -16,6 +16,7 @@ fixtures are available.
 
 import pytest
 from flask_principal import Identity, Need, UserNeed
+from flask_security.utils import hash_password
 from invenio_app.factory import create_api as _create_api
 
 from invenio_requests import current_requests
@@ -68,6 +69,21 @@ def create_app(instance_path):
     return _create_api
 
 
+@pytest.fixture()
+def example_user(app, db):
+    """Create example user."""
+    with db.session.begin_nested():
+        datastore = app.extensions["security"].datastore
+        user = datastore.create_user(
+            email="user@inveniosoftware.org",
+            password=hash_password("password"),
+            active=True,
+        )
+
+    db.session.commit()
+    return user
+
+
 @pytest.fixture(scope="module")
 def identity_simple():
     """Simple identity fixture."""
@@ -84,11 +100,11 @@ def request_record_input_data():
 
 
 @pytest.fixture()
-def example_request(db, identity_simple, request_record_input_data):
+def example_request(db, identity_simple, request_record_input_data, example_user):
     """Example record."""
     # Need to use the service to get the id I guess...
     requests_service = current_requests.requests_service
     item = requests_service.create(
-        identity_simple, request_record_input_data, RequestType
+        identity_simple, request_record_input_data, RequestType, receiver=example_user
     )
     return item._request
