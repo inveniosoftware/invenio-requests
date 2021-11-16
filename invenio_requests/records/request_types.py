@@ -5,6 +5,16 @@
 # Invenio-Requests is free software; you can redistribute it and/or modify
 # it under the terms of the MIT License; see LICENSE file for more details.
 
+"""Base class for creating custom types of requests.
+
+The `RequestType` classes are the most important part in the customization/extension
+mechanism for custom types of requests.
+TODO explain what can be done here, and how!
+"""
+
+
+from uuid import uuid4
+
 from .actions import (
     AcceptAction,
     CancelAction,
@@ -56,6 +66,15 @@ class RequestType:
     To be overridden in subclasses, if the custom request type follows a
     different or more specific schema.
     """
+
+    def generate_external_id(self, request, **kwargs):
+        """Generate a new external identifier.
+
+        This method can be overridden in subclasses to create external identifiers
+        according to a custom schema, using the information associated with the request
+        (e.g. subject, receiver, creator).
+        """
+        return str(uuid4())
 
     def __str__(self):
         return self.name

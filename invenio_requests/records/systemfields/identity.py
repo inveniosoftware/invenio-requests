@@ -7,21 +7,11 @@
 
 """Identity systemfield."""
 
-from uuid import uuid4
-
 from invenio_records.systemfields import ModelField
 
 
 class IdentityField(ModelField):
-    """Systemfield for managing the request status."""
-
-    def generate(self, record, **kwargs):
-        """Generate a new identifier.
-
-        This function is supposed to be overridden for custom request
-        sub-types.
-        """
-        return str(uuid4())
+    """Systemfield for managing the request's external identifier."""
 
     def assign(self, record, **kwargs):
         """Generate and assign a new identifier if none is set yet."""
@@ -31,7 +21,7 @@ class IdentityField(ModelField):
             value = None
 
         if value is None:
-            value = self.generate(record, **kwargs)
+            value = record.request_type.generate_external_id(record, **kwargs)
             self._set(record.model, value)
 
         return value
