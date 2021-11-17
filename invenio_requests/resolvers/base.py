@@ -12,9 +12,9 @@
 class EntityResolver:
     """A utility for resolving entities referenced by reference dictionaries.
 
-    Reference (agent-style) dictionaries are dicts following the structure
-    `{"TYPE": "ID"}` (e.g. `{"user": "1"}`) and are often used in the JSON data
-    of Record-like objects in Invenio to reference entities such as record owners.
+    Reference dictionaries are dicts following the structure `{"TYPE": "ID"}`
+    (e.g. `{"user": "1"}`) and are often used in the JSON data of Record-like
+    objects in Invenio to reference entities such as record owners.
     """
 
     ENTITY_TYPE_KEY = None

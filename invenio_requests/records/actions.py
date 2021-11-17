@@ -27,7 +27,7 @@ class RequestAction:
 
         :param identity: The identity of the executor.
         """
-        # probably want to do something with self.request.subject
+        # probably want to do something with self.request.topic
         if not self.can_execute(identity):
             raise Exception()
 

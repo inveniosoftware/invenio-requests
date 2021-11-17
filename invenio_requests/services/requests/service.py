@@ -57,9 +57,7 @@ class RequestsService(RecordService):
 
         return self.record_cls(model.data, model=model)
 
-    def create(
-        self, identity, data, request_type, receiver, creator=None, subject=None
-    ):
+    def create(self, identity, data, request_type, receiver, creator=None, topic=None):
         """Create a record."""
         self.require_permission(identity, "create")
 
@@ -75,7 +73,7 @@ class RequestsService(RecordService):
             {},
             request_type=request_type,
             created_by=creator,
-            subject=reference_entity(subject),
+            topic=reference_entity(topic),
             receiver=reference_entity(receiver),
         )
 

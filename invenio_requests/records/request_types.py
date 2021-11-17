@@ -72,7 +72,7 @@ class RequestType:
 
         This method can be overridden in subclasses to create external identifiers
         according to a custom schema, using the information associated with the request
-        (e.g. subject, receiver, creator).
+        (e.g. topic, receiver, creator).
         """
         return str(uuid4())
 

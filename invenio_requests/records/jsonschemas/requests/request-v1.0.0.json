@@ -25,14 +25,14 @@
     "payload": {
       "$ref": "local://requests/definitions-v1.0.0.json#/anything"
     },
-    "subject": {
-      "$ref": "local://requests/definitions-v1.0.0.json#/agent"
+    "topic": {
+      "$ref": "local://requests/definitions-v1.0.0.json#/entity_reference"
     },
     "receiver": {
-      "$ref": "local://requests/definitions-v1.0.0.json#/agent"
+      "$ref": "local://requests/definitions-v1.0.0.json#/entity_reference"
     },
     "created_by": {
-      "$ref": "local://requests/definitions-v1.0.0.json#/agent"
+      "$ref": "local://requests/definitions-v1.0.0.json#/entity_reference"
     }
   }
 }

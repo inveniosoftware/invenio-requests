@@ -11,8 +11,8 @@
           }
         },
         {
-          "subjects": {
-            "path_match": "subject.*",
+          "topics": {
+            "path_match": "topic.*",
             "mapping": {
               "type": "keyword"
             }
@@ -87,7 +87,7 @@
         "type": "object",
         "dynamic": true
       },
-      "subject": {
+      "topic": {
         "type": "object",
         "dynamic": true
       },

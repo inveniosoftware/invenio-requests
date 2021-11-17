@@ -17,5 +17,5 @@ class RequestLink(Link):
     @staticmethod
     def vars(record, vars):
         """Variables for the URI template."""
-        # TODO
-        vars.update({"id": record.id or record.model.id})
+        # TODO this uses the UUID of the record, should we maybe use the number/ext-id?
+        vars.update({"id": record.id})

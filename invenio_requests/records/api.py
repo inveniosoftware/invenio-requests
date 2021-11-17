@@ -43,7 +43,7 @@ class Request(Record):
     )
     """Elasticsearch dumper with configured extensions."""
 
-    id = IdentityField("external_id")
+    number = IdentityField("external_id")
     """The request's external identity."""
 
     metadata = None
@@ -64,8 +64,8 @@ class Request(Record):
     custom request actions are registered.
     """
 
-    subject = ReferencedEntityField("subject")
-    """Subject (associated object) of the request."""
+    topic = ReferencedEntityField("topic")
+    """Topic (associated object) of the request."""
 
     created_by = ReferencedEntityField("created_by")
     """The entity that created the request."""

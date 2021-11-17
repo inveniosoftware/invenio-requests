@@ -1,5 +1,5 @@
 {
-  "agent": {
+  "entity_reference": {
     "description": "Reference to an entity, with the type as key and ID as value",
     "type": "object",
     "additionalProperties": false,
