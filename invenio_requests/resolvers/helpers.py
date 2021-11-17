@@ -48,7 +48,6 @@ def reference_entity(entity, raise_=False):
 
 def reference_identity(identity, raise_=False):
     """TODO."""
-
     # TODO this should be incorporated into the resolvers?
     created_by = {"user": "1"} if system_process not in identity.provides else None
     return created_by

@@ -29,6 +29,7 @@ class RequestsConfigMixin:
 
     @classmethod
     def customize(cls, permission_policy=None):
+        """Customize the service config with the given properties."""
         attrs = {}
 
         # permission policy

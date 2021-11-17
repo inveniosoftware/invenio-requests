@@ -5,11 +5,14 @@
 # Invenio-Requests is free software; you can redistribute it and/or modify
 # it under the terms of the MIT License; see LICENSE file for more details.
 
+"""RequestActions define code to be executed when performing actions on requests."""
+
 
 class RequestAction:
     """Base class for actions on requests."""
 
     def __init__(self, request):
+        """Constructor."""
         self.request = request
 
     def can_execute(self, identity):
@@ -57,9 +60,11 @@ class AcceptAction(RequestAction):
     """Decline a request."""
 
     def can_execute(self, identity):
+        """Check whether the action can be executed."""
         return self.request.is_open
 
     def execute(self, identity):
+        """Execute the request action."""
         self.request.status = "accepted"
 
 
@@ -67,9 +72,11 @@ class DeclineAction(RequestAction):
     """Decline a request."""
 
     def can_execute(self, identity):
+        """Check whether the action can be executed."""
         return self.request.is_open
 
     def execute(self, identity):
+        """Execute the request action."""
         self.request.status = "declined"
 
 
@@ -77,9 +84,11 @@ class CancelAction(RequestAction):
     """Cancel a request."""
 
     def can_execute(self, identity):
+        """Check whether the action can be executed."""
         return self.request.is_open
 
     def execute(self, identity):
+        """Execute the request action."""
         self.request.status = "cancelled"
 
 
@@ -87,7 +96,9 @@ class ExpireAction(RequestAction):
     """Expire a request."""
 
     def can_execute(self, identity):
+        """Check whether the action can be executed."""
         return self.request.is_open
 
     def execute(self, identity):
+        """Execute the request action."""
         self.request.status = "expired"

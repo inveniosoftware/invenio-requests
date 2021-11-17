@@ -8,8 +8,6 @@
 
 """Module for resolvers."""
 
-from flask import current_app
-
 from .base import EntityResolver
 from .helpers import reference_entity, reference_identity, resolve_entity
 from .records import RecordResolver

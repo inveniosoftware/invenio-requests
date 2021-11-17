@@ -116,11 +116,10 @@ class RequestList(RecordList):
     @property
     def hits(self):
         """Iterator over the hits."""
+        request_cls = self._service.record_cls
+
         for hit in self._results:
             # load dump
-            request_cls = self._service.request_type_registry.lookup(
-                hit["request_type"]
-            )
             request = request_cls.loads(hit.to_dict())
             schema = self._service._wrap_schema(request.request_type.marshmallow_schema)
 

@@ -11,22 +11,11 @@
 """Requests service."""
 
 from invenio_db import db
-from invenio_records_resources.services import (
-    RecordService,
-    RecordServiceConfig,
-    ServiceSchemaWrapper,
-)
-from invenio_records_resources.services.records.components import DataComponent
-from invenio_records_resources.services.records.links import pagination_links
+from invenio_records_resources.services import RecordService, ServiceSchemaWrapper
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from ...proxies import current_registry
-from ...records.api import Request
 from ...resolvers import reference_entity, reference_identity
-from .components import IdentifierComponent
-from .config import RequestsServiceConfig
-from .links import RequestLink
-from .results import RequestItem, RequestList
 
 
 class RequestsService(RecordService):
@@ -67,7 +56,7 @@ class RequestsService(RecordService):
             context={"identity": identity},
         )
 
-        # it's the components that will populate most of the actual data
+        # parts of the data are initialized here, parts of it via the components
         creator = reference_entity(creator) if creator else reference_identity(identity)
         request = self.record_cls.create(
             {},

@@ -19,8 +19,10 @@ class RequestResolver(EntityResolver):
     ENTITY_TYPE_CLASS = Request
 
     def __init__(self, request_cls=None):
+        """Create a new request resolver for the given request_cls."""
         self.request_cls = request_cls or Request
 
     def do_resolve(self, reference_dict):
+        """Resolve the request_cls from the given reference_dict."""
         id_ = self._get_id(reference_dict)
         return self.request_cls.get_record(id_)

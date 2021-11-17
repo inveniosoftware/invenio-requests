@@ -17,6 +17,7 @@ class RequestTypeField(SystemField):
     """Systemfield for managing the request type."""
 
     def __init__(self, key="request_type_id"):
+        """Constructor."""
         super().__init__(key)
 
     def set_obj(self, instance, obj):

@@ -14,6 +14,7 @@ class RequestStatusField(SystemField):
     """Systemfield for managing the request status."""
 
     def __set__(self, record, value):
+        """Set the request's status."""
         assert record is not None
 
         if value not in record.request_type.available_statuses:
@@ -22,6 +23,7 @@ class RequestStatusField(SystemField):
         self.set_dictkey(record, value)
 
     def __get__(self, record, owner=None):
+        """Get the request's status."""
         if record is None:
             # access by class
             return self
