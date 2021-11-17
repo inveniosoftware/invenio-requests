@@ -32,6 +32,18 @@ class RequestAction:
             raise Exception()
 
 
+class SubmitAction(RequestAction):
+    """Submit a request."""
+
+    def can_execute(self, identity):
+        """Check whether the action can be executed."""
+        return self.request.status == "draft"
+
+    def execute(self, identity):
+        """Execute the request action."""
+        self.request.status = "open"
+
+
 class AcceptAction(RequestAction):
     """Decline a request."""
 
