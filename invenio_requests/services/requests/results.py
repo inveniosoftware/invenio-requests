@@ -48,7 +48,7 @@ class RequestItem(RecordItem):
     @property
     def links(self):
         """Get links for this result item."""
-        return self._links_tpl.expand(self._request)
+        return self._links_tpl.expand(self._request, identity=self._identity)
 
     @property
     def _obj(self):
@@ -133,7 +133,9 @@ class RequestList(RecordList):
             )
 
             if self._links_item_tpl:
-                projection["links"] = self._links_item_tpl.expand(request)
+                projection["links"] = self._links_item_tpl.expand(
+                    request, identity=self._identity
+                )
 
             yield projection
 
@@ -153,6 +155,8 @@ class RequestList(RecordList):
         if self._params:
             res["sortBy"] = self._params["sort"]
             if self._links_tpl:
-                res["links"] = self._links_tpl.expand(self.pagination)
+                res["links"] = self._links_tpl.expand(
+                    self.pagination
+                )
 
         return res

@@ -8,6 +8,9 @@
 """RequestActions define code to be executed when performing actions on requests."""
 
 
+from invenio_access.permissions import system_process
+
+
 class RequestAction:
     """Base class for actions on requests."""
 
@@ -61,7 +64,7 @@ class AcceptAction(RequestAction):
 
     def can_execute(self, identity):
         """Check whether the action can be executed."""
-        return self.request.is_open
+        return self.request.status == "open"
 
     def execute(self, identity):
         """Execute the request action."""
@@ -73,7 +76,7 @@ class DeclineAction(RequestAction):
 
     def can_execute(self, identity):
         """Check whether the action can be executed."""
-        return self.request.is_open
+        return self.request.status == "open"
 
     def execute(self, identity):
         """Execute the request action."""
@@ -85,7 +88,7 @@ class CancelAction(RequestAction):
 
     def can_execute(self, identity):
         """Check whether the action can be executed."""
-        return self.request.is_open
+        return self.request.status == "open"
 
     def execute(self, identity):
         """Execute the request action."""
@@ -97,7 +100,8 @@ class ExpireAction(RequestAction):
 
     def can_execute(self, identity):
         """Check whether the action can be executed."""
-        return self.request.is_open
+        is_system_process = system_process in identity.provides
+        return self.request.is_open and is_system_process
 
     def execute(self, identity):
         """Execute the request action."""

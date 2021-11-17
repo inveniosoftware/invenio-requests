@@ -22,6 +22,13 @@ from .links import RequestLink
 from .results import RequestItem, RequestList
 
 
+def _is_action_available(request, context):
+    """Check if the given action is available on the request."""
+    action = context.get("action")
+    identity = context.get("identity")
+    return request.can_execute_action(action, identity)
+
+
 class RequestsServiceConfig(RecordServiceConfig, RequestsConfigMixin):
     """Requests service configuration."""
 
@@ -38,6 +45,9 @@ class RequestsServiceConfig(RecordServiceConfig, RequestsConfigMixin):
     # links configuration
     links_item = {"self": RequestLink("{+api}/requests/{id}")}
     links_search = pagination_links("{+api}/requests{?args*}")
+    action_link = RequestLink(
+        "{+api}/requests/{id}/actions/{action}", when=_is_action_available
+    )
 
     components = [
         # Order of components are important!

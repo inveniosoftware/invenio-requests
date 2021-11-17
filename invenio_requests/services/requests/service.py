@@ -16,10 +16,16 @@ from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
 from ...proxies import current_registry
 from ...resolvers import reference_entity, reference_identity
+from .links import RequestLinksTemplate
 
 
 class RequestsService(RecordService):
     """Requests service."""
+
+    @property
+    def links_item_tpl(self):
+        """Item links template."""
+        return RequestLinksTemplate(self.config.links_item, self.config.action_link)
 
     @property
     def request_type_registry(self):

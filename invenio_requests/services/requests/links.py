@@ -8,7 +8,37 @@
 
 """Utility for rendering URI template links."""
 
-from invenio_records_resources.services.base.links import Link
+from invenio_records_resources.services.base.links import Link, LinksTemplate
+
+
+class RequestLinksTemplate(LinksTemplate):
+    """Templates for generating links for a request object."""
+
+    def __init__(self, links, action_link, context=None):
+        """Constructor."""
+        super().__init__(links, context=context)
+        self._action_link = action_link
+
+    def expand(self, req, identity=None):
+        """Expand all the link templates."""
+        links = {}
+
+        # expand links for all available actions on the request
+        links["actions"] = {}
+        link = self._action_link
+        for action in req.request_type.available_actions:
+            ctx = self.context.copy()
+            ctx["action"] = action
+            ctx["identity"] = identity
+            if link.should_render(req, ctx):
+                links["actions"][action] = link.expand(req, ctx)
+
+        # expand the other configured links
+        for key, link in self._links.items():
+            if link.should_render(req, self.context):
+                links[key] = link.expand(req, self.context)
+
+        return links
 
 
 class RequestLink(Link):
