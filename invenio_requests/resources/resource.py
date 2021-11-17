@@ -17,6 +17,7 @@ from flask_resources import (
     ResponseHandler,
     resource_requestctx,
     response_handler,
+    route,
 )
 from invenio_records_resources.resources import (
     RecordResource,
@@ -54,10 +55,12 @@ class RequestsResourceConfig(RecordResourceConfig):
     routes = {
         "list": "/",
         "item": "/<id>",
+        "action": "/<id>/actions/<action>",
     }
 
     request_view_args = {
         "id": ma.fields.Str(),
+        "action": ma.fields.Str(),
     }
 
     request_search_args = RequestSearchRequestArgsSchema
@@ -81,6 +84,17 @@ class RequestsResourceConfig(RecordResourceConfig):
 class RequestsResource(RecordResource):
     """Resource for generic requests."""
 
+    def create_url_rules(self):
+        """Create the URL rules for the record resource."""
+        routes = self.config.routes
+        return [
+            route("GET", routes["list"], self.search),
+            route("GET", routes["item"], self.read),
+            route("PUT", routes["item"], self.update),
+            route("DELETE", routes["item"], self.delete),
+            route("POST", routes["action"], self.execute_action),
+        ]
+
     @request_search_args
     @request_view_args
     @response_handler(many=True)
@@ -92,14 +106,6 @@ class RequestsResource(RecordResource):
             es_preference=es_preference(),
         )
         return hits.to_dict(), 200
-
-    @request_view_args
-    @request_data
-    @response_handler()
-    def create(self):
-        """Create an item."""
-        # TODO requests have to be created in other places, but not here
-        return {"error": "this endpoint cannot be used for creating requests"}, 400
 
     @request_view_args
     @response_handler()
@@ -134,3 +140,13 @@ class RequestsResource(RecordResource):
             identity=g.identity,
         )
         return "", 204
+
+    @request_headers
+    @request_view_args
+    def execute_action(self):
+        item = self.service.execute_action(
+            action=resource_requestctx.view_args["action"],
+            id_=resource_requestctx.view_args["id"],
+            identity=g.identity,
+        )
+        return item.to_dict(), 200

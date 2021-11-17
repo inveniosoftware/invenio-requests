@@ -214,10 +214,27 @@ class RequestsService(RecordService):
 
         # TODO permission checks
 
-        # check if the action *can* be executed
-        # (i.e. the request has the right status, etc.)
-        if not request.can_execute_action(action, identity):
+        try:
+            # check if the action *can* be executed
+            # (i.e. the request has the right status, etc.)
+            if not request.can_execute_action(action, identity):
+                # TODO proper exception
+                raise Exception(f"cannot execute action '{action}'")
+        except KeyError:
             # TODO proper exception
-            raise Exception
+            raise Exception(f"action '{action}' is not available")
 
-        return request.execute_action(action, identity)
+        request.execute_action(action, identity)
+        request.commit()
+        db.session.commit()
+
+        if self.indexer:
+            self.indexer.index(request)
+
+        return self.result_item(
+            self,
+            identity,
+            request,
+            schema=self._wrap_schema(request.request_type.marshmallow_schema),
+            links_tpl=self.links_item_tpl,
+        )
