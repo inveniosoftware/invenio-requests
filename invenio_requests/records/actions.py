@@ -31,6 +31,15 @@ class RequestAction:
         if not self.can_execute(identity):
             raise Exception()
 
+    def post_execute(self, identity):
+        """Post-run hook that is run after the action has completed successfully.
+
+        This hook should only be executed when the general workflow of the action
+        has completed successfully.
+        As such, it can be used to index records, for instance.
+        """
+        pass
+
 
 class SubmitAction(RequestAction):
     """Submit a request."""
