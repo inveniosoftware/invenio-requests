@@ -14,6 +14,7 @@ from invenio_db import db
 from invenio_records_resources.services import RecordService, ServiceSchemaWrapper
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
+from ...errors import CannotExecuteActionError, NoSuchActionError
 from ...proxies import current_registry
 from ...resolvers import reference_entity, reference_identity
 from .links import RequestLinksTemplate
@@ -220,15 +221,10 @@ class RequestsService(RecordService):
 
         # TODO permission checks
 
-        try:
-            # check if the action *can* be executed
-            # (i.e. the request has the right status, etc.)
-            if not request.can_execute_action(action, identity):
-                # TODO proper exception
-                raise Exception(f"cannot execute action '{action}'")
-        except KeyError:
-            # TODO proper exception
-            raise Exception(f"action '{action}' is not available")
+        # check if the action *can* be executed
+        # (i.e. the request has the right status, etc.)
+        if not request.can_execute_action(action, identity):
+            raise CannotExecuteActionError(action)
 
         request.execute_action(action, identity)
         request.commit()

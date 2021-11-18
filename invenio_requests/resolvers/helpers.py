@@ -24,7 +24,7 @@ def resolve_entity(reference_dict, raise_=False):
             return resolver.resolve(reference_dict, check=False)
 
     if raise_:
-        raise ValueError(f"no matching resolver registered for: {reference_dict}")
+        raise ValueError(f"No matching resolver registered for: {reference_dict}")
 
     return None
 
@@ -41,7 +41,7 @@ def reference_entity(entity, raise_=False):
             return resolver.reference(entity, check=False)
 
     if raise_:
-        raise ValueError(f"no matching resolver registered for: {type(entity)}")
+        raise ValueError(f"No matching resolver registered for: {type(entity)}")
 
     return None
 

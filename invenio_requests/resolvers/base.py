@@ -42,8 +42,8 @@ class EntityResolver:
 
         if strict and len(keys) != 1:
             raise ValueError(
-                "reference dicts may only have one property! "
-                f"offending dict: {reference_dict}"
+                "Reference dicts may only have one property! "
+                f"Offending dict: {reference_dict}"
             )
 
         if keys:

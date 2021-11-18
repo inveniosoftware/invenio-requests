@@ -10,6 +10,8 @@
 
 from invenio_access.permissions import system_process
 
+from ..errors import CannotExecuteActionError
+
 
 class RequestAction:
     """Base class for actions on requests."""
@@ -35,7 +37,8 @@ class RequestAction:
         """
         # probably want to do something with self.request.topic
         if not self.can_execute(identity):
-            raise Exception()
+            action_name = type(self).__name__
+            raise CannotExecuteActionError(action_name)
 
     def post_execute(self, identity):
         """Post-run hook that is run after the action has completed successfully.

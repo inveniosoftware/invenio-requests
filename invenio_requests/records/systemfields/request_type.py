@@ -36,7 +36,7 @@ class RequestTypeField(SystemField):
             value = value()
 
         if not isinstance(value, RequestType):
-            raise TypeError(f"expected RequestType, got: {type(value)}")
+            raise TypeError(f"Expected 'RequestType' but got: '{type(value)}'")
 
         self.set_obj(record, value)
 

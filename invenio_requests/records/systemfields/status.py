@@ -18,7 +18,7 @@ class RequestStatusField(SystemField):
         assert record is not None
 
         if value not in record.request_type.available_statuses:
-            raise ValueError(f"unknown status: {value}")
+            raise ValueError(f"Unknown status: '{value}'")
 
         self.set_dictkey(record, value)
 

@@ -17,6 +17,7 @@ from invenio_records.systemfields import ConstantField, DictField, ModelField
 from invenio_records_resources.records.api import Record
 from invenio_records_resources.records.systemfields import IndexField
 
+from ..errors import NoSuchActionError
 from .dumpers import CalculatedFieldDumperExt, RequestTypeDumperExt
 from .models import RequestEventModel, RequestMetadata
 from .systemfields import (
@@ -103,7 +104,10 @@ class Request(Record):
         :param action_name: The registered name of the action.
         :return: The action registered under the given name.
         """
-        return self.request_type.available_actions[action_name](self)
+        try:
+            return self.request_type.available_actions[action_name](self)
+        except KeyError:
+            raise NoSuchActionError(action=action_name)
 
     def can_execute_action(self, action_name, identity):
         """Check if the action registered under the given name can be executed.
