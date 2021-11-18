@@ -45,7 +45,7 @@ def test_simple_flow(app, identity_simple, events_service_data, example_request)
     read_deleted_item = events_service.read(identity_simple, id_)
     read_del_item_dict = read_deleted_item.to_dict()
     assert id_ == read_deleted_item.id
-    assert RequestEventType.DELETED_COMMENT.value == read_del_item_dict["type"]
+    assert RequestEventType.REMOVED.value == read_del_item_dict["type"]
 
     # Search (batch read) events
     # first add another comment
@@ -57,7 +57,7 @@ def test_simple_flow(app, identity_simple, events_service_data, example_request)
     # then search
     searched_items = events_service.search(
         identity_simple,
-        {"request_id": request_id},
+        request_id,
         size=10,
         page=1,
     )

@@ -21,7 +21,6 @@ from flask_security.utils import hash_password
 from invenio_accounts.testutils import login_user_via_session
 from invenio_app.factory import create_api as _create_api
 
-from invenio_requests import current_requests
 from invenio_requests.records.request_types import RequestType
 
 
@@ -84,7 +83,7 @@ def identity_simple():
 @pytest.fixture(scope="module")
 def request_record_input_data():
     """Input data to a Request record."""
-    return {"title": "Foo bar", "receiver": {"user": "1"}}
+    return {"title": "Foo bar", "receiver": {"user": "2"}}
 
 
 # Resource layer fixtures
@@ -127,7 +126,7 @@ def example_user(users):
 def example_request(identity_simple, request_record_input_data, example_user):
     """Example record."""
     # Need to use the service to get the id I guess...
-    from invenio_requests import current_requests
+    from invenio_requests.proxies import current_requests
     requests_service = current_requests.requests_service
     item = requests_service.create(
         identity_simple, request_record_input_data, RequestType, receiver=example_user

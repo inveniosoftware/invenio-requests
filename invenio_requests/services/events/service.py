@@ -136,7 +136,7 @@ class RequestEventsService(RecordService):
         self.require_permission(identity, permission, record=record)
 
         if record.type == RequestEventType.COMMENT.value:
-            record.type = RequestEventType.DELETED_COMMENT.value
+            record.type = RequestEventType.REMOVED.value
             record["content"] = ""
             record.commit()
             db.session.commit()
@@ -152,11 +152,11 @@ class RequestEventsService(RecordService):
         # we return as though we did.
         return True
 
-    def search(self, identity, params=None, es_preference=None, **kwargs):
-        """Search for records matching the querystring."""
+    def search(self, identity, request_id=None, params=None, es_preference=None,
+               **kwargs):
+        """Search for events (optionally of request_id) matching the querystring."""
         params = params or {}
         # Permissions
-        request_id = params.get("request_id")
         request = self._get_request(request_id) if request_id else None
         self.require_permission(identity, "search", request=request)
 
@@ -169,6 +169,8 @@ class RequestEventsService(RecordService):
             permission_action="read_event",
             **kwargs,
         )
+        if request_id:
+            search = search.filter('term', request_id=request_id)
         search_result = search.execute()
 
         return self.result_list(
@@ -191,10 +193,16 @@ class RequestEventsService(RecordService):
     def _get_permission(self, action, event_type):
         """Get associated permission.
 
-        Needed to distinguish between comment creation and other events.
+        Needed to distinguish between kinds of events.
         """
         if event_type == RequestEventType.COMMENT.value:
             return f"{action}_event_comment"
+        elif event_type == RequestEventType.ACCEPTED.value:
+            return f"accept"
+        elif event_type == RequestEventType.DECLINED.value:
+            return f"decline"
+        elif event_type == RequestEventType.CANCELLED.value:
+            return f"cancel"
         else:
             return f"{action}_event"
 

@@ -14,6 +14,7 @@ from invenio_records_resources.services import RecordServiceConfig
 from invenio_records_resources.services.records.components import DataComponent
 from invenio_records_resources.services.records.links import pagination_links
 
+from ...actions import RequestActions
 from ...records.api import Request
 from ..permissions import PermissionPolicy
 from .components import ExternalIdentifierComponent
@@ -26,7 +27,7 @@ def _is_action_available(request, context):
     """Check if the given action is available on the request."""
     action = context.get("action")
     identity = context.get("identity")
-    return request.can_execute_action(action, identity)
+    return RequestActions.can_execute(identity, request, action)
 
 
 class RequestsServiceConfig(RecordServiceConfig, RequestsConfigMixin):

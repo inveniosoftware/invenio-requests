@@ -124,6 +124,6 @@ def test_simple_comment_flow(
             "self": f"https://127.0.0.1:5000/api/requests/{request_id}/comments/{comment_id}",  # noqa
         },
         "revision_id": 4,
-        "type": RequestEventType.DELETED_COMMENT.value
+        "type": RequestEventType.REMOVED.value
     }
     assert_api_response_json(expected_json_3, response.json['hits']['hits'][1])

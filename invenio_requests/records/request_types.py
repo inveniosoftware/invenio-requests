@@ -15,13 +15,6 @@ TODO explain what can be done here, and how!
 
 from uuid import uuid4
 
-from .actions import (
-    AcceptAction,
-    CancelAction,
-    DeclineAction,
-    ExpireAction,
-    SubmitAction,
-)
 from .schema import RequestSchema
 
 
@@ -60,13 +53,7 @@ class RequestType:
     "open" in this state.
     """
 
-    available_actions = {
-        "submit": SubmitAction,
-        "accept": AcceptAction,
-        "cancel": CancelAction,
-        "decline": DeclineAction,
-        "expire": ExpireAction,
-    }
+    available_actions = {}
     """Available actions for this Request.
 
     The keys are the internal identifiers for the actions, the values are
@@ -82,6 +69,10 @@ class RequestType:
     To be overridden in subclasses, if the custom request type follows a
     different or more specific schema.
     """
+
+    def __init__(self, available_actions=None):
+        """Constructor."""
+        self.available_actions = available_actions or {}
 
     def generate_external_id(self, request, **kwargs):
         """Generate a new external identifier.

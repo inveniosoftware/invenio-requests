@@ -8,6 +8,13 @@
 
 """Invenio module for generic and customizable requests."""
 
+from .actions import (
+    AcceptAction,
+    CancelAction,
+    DeclineAction,
+    ExpireAction,
+    SubmitAction,
+)
 from .records.request_types import RequestType
 from .resolvers import UserResolver
 from .resolvers.requests import RequestResolver
@@ -16,7 +23,15 @@ from .services.permissions import PermissionPolicy
 REQUESTS_PERMISSION_POLICY = PermissionPolicy
 """Override the default requests/comments permission policy."""
 
-REQUESTS_REGISTERED_TYPES = [RequestType()]
+available_actions = {
+    "submit": SubmitAction,
+    "accept": AcceptAction,
+    "cancel": CancelAction,
+    "decline": DeclineAction,
+    "expire": ExpireAction,
+}
+
+REQUESTS_REGISTERED_TYPES = [RequestType(available_actions)]
 """Configuration for registered Request Types."""
 
 REQUESTS_ENTITY_RESOLVERS = [

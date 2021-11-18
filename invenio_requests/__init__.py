@@ -8,6 +8,7 @@
 
 """Invenio module for generic and customizable requests."""
 
+from .actions import RequestAction
 from .ext import InvenioRequests
 from .proxies import (
     current_registry,
@@ -26,4 +27,5 @@ __all__ = (
     "current_requests_resource",
     "current_requests_service",
     "InvenioRequests",
+    "RequestAction"
 )

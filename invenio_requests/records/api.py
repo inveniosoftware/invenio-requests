@@ -100,35 +100,6 @@ class Request(Record):
 
         return d < now
 
-    def get_action(self, action_name):
-        """Get the action registered under the given name.
-
-        :param action_name: The registered name of the action.
-        :return: The action registered under the given name.
-        """
-        try:
-            return self.request_type.available_actions[action_name](self)
-        except KeyError:
-            raise NoSuchActionError(action=action_name)
-
-    def can_execute_action(self, action_name, identity):
-        """Check if the action registered under the given name can be executed.
-
-        :param action_name: The registered name of the action.
-        :param identity: The identity who wants to execute the action.
-        :return: Whether or not the action can be executed.
-        """
-        return self.get_action(action_name).can_execute(identity)
-
-    def execute_action(self, action_name, identity):
-        """Execute the action registered under the given name.
-
-        :param action_name: The registered name of the action.
-        :param identity: The identity who wants to execute the action.
-        :return: The return value of the executed action.
-        """
-        return self.get_action(action_name).execute(identity)
-
     @classmethod
     def get_record(cls, id_, with_deleted=False):
         """Retrieve the request by id.
@@ -166,7 +137,10 @@ class RequestEventType(Enum):
     """Request Event type enum."""
 
     COMMENT = "C"
-    DELETED_COMMENT = "D"
+    REMOVED = "R"
+    ACCEPTED = "A"
+    DECLINED = "D"
+    CANCELLED = "X"
 
 
 class RequestEventFormat(Enum):

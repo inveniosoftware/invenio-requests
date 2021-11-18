@@ -13,6 +13,7 @@
 from invenio_db import db
 from invenio_records_resources.services import RecordService, ServiceSchemaWrapper
 
+from ...actions import RequestActions
 from ...errors import CannotExecuteActionError, NoSuchActionError
 from ...proxies import current_registry
 from ...resolvers import reference_entity, reference_identity
@@ -194,7 +195,7 @@ class RequestsService(RecordService):
             if not request.is_deleted:
                 self.indexer.index(request)
 
-    def execute_action(self, action, id_, identity):
+    def execute_action(self, identity, id_, action, data):
         """Execute the given action for the request, if possible.
 
         For instance, it would be not possible to execute the specified
@@ -206,15 +207,10 @@ class RequestsService(RecordService):
 
         # check if the action *can* be executed
         # (i.e. the request has the right status, etc.)
-        if not request.can_execute_action(action, identity):
+        if not RequestActions.can_execute(identity, request, action, data):
             raise CannotExecuteActionError(action)
 
-        request.execute_action(action, identity)
-        request.commit()
-        db.session.commit()
-
-        if self.indexer:
-            self.indexer.index(request)
+        RequestActions.execute(identity, request, action, data)
 
         return self.result_item(
             self,
