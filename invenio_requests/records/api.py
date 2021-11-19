@@ -12,14 +12,12 @@ from datetime import datetime
 from enum import Enum
 
 import pytz
-from invenio_db import db
 from invenio_records.dumpers import ElasticsearchDumper
 from invenio_records.systemfields import ConstantField, DictField, ModelField
 from invenio_records_resources.records.api import Record
 from invenio_records_resources.records.systemfields import IndexField
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
-from ..errors import NoSuchActionError
 from .dumpers import CalculatedFieldDumperExt, RequestTypeDumperExt
 from .models import RequestEventModel, RequestMetadata
 from .systemfields import (

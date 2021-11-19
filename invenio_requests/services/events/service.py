@@ -11,9 +11,8 @@
 
 from invenio_db import db
 from invenio_records_resources.services import RecordService
-from invenio_records_resources.services.base.links import LinksTemplate
 
-from ...records.api import Request, RequestEventType
+from ...records.api import RequestEventType
 
 
 class RequestEventsService(RecordService):
@@ -39,7 +38,9 @@ class RequestEventsService(RecordService):
 
         # It's the components that save the actual data in the record.
         record = self.record_cls.create(
-            {}, request=request.model, request_id=request_id,
+            {},
+            request=request.model,
+            request_id=request_id,
             type=data["type"],
         )
 
@@ -91,8 +92,8 @@ class RequestEventsService(RecordService):
             context=dict(
                 identity=identity,
                 # pid=record.pid,
-                record=record
-            )
+                record=record,
+            ),
         )
 
         # Run components
@@ -152,8 +153,9 @@ class RequestEventsService(RecordService):
         # we return as though we did.
         return True
 
-    def search(self, identity, request_id=None, params=None, es_preference=None,
-               **kwargs):
+    def search(
+        self, identity, request_id=None, params=None, es_preference=None, **kwargs
+    ):
         """Search for events (optionally of request_id) matching the querystring."""
         params = params or {}
         # Permissions
@@ -170,7 +172,7 @@ class RequestEventsService(RecordService):
             **kwargs,
         )
         if request_id:
-            search = search.filter('term', request_id=request_id)
+            search = search.filter("term", request_id=request_id)
         search_result = search.execute()
 
         return self.result_list(
@@ -198,11 +200,11 @@ class RequestEventsService(RecordService):
         if event_type == RequestEventType.COMMENT.value:
             return f"{action}_event_comment"
         elif event_type == RequestEventType.ACCEPTED.value:
-            return f"accept"
+            return "accept"
         elif event_type == RequestEventType.DECLINED.value:
-            return f"decline"
+            return "decline"
         elif event_type == RequestEventType.CANCELLED.value:
-            return f"cancel"
+            return "cancel"
         else:
             return f"{action}_event"
 

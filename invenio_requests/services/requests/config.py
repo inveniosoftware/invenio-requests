@@ -14,7 +14,7 @@ from invenio_records_resources.services import RecordServiceConfig
 from invenio_records_resources.services.records.components import DataComponent
 from invenio_records_resources.services.records.links import pagination_links
 
-from ...actions import RequestActions
+from ...customizations.base import RequestActions
 from ...records.api import Request
 from ..permissions import PermissionPolicy
 from .components import ExternalIdentifierComponent

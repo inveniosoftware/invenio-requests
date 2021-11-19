@@ -9,8 +9,8 @@
 
 from invenio_records.systemfields import SystemField
 
+from ...customizations.base import RequestType
 from ...proxies import current_registry
-from ..request_types import RequestType
 
 
 class RequestTypeField(SystemField):

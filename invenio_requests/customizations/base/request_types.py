@@ -70,10 +70,6 @@ class RequestType:
     different or more specific schema.
     """
 
-    def __init__(self, available_actions=None):
-        """Constructor."""
-        self.available_actions = available_actions or {}
-
     def generate_external_id(self, request, **kwargs):
         """Generate a new external identifier.
 

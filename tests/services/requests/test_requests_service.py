@@ -13,13 +13,13 @@ import copy
 import pytest
 from flask_principal import Identity, Need, UserNeed
 
+from invenio_requests.customizations import DefaultRequestType
 from invenio_requests.proxies import current_requests
 from invenio_requests.records.api import (
     RequestEvent,
     RequestEventFormat,
     RequestEventType,
 )
-from invenio_requests.records.request_types import RequestType
 
 # Convenience fixtures
 
@@ -45,7 +45,7 @@ def create_request(example_user, request_record_input_data, requests_service):
         input_data = input_data or request_record_input_data
         # Need to use the service to get the id
         item = requests_service.create(
-            identity, input_data, RequestType, receiver=example_user
+            identity, input_data, DefaultRequestType, receiver=example_user
         )
         return item._request
 
@@ -71,7 +71,7 @@ def submit_request(create_request, requests_service):
         id_ = request.number
         data = data or {
             "content": "Can I belong to the community?",
-            "format": RequestEventFormat.HTML.value
+            "format": RequestEventFormat.HTML.value,
         }
         return requests_service.execute_action(identity, id_, "submit", data)
 
@@ -97,8 +97,13 @@ def test_submit_request(app, identity_simple, submit_request, request_events_ser
 
 
 def test_accept_request(
-        app, identity_simple, identity_simple_2, submit_request, requests_service,
-        request_events_service):
+    app,
+    identity_simple,
+    identity_simple_2,
+    submit_request,
+    requests_service,
+    request_events_service,
+):
     # Submit a request
     result = submit_request(identity_simple)
     id_ = result._request.number
@@ -106,7 +111,7 @@ def test_accept_request(
     # Other user accepts it with comment
     data = {
         "content": "Welcome to the community!",
-        "format": RequestEventFormat.HTML.value
+        "format": RequestEventFormat.HTML.value,
     }
     result = requests_service.execute_action(identity_simple_2, id_, "accept", data)
     result_dict = result.to_dict()

@@ -63,15 +63,11 @@ class RequestCommentsResourceConfig(RecordResourceConfig):
         "comment_id": fields.Str(),
     }
     request_search_args = SearchRequestArgsSchema
-    request_body_parsers = {
-        "application/json": RequestBodyParser(JSONDeserializer())
-    }
+    request_body_parsers = {"application/json": RequestBodyParser(JSONDeserializer())}
 
     # Ouput
     response_handlers = {
-        "application/json": ResponseHandler(
-            JSONSerializer(), headers=etag_headers
-        ),
+        "application/json": ResponseHandler(JSONSerializer(), headers=etag_headers),
     }
 
 
@@ -82,17 +78,17 @@ class RequestCommentsResource(RecordResource):
     """Resource for Request comments for now."""
 
     list_view_args_parser = request_parser(
-        from_conf('request_list_view_args'), location='view_args'
+        from_conf("request_list_view_args"), location="view_args"
     )
     item_view_args_parser = request_parser(
-        from_conf('request_item_view_args'), location='view_args'
+        from_conf("request_item_view_args"), location="view_args"
     )
     search_args_parser = request_parser(
-        from_conf('request_search_args'), location='args'
+        from_conf("request_search_args"), location="args"
     )
     data_parser = request_body_parser(
-        parsers=from_conf('request_body_parsers'),
-        default_content_type=from_conf('default_content_type')
+        parsers=from_conf("request_body_parsers"),
+        default_content_type=from_conf("default_content_type"),
     )
 
     def create_url_rules(self):
@@ -118,7 +114,7 @@ class RequestCommentsResource(RecordResource):
         item = self.service.create(
             identity=g.identity,
             request_id=resource_requestctx.view_args["request_id"],
-            data=data
+            data=data,
         )
         return item.to_dict(), 201
 

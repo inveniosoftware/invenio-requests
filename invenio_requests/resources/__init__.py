@@ -17,5 +17,5 @@ __all__ = (
     "RequestsResource",
     "RequestsResourceConfig",
     "RequestCommentsResource",
-    "RequestCommentsResourceConfig"
+    "RequestCommentsResourceConfig",
 )

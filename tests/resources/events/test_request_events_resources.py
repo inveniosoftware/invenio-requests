@@ -36,9 +36,7 @@ def test_simple_comment_flow(
 
     # User 1 comments
     response = client.post(
-        f'/requests/{request_id}/comments',
-        headers=headers,
-        json=events_resource_data
+        f"/requests/{request_id}/comments", headers=headers, json=events_resource_data
     )
 
     comment_id = response.json["id"]
@@ -51,13 +49,13 @@ def test_simple_comment_flow(
             # "report": ""  # TODO
         },
         "revision_id": 1,
-        "type": RequestEventType.COMMENT.value
+        "type": RequestEventType.COMMENT.value,
     }
     assert_api_response(response, 201, expected_json_1)
 
     # User 1 reads comment
     response = client.get(
-        f'/requests/{request_id}/comments/{comment_id}',
+        f"/requests/{request_id}/comments/{comment_id}",
         headers=headers,
     )
 
@@ -66,9 +64,7 @@ def test_simple_comment_flow(
     # User 2 comments
     client = client_logged_as("user2@example.org")
     response = client.post(
-        f'/requests/{request_id}/comments',
-        headers=headers,
-        json=events_resource_data
+        f"/requests/{request_id}/comments", headers=headers, json=events_resource_data
     )
     comment_id = response.json["id"]
     revision_id = response.json["revision_id"]
@@ -79,9 +75,9 @@ def test_simple_comment_flow(
     revision_headers = copy.deepcopy(headers)
     revision_headers["if_match"] = revision_id
     response = client.put(
-        f'/requests/{request_id}/comments/{comment_id}',
+        f"/requests/{request_id}/comments/{comment_id}",
         headers=revision_headers,
-        json=data
+        json=data,
     )
     expected_json_2 = {
         **events_resource_data,
@@ -93,14 +89,14 @@ def test_simple_comment_flow(
             # "report": ""  # TODO
         },
         "revision_id": 2,
-        "type": RequestEventType.COMMENT.value
+        "type": RequestEventType.COMMENT.value,
     }
     assert_api_response(response, 200, expected_json_2)
 
     # User 2 deletes comments
     revision_headers["if_match"] = 2
     response = client.delete(
-        f'/requests/{request_id}/comments/{comment_id}',
+        f"/requests/{request_id}/comments/{comment_id}",
         headers=revision_headers,
     )
     assert 204 == response.status_code
@@ -109,13 +105,10 @@ def test_simple_comment_flow(
     RequestEvent.index.refresh()
 
     # User 2 gets the timeline (will be sorted)
-    response = client.get(
-        f'/requests/{request_id}/timeline',
-        headers=headers
-    )
+    response = client.get(f"/requests/{request_id}/timeline", headers=headers)
     assert 200 == response.status_code
-    assert 2 == response.json['hits']['total']
-    assert_api_response_json(expected_json_1, response.json['hits']['hits'][0])
+    assert 2 == response.json["hits"]["total"]
+    assert_api_response_json(expected_json_1, response.json["hits"]["hits"][0])
     expected_json_3 = {
         "content": "",
         "format": "html",
@@ -124,6 +117,6 @@ def test_simple_comment_flow(
             "self": f"https://127.0.0.1:5000/api/requests/{request_id}/comments/{comment_id}",  # noqa
         },
         "revision_id": 4,
-        "type": RequestEventType.REMOVED.value
+        "type": RequestEventType.REMOVED.value,
     }
-    assert_api_response_json(expected_json_3, response.json['hits']['hits'][1])
+    assert_api_response_json(expected_json_3, response.json["hits"]["hits"][1])

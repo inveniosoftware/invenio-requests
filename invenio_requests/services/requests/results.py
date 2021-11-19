@@ -155,8 +155,6 @@ class RequestList(RecordList):
         if self._params:
             res["sortBy"] = self._params["sort"]
             if self._links_tpl:
-                res["links"] = self._links_tpl.expand(
-                    self.pagination
-                )
+                res["links"] = self._links_tpl.expand(self.pagination)
 
         return res

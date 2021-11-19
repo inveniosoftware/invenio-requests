@@ -10,7 +10,7 @@
 
 """Request permissions."""
 
-from flask_principal import UserNeed
+from elasticsearch_dsl import Q
 from invenio_access.permissions import any_user
 from invenio_records_permissions import RecordPermissionPolicy
 from invenio_records_permissions.generators import AnyUser, Generator, SystemProcess

@@ -21,7 +21,7 @@ from flask_security.utils import hash_password
 from invenio_accounts.testutils import login_user_via_session
 from invenio_app.factory import create_api as _create_api
 
-from invenio_requests.records.request_types import RequestType
+from invenio_requests.customizations import DefaultRequestType
 
 
 @pytest.fixture(scope="module")
@@ -91,8 +91,8 @@ def request_record_input_data():
 def headers():
     """Default headers for making requests."""
     return {
-        'content-type': 'application/json',
-        'accept': 'application/json',
+        "content-type": "application/json",
+        "accept": "application/json",
     }
 
 
@@ -104,14 +104,15 @@ def users(app):
     # to help with test performance (creating users is a module -if not higher-
     # concern)
     from invenio_db import db
+
     with db.session.begin_nested():
         datastore = app.extensions["security"].datastore
-        user1 = datastore.create_user(email="user1@example.org",
-                                      password=hash_password("password"),
-                                      active=True)
-        user2 = datastore.create_user(email="user2@example.org",
-                                      password=hash_password("password"),
-                                      active=True)
+        user1 = datastore.create_user(
+            email="user1@example.org", password=hash_password("password"), active=True
+        )
+        user2 = datastore.create_user(
+            email="user2@example.org", password=hash_password("password"), active=True
+        )
     db.session.commit()
     return [user1, user2]
 
@@ -127,9 +128,13 @@ def example_request(identity_simple, request_record_input_data, example_user):
     """Example record."""
     # Need to use the service to get the id I guess...
     from invenio_requests.proxies import current_requests
+
     requests_service = current_requests.requests_service
     item = requests_service.create(
-        identity_simple, request_record_input_data, RequestType, receiver=example_user
+        identity_simple,
+        request_record_input_data,
+        DefaultRequestType,
+        receiver=example_user,
     )
     return item._request
 

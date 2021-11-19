@@ -13,8 +13,8 @@
 from invenio_db import db
 from invenio_records_resources.services import RecordService, ServiceSchemaWrapper
 
-from ...actions import RequestActions
-from ...errors import CannotExecuteActionError, NoSuchActionError
+from ...customizations.base import RequestActions
+from ...errors import CannotExecuteActionError
 from ...proxies import current_registry
 from ...resolvers import reference_entity, reference_identity
 from .links import RequestLinksTemplate

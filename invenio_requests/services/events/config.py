@@ -35,14 +35,10 @@ class RequestEventLink(Link):
     @staticmethod
     def vars(record, vars):
         """Variables for the URI template."""
-        vars.update({
-            "id": record.id,
-            "request_id": record.request_id
-        })
+        vars.update({"id": record.id, "request_id": record.request_id})
 
 
-class RequestEventsServiceConfig(
-        RecordServiceConfig, CustomizationConfigMixin):
+class RequestEventsServiceConfig(RecordServiceConfig, CustomizationConfigMixin):
     """Config."""
 
     request_cls = Request
