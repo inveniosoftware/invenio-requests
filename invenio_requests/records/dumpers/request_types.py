@@ -21,7 +21,7 @@ class RequestTypeDumperExt(ElasticsearchDumperExt):
 
     def dump(self, record, data):
         """Dump the data."""
-        data[self.field] = record.request_type.name
+        data[self.field] = record.type.name
 
     def load(self, data, record_cls):
         """Load the data."""

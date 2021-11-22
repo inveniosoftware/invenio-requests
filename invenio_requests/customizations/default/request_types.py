@@ -84,10 +84,10 @@ class DefaultRequestType(RequestType):
     different or more specific schema.
     """
 
-    def generate_external_id(self, request, **kwargs):
-        """Generate a new external identifier.
+    def generate_request_number(self, request, **kwargs):
+        """Generate a new request number.
 
-        This method can be overridden in subclasses to create external identifiers
+        This method can be overridden in subclasses to create request numbers
         according to a custom schema, using the information associated with the request
         (e.g. topic, receiver, creator).
         """

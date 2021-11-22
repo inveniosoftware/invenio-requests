@@ -7,13 +7,13 @@
 # modify it under the terms of the MIT License; see LICENSE file for more
 # details.
 
-"""Component for creating external identifiers."""
+"""Component for creating request numbers."""
 
 from invenio_records_resources.services.records.components import ServiceComponent
 
 
-class ExternalIdentifierComponent(ServiceComponent):
-    """External identifier registration component."""
+class RequestNumberComponent(ServiceComponent):
+    """Component for assigning request numbers to new requests."""
 
     def create(self, identity, data=None, record=None, **kwargs):
         """Create identifier when record is created."""

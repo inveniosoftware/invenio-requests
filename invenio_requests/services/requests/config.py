@@ -17,7 +17,7 @@ from invenio_records_resources.services.records.links import pagination_links
 from ...customizations.base import RequestActions
 from ...records.api import Request
 from ..permissions import PermissionPolicy
-from .components import EntityReferencesComponent, ExternalIdentifierComponent
+from .components import EntityReferencesComponent, RequestNumberComponent
 from .customization import RequestsConfigMixin
 from .links import RequestLink
 from .params import ReferenceFilterParam
@@ -66,5 +66,5 @@ class RequestsServiceConfig(RecordServiceConfig, RequestsConfigMixin):
         # Order of components are important!
         DataComponent,
         EntityReferencesComponent,
-        ExternalIdentifierComponent,
+        RequestNumberComponent,
     ]

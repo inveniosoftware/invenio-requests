@@ -9,7 +9,6 @@
 
 """RequestEvents Service."""
 
-from invenio_db import db
 from invenio_records_resources.services import RecordService
 from invenio_records_resources.services.base.links import LinksTemplate
 from invenio_records_resources.services.uow import (

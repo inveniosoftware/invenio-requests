@@ -46,6 +46,7 @@ class RequestsService(RecordService):
         """Create a record."""
         self.require_permission(identity, "create")
 
+        # we're not using "self.schema" b/c the schema may differ per request type!
         schema = self._wrap_schema(request_type.marshmallow_schema)
         data, errors = schema.load(
             data,
@@ -56,7 +57,7 @@ class RequestsService(RecordService):
         # most of the data is initialized via the components
         request = self.record_cls.create(
             {},
-            request_type=request_type,
+            type=request_type,
         )
 
         creator = (
@@ -105,7 +106,7 @@ class RequestsService(RecordService):
             self,
             identity,
             request,
-            schema=self._wrap_schema(request.request_type.marshmallow_schema),
+            schema=self._wrap_schema(request.type.marshmallow_schema),
             links_tpl=self.links_item_tpl,
         )
 
@@ -119,7 +120,8 @@ class RequestsService(RecordService):
         # check permissions
         self.require_permission(identity, "update", record=request)
 
-        schema = self._wrap_schema(request.request_type.marshmallow_schema)
+        # we're not using "self.schema" b/c the schema may differ per request type!
+        schema = self._wrap_schema(request.type.marshmallow_schema)
         data, _ = schema.load(
             data,
             context={
@@ -222,6 +224,6 @@ class RequestsService(RecordService):
             self,
             identity,
             request,
-            schema=self._wrap_schema(request.request_type.marshmallow_schema),
+            schema=self._wrap_schema(request.type.marshmallow_schema),
             links_tpl=self.links_item_tpl,
         )

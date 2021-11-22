@@ -23,7 +23,7 @@ class RequestMetadata(db.Model, RecordMetadataBase):
 
     id = db.Column(UUIDType, primary_key=True, default=uuid.uuid4)
 
-    external_id = db.Column(String(50), unique=True, index=True, nullable=True)
+    number = db.Column(String(50), unique=True, index=True, nullable=True)
 
     expires_at = db.Column(
         db.DateTime().with_variant(mysql.DATETIME(fsp=6), "mysql"),

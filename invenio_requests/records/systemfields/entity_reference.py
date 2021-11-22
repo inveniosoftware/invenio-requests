@@ -93,21 +93,21 @@ def check_allowed_references(get_allows_none, get_allowed_types, request, ref_di
 
 check_allowed_creators = partial(
     check_allowed_references,
-    lambda r: r.request_type.creator_can_be_none,
-    lambda r: r.request_type.allowed_creator_ref_types,
+    lambda r: r.type.creator_can_be_none,
+    lambda r: r.type.allowed_creator_ref_types,
 )
 """Check function specific for the ``created_by`` field of requests."""
 
 check_allowed_receivers = partial(
     check_allowed_references,
-    lambda r: r.request_type.receiver_can_be_none,
-    lambda r: r.request_type.allowed_receiver_ref_types,
+    lambda r: r.type.receiver_can_be_none,
+    lambda r: r.type.allowed_receiver_ref_types,
 )
 """Check function specific for the ``receiver`` field of requests."""
 
 check_allowed_topics = partial(
     check_allowed_references,
-    lambda r: r.request_type.topic_can_be_none,
-    lambda r: r.request_type.allowed_topic_ref_types,
+    lambda r: r.type.topic_can_be_none,
+    lambda r: r.type.allowed_topic_ref_types,
 )
 """Check function specific for the ``topic`` field of requests."""

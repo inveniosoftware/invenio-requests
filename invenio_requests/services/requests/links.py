@@ -26,7 +26,7 @@ class RequestLinksTemplate(LinksTemplate):
         # expand links for all available actions on the request
         links["actions"] = {}
         link = self._action_link
-        for action in req.request_type.available_actions:
+        for action in req.type.available_actions:
             ctx = self.context.copy()
             ctx["action"] = action
             ctx["identity"] = identity

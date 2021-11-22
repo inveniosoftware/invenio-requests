@@ -39,7 +39,7 @@ class RequestSchema(BaseRecordSchema):
     """
 
     number = fields.String(dump_only=True)
-    request_type = fields.String()
+    type = fields.String()
     title = utils_fields.SanitizedUnicode(default='')
     description = utils_fields.SanitizedUnicode()
 
@@ -52,7 +52,8 @@ class RequestSchema(BaseRecordSchema):
     status = fields.String(dump_only=True)
     is_open = fields.Boolean(dump_only=True)
     expires_at = utils_fields.TZDateTime(
-        timezone=timezone.utc, format="iso", dump_only=True)
+        timezone=timezone.utc, format="iso", dump_only=True
+    )
     is_expired = fields.Boolean(dump_only=True)
 
     class Meta:

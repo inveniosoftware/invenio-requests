@@ -58,7 +58,7 @@ class RequestActions:
         :return: The action registered under the given name.
         """
         try:
-            return request.request_type.available_actions[action_name](request)
+            return request.type.available_actions[action_name](request)
         except KeyError:
             raise NoSuchActionError(action=action_name)
 

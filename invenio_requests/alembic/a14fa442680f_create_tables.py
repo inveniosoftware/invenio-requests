@@ -47,7 +47,7 @@ def upgrade():
         sa.Column(
             "id", UUIDType(), nullable=False
         ),
-        sa.Column("external_id", sa.String(length=50), nullable=True),
+        sa.Column("number", sa.String(length=50), nullable=True),
         sa.Column(
             "expires_at",
             sa.DateTime().with_variant(mysql.DATETIME(fsp=6), "mysql"),
@@ -56,9 +56,9 @@ def upgrade():
         sa.PrimaryKeyConstraint("id", name=op.f("pk_request_metadata")),
     )
     op.create_index(
-        op.f("ix_request_metadata_external_id"),
+        op.f("ix_request_metadata_number"),
         "request_metadata",
-        ["external_id"],
+        ["number"],
         unique=True,
     )
     op.create_table(
@@ -106,6 +106,6 @@ def downgrade():
     """Downgrade database."""
     op.drop_table("request_events")
     op.drop_index(
-        op.f("ix_request_metadata_external_id"), table_name="request_metadata"
+        op.f("ix_request_metadata_number"), table_name="request_metadata"
     )
     op.drop_table("request_metadata")

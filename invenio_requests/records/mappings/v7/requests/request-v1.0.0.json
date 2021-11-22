@@ -42,7 +42,7 @@
       "uuid": {
         "type": "keyword"
       },
-      "external_id": {
+      "number": {
         "type": "keyword"
       },
       "created": {
@@ -57,14 +57,11 @@
       "expires_at": {
         "type": "date"
       },
-      "is_expired": {
-        "type": "boolean"
-      },
       "request_type_id": {
         "type": "keyword",
         "index": false
       },
-      "request_type": {
+      "type": {
         "type": "keyword"
       },
       "title": {

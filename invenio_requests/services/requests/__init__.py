@@ -9,14 +9,14 @@
 
 """Services module."""
 
-from .components import ExternalIdentifierComponent
+from .components import RequestNumberComponent
 from .config import RequestsServiceConfig
 from .links import RequestLink
 from .results import RequestItem, RequestList
 from .service import RequestsService
 
 __all__ = (
-    "ExternalIdentifierComponent",
+    "RequestNumberComponent",
     "RequestLink",
     "RequestItem",
     "RequestList",

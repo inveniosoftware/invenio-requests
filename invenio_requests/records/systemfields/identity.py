@@ -11,7 +11,7 @@ from invenio_records.systemfields import ModelField
 
 
 class IdentityField(ModelField):
-    """Systemfield for managing the request's external identifier."""
+    """Systemfield for managing the request's number."""
 
     def assign(self, record, **kwargs):
         """Generate and assign a new identifier if none is set yet."""
@@ -21,7 +21,7 @@ class IdentityField(ModelField):
             value = None
 
         if value is None:
-            value = record.request_type.generate_external_id(record, **kwargs)
+            value = record.type.generate_request_number(record, **kwargs)
             self._set(record.model, value)
 
         return value

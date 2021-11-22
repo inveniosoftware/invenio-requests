@@ -8,10 +8,6 @@
 
 """Request resource tests."""
 
-import copy
-
-from invenio_requests.records.api import RequestEvent, RequestEventType
-
 
 def check_reference_search_filter_results(response, expected_hits, expected_req_nums):
     """Check if all expected results are there."""
@@ -31,11 +27,10 @@ def test_reference_search_filters(app, client_logged_as, headers, example_reques
     # use the admin with superuser-access to evade potential permission issues
     client = client_logged_as("admin@example.org")
     req1, req2, req3 = example_requests
-    request_id = req1.id
 
     # get unfiltered responses
     response = client.get(
-        f"/requests/",
+        "/requests/",
         headers=headers,
     )
     check_reference_search_filter_results(
@@ -44,21 +39,21 @@ def test_reference_search_filters(app, client_logged_as, headers, example_reques
 
     # get requests where user #1 is the receiver (should be the first two)
     response = client.get(
-        f"/requests/?receiver=user:1",
+        "/requests/?receiver=user:1",
         headers=headers,
     )
     check_reference_search_filter_results(response, 2, [req1.number, req2.number])
 
     # get requests where user #2 is the receiver (should be the last one)
     response = client.get(
-        f"/requests/?receiver=user:2",
+        "/requests/?receiver=user:2",
         headers=headers,
     )
     check_reference_search_filter_results(response, 1, [req3.number])
 
     # get requests where user #3 is the receiver (none)
     response = client.get(
-        f"/requests/?receiver=user:3",
+        "/requests/?receiver=user:3",
         headers=headers,
     )
     check_reference_search_filter_results(response, 0, [])
@@ -66,7 +61,7 @@ def test_reference_search_filters(app, client_logged_as, headers, example_reques
     # check what happens when there's an invalid reference
     # (the filter should get dropped)
     response = client.get(
-        f"/requests/?receiver=nosuchthing:1",
+        "/requests/?receiver=nosuchthing:1",
         headers=headers,
     )
     check_reference_search_filter_results(

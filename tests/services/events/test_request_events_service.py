@@ -67,7 +67,7 @@ def test_simple_flow(app, identity_simple, events_service_data, example_request)
     # first add another comment
     data = copy.deepcopy(events_service_data)
     data["payload"]["content"] = "Another comment."
-    item2 = events_service.create(identity_simple, request_id, data)
+    events_service.create(identity_simple, request_id, data)
     # Refresh to make changes live
     RequestEvent.index.refresh()
     # then search

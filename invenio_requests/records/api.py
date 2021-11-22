@@ -43,14 +43,13 @@ class Request(Record):
     dumper = ElasticsearchDumper(
         extensions=[
             CalculatedFieldDumperExt("is_open"),
-            CalculatedFieldDumperExt("is_expired"),
-            RequestTypeDumperExt("request_type"),
+            RequestTypeDumperExt("type"),
         ]
     )
     """Elasticsearch dumper with configured extensions."""
 
-    number = IdentityField("external_id")
-    """The request's external identity."""
+    number = IdentityField("number")
+    """The request's number (i.e. external identifier)."""
 
     metadata = None
     """Disabled metadata field from the base class."""
@@ -61,7 +60,7 @@ class Request(Record):
     schema = ConstantField("$schema", "local://requests/request-v1.0.0.json")
     """The JSON Schema to use for validation."""
 
-    request_type = RequestTypeField("request_type_id")
+    type = RequestTypeField("request_type_id")
     """System field for management of the request type.
 
     This field manages loading of the correct RequestType classes associated with
@@ -107,13 +106,13 @@ class Request(Record):
     def get_record(cls, id_, with_deleted=False):
         """Retrieve the request by id.
 
-        :param id_: The record ID (external or internal).
+        :param id_: The record's number or internal ID.
         :param with_deleted: If `True`, then it includes deleted requests.
         :returns: The :class:`Request` instance.
         """
         # note: in case of concurrency errors, `with db.session.no_autoflush` might help
         try:
-            query = cls.model_cls.query.filter_by(external_id=str(id_))
+            query = cls.model_cls.query.filter_by(number=str(id_))
             if not with_deleted:
                 query = query.filter(cls.model_cls.is_deleted != True)  # noqa
 
@@ -121,7 +120,7 @@ class Request(Record):
 
         except (MultipleResultsFound, NoResultFound):
             # either no results or ambiguous results
-            # (e.g. if external_id is None)
+            # (e.g. if number is None)
             # NOTE: if 'id_' is None, this will return None!
             query = cls.model_cls.query.filter_by(id=id_)
             if not with_deleted:
