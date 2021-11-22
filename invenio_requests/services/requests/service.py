@@ -16,7 +16,7 @@ from invenio_records_resources.services import RecordService, ServiceSchemaWrapp
 from ...customizations.base import RequestActions
 from ...errors import CannotExecuteActionError
 from ...proxies import current_registry
-from ...resolvers import reference_entity, reference_identity
+from ...resolvers import ResolverRegistry
 from .links import RequestLinksTemplate
 
 
@@ -48,13 +48,17 @@ class RequestsService(RecordService):
         )
 
         # parts of the data are initialized here, parts of it via the components
-        creator = reference_entity(creator) if creator else reference_identity(identity)
+        creator = (
+            ResolverRegistry.reference_entity(creator)
+            if creator is not None
+            else ResolverRegistry.reference_identity(identity)
+        )
         request = self.record_cls.create(
             {},
             request_type=request_type,
             created_by=creator,
-            topic=reference_entity(topic),
-            receiver=reference_entity(receiver),
+            topic=ResolverRegistry.reference_entity(topic),
+            receiver=ResolverRegistry.reference_entity(receiver),
         )
 
         # run components

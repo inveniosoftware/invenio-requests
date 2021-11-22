@@ -9,8 +9,7 @@
 """Invenio module for generic and customizable requests."""
 
 from .customizations import DefaultRequestType
-from .resolvers import UserResolver
-from .resolvers.requests import RequestResolver
+from .resolvers.default import UserResolver
 from .services.permissions import PermissionPolicy
 
 REQUESTS_PERMISSION_POLICY = PermissionPolicy
@@ -21,6 +20,5 @@ REQUESTS_REGISTERED_TYPES = [DefaultRequestType()]
 
 REQUESTS_ENTITY_RESOLVERS = [
     UserResolver(),
-    RequestResolver(),
 ]
 """Registered resolvers for resolving/creating references in request metadata."""

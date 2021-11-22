@@ -6,12 +6,14 @@
 # modify it under the terms of the MIT License; see LICENSE file for more
 # details.
 
-"""Module for entity resolvers."""
+"""Default entity resolvers and proxies."""
 
-from .base import EntityResolver
-from .registry import ResolverRegistry
+from .records import RecordResolver
+from .requests import RequestResolver
+from .users import UserResolver
 
 __all__ = (
-    "EntityResolver",
-    "ResolverRegistry",
+    "RecordResolver",
+    "RequestResolver",
+    "UserResolver",
 )

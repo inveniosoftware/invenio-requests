@@ -8,146 +8,179 @@
 
 """Base class for entity resolvers."""
 
+from abc import ABC, abstractmethod
 
-class EntityResolver:
-    """A utility for resolving entities referenced by reference dictionaries.
 
-    Reference dictionaries are dicts following the structure `{"TYPE": "ID"}`
-    (e.g. `{"user": "1"}`) and are often used in the JSON data of Record-like
-    objects in Invenio to reference entities such as record owners.
+def _parse_ref_dict(reference_dict, strict=True):
+    """Parse the referenced dict into a tuple (TYPE, ID).
+
+    The `strict` parameter controls if the number of keys in the reference dict
+    is checked strictly or not.
     """
+    keys = list(reference_dict.keys())
 
-    ENTITY_TYPE_KEY = None
-    """The TYPE key that this resolver is able to resolve.
+    if strict and len(keys) != 1:
+        raise ValueError(
+            "Reference dicts may only have one property! "
+            f"Offending dict: {reference_dict}"
+        )
 
-    This value is used for checking if the resolver is able to resolve the entity
-    referenced in the reference dictionaries.
-    It is also used for dumping entity references to reference dictionaries.
-    """
-
-    ENTITY_TYPE_CLASS = None
-    """The entity class that this resolver is responsible for.
-
-    The value of this property is used to perform the checks if a given resolver is
-    able to dump a reference to an entity.
-    """
-
-    def _get_type(self, reference_dict, strict=False):
-        """Get the TYPE part of the reference dict.
-
-        The `strict` parameter controls if the number of keys in the reference dict
-        is checked strictly or not.
-        """
-        keys = list(reference_dict.keys())
-
-        if strict and len(keys) != 1:
-            raise ValueError(
-                "Reference dicts may only have one property! "
-                f"Offending dict: {reference_dict}"
-            )
-
-        if keys:
-            return keys[0]
-
+    if not keys:
         return None
 
-    def _get_id(self, reference_dict, strict=False):
-        """Get the ID part of the reference dict.
+    type_ = keys[0]
+    id_ = reference_dict[type_]
+    return (type_, id_)
 
-        The `strict` parameter controls if the number of keys in the reference dict
-        is checked strictly or not.
+
+class EntityProxy(ABC):
+    """Proxy for a type of entities which only resolves the entity if requested.
+
+    EntityProxies are responsible for resolving the entities referenced in the
+    reference dicts, and thus act as another layer of abstraction.
+    They provide a unified interface for resolving the actual entities from the
+    dicts, or creating Needs from the references (which is useful for permission
+    checks, for instance on owners of records or requests).
+    Also, they enable the actual entity to be lazily loaded via the explicit
+    `resolve()` operation, which prevents unnecessary lookups if the entity is
+    not of importance (e.g. when only the Need is relevant).
+    After the first lookup, the resolved entity will be cached by the proxy object.
+    """
+
+    def __init__(self, reference_dict):
+        """Constructor."""
+        self._ref_dict = reference_dict
+        self._entity = None
+
+    def __repr__(self):
+        """Return repr(self)."""
+        return f"<{type(self).__name__} {self._ref_dict} ({self._entity})>"
+
+    def _parse_ref_dict(self, ref_dict):
+        """Parse the referenced dict into a tuple (TYPE, ID)."""
+        return _parse_ref_dict(ref_dict)
+
+    def _parse_ref_dict_type(self, ref_dict):
+        """Parse the TYPE from the reference dict."""
+        return self._parse_ref_dict(ref_dict)[0]
+
+    def _parse_ref_dict_id(self, ref_dict):
+        """Parse the ID from the reference dict."""
+        return self._parse_ref_dict(ref_dict)[1]
+
+    @property
+    def reference_dict(self):
+        """Get the proxy's reference dict."""
+        return self._ref_dict
+
+    def resolve(self):
+        """Resolve the referenced entity via a query."""
+        if self._entity is not None:
+            # caching
+            return self._entity
+
+        self._entity = self._resolve()
+        return self._entity
+
+    @abstractmethod
+    def _resolve(self):
+        """The logic for performing the actual resolve operation.
+
+        This method must be implemented by concrete subclasses.
+        Note: The caching logic is already handled in `resolve()`, so this method
+        should contain the pure resolution logic.
         """
-        type_ = self._get_type(reference_dict, strict=strict)
-        if type_ is None:
-            return None
+        return None
 
-        return reference_dict[type_]
+    @abstractmethod
+    def get_need(self):
+        """Get the Need for the referenced entity, if applicable.
 
-    def matches_dict(self, reference_dict, raise_=False):
-        """Check if the given reference dict matches for this resolver.
-
-        This includes a check if the reference dict has a shape that's compatible with
-        this resolver (i.e. it is of the form `{ENTITY_TYPE_KEY: id}`).
-        If the dict does not match and the `raise_` parameter is set, a `ValueError`
-        will be raised.
-        Otherwise, a boolean value indicating the success of the check will be returned.
+        If the concept is not applicable for this resolver's type of entities,
+        `None` will be returned.
         """
-        if reference_dict is None:
-            return False
+        return None
 
-        type_ = self._get_type(reference_dict)
 
-        if self.ENTITY_TYPE_KEY != type_:
-            if raise_:
-                raise ValueError(
-                    f"This resolver can only resolve '{self.ENTITY_TYPE_KEY}' "
-                    f"references but got '{self._get_type(reference_dict)}'"
-                )
-            else:
-                return False
+class EntityResolver(ABC):
+    """Translation layer between reference dicts and entities (or proxies).
 
-        return True
+    The resolvers are a layer of abstraction between the reference dicts and their
+    referenced entities.
+    They are directly responsible for handling the reference dumping direction
+    themselves (i.e. creating reference dicts from entities), while the other direction
+    (i.e. resolving entities from reference dicts) is the responsibility of the
+    EntityProxies created by the resolvers.
+    """
 
-    def do_resolve(self, reference_dict):
-        """Perform the resolve operation of the entity referenced by the dict.
+    def _parse_ref_dict(self, ref_dict):
+        """Parse the referenced dict into a tuple (TYPE, ID)."""
+        return _parse_ref_dict(ref_dict)
 
-        NOTE:
-        If the default behavior is not desired (e.g. the simple query logic is too
-        simple, which could be the case for Records referenced via PID), this method
-        should be overridden in the subclass.
+    def _parse_ref_dict_type(self, ref_dict):
+        """Parse the TYPE from the reference dict."""
+        return self._parse_ref_dict(ref_dict)[0]
+
+    def _parse_ref_dict_id(self, ref_dict):
+        """Parse the ID from the reference dict."""
+        return self._parse_ref_dict(ref_dict)[1]
+
+    def get_entity_proxy(self, ref_dict, check=True):
+        """Check compatibility and get a proxy for the entity referenced in the dict.
+
+        This method will optionally check the shape of the given reference dict via
+        `matches_reference_dict()` before creating a proxy via `_get_entity_proxy()`.
+        If this check fails, a `ValueError` will be raised.
         """
-        return self.ENTITY_TYPE_CLASS.query.get(self._get_id(reference_dict))
+        if check and not self.matches_reference_dict(ref_dict):
+            raise ValueError(
+                f"{type(self).__name__} cannot handle "
+                f"the following reference dict: {ref_dict}"
+            )
 
-    def resolve(self, reference_dict, check=True):
-        """Check compatibility and resolve the entity referenced by the given dict.
+        return self._get_entity_proxy(ref_dict)
 
-        This method will check the TYPE part of the given reference_dict against the
-        ENTITY_TYPE_KEY and resolve the entity via `do_resolve(...)`.
-        """
-        if check:
-            self.matches_dict(reference_dict, raise_=True)
-
-        return self.do_resolve(reference_dict)
-
-    def matches_entity(self, entity, raise_=False):
-        """Check if this resolver can dump a reference to the given entity.
-
-        This is done by an instance check of the entity against the set
-        `ENTITY_TYPE_CLASS`.
-        If the entity's class does not match and the `raise_` parameter is set, a
-        `ValueError` will be raised.
-        Otherwise, a boolean value indicating the success of the check will be returned.
-        """
-        if not isinstance(entity, self.ENTITY_TYPE_CLASS):
-            if raise_:
-                raise ValueError(
-                    f"This resolver can only create references to "
-                    f"'{self.ENTITY_TYPE_CLASS}' entities but got type "
-                    f"'{type(entity)}'"
-                )
-
-            else:
-                return False
-
-        return True
-
-    def create_reference(self, entity):
-        """Perform the reference dumping operation of the given entity.
-
-        NOTE:
-        If the default behavior is not desired (i.e. the ID to be dumped should
-        be different from `entity.id`), this method should be overridden in the
-        subclass.
-        """
-        return {self.ENTITY_TYPE_KEY: str(entity.id)}
-
-    def reference(self, entity, check=True):
+    def reference_entity(self, entity, check=True):
         """Check compatibility and create a reference dict for the given entity.
 
-        This method will perform an instance check of the given entity against the
-        `ENTITY_TYPE_CLASS` before calling `create_reference(...)`.
+        This method will perform an optional instance check of the given entity via
+        `matches_entity()` before dumping a reference via `_reference_entity()`.
+        If this check fails, a `ValueError` will be raised.
         """
-        if check:
-            self.matches_entity(entity, raise_=True)
+        if check and not self.matches_entity(entity):
+            raise ValueError(
+                f"{type(self).__name__} cannot handle "
+                f"the following entity: {entity}"
+            )
 
-        return self.create_reference(entity)
+        return self._reference_entity(entity)
+
+    @abstractmethod
+    def matches_reference_dict(self, ref_dict):
+        """Check if the given ref_dict matches the expectations of this resolver."""
+        return False
+
+    @abstractmethod
+    def matches_entity(self, entity):
+        """Check if the given entity matches the expectations of this resolver."""
+        return False
+
+    @abstractmethod
+    def _get_entity_proxy(self, ref_dict):
+        """The logic for building a proxy for the referenced entity.
+
+        Since the compatibility checks are already taken care of, this method can
+        assume that the data is valid and can focus on simply creating the proxy
+        for the referenced entity.
+        """
+        return None
+
+    @abstractmethod
+    def _reference_entity(self, entity):
+        """The logic building a reference dict from the given entity.
+
+        Since the compatibility checks are already taken care of, this method can
+        assume that the entity is compatible and can focus on simply creating the
+        reference dict for the given entity.
+        """
+        return None
