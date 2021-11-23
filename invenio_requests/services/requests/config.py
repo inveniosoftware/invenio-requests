@@ -10,7 +10,7 @@
 
 """Requests service configuration."""
 
-from invenio_records_resources.services import RecordServiceConfig
+from invenio_records_resources.services import RecordServiceConfig, SearchOptions
 from invenio_records_resources.services.records.components import DataComponent
 from invenio_records_resources.services.records.links import pagination_links
 
@@ -20,6 +20,7 @@ from ..permissions import PermissionPolicy
 from .components import ExternalIdentifierComponent
 from .customization import RequestsConfigMixin
 from .links import RequestLink
+from .params import ReferenceFilterParam
 from .results import RequestItem, RequestList
 
 
@@ -30,6 +31,16 @@ def _is_action_available(request, context):
     return RequestActions.can_execute(identity, request, action)
 
 
+class RequestSearchOptions(SearchOptions):
+    """Search options."""
+
+    params_interpreters_cls = SearchOptions.params_interpreters_cls + [
+        ReferenceFilterParam.factory(param="created_by", field="created_by"),
+        ReferenceFilterParam.factory(param="receiver", field="receiver"),
+        ReferenceFilterParam.factory(param="topic", field="topic"),
+    ]
+
+
 class RequestsServiceConfig(RecordServiceConfig, RequestsConfigMixin):
     """Requests service configuration."""
 
@@ -37,6 +48,7 @@ class RequestsServiceConfig(RecordServiceConfig, RequestsConfigMixin):
     permission_policy_cls = PermissionPolicy
     result_item_cls = RequestItem
     result_list_cls = RequestList
+    search = RequestSearchOptions
 
     # request-specific configuration
     record_cls = Request  # needed for model queries

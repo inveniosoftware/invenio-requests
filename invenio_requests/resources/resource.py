@@ -33,6 +33,8 @@ from invenio_records_resources.resources.records.resource import (
 )
 from invenio_records_resources.resources.records.utils import es_preference
 
+from .fields import ReferenceString
+
 
 #
 # Request args
@@ -40,8 +42,9 @@ from invenio_records_resources.resources.records.utils import es_preference
 class RequestSearchRequestArgsSchema(SearchRequestArgsSchema):
     """Add parameter to parse tags."""
 
-    # TODO what do we need here?
-    pass
+    created_by = ReferenceString()
+    topic = ReferenceString()
+    receiver = ReferenceString()
 
 
 #

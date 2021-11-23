@@ -105,26 +105,6 @@ class RequestsService(RecordService):
             links_tpl=self.links_item_tpl,
         )
 
-    def read_all(self, identity, fields, max_records=150, **kwargs):
-        """Search for records matching the querystring."""
-        # TODO check later
-        return super().read_all(identity, fields, max_records=max_records, **kwargs)
-
-    def read_many(self, identity, ids, fields=None, **kwargs):
-        """Search for requests matching the ids."""
-        # TODO check later
-        return super().read_many(identity, ids, fields=fields, **kwargs)
-
-    def scan(self, identity, params=None, es_preference=None, **kwargs):
-        """Scan for requests matching the querystring."""
-        # TODO check later
-        return super().scan(identity, params=None, es_preference=None, **kwargs)
-
-    def search(self, identity, params=None, es_preference=None, **kwargs):
-        """Search for records matching the querystring."""
-        # TODO check later
-        return super().search(identity, es_preference=None, **kwargs)
-
     def update(self, id_, identity, data):
         """Replace a request."""
         request = self.record_cls.get_record(id_)
