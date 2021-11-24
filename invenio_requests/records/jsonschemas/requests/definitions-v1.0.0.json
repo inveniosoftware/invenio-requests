@@ -5,7 +5,7 @@
   "additionalProperties": false,
   "entity_reference": {
     "description": "Reference to an entity, with the type as key and ID as value",
-    "type": "object",
+    "type": ["object", "null"],
     "additionalProperties": false,
     "patternProperties": {
       "^[a-z_]+$": {

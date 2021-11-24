@@ -40,8 +40,9 @@ class RequestsService(RecordService):
         return ServiceSchemaWrapper(self, schema)
 
     @unit_of_work()
-    def create(self, identity, data, request_type, receiver, creator=None,
-               topic=None, uow=None):
+    def create(
+        self, identity, data, request_type, receiver, creator=None, topic=None, uow=None
+    ):
         """Create a record."""
         self.require_permission(identity, "create")
 
@@ -52,30 +53,33 @@ class RequestsService(RecordService):
             raise_errors=False,
         )
 
-        # parts of the data are initialized here, parts of it via the components
+        # most of the data is initialized via the components
+        request = self.record_cls.create(
+            {},
+            request_type=request_type,
+        )
+
         creator = (
             ResolverRegistry.reference_entity(creator)
             if creator is not None
             else ResolverRegistry.reference_identity(identity)
         )
-        request = self.record_cls.create(
-            {},
-            request_type=request_type,
-            created_by=creator,
-            topic=ResolverRegistry.reference_entity(topic),
-            receiver=ResolverRegistry.reference_entity(receiver),
-        )
 
         # Run components
         self.run_components(
-            "create", identity, data=data, record=request, errors=errors,
+            "create",
+            identity,
+            data=data,
+            record=request,
+            errors=errors,
+            created_by=creator,
+            topic=ResolverRegistry.reference_entity(topic),
+            receiver=ResolverRegistry.reference_entity(receiver),
             uow=uow,
         )
 
         # persist record (DB and index)
-        uow.register(
-            RecordCommitOp(request, indexer=self.indexer)
-        )
+        uow.register(RecordCommitOp(request, indexer=self.indexer))
 
         return self.result_item(
             self,

@@ -68,6 +68,24 @@ class RequestType:
     different or more specific schema.
     """
 
+    creator_can_be_none = True
+    """Determines if the ``created_by`` reference accepts ``None``."""
+
+    receiver_can_be_none = False
+    """Determines if the ``receiver`` reference accepts ``None``."""
+
+    topic_can_be_none = True
+    """Determines if the ``topic`` reference accepts ``None``."""
+
+    allowed_creator_ref_types = ["user"]
+    """A list of allowed TYPE keys for ``created_by`` reference dicts."""
+
+    allowed_receiver_ref_types = ["user"]
+    """A list of allowed TYPE keys for ``receiver`` reference dicts."""
+
+    allowed_topic_ref_types = []
+    """A list of allowed TYPE keys for ``topic`` reference dicts."""
+
     def generate_external_id(self, request, **kwargs):
         """Generate a new external identifier.
 

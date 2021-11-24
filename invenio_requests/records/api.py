@@ -27,6 +27,11 @@ from .systemfields import (
     RequestStatusField,
     RequestTypeField,
 )
+from .systemfields.entity_reference import (
+    check_allowed_creators,
+    check_allowed_receivers,
+    check_allowed_topics,
+)
 
 
 class Request(Record):
@@ -65,13 +70,13 @@ class Request(Record):
     custom request actions are registered.
     """
 
-    topic = ReferencedEntityField("topic")
+    topic = ReferencedEntityField("topic", check_allowed_topics)
     """Topic (associated object) of the request."""
 
-    created_by = ReferencedEntityField("created_by")
+    created_by = ReferencedEntityField("created_by", check_allowed_creators)
     """The entity that created the request."""
 
-    receiver = ReferencedEntityField("receiver")
+    receiver = ReferencedEntityField("receiver", check_allowed_receivers)
     """The entity that will receive the request."""
 
     status = RequestStatusField("status")

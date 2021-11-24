@@ -18,3 +18,13 @@ class ExternalIdentifierComponent(ServiceComponent):
     def create(self, identity, data=None, record=None, **kwargs):
         """Create identifier when record is created."""
         type(record).number.assign(record)
+
+
+class EntityReferencesComponent(ServiceComponent):
+    """Component for initializing a request's entity references."""
+
+    def create(self, identity, data=None, record=None, **kwargs):
+        """Initialize the entity reference fields of a request."""
+        for field in ("created_by", "receiver", "topic"):
+            if field in kwargs:
+                setattr(record, field, kwargs[field])
