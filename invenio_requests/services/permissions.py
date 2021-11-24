@@ -13,10 +13,15 @@
 from elasticsearch_dsl import Q
 from invenio_access.permissions import any_user
 from invenio_records_permissions import RecordPermissionPolicy
-from invenio_records_permissions.generators import AnyUser, Generator, SystemProcess
+from invenio_records_permissions.generators import (
+    AnyUser,
+    AuthenticatedUser,
+    Generator,
+    SystemProcess,
+)
 
 
-class Requester(Generator):
+class Creator(Generator):
     """Allows request makers."""
 
     def needs(self, request=None, **kwargs):
@@ -37,8 +42,8 @@ class Requester(Generator):
         return []
 
 
-class Reviewers(Generator):
-    """Allows request reviewers."""
+class Receiver(Generator):
+    """Allows request Receiver."""
 
     def needs(self, request=None, **kwargs):
         """Enabling Needs.
@@ -78,27 +83,36 @@ class Commenter(Generator):
 class PermissionPolicy(RecordPermissionPolicy):
     """Permission policy."""
 
-    can_search = [SystemProcess(), AnyUser()]
-    can_read = [SystemProcess(), AnyUser()]
+    # TODO:
+    # - require: authenticated user,
+    # - require: if receiver is community AND community restricted:
+    #   community <id> member (delegate to entity?)
     can_create = [SystemProcess(), AnyUser()]
+
+    # - require: authenticated user
+    can_search = [SystemProcess(), AnyUser()]
+    # - require: user is creator or receiver
+    can_read = [SystemProcess(), AnyUser()]
+    # - require: user is creator or receiver
     can_update = [SystemProcess(), AnyUser()]
+    # - require: admins only?
     can_delete = [SystemProcess(), AnyUser()]
 
-    # **Request Events Permission policy.**
-    # Comments need special cases for some service methods
-    can_create_event_comment = [Requester(), Reviewers(), SystemProcess()]
+    # Actions: Submit/Cancel/Accept/Decline/Expire
+    can_submit = [Creator(), SystemProcess()]
+    can_accept = [Receiver(), SystemProcess()]
+    can_decline = [Receiver(), SystemProcess()]
+    can_cancel = [Creator(), SystemProcess()]
+    can_expire = [SystemProcess()]
+
+    # Request Events: Comments
+    can_create_event_comment = [Creator(), Receiver(), SystemProcess()]
     can_update_event_comment = [Commenter(), SystemProcess()]
-    # Reviewers too for moderation
-    can_delete_event_comment = [Commenter(), Reviewers(), SystemProcess()]
+    can_delete_event_comment = [Commenter(), Receiver(), SystemProcess()]
 
-    # Accept/Decline/Cancel need special permissions
-    can_accept = [Reviewers(), SystemProcess()]
-    can_decline = [Reviewers(), SystemProcess()]
-    can_cancel = [Requester(), SystemProcess()]
-
-    # Other events are all the same
-    can_create_event = [SystemProcess()]
-    can_read_event = [Requester(), Reviewers(), SystemProcess()]
+    # Request Events: All other events
+    can_create_event = [AnyUser(), SystemProcess()]
+    can_read_event = [Creator(), Receiver(), SystemProcess()]
     can_update_event = [SystemProcess()]
     can_delete_event = [SystemProcess()]
-    can_search_event = [Requester(), Reviewers(), SystemProcess()]
+    can_search_event = [Creator(), Receiver(), SystemProcess()]
