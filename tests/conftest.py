@@ -18,6 +18,9 @@ import pytest
 from flask_principal import Identity, Need, UserNeed
 from flask_security import login_user
 from flask_security.utils import hash_password
+from invenio_access.models import ActionRoles
+from invenio_access.permissions import superuser_access
+from invenio_accounts.models import Role
 from invenio_accounts.testutils import login_user_via_session
 from invenio_app.factory import create_api as _create_api
 
@@ -107,14 +110,26 @@ def users(app):
 
     with db.session.begin_nested():
         datastore = app.extensions["security"].datastore
+
+        su_role = Role(name="superuser-access")
+        db.session.add(su_role)
+
+        su_action_role = ActionRoles.create(action=superuser_access, role=su_role)
+        db.session.add(su_action_role)
+
         user1 = datastore.create_user(
             email="user1@example.org", password=hash_password("password"), active=True
         )
         user2 = datastore.create_user(
             email="user2@example.org", password=hash_password("password"), active=True
         )
+        admin = datastore.create_user(
+            email="admin@example.org", password=hash_password("password"), active=True
+        )
+        admin.roles.append(su_role)
+
     db.session.commit()
-    return [user1, user2]
+    return [user1, user2, admin]
 
 
 @pytest.fixture()
