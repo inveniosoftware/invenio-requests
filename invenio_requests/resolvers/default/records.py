@@ -35,7 +35,7 @@ class RecordProxy(EntityProxy):
 class RecordResolver(EntityResolver):
     """Resolver for records."""
 
-    def __init__(self, record_cls, type_key="record"):
+    def __init__(self, record_cls, type_key="record", proxy_cls=RecordProxy):
         """Constructor.
 
         :param record_cls: The record class to use.
@@ -43,6 +43,7 @@ class RecordResolver(EntityResolver):
         """
         self.record_cls = record_cls
         self.type_key = type_key
+        self.proxy_cls = proxy_cls
 
     def matches_entity(self, entity):
         """Check if the entity is a record."""
@@ -58,4 +59,4 @@ class RecordResolver(EntityResolver):
 
     def _get_entity_proxy(self, ref_dict):
         """Return a RecordProxy for the given reference dict."""
-        return RecordProxy(ref_dict, self.record_cls)
+        return self.proxy_cls(ref_dict, self.record_cls)
