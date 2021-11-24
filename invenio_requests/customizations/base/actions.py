@@ -8,20 +8,26 @@
 
 """Base class for customizable actions on requests."""
 
-from invenio_db import db
-
-from ...errors import CannotExecuteActionError, NoSuchActionError
-from ...proxies import current_requests
+from ...errors import NoSuchActionError
 
 
 class RequestAction:
     """Base class for actions on requests."""
 
+    status_from = None
+    """Required status of a request to run this action."""
+
+    status_to = 'draft'
+    """Status after execution of the action."""
+
+    event_type = None
+    """Defines an event type which will be logged if defined."""
+
     def __init__(self, request):
         """Constructor."""
         self.request = request
 
-    def can_execute(self, identity, data=None):
+    def can_execute(self, identity):
         """Check whether the action can be executed.
 
         This is mostly intended to be a hook for checking prerequisites
@@ -29,35 +35,16 @@ class RequestAction:
         :param identity: The identity of the executor.
         :return: True if the action can be executed, False otherwise.
         """
-        return True
+        return self.status_from is None or \
+            self.request.status in self.status_from
 
-    def execute(self, identity, data=None):
+    def execute(self, identity, uow):
         """Execute the request action.
 
         :param identity: The identity of the executor.
         :param data: The passed input to the action.
         """
-        # probably want to do something with self.request.topic
-        if not self.can_execute(identity):
-            action_name = type(self).__name__
-            raise CannotExecuteActionError(action_name)
-
-    def post_execute(self, identity):
-        """Post-run hook that is run after the action has completed successfully.
-
-        This hook should only be executed when the general workflow of the action
-        has completed successfully.
-        As such, it can be used to index records, for instance.
-        """
-        pass
-
-    def _commit(self):
-        """Persist changes."""
-        self.request.commit()
-        db.session.commit()
-        requests_service = current_requests.requests_service
-        if requests_service.indexer:
-            requests_service.indexer.index(self.request)
+        self.request.status = self.status_to
 
 
 class RequestActions:
@@ -76,14 +63,14 @@ class RequestActions:
             raise NoSuchActionError(action=action_name)
 
     @classmethod
-    def can_execute(cls, identity, request, action_name, data=None):
+    def can_execute(cls, identity, request, action_name):
         """Check wether identity and request can execute action.
 
         Perhaps data is sometimes useful for that check, so also included.
         """
-        return cls.get_action(request, action_name).can_execute(identity, data)
+        return cls.get_action(request, action_name).can_execute(identity)
 
     @classmethod
-    def execute(cls, identity, request, action_name, data=None):
+    def execute(cls, identity, request, action_name, uow):
         """Have identity execute on request the action with the data."""
-        return cls.get_action(request, action_name).execute(identity, data)
+        return cls.get_action(request, action_name).execute(identity, uow)

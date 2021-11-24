@@ -139,6 +139,7 @@ class RequestEventType(Enum):
     ACCEPTED = "A"
     DECLINED = "D"
     CANCELLED = "X"
+    EXPIRED = "E"
 
 
 class RequestEventFormat(Enum):

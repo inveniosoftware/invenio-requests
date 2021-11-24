@@ -95,6 +95,7 @@ class RequestEventSchema(BaseRecordSchema, OneOfSchema):
         RequestEventType.DECLINED.value: NoExtrasSchema,
         RequestEventType.CANCELLED.value: NoExtrasSchema,
         RequestEventType.REMOVED.value: NoExtrasSchema,
+        RequestEventType.EXPIRED.value: NoExtrasSchema,
     }
     type_field_remove = False
 

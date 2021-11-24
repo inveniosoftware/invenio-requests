@@ -12,6 +12,11 @@
 from invenio_db import db
 from invenio_records_resources.services import RecordService
 from invenio_records_resources.services.base.links import LinksTemplate
+from invenio_records_resources.services.uow import (
+    RecordCommitOp,
+    RecordDeleteOp,
+    unit_of_work,
+)
 
 from ...records.api import RequestEventType
 
@@ -19,7 +24,8 @@ from ...records.api import RequestEventType
 class RequestEventsService(RecordService):
     """Request Events service."""
 
-    def create(self, identity, request_id, data):
+    @unit_of_work()
+    def create(self, identity, request_id, data, uow=None):
         """Create a request event.
 
         :param request_id: Identifier of the request.
@@ -40,20 +46,18 @@ class RequestEventsService(RecordService):
         record = self.record_cls.create(
             {},
             request=request.model,
-            request_id=request_id,
+            request_id=str(request_id),
             type=data["type"],
         )
 
         # Run components
         self.run_components(
-            "create", identity=identity, record=record, request=request, data=data
+            "create", identity=identity, record=record, request=request,
+            data=data, uow=uow
         )
 
         # Persist record (DB and index)
-        record.commit()
-        db.session.commit()
-        if self.indexer:
-            self.indexer.index(record)
+        uow.register(RecordCommitOp(record, indexer=self.indexer))
 
         return self.result_item(
             self,
@@ -77,7 +81,8 @@ class RequestEventsService(RecordService):
             links_tpl=self.links_item_tpl,
         )
 
-    def update(self, identity, id_, data, revision_id=None):
+    @unit_of_work()
+    def update(self, identity, id_, data, revision_id=None, uow=None):
         """Update an event (except for type)."""
         record = self._get_event(id_)
         data["type"] = record.type  # this service method doesn't allow type change
@@ -102,13 +107,10 @@ class RequestEventsService(RecordService):
             identity=identity,
             record=record,
             data=data,
+            uow=uow,
         )
 
-        record.commit()
-        db.session.commit()
-
-        if self.indexer:
-            self.indexer.index(record)
+        uow.register(RecordCommitOp(record, indexer=self.indexer))
 
         return self.result_item(
             self,
@@ -117,7 +119,8 @@ class RequestEventsService(RecordService):
             links_tpl=self.links_item_tpl,
         )
 
-    def delete(self, identity, id_, revision_id=None):
+    @unit_of_work()
+    def delete(self, identity, id_, revision_id=None, uow=None):
         """Delete an event from database and search indexes.
 
         Deleting a comment is wiping the content and marking it deleted.
@@ -139,15 +142,11 @@ class RequestEventsService(RecordService):
         if record.type == RequestEventType.COMMENT.value:
             record["payload"]["content"] = ""
             record.type = RequestEventType.REMOVED.value
-            record.commit()
-            db.session.commit()
-            if self.indexer:
-                self.indexer.index(record, refresh=True)
+            uow.register(RecordCommitOp(
+                record, indexer=self.indexer, index_refresh=True))
         else:
-            record.delete(force=True)
-            db.session.commit()
-            if self.indexer:
-                self.indexer.delete(record, refresh=True)
+            uow.register(RecordDeleteOp(
+                record, force=True, indexer=self.indexer, index_refresh=True))
 
         # Even though we don't always completely remove the RequestEvent
         # we return as though we did.
@@ -172,7 +171,7 @@ class RequestEventsService(RecordService):
             **kwargs,
         )
         if request_id:
-            search = search.filter("term", request_id=request_id)
+            search = search.filter("term", request_id=str(request.id))
         search_result = search.execute()
 
         return self.result_list(

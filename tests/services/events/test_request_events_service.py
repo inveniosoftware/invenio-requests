@@ -31,7 +31,7 @@ def test_schemas(app, events_service_data, example_request):
 def test_simple_flow(app, identity_simple, events_service_data, example_request):
     """Interact with comment events."""
     events_service = current_requests.request_events_service
-    request_id = example_request.number
+    request_id = example_request.id
 
     # Create a comment
     item = events_service.create(identity_simple, request_id, events_service_data)

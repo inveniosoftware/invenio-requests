@@ -11,8 +11,8 @@
 from .customizations import RequestAction
 from .ext import InvenioRequests
 from .proxies import (
+    current_events_service,
     current_registry,
-    current_request_comments_service,
     current_requests,
     current_requests_resource,
     current_requests_service,
@@ -21,11 +21,11 @@ from .version import __version__
 
 __all__ = (
     "__version__",
+    "current_events_service",
     "current_registry",
-    "current_requests",
-    "current_request_comments_service",
     "current_requests_resource",
     "current_requests_service",
+    "current_requests",
     "InvenioRequests",
     "RequestAction",
 )

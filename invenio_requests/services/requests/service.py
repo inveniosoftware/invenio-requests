@@ -12,10 +12,12 @@
 
 from invenio_db import db
 from invenio_records_resources.services import RecordService, ServiceSchemaWrapper
+from invenio_records_resources.services.uow import RecordCommitOp, unit_of_work
 
 from ...customizations.base import RequestActions
 from ...errors import CannotExecuteActionError
-from ...proxies import current_registry
+from ...proxies import current_events_service, current_registry
+from ...records.api import RequestEventType
 from ...resolvers import ResolverRegistry
 from .links import RequestLinksTemplate
 
@@ -37,7 +39,9 @@ class RequestsService(RecordService):
         """Wrap schema."""
         return ServiceSchemaWrapper(self, schema)
 
-    def create(self, identity, data, request_type, receiver, creator=None, topic=None):
+    @unit_of_work()
+    def create(self, identity, data, request_type, receiver, creator=None,
+               topic=None, uow=None):
         """Create a record."""
         self.require_permission(identity, "create")
 
@@ -61,21 +65,16 @@ class RequestsService(RecordService):
             receiver=ResolverRegistry.reference_entity(receiver),
         )
 
-        # run components
-        for component in self.components:
-            if hasattr(component, "create"):
-                component.create(
-                    identity,
-                    data=data,
-                    record=request,
-                    errors=errors,
-                )
+        # Run components
+        self.run_components(
+            "create", identity, data=data, record=request, errors=errors,
+            uow=uow,
+        )
 
         # persist record (DB and index)
-        request.commit()
-        db.session.commit()
-        if self.indexer:
-            self.indexer.index(request)
+        uow.register(
+            RecordCommitOp(request, indexer=self.indexer)
+        )
 
         return self.result_item(
             self,
@@ -199,22 +198,40 @@ class RequestsService(RecordService):
             if not request.is_deleted:
                 self.indexer.index(request)
 
-    def execute_action(self, identity, id_, action, data):
+    @unit_of_work()
+    def execute_action(self, identity, id_, action, data=None, uow=None):
         """Execute the given action for the request, if possible.
 
         For instance, it would be not possible to execute the specified
         action on the request, if the latter has the wrong status.
         """
+        # Retrieve request and action
         request = self.record_cls.get_record(id_)
+        action_obj = RequestActions.get_action(request, action)
 
         # TODO permission checks
 
-        # check if the action *can* be executed
-        # (i.e. the request has the right status, etc.)
-        if not RequestActions.can_execute(identity, request, action, data):
+        # Check if the action *can* be executed (i.e. correct status etc.)
+        if not action_obj.can_execute(identity):
             raise CannotExecuteActionError(action)
 
-        RequestActions.execute(identity, request, action, data)
+        # Execute action and register request for persistence.
+        action_obj.execute(identity, uow)
+        uow.register(RecordCommitOp(request, indexer=self.indexer))
+
+        # Create action event if defined
+        event_type = action_obj.event_type
+        if event_type is not None:
+            current_events_service.create(
+                identity, request.id, {"type": event_type}, uow=uow
+            )
+
+        # Create comment if comment was provided
+        if data:
+            comment_type = RequestEventType.COMMENT.value
+            current_events_service.create(
+                identity, request.id, {**data, "type": comment_type}, uow=uow
+            )
 
         return self.result_item(
             self,
