@@ -49,6 +49,7 @@ class RequestsService(RecordService):
         data, errors = schema.load(
             data,
             context={"identity": identity},
+            raise_errors=False,
         )
 
         # parts of the data are initialized here, parts of it via the components

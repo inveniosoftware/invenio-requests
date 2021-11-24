@@ -26,21 +26,23 @@ class EntityReferenceSchema(Schema):
     # TODO will need to accomodate for communities (as receivers), records (as
     #      topic/associated objects) and probably a few more
     #      - but only for one of them at a time!
+    # TODO: should come from registered entity types
     user = fields.String(required=True)
+    community = fields.String()
 
 
 class RequestSchema(BaseRecordSchema):
     """Schema for requests."""
 
     number = fields.String(dump_only=True)
-    request_type = fields.String(dump_only=True)
-    title = utils_fields.SanitizedUnicode(required=True)
+    request_type = fields.String()
+    title = utils_fields.SanitizedUnicode(default='')
     description = utils_fields.SanitizedUnicode()
     payload = fields.Dict(dump_only=True)
 
     # routing information can likely be inferred during creation
-    created_by = fields.Nested(EntityReferenceSchema, dump_only=True)
-    receiver = fields.Nested(EntityReferenceSchema, dump_only=True)
+    created_by = fields.Nested(EntityReferenceSchema)
+    receiver = fields.Nested(EntityReferenceSchema)
     topic = fields.Nested(EntityReferenceSchema, dump_only=True)
 
     # status information is also likely set by the service
