@@ -9,9 +9,11 @@
 
 """Invenio module for generic and customizable requests."""
 
+import pkg_resources
 from invenio_base.utils import load_or_import_from_config
 
 from . import config
+from .registry import TypeRegistry
 from .resources import (
     RequestCommentsResource,
     RequestCommentsResourceConfig,
@@ -23,7 +25,6 @@ from .services import (
     RequestEventsServiceConfig,
     RequestsService,
     RequestsServiceConfig,
-    RequestTypeRegistry,
 )
 
 
@@ -94,6 +95,23 @@ class InvenioRequests:
 
     def init_registry(self, app):
         """Initialize the resgistry for Requests per type."""
-        self.request_type_registry = RequestTypeRegistry(
+        self.request_type_registry = TypeRegistry(
             app.config["REQUESTS_REGISTERED_TYPES"]
         )
+        self.entity_resolvers_registry = TypeRegistry(
+            app.config["REQUESTS_ENTITY_RESOLVERS"]
+        )
+        # Load from entry points
+        register_entry_point(
+            self.request_type_registry,
+            'invenio_requests.types')
+        register_entry_point(
+            self.entity_resolvers_registry,
+            'invenio_requests.entity_resolvers')
+
+
+def register_entry_point(registry, ep_name):
+    """Register types from an entry point."""
+    for ep in pkg_resources.iter_entry_points(ep_name):
+        type_cls = ep.load()
+        registry.register_type(type_cls())

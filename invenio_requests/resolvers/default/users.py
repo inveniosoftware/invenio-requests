@@ -32,6 +32,8 @@ class UserProxy(EntityProxy):
 class UserResolver(EntityResolver):
     """Resolver for users."""
 
+    type_id = 'user'
+
     def matches_reference_dict(self, ref_dict):
         """Check if the reference dict references a user."""
         return self._parse_ref_dict_type(ref_dict) == "user"

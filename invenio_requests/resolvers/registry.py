@@ -8,8 +8,9 @@
 
 """Registry for easy access to the registered entity resolvers."""
 
-from flask import current_app
 from invenio_access.permissions import system_process
+
+from ..proxies import current_requests
 
 
 class ResolverRegistry:
@@ -18,7 +19,7 @@ class ResolverRegistry:
     @classmethod
     def get_registered_resolvers(cls):
         """Get all currently registered resolvers."""
-        return current_app.config.get("REQUESTS_ENTITY_RESOLVERS", [])
+        return iter(current_requests.entity_resolvers_registry)
 
     @classmethod
     def resolve_entity_proxy(cls, reference_dict, raise_=False):

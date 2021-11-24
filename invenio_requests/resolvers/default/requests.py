@@ -28,6 +28,8 @@ class RequestProxy(EntityProxy):
 class RequestResolver(EntityResolver):
     """Resolver for requests."""
 
+    type_id = 'request'
+
     def matches_entity(self, entity):
         """Check if the entity is a request."""
         return isinstance(entity, Request)
