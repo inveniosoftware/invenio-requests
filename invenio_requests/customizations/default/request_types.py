@@ -77,13 +77,6 @@ class DefaultRequestType(RequestType):
     argument.
     """
 
-    marshmallow_schema = RequestSchema
-    """Schema used for de/serialization of requests of this type.
-
-    To be overridden in subclasses, if the custom request type follows a
-    different or more specific schema.
-    """
-
     def generate_request_number(self, request, **kwargs):
         """Generate a new request number.
 

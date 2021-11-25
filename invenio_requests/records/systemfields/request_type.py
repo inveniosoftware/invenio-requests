@@ -7,6 +7,8 @@
 
 """Request type systemfield for request records."""
 
+import inspect
+
 from invenio_records.systemfields import SystemField
 
 from ...customizations.base import RequestType
@@ -31,8 +33,8 @@ class RequestTypeField(SystemField):
         """Set the request type."""
         assert record is not None
 
-        if isinstance(value, type):
-            # TODO is there a nicer way of doing this?
+        if inspect.isclass(value):
+            # if a class was passed rather than an instance, try to instantiate it
             value = value()
 
         if not isinstance(value, RequestType):

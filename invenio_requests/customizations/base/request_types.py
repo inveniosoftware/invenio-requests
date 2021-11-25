@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2021 TU Wien.
+# Copyright (C) 2021 CERN.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify
 # it under the terms of the MIT License; see LICENSE file for more details.
@@ -94,34 +95,49 @@ class RequestType:
         }
     """
 
-    def _create_marshmallow_schema(self):
+    @classmethod
+    def _create_marshmallow_schema(cls):
         """Create a marshmallow schema for this request type."""
         # Avoid circular imports
+        from invenio_requests.services.schemas import (
+            EntityReferenceBaseSchema as RefBaseSchema,
+        )
         from invenio_requests.services.schemas import RequestSchema
 
-        # Use a bare schema if no payload
-        if self.payload_schema is None:
-            return RequestSchema
+        # The reference fields always need to be added
+        additional_fields = {
+            "created_by": ma.fields.Nested(
+                RefBaseSchema.create_from_dict(cls.allowed_creator_ref_types)
+            ),
+            "receiver": ma.fields.Nested(
+                RefBaseSchema.create_from_dict(cls.allowed_receiver_ref_types)
+            ),
+            "topic": ma.fields.Nested(
+                RefBaseSchema.create_from_dict(cls.allowed_topic_ref_types)
+            ),
+        }
 
         # Raise on invalid payload keys
         class PayloadBaseSchema(ma.Schema):
             class Meta:
                 unknown = ma.RAISE
 
-        return RequestSchema.from_dict({
-            "payload": ma.fields.Nested(
-                # Dynamically create a schema from the fields defined
-                # by the payload schema dict.
-                PayloadBaseSchema.from_dict(self.payload_schema),
-            ),
-        })
+        # If a payload schema is defined, add it to the request schema
+        if cls.payload_schema is not None:
+            additional_fields["payload"] = ma.fields.Nested(
+                PayloadBaseSchema.from_dict(cls.payload_schema),
+            )
 
-    @property
-    def marshmallow_schema(self):
+        # Dynamically create a schema from the fields defined
+        # by the payload schema dict.
+        return RequestSchema.from_dict(additional_fields)
+
+    @classmethod
+    def marshmallow_schema(cls):
         """Create a schema for the entire request including payload."""
-        if not hasattr(self, '_marshmallow_schema'):
-            self._marshmallow_schema = self._create_marshmallow_schema()
-        return self._marshmallow_schema
+        if not hasattr(cls, "_marshmallow_schema"):
+            cls._marshmallow_schema = cls._create_marshmallow_schema()
+        return cls._marshmallow_schema
 
     def generate_external_id(self, request, **kwargs):
         """Generate a new external identifier.

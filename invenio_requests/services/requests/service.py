@@ -47,7 +47,7 @@ class RequestsService(RecordService):
         self.require_permission(identity, "create")
 
         # we're not using "self.schema" b/c the schema may differ per request type!
-        schema = self._wrap_schema(request_type.marshmallow_schema)
+        schema = self._wrap_schema(request_type.marshmallow_schema())
         data, errors = schema.load(
             data,
             context={"identity": identity},
@@ -106,7 +106,7 @@ class RequestsService(RecordService):
             self,
             identity,
             request,
-            schema=self._wrap_schema(request.type.marshmallow_schema),
+            schema=self._wrap_schema(request.type.marshmallow_schema()),
             links_tpl=self.links_item_tpl,
         )
 
@@ -121,7 +121,7 @@ class RequestsService(RecordService):
         self.require_permission(identity, "update", record=request)
 
         # we're not using "self.schema" b/c the schema may differ per request type!
-        schema = self._wrap_schema(request.type.marshmallow_schema)
+        schema = self._wrap_schema(request.type.marshmallow_schema())
         data, _ = schema.load(
             data,
             context={
@@ -224,6 +224,6 @@ class RequestsService(RecordService):
             self,
             identity,
             request,
-            schema=self._wrap_schema(request.type.marshmallow_schema),
+            schema=self._wrap_schema(request.type.marshmallow_schema()),
             links_tpl=self.links_item_tpl,
         )
