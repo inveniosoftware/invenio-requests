@@ -9,17 +9,7 @@
 
 """RequestEvent Resource Configuration."""
 
-from flask_resources import (
-    JSONDeserializer,
-    JSONSerializer,
-    RequestBodyParser,
-    ResponseHandler,
-)
-from invenio_records_resources.resources import (
-    RecordResourceConfig,
-    SearchRequestArgsSchema,
-)
-from invenio_records_resources.resources.records.headers import etag_headers
+from invenio_records_resources.resources import RecordResourceConfig
 from marshmallow import fields
 
 
@@ -44,11 +34,4 @@ class RequestCommentsResourceConfig(RecordResourceConfig):
     request_item_view_args = {
         "request_id": fields.Str(),
         "comment_id": fields.Str(),
-    }
-    request_search_args = SearchRequestArgsSchema
-    request_body_parsers = {"application/json": RequestBodyParser(JSONDeserializer())}
-
-    # Ouput
-    response_handlers = {
-        "application/json": ResponseHandler(JSONSerializer(), headers=etag_headers),
     }
