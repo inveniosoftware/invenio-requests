@@ -8,10 +8,8 @@
 
 """API classes for requests in Invenio."""
 
-from datetime import datetime
 from enum import Enum
 
-import pytz
 from invenio_records.dumpers import ElasticsearchDumper
 from invenio_records.systemfields import ConstantField, DictField, ModelField
 from invenio_records_resources.records.api import Record
@@ -21,6 +19,7 @@ from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 from .dumpers import CalculatedFieldDumperExt, RequestTypeDumperExt
 from .models import RequestEventModel, RequestMetadata
 from .systemfields import (
+    ExpiredStateCalculatedField,
     IdentityField,
     OpenStateCalculatedField,
     ReferencedEntityField,
@@ -81,26 +80,14 @@ class Request(Record):
     status = RequestStatusField("status")
     """The current status of the request."""
 
-    is_open = OpenStateCalculatedField("is_open")
+    is_open = OpenStateCalculatedField("status")
     """Whether or not the current status can be seen as an 'open' state."""
 
     expires_at = ModelField("expires_at")
     """Expiration date of the request."""
 
-    @property
-    def is_expired(self):
-        """Check if the Request is expired."""
-        if self.expires_at is None:
-            return False
-
-        # comparing timezone-aware and naive datetimes results in an error
-        # https://docs.python.org/3/library/datetime.html#determining-if-an-object-is-aware-or-naive # noqa
-        now = datetime.utcnow()
-        d = self.expires_at
-        if d.tzinfo and d.tzinfo.utcoffset(d) is not None:
-            now = now.replace(tzinfo=pytz.utc)
-
-        return d < now
+    is_expired = ExpiredStateCalculatedField("expires_at")
+    """Whether or not the request is already expired."""
 
     @classmethod
     def get_record(cls, id_, with_deleted=False):
