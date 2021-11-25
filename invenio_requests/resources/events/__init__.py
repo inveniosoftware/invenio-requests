@@ -11,7 +11,7 @@
 """Request Events Resource module."""
 
 from .config import RequestCommentsResourceConfig
-from .resources import RequestCommentsResource
+from .resource import RequestCommentsResource
 
 __all__ = (
     "RequestCommentsResource",

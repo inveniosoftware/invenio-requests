@@ -10,21 +10,9 @@
 """Requests resource."""
 
 
-import marshmallow as ma
 from flask import g
-from flask_resources import (
-    JSONSerializer,
-    ResponseHandler,
-    resource_requestctx,
-    response_handler,
-    route,
-)
-from invenio_records_resources.resources import (
-    RecordResource,
-    RecordResourceConfig,
-    SearchRequestArgsSchema,
-)
-from invenio_records_resources.resources.records.headers import etag_headers
+from flask_resources import resource_requestctx, response_handler, route
+from invenio_records_resources.resources import RecordResource
 from invenio_records_resources.resources.records.resource import (
     request_data,
     request_headers,
@@ -32,53 +20,6 @@ from invenio_records_resources.resources.records.resource import (
     request_view_args,
 )
 from invenio_records_resources.resources.records.utils import es_preference
-
-from .fields import ReferenceString
-
-
-#
-# Request args
-#
-class RequestSearchRequestArgsSchema(SearchRequestArgsSchema):
-    """Add parameter to parse tags."""
-
-    created_by = ReferenceString()
-    topic = ReferenceString()
-    receiver = ReferenceString()
-
-
-#
-# Resource config
-#
-class RequestsResourceConfig(RecordResourceConfig):
-    """Requests resource configuration."""
-
-    blueprint_name = "requests"
-    url_prefix = "/requests"
-    routes = {
-        "list": "/",
-        "item": "/<id>",
-        "action": "/<id>/actions/<action>",
-    }
-
-    request_view_args = {
-        "id": ma.fields.Str(),
-        "action": ma.fields.Str(),
-    }
-
-    request_search_args = RequestSearchRequestArgsSchema
-
-    response_handlers = {
-        "application/json": ResponseHandler(JSONSerializer(), headers=etag_headers),
-        # TODO
-        # "application/vnd.inveniordm.v1+json": ResponseHandler(
-        #     MarshmallowJSONSerializer(
-        #         schema_cls=VocabularyL10NItemSchema,
-        #         many_schema_cls=VocabularyL10NListSchema,
-        #     ),
-        #     headers=etag_headers,
-        # ),
-    }
 
 
 #
