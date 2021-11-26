@@ -17,6 +17,8 @@ TODO explain what can be done here, and how!
 import base32_lib as base32
 import marshmallow as ma
 
+from ...proxies import current_requests
+
 
 class RequestType:
     """Base class for custom request types."""
@@ -106,13 +108,16 @@ class RequestType:
         # The reference fields always need to be added
         additional_fields = {
             "created_by": ma.fields.Nested(
-                RefBaseSchema.create_from_dict(cls.allowed_creator_ref_types)
+                RefBaseSchema.create_from_dict(cls.allowed_creator_ref_types),
+                allow_none=cls.creator_can_be_none,
             ),
             "receiver": ma.fields.Nested(
-                RefBaseSchema.create_from_dict(cls.allowed_receiver_ref_types)
+                RefBaseSchema.create_from_dict(cls.allowed_receiver_ref_types),
+                allow_none=cls.receiver_can_be_none,
             ),
             "topic": ma.fields.Nested(
-                RefBaseSchema.create_from_dict(cls.allowed_topic_ref_types)
+                RefBaseSchema.create_from_dict(cls.allowed_topic_ref_types),
+                allow_none=cls.topic_can_be_none,
             ),
         }
 
@@ -134,9 +139,10 @@ class RequestType:
     @classmethod
     def marshmallow_schema(cls):
         """Create a schema for the entire request including payload."""
-        if not hasattr(cls, "_marshmallow_schema"):
-            cls._marshmallow_schema = cls._create_marshmallow_schema()
-        return cls._marshmallow_schema
+        type_id = cls.type_id
+        if type_id not in current_requests._schema_cache:
+            current_requests._schema_cache[type_id] = cls._create_marshmallow_schema()
+        return current_requests._schema_cache[type_id]
 
     def generate_request_number(self, request, **kwargs):
         """Generate a new request number identifier.

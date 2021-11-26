@@ -36,6 +36,7 @@ class InvenioRequests:
         self.requests_service = None
         self.requests_resource = None
         self.request_comments_service = None
+        self._schema_cache = {}
         if app:
             self.init_app(app)
 
@@ -102,12 +103,10 @@ class InvenioRequests:
             app.config["REQUESTS_ENTITY_RESOLVERS"]
         )
         # Load from entry points
+        register_entry_point(self.request_type_registry, "invenio_requests.types")
         register_entry_point(
-            self.request_type_registry,
-            'invenio_requests.types')
-        register_entry_point(
-            self.entity_resolvers_registry,
-            'invenio_requests.entity_resolvers')
+            self.entity_resolvers_registry, "invenio_requests.entity_resolvers"
+        )
 
 
 def register_entry_point(registry, ep_name):
