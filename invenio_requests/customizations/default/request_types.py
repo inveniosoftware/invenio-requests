@@ -13,8 +13,6 @@ TODO explain what can be done here, and how!
 """
 
 
-from uuid import uuid4
-
 from ..base import RequestType
 from .actions import (
     AcceptAction,

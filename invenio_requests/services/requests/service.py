@@ -163,8 +163,7 @@ class RequestsService(RecordService):
         # prevent deletion if in open state?
 
         # run components
-        # TODO: fix invenio-records-resources ServiceComponent
-        # self.run_components('delete', uow, identity, record=request)
+        self.run_components('delete', identity, record=request, uow=uow)
 
         uow.register(RecordDeleteOp(request, indexer=self.indexer))
         return True

@@ -16,6 +16,17 @@ from invenio_requests.records.api import RequestEventFormat
 
 
 @pytest.fixture()
+def request_resource_data(users):
+    """Example data for sending to the REST API."""
+    user = users[0]
+
+    return {
+        "title": "Example Request",
+        "receiver": {"user": str(user.id)},
+    }
+
+
+@pytest.fixture()
 def example_requests(app, users):
     """A few example requests."""
     svc = app.extensions["invenio-requests"].requests_service

@@ -11,6 +11,21 @@
 import copy
 
 
+def assert_api_response_json(expected_json, received_json):
+    """Assert the REST API response's json."""
+    # We don't compare dynamic times at this point
+    received_json.pop("created")
+    received_json.pop("updated")
+    received_json.pop("revision_id")
+    assert expected_json == received_json
+
+
+def assert_api_response(response, code, json):
+    """Assert the REST API response."""
+    assert code == response.status_code
+    assert_api_response_json(json, response.json)
+
+
 def check_reference_search_filter_results(response, expected_hits, expected_req_nums):
     """Check if all expected results are there."""
     hits = response.json["hits"]["hits"]
@@ -102,3 +117,83 @@ def test_empty_comment(
 
     response = client.get(f"/requests/{r3.id}", headers=headers)
     assert "open" == response.json["status"]
+
+
+def test_create_is_disallowed(app, client_logged_as, headers, request_resource_data):
+    """Test if the user cannot create a new generic request."""
+    client = client_logged_as("user1@example.org")
+
+    # try to create a request, should fail
+    response = client.post("/requests/", headers=headers, json=request_resource_data)
+    assert response.status_code == 405
+
+
+def test_simple_request_flow(app, client_logged_as, headers, example_request):
+    client = client_logged_as("user1@example.org")
+    id_ = str(example_request.id)
+    number = str(example_request.number)
+
+    # test read
+    response = client.get(f"/requests/{id_}", headers=headers)
+    expected_data = {
+        "id": id_,
+        "number": example_request.number,
+        "title": "Foo bar",
+        "type": "invenio-requests.request",
+        "created_by": {"user": "1"},
+        "receiver": {"user": "1"},
+        "topic": None,
+        "status": "draft",
+        "is_open": True,
+        "expires_at": None,
+        "is_expired": False,
+        "links": {
+            "self": f"https://127.0.0.1:5000/api/requests/{id_}",
+            "actions": {
+                "submit": f"https://127.0.0.1:5000/api/requests/{id_}/actions/submit",
+            },
+        },
+    }
+    assert_api_response(response, 200, expected_data)
+
+    # submit the request
+    url = response.json["links"]["actions"]["submit"]
+    response = client.post(url[len("https://127.0.0.1:5000/api") :], headers=headers)
+    expected_data.update(
+        {
+            "status": "open",
+            "links": {
+                "self": f"https://127.0.0.1:5000/api/requests/{id_}",
+                "actions": {
+                    "accept": f"https://127.0.0.1:5000/api/requests/{id_}/actions/accept",  # noqa
+                    "decline": f"https://127.0.0.1:5000/api/requests/{id_}/actions/decline",  # noqa
+                    "cancel": f"https://127.0.0.1:5000/api/requests/{id_}/actions/cancel",  # noqa
+                },
+            },
+        }
+    )
+    assert_api_response(response, 200, expected_data)
+
+    # cancel the request
+    url = response.json["links"]["actions"]["cancel"]
+    response = client.post(url[len("https://127.0.0.1:5000/api") :], headers=headers)
+    expected_data.update(
+        {
+            "status": "cancelled",
+            "is_open": False,
+            "links": {
+                "self": f"https://127.0.0.1:5000/api/requests/{id_}",
+                "actions": {},
+            },
+        }
+    )
+    assert_api_response(response, 200, expected_data)
+
+    # delete the request
+    response = client.delete(f"/requests/{id_}", headers=headers)
+    assert response.status_code == 204
+    assert response.json is None
+
+    # make sure it was deleted
+    response = client.get(f"/requests/{id_}", headers=headers)
+    assert response.status_code == 404
