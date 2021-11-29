@@ -11,7 +11,6 @@
 """Services module."""
 
 from .events import RequestEventsService, RequestEventsServiceConfig
-from .registry import RequestTypeRegistry
 from .requests import RequestsService, RequestsServiceConfig
 
 __all__ = (
@@ -19,5 +18,4 @@ __all__ = (
     "RequestEventsServiceConfig",
     "RequestsService",
     "RequestsServiceConfig",
-    "RequestTypeRegistry",
 )
