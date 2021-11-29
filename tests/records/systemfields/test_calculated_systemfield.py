@@ -11,6 +11,9 @@ from datetime import datetime, timedelta
 
 import pytest
 
+from invenio_requests.customizations import RequestState
+from invenio_requests.customizations.base.request_types import RequestType
+
 
 def test_expired_systemfield(example_request):
     """Test if the expired system field works as intended."""
@@ -43,7 +46,11 @@ def test_expired_systemfield(example_request):
 
 def test_open_systemfield(example_request):
     """Test if the is_open system field works as intended."""
-    for status, is_open in example_request.type.available_statuses.items():
+    for status, state in example_request.type.available_statuses.items():
         example_request.status = status
         example_request.commit()
-        assert example_request.is_open is is_open
+
+        should_be_open = RequestState.OPEN == state
+        should_be_closed = RequestState.CLOSED == state
+        assert example_request.is_open is should_be_open
+        assert example_request.is_closed is should_be_closed

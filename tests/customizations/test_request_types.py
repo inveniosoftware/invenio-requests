@@ -10,7 +10,8 @@
 import pytest
 from invenio_access.permissions import system_identity
 
-from invenio_requests.customizations.base import RequestAction
+from invenio_requests.customizations import RequestState
+from invenio_requests.customizations.base import RequestAction, request_types
 from invenio_requests.customizations.default import DefaultRequestType
 from invenio_requests.errors import NoSuchActionError
 from invenio_requests.records.api import Request
@@ -37,7 +38,10 @@ class CustomizedReferenceRequestType(DefaultRequestType):
     type_id = "customized-reference-request"
 
     available_actions = {"test": TestAction}
-    available_statuses = {"not_closed": True, "closed": False}
+    available_statuses = {
+        "not_closed": RequestState.OPEN,
+        "closed": RequestState.CLOSED,
+    }
 
     creator_can_be_none = True
     allowed_creator_ref_types = ["community"]
@@ -128,19 +132,29 @@ def test_customized_statuses(app_with_registered_types):
     custom_statuses = set(custom_req.type.available_statuses)
     assert not default_statuses.intersection(custom_statuses)
 
+    def _is_open(status, request_type):
+        return RequestState.OPEN == request_type.available_statuses[status]
+
+    def _is_closed(status, request_type):
+        return RequestState.CLOSED == request_type.available_statuses[status]
+
     # check if the status systemfields do their jobs
     for status in default_statuses:
         default_req.status = status
         assert default_req.status == status
-        assert default_req.is_open == default_req.type.available_statuses[status]
+        assert default_req.is_open == _is_open(status, default_req.type)
+        assert default_req.is_closed == _is_closed(status, default_req.type)
 
         with pytest.raises(ValueError):
+            # the default statuses aren't available in the custom request type
             custom_req.status = status
 
     for status in custom_statuses:
         custom_req.status = status
         assert custom_req.status == status
-        assert custom_req.is_open == custom_req.type.available_statuses[status]
+        assert custom_req.is_open == _is_open(status, custom_req.type)
+        assert custom_req.is_closed == _is_closed(status, custom_req.type)
 
         with pytest.raises(ValueError):
+            # same as above, but the other way around
             default_req.status = status

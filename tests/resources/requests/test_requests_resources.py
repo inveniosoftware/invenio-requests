@@ -144,7 +144,8 @@ def test_simple_request_flow(app, client_logged_as, headers, example_request):
         "receiver": {"user": "1"},
         "topic": None,
         "status": "draft",
-        "is_open": True,
+        "is_open": False,
+        "is_closed": False,
         "expires_at": None,
         "is_expired": False,
         "links": {
@@ -162,6 +163,7 @@ def test_simple_request_flow(app, client_logged_as, headers, example_request):
     expected_data.update(
         {
             "status": "open",
+            "is_open": True,
             "links": {
                 "self": f"https://127.0.0.1:5000/api/requests/{id_}",
                 "actions": {
@@ -180,6 +182,7 @@ def test_simple_request_flow(app, client_logged_as, headers, example_request):
     expected_data.update(
         {
             "status": "cancelled",
+            "is_closed": True,
             "is_open": False,
             "links": {
                 "self": f"https://127.0.0.1:5000/api/requests/{id_}",

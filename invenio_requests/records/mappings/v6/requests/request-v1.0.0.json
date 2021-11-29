@@ -70,6 +70,9 @@
         "status": {
           "type": "keyword"
         },
+        "is_closed": {
+          "type": "boolean"
+        },
         "is_open": {
           "type": "boolean"
         },

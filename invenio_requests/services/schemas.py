@@ -79,6 +79,7 @@ class RequestSchema(BaseRecordSchema):
 
     # status information is also likely set by the service
     status = fields.String(dump_only=True)
+    is_closed = fields.Boolean(dump_only=True)
     is_open = fields.Boolean(dump_only=True)
     expires_at = utils_fields.TZDateTime(
         timezone=timezone.utc, format="iso", dump_only=True

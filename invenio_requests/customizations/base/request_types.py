@@ -40,14 +40,7 @@ class RequestType:
     name = "Generic Request"
     """The human-readable name for this type of requests."""
 
-    available_statuses = {
-        "draft": True,
-        "open": True,
-        "cancelled": False,
-        "declined": False,
-        "accepted": False,
-        "expired": False,
-    }
+    available_statuses = {}
     """Available statuses for the Request.
 
     The keys in this dictionary is the set of available statuses, and their
@@ -152,6 +145,7 @@ class RequestType:
         (e.g. topic, receiver, creator).
         """
         from invenio_requests.records.models import RequestNumber
+
         return base32.encode(RequestNumber.next())
 
     def __str__(self):

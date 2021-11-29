@@ -16,15 +16,16 @@ from invenio_records_resources.records.api import Record
 from invenio_records_resources.records.systemfields import IndexField
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
+from ..customizations.base.states import RequestState
 from .dumpers import CalculatedFieldDumperExt
 from .models import RequestEventModel, RequestMetadata
 from .systemfields import (
     ExpiredStateCalculatedField,
     IdentityField,
-    OpenStateCalculatedField,
     ReferencedEntityField,
     RequestStatusField,
     RequestTypeField,
+    StateCalculatedField,
 )
 from .systemfields.entity_reference import (
     check_allowed_creators,
@@ -41,6 +42,7 @@ class Request(Record):
 
     dumper = ElasticsearchDumper(
         extensions=[
+            CalculatedFieldDumperExt("is_closed"),
             CalculatedFieldDumperExt("is_open"),
         ]
     )
@@ -79,7 +81,10 @@ class Request(Record):
     status = RequestStatusField("status")
     """The current status of the request."""
 
-    is_open = OpenStateCalculatedField("status")
+    is_closed = StateCalculatedField("status", expected_state=RequestState.CLOSED)
+    """Whether or not the current status can be seen as a 'closed' state."""
+
+    is_open = StateCalculatedField("status", expected_state=RequestState.OPEN)
     """Whether or not the current status can be seen as an 'open' state."""
 
     expires_at = ModelField("expires_at")

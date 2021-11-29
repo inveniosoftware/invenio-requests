@@ -10,10 +10,10 @@
 
 from .base import CalculatedField
 from .expired import ExpiredStateCalculatedField
-from .open import OpenStateCalculatedField
+from .state import StateCalculatedField
 
 __all__ = (
     "CalculatedField",
     "ExpiredStateCalculatedField",
-    "OpenStateCalculatedField",
+    "StateCalculatedField",
 )

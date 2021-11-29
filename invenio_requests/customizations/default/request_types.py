@@ -13,7 +13,7 @@ TODO explain what can be done here, and how!
 """
 
 
-from ..base import RequestType
+from ..base import RequestState, RequestType
 from .actions import (
     AcceptAction,
     CancelAction,
@@ -44,12 +44,12 @@ class DefaultRequestType(RequestType):
     """The human-readable name for this type of requests."""
 
     available_statuses = {
-        "draft": True,
-        "open": True,
-        "cancelled": False,
-        "declined": False,
-        "accepted": False,
-        "expired": False,
+        "draft": RequestState.NEITHER,
+        "open": RequestState.OPEN,
+        "cancelled": RequestState.CLOSED,
+        "declined": RequestState.CLOSED,
+        "accepted": RequestState.CLOSED,
+        "expired": RequestState.CLOSED,
     }
     """Available statuses for the Request.
 

@@ -8,7 +8,7 @@
 
 """Invenio module for generic and customizable requests."""
 
-from .base import RequestAction
+from .base import RequestAction, RequestState
 from .base import RequestType as BaseRequestType
 from .default import DefaultRequestType
 
@@ -16,4 +16,5 @@ __all__ = (
     "BaseRequestType",
     "DefaultRequestType",
     "RequestAction",
+    "RequestState",
 )

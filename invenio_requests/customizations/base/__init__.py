@@ -10,9 +10,11 @@
 
 from .actions import RequestAction, RequestActions
 from .request_types import RequestType
+from .states import RequestState
 
 __all__ = (
     "RequestAction",
     "RequestActions",
     "RequestType",
+    "RequestState",
 )
