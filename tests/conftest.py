@@ -139,17 +139,19 @@ def example_user(users):
 
 
 @pytest.fixture()
-def example_request(identity_simple, request_record_input_data, example_user):
+def example_request(identity_simple, request_record_input_data, users):
     """Example record."""
     # Need to use the service to get the id I guess...
     from invenio_requests.proxies import current_requests
+    user1, user2 = users[0], users[1]
 
     requests_service = current_requests.requests_service
     item = requests_service.create(
         identity_simple,
         request_record_input_data,
         DefaultRequestType,
-        receiver=example_user,
+        receiver=user2,
+        creator=user1,
     )
     return item._request
 

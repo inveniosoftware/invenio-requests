@@ -99,7 +99,7 @@ class RequestsService(RecordService):
         """Retrieve a request."""
         # resolve and require permission
         request = self.record_cls.get_record(id_)
-        self.require_permission(identity, "read", record=request)
+        self.require_permission(identity, "read", request=request)
 
         # run components
         for component in self.components:
@@ -123,7 +123,7 @@ class RequestsService(RecordService):
         # self.check_revision_id(request, revision_id)
 
         # check permissions
-        self.require_permission(identity, "update", record=request)
+        self.require_permission(identity, "update", request=request)
 
         # we're not using "self.schema" b/c the schema may differ per request type!
         schema = self._wrap_schema(request.type.marshmallow_schema())
@@ -157,7 +157,7 @@ class RequestsService(RecordService):
         # self.check_revision_id(request, revision_id)
 
         # check permissions
-        self.require_permission(identity, "delete", record=request)
+        self.require_permission(identity, "delete", request=request)
 
         # TODO:
         # prevent deletion if in open state?
@@ -192,22 +192,25 @@ class RequestsService(RecordService):
         request = self.record_cls.get_record(id_)
         action_obj = RequestActions.get_action(request, action)
 
-        # TODO permission checks
+        # check permissions
+        self.require_permission(identity, f"action_{action}", request=request)
 
         # Check if the action *can* be executed (i.e. correct status etc.)
         if not action_obj.can_execute(identity):
             raise CannotExecuteActionError(action)
 
-        # Execute action and register request for persistence.
-        action_obj.execute(identity, uow)
-        uow.register(RecordCommitOp(request, indexer=self.indexer))
-
         # Create action event if defined
+        # Because the action may change the request's status, this has to be done
+        # before the action is executed
         event_type = action_obj.event_type
         if event_type is not None:
             current_events_service.create(
                 identity, request.id, {"type": event_type}, uow=uow
             )
+
+        # Execute action and register request for persistence.
+        action_obj.execute(identity, uow)
+        uow.register(RecordCommitOp(request, indexer=self.indexer))
 
         # Assuming that data is just for comment payload
         if data:

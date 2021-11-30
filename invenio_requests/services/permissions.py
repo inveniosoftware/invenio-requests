@@ -16,7 +16,26 @@ from invenio_records_permissions import RecordPermissionPolicy
 from invenio_records_permissions.generators import AnyUser, Generator, SystemProcess
 
 
-class Creator(Generator):
+class RequestCheckGenerator(Generator):
+    """Generator with support for a request check function."""
+
+    def __init__(self, check=None):
+        """Constructor."""
+        super().__init__()
+        self._request_check_fn = check
+
+    def _check_request(self, request):
+        """Perform request check if such a function is defined."""
+        if request is None:
+            return False
+
+        if self._request_check_fn is not None:
+            return self._request_check_fn(request)
+
+        return True
+
+
+class Creator(RequestCheckGenerator):
     """Allows request makers."""
 
     def needs(self, request=None, **kwargs):
@@ -24,20 +43,23 @@ class Creator(Generator):
 
         record is a request here
         """
-        # TODO when request is more fleshed out
-        return [any_user]
-        # return [
-        #     UserNeed(owner.owner_id) for owner in record.access.owners
-        # ]
-        # even above could be optimized without caching by using raw ids
+        if request is None:
+            return []
+
+        if self._check_request(request):
+            creator = request.created_by
+            if creator is not None and creator.get_need() is not None:
+                return [creator.get_need()]
+
+        return []
 
     def query_filter(self, identity=None, **kwargs):
         """Filters for current identity as owner."""
         # TODO when request is more fleshed out
-        return Q('match_all')
+        return Q("match_all")
 
 
-class Receiver(Generator):
+class Receiver(RequestCheckGenerator):
     """Allows request Receiver."""
 
     def needs(self, request=None, **kwargs):
@@ -45,12 +67,15 @@ class Receiver(Generator):
 
         record is a request here
         """
-        # TODO when request is more fleshed out
-        return [any_user]
-        # return [
-        #     UserNeed(owner.owner_id) for owner in record.access.owners
-        # ]
-        # even above could be optimized without caching by using raw ids
+        if request is None:
+            return []
+
+        if self._check_request(request):
+            need = request.receiver.get_need()
+            if need is not None:
+                return [need]
+
+        return []
 
     def query_filter(self, identity=None, **kwargs):
         """Filters for current identity as owner."""
@@ -58,15 +83,52 @@ class Receiver(Generator):
         return []
 
 
+def is_open(request):
+    """Check if the request is open."""
+    return request.is_open
+
+
+def is_not_open(request):
+    """Check if the request is closed or a draft."""
+    return not request.is_open
+
+
+def is_closed(request):
+    """Check if the request is closed."""
+    return request.is_closed
+
+
+def is_not_closed(request):
+    """Check if the request is open or a draft."""
+    return not request.is_closed
+
+
+def is_draft(request):
+    """Check if the request is a draft (neither open nor closed)."""
+    return not request.is_open and not request.is_closed
+
+
+def is_no_draft(request):
+    """Check if the request is not a draft (either open or closed)."""
+    return request.is_open or request.is_closed
+
+
 class Commenter(Generator):
     """Allows request event commenter."""
 
     def needs(self, event=None, **kwargs):
         """Enabling Needs."""
-        # TODO: postponed until we have a common owner/creator since it is
-        #       used in multiple places
         return [any_user]
-        # return [UserNeed(event.created_by.owner_id)] if event else []
+
+        # TODO: events also need this kind of structure
+        if event is None:
+            return []
+
+        creator = event.created_by
+        if creator is not None and creator.get_need() is not None:
+            return [creator.get_need()]
+
+        return []
 
     def query_filter(self, identity=None, **kwargs):
         """Filters for current identity as creator."""
@@ -82,28 +144,28 @@ class PermissionPolicy(RecordPermissionPolicy):
     # - require: authenticated user,
     # - require: if receiver is community AND community restricted:
     #   community <id> member (delegate to entity?)
-    can_create = [SystemProcess(), AnyUser()]
+    can_create = [AnyUser(), SystemProcess()]
 
     # - require: authenticated user
-    can_search = [SystemProcess(), AnyUser()]
+    can_search = [AnyUser(), SystemProcess()]
     # - require: user is creator or receiver
-    can_read = [SystemProcess(), AnyUser()]
+    can_read = [Creator(), Receiver(check=is_no_draft), SystemProcess()]
     # - require: user is creator or receiver
-    can_update = [SystemProcess(), AnyUser()]
+    can_update = [Creator(check=is_not_closed), SystemProcess()]
     # - require: admins only?
-    can_delete = [SystemProcess(), AnyUser()]
+    can_delete = [Creator(check=is_not_open), SystemProcess()]
 
     # Actions: Submit/Cancel/Accept/Decline/Expire
-    can_submit = [Creator(), SystemProcess()]
-    can_accept = [Receiver(), SystemProcess()]
-    can_decline = [Receiver(), SystemProcess()]
-    can_cancel = [Creator(), SystemProcess()]
-    can_expire = [SystemProcess()]
+    can_action_submit = [Creator(check=is_draft), SystemProcess()]
+    can_action_cancel = [Creator(check=is_open), SystemProcess()]
+    can_action_accept = [Receiver(check=is_open), SystemProcess()]
+    can_action_decline = [Receiver(check=is_open), SystemProcess()]
+    can_action_expire = [SystemProcess()]
 
     # Request Events: Comments
-    can_create_comment = [Creator(), Receiver(), SystemProcess()]
+    can_create_comment = [Creator(), Receiver(check=is_no_draft), SystemProcess()]
     can_update_comment = [Commenter(), SystemProcess()]
-    can_delete_comment = [Commenter(), Receiver(), SystemProcess()]
+    can_delete_comment = [Commenter(), SystemProcess()]
 
     # Request Events: All other events
     can_create_event = [AnyUser(), SystemProcess()]

@@ -9,12 +9,14 @@
 
 import pytest
 from invenio_access.permissions import system_identity
+from invenio_records_permissions.generators import AnyUser, SystemProcess
 
 from invenio_requests.customizations import RequestState
-from invenio_requests.customizations.base import RequestAction, request_types
+from invenio_requests.customizations.base import RequestAction
 from invenio_requests.customizations.default import DefaultRequestType
 from invenio_requests.errors import NoSuchActionError
 from invenio_requests.records.api import Request
+from invenio_requests.services.permissions import PermissionPolicy
 
 variable = False
 
@@ -49,6 +51,12 @@ class CustomizedReferenceRequestType(DefaultRequestType):
     allowed_topic_ref_types = ["record"]
 
 
+class CustomPermissionPolicy(PermissionPolicy):
+    """Customized permission policy allowing the test action."""
+
+    can_action_test = [AnyUser(), SystemProcess()]
+
+
 def assert_nested_field_allows_type_key(schema, field_name, type_key, negated=False):
     """Assert that the nested field allows a type key."""
     is_in = type_key in schema._declared_fields[field_name].nested._declared_fields
@@ -56,16 +64,19 @@ def assert_nested_field_allows_type_key(schema, field_name, type_key, negated=Fa
 
 
 @pytest.fixture
-def app_with_registered_types(app):
+def customized_app(app):
     """App with registered test request types."""
     # we need to register the custom type, otherwise it won't be available
-    registry = app.extensions["invenio-requests"].request_type_registry
+    requests = app.extensions["invenio-requests"]
+    registry = requests.request_type_registry
     registry.register_type(CustomizedReferenceRequestType)
     registry.register_type(DefaultRequestType)
+
+    requests.requests_service.config.permission_policy_cls = CustomPermissionPolicy
     return app
 
 
-def test_customized_reference_types(app_with_registered_types):
+def test_customized_reference_types(customized_app):
     """Test if the marshmallow schema customization for entity refs works."""
     example_request_data = {
         "created_by": {"user": "1"},
@@ -100,9 +111,9 @@ def test_customized_reference_types(app_with_registered_types):
     assert not errors
 
 
-def test_customized_request_actions(app_with_registered_types, users):
+def test_customized_request_actions(customized_app, users):
     """Test if the action customization mechanism works."""
-    service = app_with_registered_types.extensions["invenio-requests"].requests_service
+    service = customized_app.extensions["invenio-requests"].requests_service
     request = service.create(
         system_identity,
         {},
@@ -122,7 +133,7 @@ def test_customized_request_actions(app_with_registered_types, users):
             service.execute_action(system_identity, request.id, action)
 
 
-def test_customized_statuses(app_with_registered_types):
+def test_customized_statuses(customized_app):
     """Test if the set of available statuses can be customized properly."""
     default_req = Request.create({}, type=DefaultRequestType)
     custom_req = Request.create({}, type=CustomizedReferenceRequestType)

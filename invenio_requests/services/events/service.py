@@ -68,7 +68,9 @@ class RequestEventsService(RecordService):
     def read(self, identity, id_):
         """Retrieve a record."""
         record = self._get_event(id_)
-        request = record.request
+        # TODO i think the 'record.request' should give back a Request API class
+        #      rather than a Request Model? (at RequestEvent API class)
+        request = self.request_cls(record.request.data, model=record.request)
 
         # Same "read_event" permission for all types of events
         self.require_permission(identity, "read_event", request=request)
@@ -90,7 +92,7 @@ class RequestEventsService(RecordService):
 
         # Permissions
         permission = self._get_permission("update", record.type)
-        self.require_permission(identity, permission, record=record)
+        self.require_permission(identity, permission, event=record)
 
         data, _ = self.schema.load(
             data,
@@ -136,7 +138,7 @@ class RequestEventsService(RecordService):
 
         # Permissions
         permission = self._get_permission("delete", record.type)
-        self.require_permission(identity, permission, record=record)
+        self.require_permission(identity, permission, event=record)
 
         if record.type == RequestEventType.COMMENT.value:
             record["payload"]["content"] = ""
@@ -200,11 +202,11 @@ class RequestEventsService(RecordService):
         if event_type == RequestEventType.COMMENT.value:
             return f"{action}_comment"
         elif event_type == RequestEventType.ACCEPTED.value:
-            return "accept"
+            return "action_accept"
         elif event_type == RequestEventType.DECLINED.value:
-            return "decline"
+            return "action_decline"
         elif event_type == RequestEventType.CANCELLED.value:
-            return "cancel"
+            return "action_cancel"
         else:
             return f"{action}_event"
 

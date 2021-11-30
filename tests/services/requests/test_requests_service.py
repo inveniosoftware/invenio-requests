@@ -11,6 +11,7 @@
 
 import pytest
 from flask_principal import Identity, Need, UserNeed
+from invenio_records_resources.services.errors import PermissionDeniedError
 
 from invenio_requests.customizations import DefaultRequestType
 from invenio_requests.proxies import current_requests
@@ -36,15 +37,17 @@ def request_events_service(app):
 
 
 @pytest.fixture()
-def create_request(example_user, request_record_input_data, requests_service):
+def create_request(users, request_record_input_data, requests_service):
     """Request Factory fixture."""
+
+    user1, user2 = users[0], users[1]
 
     def _create_request(identity, input_data=None):
         """Create a request."""
         input_data = input_data or request_record_input_data
         # Need to use the service to get the id
         item = requests_service.create(
-            identity, input_data, DefaultRequestType, receiver=example_user
+            identity, input_data, DefaultRequestType, receiver=user2, creator=user1
         )
         return item._request
 
@@ -67,7 +70,7 @@ def submit_request(create_request, requests_service):
     def _submit_request(identity, data=None):
         """Create and submit a request."""
         request = create_request(identity)
-        id_ = request.number
+        id_ = request.id
         data = data or {
             "payload": {
                 "content": "Can I belong to the community?",
@@ -84,7 +87,7 @@ def submit_request(create_request, requests_service):
 
 def test_submit_request(app, identity_simple, submit_request, request_events_service):
     result = submit_request(identity_simple)
-    id_ = result._request.number
+    id_ = result._request.id
     result_dict = result.to_dict()
 
     RequestEvent.index.refresh()
@@ -107,15 +110,20 @@ def test_accept_request(
 ):
     # Submit a request
     result = submit_request(identity_simple)
-    id_ = result._request.number
+    id_ = result._request.id
 
-    # Other user accepts it with comment
     data = {
         "payload": {
             "content": "Welcome to the community!",
             "format": RequestEventFormat.HTML.value,
         }
     }
+
+    # The creator should not be able to decline the request
+    with pytest.raises(PermissionDeniedError):
+        requests_service.execute_action(identity_simple, id_, "accept", data)
+
+    # Other user accepts it with comment
     result = requests_service.execute_action(identity_simple_2, id_, "accept", data)
     result_dict = result.to_dict()
 
@@ -129,11 +137,27 @@ def test_accept_request(
 
 
 def test_cancel_request(
-        app, identity_simple, submit_request, requests_service,
-        request_events_service):
+    app,
+    identity_simple,
+    identity_simple_2,
+    submit_request,
+    requests_service,
+    request_events_service,
+):
     # Submit a request
     result = submit_request(identity_simple)
-    id_ = result._request.number
+    id_ = result._request.id
+
+    data = {
+        "payload": {
+            "content": "",  # no comment is fine
+            "format": RequestEventFormat.HTML.value,
+        }
+    }
+
+    # The receiver should not be able to decline the request
+    with pytest.raises(PermissionDeniedError):
+        requests_service.execute_action(identity_simple_2, id_, "cancel", data)
 
     # Cancel it  (no comment is fine)
     result = requests_service.execute_action(identity_simple, id_, "cancel")
@@ -149,19 +173,26 @@ def test_cancel_request(
 
 
 def test_decline_request(
-        app, identity_simple, identity_simple_2, submit_request, requests_service,
-        request_events_service):
+    app,
+    identity_simple,
+    identity_simple_2,
+    submit_request,
+    requests_service,
+    request_events_service,
+):
     # Submit a request
     result = submit_request(identity_simple)
-    id_ = result._request.number
+    id_ = result._request.id
+
+    data = {
+        "payload": {"content": "Sorry but no.", "format": RequestEventFormat.HTML.value}
+    }
+
+    # The creator should not be able to decline the request
+    with pytest.raises(PermissionDeniedError):
+        requests_service.execute_action(identity_simple, id_, "decline", data)
 
     # Other user declines it
-    data = {
-        "payload": {
-            "content": "Sorry but no.",
-            "format": RequestEventFormat.HTML.value
-        }
-    }
     result = requests_service.execute_action(identity_simple_2, id_, "decline", data)
     result_dict = result.to_dict()
 

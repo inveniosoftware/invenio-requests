@@ -108,6 +108,8 @@ def test_empty_comment(
     assert "accepted" == response.json["status"]
 
     # Accept empty content is an error
+    # (example request 3 has a different receiver)
+    client = client_logged_as("user2@example.org")
     data = copy.deepcopy(request_action_resource_data)
     data["payload"]["content"] = ""
     response = client.post(
@@ -141,7 +143,7 @@ def test_simple_request_flow(app, client_logged_as, headers, example_request):
         "title": "Foo bar",
         "type": "invenio-requests.request",
         "created_by": {"user": "1"},
-        "receiver": {"user": "1"},
+        "receiver": {"user": "2"},
         "topic": None,
         "status": "draft",
         "is_open": False,

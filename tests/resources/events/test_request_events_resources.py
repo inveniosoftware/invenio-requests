@@ -31,10 +31,17 @@ def assert_api_response(response, code, json):
 def test_simple_comment_flow(
     app, client_logged_as, headers, events_resource_data, example_request
 ):
-    client = client_logged_as("user1@example.org")
     request_id = example_request.id
 
-    # User 1 comments
+    # User 2 cannot comment yet (the record's still a draft)
+    client = client_logged_as("user2@example.org")
+    response = client.post(
+        f"/requests/{request_id}/comments", headers=headers, json=events_resource_data
+    )
+    assert response.status_code == 403
+
+    # User 1 comments (the creator is allowed to comment on their draft requests)
+    client = client_logged_as("user1@example.org")
     response = client.post(
         f"/requests/{request_id}/comments", headers=headers, json=events_resource_data
     )
@@ -58,8 +65,13 @@ def test_simple_comment_flow(
         f"/requests/{request_id}/comments/{comment_id}",
         headers=headers,
     )
-
     assert_api_response(response, 200, expected_json_1)
+
+    # User 1 submits the request
+    response = client.post(
+        f"/requests/{request_id}/actions/submit", headers=headers
+    )
+    assert response.status_code == 200
 
     # User 2 comments
     client = client_logged_as("user2@example.org")
