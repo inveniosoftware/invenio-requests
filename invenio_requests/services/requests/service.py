@@ -10,6 +10,8 @@
 
 """Requests service."""
 
+import re
+
 from invenio_db import db
 from invenio_records_resources.services import RecordService, ServiceSchemaWrapper
 from invenio_records_resources.services.uow import (
@@ -28,6 +30,23 @@ from .links import RequestLinksTemplate
 
 class RequestsService(RecordService):
     """Requests service."""
+
+    def check_permission(self, identity, action_name, from_action=False, **kwargs):
+        """Check a permission against the identity."""
+        if from_action and "request" in kwargs:
+            # if we're checking permissions for a request action, we try to construct
+            # the permission name from the request action's name
+            type_id = kwargs["request"].type.type_id
+            custom_action_name = re.sub(r"[^a-zA-Z]", "_", f"{type_id}_{action_name}")
+
+            # use the custom action name if there's something registered
+            # otherwise use the default value
+            if hasattr(self.config.permission_policy_cls, custom_action_name):
+                action_name = custom_action_name
+            else:
+                action_name = f"action_{action_name}"
+
+        return self.permission_policy(action_name, **kwargs).allows(identity)
 
     @property
     def links_item_tpl(self):
@@ -163,7 +182,7 @@ class RequestsService(RecordService):
         # prevent deletion if in open state?
 
         # run components
-        self.run_components('delete', identity, record=request, uow=uow)
+        self.run_components("delete", identity, record=request, uow=uow)
 
         uow.register(RecordDeleteOp(request, indexer=self.indexer))
         return True
@@ -193,7 +212,9 @@ class RequestsService(RecordService):
         action_obj = RequestActions.get_action(request, action)
 
         # check permissions
-        self.require_permission(identity, f"action_{action}", request=request)
+        self.require_permission(
+            identity, action, request=request, from_action=True
+        )
 
         # Check if the action *can* be executed (i.e. correct status etc.)
         if not action_obj.can_execute(identity):

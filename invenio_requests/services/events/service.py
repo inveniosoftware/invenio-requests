@@ -9,6 +9,8 @@
 
 """RequestEvents Service."""
 
+import re
+
 from invenio_records_resources.services import RecordService
 from invenio_records_resources.services.base.links import LinksTemplate
 from invenio_records_resources.services.uow import (
@@ -23,6 +25,23 @@ from ...records.api import RequestEventType
 class RequestEventsService(RecordService):
     """Request Events service."""
 
+    def check_permission(self, identity, action_name, from_action=False, **kwargs):
+        """Check a permission against the identity."""
+        if from_action and "request" in kwargs:
+            # if we're checking permissions for a request action, we try to construct
+            # the permission name from the request action's name
+            type_id = kwargs["request"].type.type_id
+            custom_action_name = re.sub(r"[^a-zA-Z]", "_", f"{type_id}_{action_name}")
+
+            # use the custom action name if there's something registered
+            # otherwise use the default value
+            if hasattr(self.config.permission_policy_cls, f"can_{custom_action_name}"):
+                action_name = custom_action_name
+            else:
+                action_name = f"action_{action_name}"
+
+        return self.permission_policy(action_name, **kwargs).allows(identity)
+
     @unit_of_work()
     def create(self, identity, request_id, data, uow=None):
         """Create a request event.
@@ -32,8 +51,10 @@ class RequestEventsService(RecordService):
         :param dict data: Input data according to the data schema.
         """
         request = self._get_request(request_id)
-        permission = self._get_permission("create", data["type"])
-        self.require_permission(identity, permission, request=request)
+        permission, from_action = self._get_permission("create", data["type"])
+        self.require_permission(
+            identity, permission, request=request, from_action=from_action
+        )
 
         # Validate data (if there are errors, .load() raises)
         data, errors = self.schema.load(
@@ -51,8 +72,12 @@ class RequestEventsService(RecordService):
 
         # Run components
         self.run_components(
-            "create", identity=identity, record=record, request=request,
-            data=data, uow=uow
+            "create",
+            identity=identity,
+            record=record,
+            request=request,
+            data=data,
+            uow=uow,
         )
 
         # Persist record (DB and index)
@@ -86,13 +111,16 @@ class RequestEventsService(RecordService):
     def update(self, identity, id_, data, revision_id=None, uow=None):
         """Update an event (except for type)."""
         record = self._get_event(id_)
+        request = self._get_request(record.request.id)
         data["type"] = record.type  # this service method doesn't allow type change
 
         self.check_revision_id(record, revision_id)
 
         # Permissions
-        permission = self._get_permission("update", record.type)
-        self.require_permission(identity, permission, event=record)
+        permission, from_action = self._get_permission("update", record.type)
+        self.require_permission(
+            identity, permission, request=request, event=record, from_action=from_action
+        )
 
         data, _ = self.schema.load(
             data,
@@ -133,21 +161,28 @@ class RequestEventsService(RecordService):
         delete an event (which is only possible for an admin anyway).
         """
         record = self._get_event(id_)
+        request = self._get_request(record.request.id)
 
         self.check_revision_id(record, revision_id)
 
         # Permissions
-        permission = self._get_permission("delete", record.type)
-        self.require_permission(identity, permission, event=record)
+        permission, from_action = self._get_permission("delete", record.type)
+        self.require_permission(
+            identity, permission, event=record, request=request, from_action=from_action
+        )
 
         if record.type == RequestEventType.COMMENT.value:
             record["payload"]["content"] = ""
             record.type = RequestEventType.REMOVED.value
-            uow.register(RecordCommitOp(
-                record, indexer=self.indexer, index_refresh=True))
+            uow.register(
+                RecordCommitOp(record, indexer=self.indexer, index_refresh=True)
+            )
         else:
-            uow.register(RecordDeleteOp(
-                record, force=True, indexer=self.indexer, index_refresh=True))
+            uow.register(
+                RecordDeleteOp(
+                    record, force=True, indexer=self.indexer, index_refresh=True
+                )
+            )
 
         # Even though we don't always completely remove the RequestEvent
         # we return as though we did.
@@ -182,9 +217,10 @@ class RequestEventsService(RecordService):
             identity,
             search_result,
             params,
-            links_tpl=LinksTemplate(self.config.links_search, context={
-                "request_id": request_id, "args": params
-            }),
+            links_tpl=LinksTemplate(
+                self.config.links_search,
+                context={"request_id": request_id, "args": params},
+            ),
             links_item_tpl=self.links_item_tpl,
         )
 
@@ -200,15 +236,15 @@ class RequestEventsService(RecordService):
         Needed to distinguish between kinds of events.
         """
         if event_type == RequestEventType.COMMENT.value:
-            return f"{action}_comment"
+            return f"{action}_comment", False
         elif event_type == RequestEventType.ACCEPTED.value:
-            return "action_accept"
+            return "accept", True
         elif event_type == RequestEventType.DECLINED.value:
-            return "action_decline"
+            return "decline", True
         elif event_type == RequestEventType.CANCELLED.value:
-            return "action_cancel"
+            return "cancel", True
         else:
-            return f"{action}_event"
+            return f"{action}_event", False
 
     def _get_request(self, request_id):
         """Get associated request."""
