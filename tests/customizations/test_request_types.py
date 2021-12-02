@@ -44,6 +44,7 @@ class CustomizedReferenceRequestType(DefaultRequestType):
         "not_closed": RequestState.OPEN,
         "closed": RequestState.CLOSED,
     }
+    default_status = "not_closed"
 
     creator_can_be_none = True
     allowed_creator_ref_types = ["community"]

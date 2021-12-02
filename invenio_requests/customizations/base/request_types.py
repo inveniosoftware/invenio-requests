@@ -48,6 +48,12 @@ class RequestType:
     "open" in this state.
     """
 
+    default_status = None
+    """The default status for new requests of this type.
+
+    This must be set to one of the available statuses for the custom request type.
+    """
+
     available_actions = {}
     """Available actions for this Request.
 

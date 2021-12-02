@@ -10,8 +10,9 @@
 """Service tests."""
 
 import pytest
-from invenio_records_resources.services.errors import PermissionDeniedError
+from invenio_access.permissions import system_identity
 
+from invenio_requests.customizations.default import DefaultRequestType
 from invenio_requests.records.api import (
     RequestEvent,
     RequestEventFormat,
@@ -130,3 +131,17 @@ def test_decline_request(
     assert 3 == results.total  # submit comment + decline + comment
     hits = list(results.hits)
     assert 1 == len([h for h in hits if RequestEventType.DECLINED.value == h["type"]])
+
+
+@pytest.fixture()
+def test_default_status(users, request_record_input_data, requests_service):
+    """Test if the default status is set on request creation."""
+    request = requests_service.create(
+        system_identity,
+        request_record_input_data,
+        DefaultRequestType,
+        receiver=users[1],
+        creator=users[0],
+    )._request
+
+    assert request.status == request.type.default_status

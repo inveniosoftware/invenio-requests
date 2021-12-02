@@ -28,3 +28,11 @@ class EntityReferencesComponent(ServiceComponent):
         for field in ("created_by", "receiver", "topic"):
             if field in kwargs:
                 setattr(record, field, kwargs[field])
+
+
+class DefaultStatusComponent(ServiceComponent):
+    """Component for initializing the default status of the request."""
+
+    def create(self, identity, data=None, record=None, **kwargs):
+        """Initialize the default status of the request."""
+        record.status = record.type.default_status

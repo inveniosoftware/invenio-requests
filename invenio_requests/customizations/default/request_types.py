@@ -58,6 +58,12 @@ class DefaultRequestType(RequestType):
     "open" in this state.
     """
 
+    default_status = "draft"
+    """The default status for new requests of this type.
+
+    This must be set to one of the available statuses for the custom request type.
+    """
+
     available_actions = {
         "submit": SubmitAction,
         "accept": AcceptAction,
