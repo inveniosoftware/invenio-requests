@@ -23,7 +23,7 @@ from ...proxies import current_requests
 class RequestType:
     """Base class for custom request types."""
 
-    type_id = "invenio-requests.request"
+    type_id = "base-request"
     """The unique and constant identifier for this type of requests.
 
     Since this property is used to map generic chunks of data from the database
@@ -37,7 +37,7 @@ class RequestType:
     mapped to their `RequestType`).
     """
 
-    name = "Generic Request"
+    name = "Base Request"
     """The human-readable name for this type of requests."""
 
     available_statuses = {}

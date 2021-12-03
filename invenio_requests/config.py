@@ -15,7 +15,7 @@ from .services.permissions import PermissionPolicy
 REQUESTS_PERMISSION_POLICY = PermissionPolicy
 """Override the default requests/comments permission policy."""
 
-REQUESTS_REGISTERED_TYPES = [DefaultRequestType()]
+REQUESTS_REGISTERED_TYPES = []
 """Configuration for registered Request Types."""
 
 REQUESTS_ENTITY_RESOLVERS = [

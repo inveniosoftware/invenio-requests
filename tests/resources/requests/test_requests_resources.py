@@ -139,7 +139,7 @@ def test_simple_request_flow(app, client_logged_as, headers, example_request):
         "id": id_,
         "number": example_request.number,
         "title": "Foo bar",
-        "type": "invenio-requests.request",
+        "type": "default-request",
         "created_by": {"user": "1"},
         "receiver": {"user": "2"},
         "topic": None,

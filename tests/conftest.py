@@ -64,6 +64,7 @@ def app_config(app_config):
     app_config[
         "RECORDS_REFRESOLVER_STORE"
     ] = "invenio_jsonschemas.proxies.current_refresolver_store"
+    app_config["REQUESTS_REGISTERED_TYPES"] = [DefaultRequestType()]
     return app_config
 
 
