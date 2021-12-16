@@ -20,7 +20,7 @@ tests_require = [
     "pytest-invenio>=1.4.2",
 ]
 
-records_resources_version = ">=0.18.1,<0.19"
+records_resources_version = ">=0.18.2,<0.19"
 
 extras_require = {
     "docs": [
