@@ -15,6 +15,7 @@ from invenio_records_resources.services.records.links import pagination_links
 
 from ...customizations.base import RequestActions
 from ...records.api import Request
+from ..configurator import ConfiguratorMixin, FromConfig
 from ..permissions import PermissionPolicy
 from .components import (
     DefaultStatusComponent,
@@ -22,7 +23,6 @@ from .components import (
     RequestDataComponent,
     RequestNumberComponent,
 )
-from .customization import RequestsConfigMixin
 from .links import RequestLink
 from .params import ReferenceFilterParam
 from .results import RequestItem, RequestList
@@ -45,11 +45,13 @@ class RequestSearchOptions(SearchOptions):
     ]
 
 
-class RequestsServiceConfig(RecordServiceConfig, RequestsConfigMixin):
+class RequestsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
     """Requests service configuration."""
 
     # common configuration
-    permission_policy_cls = PermissionPolicy
+    permission_policy_cls = FromConfig(
+        "REQUESTS_PERMISSION_POLICY", default=PermissionPolicy
+    )
     result_item_cls = RequestItem
     result_list_cls = RequestList
     search = RequestSearchOptions

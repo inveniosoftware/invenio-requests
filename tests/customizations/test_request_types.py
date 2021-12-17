@@ -64,6 +64,13 @@ def assert_nested_field_allows_type_key(schema, field_name, type_key, negated=Fa
     return negated != is_in
 
 
+@pytest.fixture(scope="module")
+def app_config(app_config):
+    """Customized App Config."""
+    app_config["REQUESTS_PERMISSION_POLICY"] = CustomPermissionPolicy
+    return app_config
+
+
 @pytest.fixture
 def customized_app(app):
     """App with registered test request types."""
@@ -72,9 +79,6 @@ def customized_app(app):
     registry = requests_ext.request_type_registry
     registry.register_type(CustomizedReferenceRequestType)
     registry.register_type(DefaultRequestType)
-
-    requests_ext.requests_service.config.permission_policy_cls = CustomPermissionPolicy
-
     return app
 
 

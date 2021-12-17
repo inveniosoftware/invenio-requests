@@ -10,7 +10,6 @@
 """Invenio module for generic and customizable requests."""
 
 import pkg_resources
-from invenio_base.utils import load_or_import_from_config
 
 from . import config
 from .registry import TypeRegistry
@@ -56,18 +55,9 @@ class InvenioRequests:
 
     def service_configs(self, app):
         """Customized service configs."""
-        # overall requests/comments permission policy
-        permission_policy = load_or_import_from_config(
-            key="REQUESTS_PERMISSION_POLICY", app=app
-        )
-
         class ServiceConfigs:
-            requests = RequestsServiceConfig.customize(
-                permission_policy=permission_policy,
-            )
-            request_events = RequestEventsServiceConfig.customize(
-                permission_policy=permission_policy,
-            )
+            requests = RequestsServiceConfig.build(app)
+            request_events = RequestEventsServiceConfig.build(app)
 
         return ServiceConfigs
 

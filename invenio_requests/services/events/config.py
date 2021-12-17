@@ -9,17 +9,16 @@
 
 """Request Events Service Config."""
 
-from invenio_records_resources.services import RecordServiceConfig
-from invenio_records_resources.services.base.links import Link
+from invenio_records_resources.services import Link, RecordServiceConfig
 from invenio_records_resources.services.records.components import DataComponent
 from invenio_records_resources.services.records.links import pagination_links
 from invenio_records_resources.services.records.results import RecordItem
 
 from ...records.api import Request, RequestEvent
+from ..configurator import ConfiguratorMixin, FromConfig
 from ..permissions import PermissionPolicy
 from ..requests.components import EntityReferencesComponent
 from ..schemas import RequestEventSchema
-from .customization import CustomizationConfigMixin
 
 
 class RequestEventItem(RecordItem):
@@ -40,11 +39,13 @@ class RequestEventLink(Link):
         vars.update({"id": record.id, "request_id": record.request_id})
 
 
-class RequestEventsServiceConfig(RecordServiceConfig, CustomizationConfigMixin):
+class RequestEventsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
     """Config."""
 
     request_cls = Request
-    permission_policy_cls = PermissionPolicy
+    permission_policy_cls = FromConfig(
+        "REQUESTS_PERMISSION_POLICY", default=PermissionPolicy
+    )
     schema = RequestEventSchema
     record_cls = RequestEvent
     components = [
