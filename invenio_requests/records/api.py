@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021 TU Wien.
+# Copyright (C) 2021 - 2022 TU Wien.
 # Copyright (C) 2021 Northwestern University.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify
@@ -17,16 +17,16 @@ from invenio_records_resources.records.api import Record
 from invenio_records_resources.records.systemfields import IndexField
 from sqlalchemy.orm.exc import MultipleResultsFound, NoResultFound
 
-from ..customizations.base.states import RequestState
+from ..customizations.base.states import RequestState as State
 from .dumpers import CalculatedFieldDumperExt
 from .models import RequestEventModel, RequestMetadata
 from .systemfields import (
+    EntityReferenceField,
     ExpiredStateCalculatedField,
     IdentityField,
-    ReferencedEntityField,
+    RequestStateCalculatedField,
     RequestStatusField,
     RequestTypeField,
-    StateCalculatedField,
 )
 from .systemfields.entity_reference import (
     check_allowed_creators,
@@ -71,22 +71,22 @@ class Request(Record):
     custom request actions are registered.
     """
 
-    topic = ReferencedEntityField("topic", check_allowed_topics)
+    topic = EntityReferenceField("topic", check_allowed_topics)
     """Topic (associated object) of the request."""
 
-    created_by = ReferencedEntityField("created_by", check_allowed_creators)
+    created_by = EntityReferenceField("created_by", check_allowed_creators)
     """The entity that created the request."""
 
-    receiver = ReferencedEntityField("receiver", check_allowed_receivers)
+    receiver = EntityReferenceField("receiver", check_allowed_receivers)
     """The entity that will receive the request."""
 
     status = RequestStatusField("status")
     """The current status of the request."""
 
-    is_closed = StateCalculatedField("status", expected_state=RequestState.CLOSED)
+    is_closed = RequestStateCalculatedField("status", expected_state=State.CLOSED)
     """Whether or not the current status can be seen as a 'closed' state."""
 
-    is_open = StateCalculatedField("status", expected_state=RequestState.OPEN)
+    is_open = RequestStateCalculatedField("status", expected_state=State.OPEN)
     """Whether or not the current status can be seen as an 'open' state."""
 
     expires_at = ModelField("expires_at")
@@ -142,8 +142,8 @@ class RequestEvent(Record):
     check_referenced = partial(
         check_allowed_references,
         lambda r: True,  # for system process for now
-        lambda r: ["user"]  # only users for now
+        lambda r: ["user"],  # only users for now
     )
 
-    created_by = ReferencedEntityField("created_by", check_referenced)
+    created_by = EntityReferenceField("created_by", check_referenced)
     """Who created the event."""

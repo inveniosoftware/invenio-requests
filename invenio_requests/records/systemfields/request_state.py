@@ -1,18 +1,18 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021 TU Wien.
+# Copyright (C) 2021 - 2022 TU Wien.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify
 # it under the terms of the MIT License; see LICENSE file for more details.
 
 """Systemfield for calculating the ``is_open`` property of a request."""
 
+from invenio_records_resources.records.systemfields.calculated import CalculatedField
 
-from ....customizations.base.states import RequestState
-from .base import CalculatedField
+from ...customizations.base.states import RequestState
 
 
-class StateCalculatedField(CalculatedField):
+class RequestStateCalculatedField(CalculatedField):
     """Systemfield for calculating if the request is in the expected state."""
 
     def __init__(self, key=None, expected_state=RequestState.OPEN):

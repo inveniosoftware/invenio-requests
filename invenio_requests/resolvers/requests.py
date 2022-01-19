@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021 TU Wien.
+# Copyright (C) 2021 - 2022 TU Wien.
 # Copyright (C) 2021 CERN.
 #
 # Invenio-Requests is free software; you can redistribute it and/or
@@ -9,11 +9,14 @@
 
 """Resolver and proxy for requests."""
 
+from invenio_records_resources.references.resolvers.base import (
+    EntityProxy,
+    EntityResolver,
+)
 from sqlalchemy.exc import StatementError
 from sqlalchemy.orm.exc import NoResultFound
 
-from ...records.api import Request
-from ..base import EntityProxy, EntityResolver
+from ..records.api import Request
 
 
 class RequestProxy(EntityProxy):
@@ -35,7 +38,7 @@ class RequestProxy(EntityProxy):
 class RequestResolver(EntityResolver):
     """Resolver for requests."""
 
-    type_id = 'request'
+    type_id = "request"
 
     def matches_entity(self, entity):
         """Check if the entity is a request."""

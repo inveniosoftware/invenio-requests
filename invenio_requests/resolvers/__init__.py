@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021 TU Wien.
+# Copyright (C) 2021 - 2022 TU Wien.
 #
 # Invenio-Requests is free software; you can redistribute it and/or
 # modify it under the terms of the MIT License; see LICENSE file for more
@@ -8,10 +8,5 @@
 
 """Module for entity resolvers."""
 
-from .base import EntityResolver
-from .registry import ResolverRegistry
-
-__all__ = (
-    "EntityResolver",
-    "ResolverRegistry",
-)
+# NOTE: no imports made available here because that introduces circular imports
+__all__ = ()

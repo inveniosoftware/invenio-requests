@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2021 CERN.
 # Copyright (C) 2021 Northwestern University.
-# Copyright (C) 2021 TU Wien.
+# Copyright (C) 2021 - 2022 TU Wien.
 #
 # Invenio-Requests is free software; you can redistribute it and/or
 # modify it under the terms of the MIT License; see LICENSE file for more
@@ -12,7 +12,6 @@
 
 import re
 
-from invenio_db import db
 from invenio_records_resources.services import RecordService, ServiceSchemaWrapper
 from invenio_records_resources.services.uow import (
     RecordCommitOp,
@@ -24,7 +23,7 @@ from ...customizations.base import RequestActions
 from ...errors import CannotExecuteActionError
 from ...proxies import current_events_service, current_registry
 from ...records.api import RequestEventType
-from ...resolvers import ResolverRegistry
+from ...resolvers.registry import ResolverRegistry
 from .links import RequestLinksTemplate
 
 
@@ -210,9 +209,7 @@ class RequestsService(RecordService):
         action_obj = RequestActions.get_action(request, action)
 
         # check permissions
-        self.require_permission(
-            identity, action, request=request, from_action=True
-        )
+        self.require_permission(identity, action, request=request, from_action=True)
 
         # Check if the action *can* be executed (i.e. correct status etc.)
         if not action_obj.can_execute(identity):

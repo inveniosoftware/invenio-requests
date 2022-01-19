@@ -26,13 +26,13 @@
       "$ref": "local://requests/definitions-v1.0.0.json#/anything"
     },
     "topic": {
-      "$ref": "local://requests/definitions-v1.0.0.json#/entity_reference"
+      "$ref": "local://definitions-v1.0.0.json#/entity_reference"
     },
     "receiver": {
-      "$ref": "local://requests/definitions-v1.0.0.json#/entity_reference"
+      "$ref": "local://definitions-v1.0.0.json#/entity_reference"
     },
     "created_by": {
-      "$ref": "local://requests/definitions-v1.0.0.json#/entity_reference"
+      "$ref": "local://definitions-v1.0.0.json#/entity_reference"
     },
     "@v": {
       "type": "string"

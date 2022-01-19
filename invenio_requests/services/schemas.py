@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2021 CERN.
 # Copyright (C) 2021 Northwestern University.
-# Copyright (C) 2021 TU Wien.
+# Copyright (C) 2021 - 2022 TU Wien.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -12,57 +12,11 @@
 from datetime import timezone
 
 from invenio_records_resources.services.records.schema import BaseRecordSchema
-from marshmallow import (
-    RAISE,
-    Schema,
-    ValidationError,
-    fields,
-    missing,
-    validate,
-    validates_schema,
-)
+from marshmallow import RAISE, Schema, fields, missing, validate
 from marshmallow_oneofschema import OneOfSchema
 from marshmallow_utils import fields as utils_fields
 
-from ..records.api import Request, RequestEventFormat, RequestEventType
-
-
-class EntityReferenceBaseSchema(Schema):
-    """Base schema for entity references, allowing only a single key.
-
-    It will be populated dynamically by the ``RequestType``, based on the allowed
-    reference types registered there.
-    """
-
-    class Meta:
-        """Schema meta."""
-
-        unknown = RAISE
-
-    @validates_schema
-    def there_can_be_only_one(self, data, **kwargs):
-        """Only allow a single key."""
-        if len(data) != 1:
-            raise ValidationError("Entity references may only have one key")
-
-    @classmethod
-    def create_from_dict(cls, allowed_types, special_fields=None):
-        """Create an entity reference schema based on the allowed reference types.
-
-        Per default, a ``fields.String()`` field is registered for each of the type
-        names in the ``allowed_types`` list.
-        The field type can be customized by providing an entry in the
-        ``special_fields`` dict, with the type name as key and the field type as value
-         (e.g. ``{"user": fields.Integer()}``).
-        """
-        field_types = special_fields or {}
-        for ref_type in allowed_types:
-            # each type would be a String field per default
-            field_types.setdefault(ref_type, fields.String())
-
-        return cls.from_dict(
-            {ref_type: field_types[ref_type] for ref_type in allowed_types}
-        )
+from ..records.api import RequestEventFormat, RequestEventType
 
 
 class RequestSchema(BaseRecordSchema):

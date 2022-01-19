@@ -8,7 +8,7 @@
       "$ref": "local://definitions-v1.0.0.json#/$schema"
     },
     "created_by": {
-      "$ref": "local://requests/definitions-v1.0.0.json#/entity_reference"
+      "$ref": "local://definitions-v1.0.0.json#/entity_reference"
     },
     "id": {
       "$ref": "local://definitions-v1.0.0.json#/identifier"

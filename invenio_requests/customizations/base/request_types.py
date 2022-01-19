@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021 TU Wien.
+# Copyright (C) 2021 - 2022 TU Wien.
 # Copyright (C) 2021 CERN.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify
@@ -16,6 +16,7 @@ TODO explain what can be done here, and how!
 
 import base32_lib as base32
 import marshmallow as ma
+from invenio_records_resources.services.references import EntityReferenceBaseSchema
 
 from ...proxies import current_requests
 
@@ -99,12 +100,10 @@ class RequestType:
     def _create_marshmallow_schema(cls):
         """Create a marshmallow schema for this request type."""
         # Avoid circular imports
-        from invenio_requests.services.schemas import (
-            EntityReferenceBaseSchema as RefBaseSchema,
-        )
         from invenio_requests.services.schemas import RequestSchema
 
         # The reference fields always need to be added
+        RefBaseSchema = EntityReferenceBaseSchema
         additional_fields = {
             "created_by": ma.fields.Nested(
                 RefBaseSchema.create_from_dict(cls.allowed_creator_ref_types),

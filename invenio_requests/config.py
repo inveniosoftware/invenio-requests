@@ -1,15 +1,15 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2021 CERN.
-# Copyright (C) 2021 TU Wien.
+# Copyright (C) 2021 - 2022 TU Wien.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """Invenio module for generic and customizable requests."""
 
-from .customizations import DefaultRequestType
-from .resolvers.default import UserResolver
+from invenio_records_resources.references.resolvers import UserResolver
+
 from .services.permissions import PermissionPolicy
 
 REQUESTS_PERMISSION_POLICY = PermissionPolicy
