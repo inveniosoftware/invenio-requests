@@ -57,7 +57,7 @@ def submit_request(create_request, requests_service):
     def _submit_request(identity, data=None):
         """Create and submit a request."""
         request = create_request(identity)
-        id_ = request.number
+        id_ = request.id
         data = data or {
             "payload": {
                 "content": "Can I belong to the community?",

@@ -95,38 +95,6 @@ class Request(Record):
     is_expired = ExpiredStateCalculatedField("expires_at")
     """Whether or not the request is already expired."""
 
-    @classmethod
-    def get_record(cls, id_, with_deleted=False):
-        """Retrieve the request by id.
-
-        :param id_: The record's number or internal ID.
-        :param with_deleted: If `True`, then it includes deleted requests.
-        :returns: The :class:`Request` instance.
-        """
-        # note: in case of concurrency errors, `with db.session.no_autoflush` might help
-        try:
-            query = cls.model_cls.query.filter_by(number=str(id_))
-            if not with_deleted:
-                query = query.filter(cls.model_cls.is_deleted != True)  # noqa
-
-            model = query.one()
-
-        except (MultipleResultsFound, NoResultFound):
-            # either no results or ambiguous results
-            # (e.g. if number is None)
-            # NOTE: if 'id_' is None, this will return None!
-            query = cls.model_cls.query.filter_by(id=id_)
-            if not with_deleted:
-                query = query.filter(cls.model_cls.is_deleted != True)  # noqa
-
-            model = query.one()
-
-        if model is None:
-            # TODO maybe some kind of `NullRequest`?
-            return None
-
-        return cls(model.data, model=model)
-
 
 class RequestEventType(Enum):
     """Request Event type enum."""

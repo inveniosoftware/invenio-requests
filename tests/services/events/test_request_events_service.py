@@ -21,7 +21,7 @@ from invenio_requests.records.api import RequestEvent, RequestEventType
 
 def test_schemas(app, events_service_data, example_request):
     events_service = current_requests.request_events_service
-    request_id = example_request.number
+    request_id = example_request.id
     events_service_data["type"] = "INVALID"
 
     with pytest.raises(ValidationError):
@@ -88,7 +88,7 @@ def test_delete_non_comment(
         events_service_data, example_request, request_events_service):
     # Deleting a regular comment empties content and changes type (tested above)
     # Deleting an accept/decline/cancel event removes them
-    request_id = example_request.number
+    request_id = example_request.id
     del events_service_data["payload"]
 
     for typ in (t for t in RequestEventType if t != RequestEventType.COMMENT):
@@ -107,7 +107,7 @@ def test_delete_non_comment(
 def test_update_keeps_type(identity_simple, events_service_data, example_request):
     # The `update`` service method can't be used to change the type
     events_service = current_requests.request_events_service
-    request_id = example_request.number
+    request_id = example_request.id
     # event type is COMMENT by default
     item = events_service.create(identity_simple, request_id, events_service_data)
     comment_id = item.id
