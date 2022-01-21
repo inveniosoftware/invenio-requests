@@ -89,6 +89,9 @@ setup(
         "invenio_base.api_apps": [
             "invenio_requests = invenio_requests:InvenioRequests",
         ],
+        'invenio_base.blueprints': [
+            'invenio_requests = invenio_requests.views:create_ui_blueprint',
+        ],
         "invenio_base.api_blueprints": [
             "invenio_requests = invenio_requests.views:create_requests_bp",
             "invenio_request_events = invenio_requests.views:create_request_events_bp"  # noqa
@@ -108,6 +111,9 @@ setup(
         ],
         "invenio_i18n.translations": [
             "messages = invenio_requests",
+        ],
+        'invenio_assets.webpack': [
+            'invenio_requests = invenio_requests.webpack:requests'
         ],
     },
     extras_require=extras_require,
