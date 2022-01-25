@@ -19,6 +19,7 @@ from invenio_records_resources.services.uow import (
 )
 
 from ...records.api import RequestEventType
+from ..permissions import get_most_specific_policy_name
 
 
 class RequestEventsService(RecordService):
@@ -33,7 +34,7 @@ class RequestEventsService(RecordService):
         :param dict data: Input data according to the data schema.
         """
         request = self._get_request(request_id)
-        permission = self._get_permission("create", data["type"])
+        permission = self._get_permission("create", data["type"], request=request)
         self.require_permission(identity, permission, request=request)
 
         # Validate data (if there are errors, .load() raises)
@@ -205,24 +206,33 @@ class RequestEventsService(RecordService):
         """Get associated request class."""
         return self.config.request_cls
 
-    def _get_permission(self, action, event_type):
+    def _get_permission(self, action, event_type, request=None):
         """Get associated permission.
 
         Needed to distinguish between kinds of events.
         """
-        if (
-            (event_type == RequestEventType.COMMENT.value)
-            and (action in ["create", "update", "delete"])
+        if (event_type == RequestEventType.COMMENT.value) and (
+            action in ["create", "update", "delete"]
         ):
             return f"{action}_comment"
 
         if action == "create":
+            # the permission lookup for creating events on request actions must
+            # follow the same schema as used in the requests service
+            # otherwise, different permissions may be in effect
+            event_action = None
             if event_type == RequestEventType.ACCEPTED.value:
-                return "action_accept"
+                event_action = "accept"
             elif event_type == RequestEventType.DECLINED.value:
-                return "action_decline"
+                event_action = "decline"
             elif event_type == RequestEventType.CANCELLED.value:
-                return "action_cancel"
+                event_action = "cancel"
+
+            if event_action is not None:
+                request_type = request.type if request is not None else None
+                return get_most_specific_policy_name(
+                    event_action, request_type, self.config.permission_policy_cls
+                )
 
         return f"{action}_event"
 

@@ -10,6 +10,8 @@
 
 """Request permissions."""
 
+import re
+
 from elasticsearch_dsl import Q
 from invenio_records_permissions import RecordPermissionPolicy
 from invenio_records_permissions.generators import (
@@ -41,7 +43,7 @@ class RequestCheckGenerator(Generator):
 def _get_id(identity):
     """Get string id from identity."""
     for need in identity.provides:
-        if need.method == 'id':
+        if need.method == "id":
             return str(need.value)
     return ""
 
@@ -180,6 +182,38 @@ class AllowedSearcher(Generator):
     def query_filter(self, identity=None, **kwargs):
         """Returns all and counts on service to filter by request_id."""
         return Q("match_all")
+
+
+def get_most_specific_policy_name(action_name, request_type, permission_policy_cls):
+    """Get the most specific registered permission policy for the given action.
+
+    To allow overriding action permission policies for only a certain type of requests,
+    the general version "can_action_{ACTION_NAME}" can be overridden by defining
+    a more specific variant following the schema "can_action_{ACTION_NAME}_{TYPE_ID}".
+
+    As an example, it may be desired to disable the "accept" action on requests of
+    type FooBar (request type_id: "foo-bar"), but not for other types of requests.
+    In this case, the relevant permission policy setting would be
+    ``can_action_accept_foo_bar = [Disable()]``.
+    This would be used for permission checks on the "accept" action for requests
+    of the above mentioned FooBar type, but not other request types.
+
+    Notes on naming: All non-alphabetic characters will be converted to underscores
+    for looking up permission policy overrides.
+    It is the responsibility of the developers to ensure that request type IDs and
+    action names are chosen in a way that there are no naming collisions.
+    """
+    if request_type is not None:
+        custom_action_name = re.sub(
+            r"[^a-zA-Z]", "_", f"action_{action_name}_{request_type.type_id}"
+        )
+
+        # use the custom action name if there's something registered
+        # otherwise use the default value
+        if hasattr(permission_policy_cls, f"can_{custom_action_name}"):
+            return custom_action_name
+
+    return f"action_{action_name}"
 
 
 class PermissionPolicy(RecordPermissionPolicy):

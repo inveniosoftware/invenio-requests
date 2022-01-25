@@ -10,8 +10,6 @@
 
 """Requests service."""
 
-import re
-
 from invenio_records_resources.services import RecordService, ServiceSchemaWrapper
 from invenio_records_resources.services.uow import (
     RecordCommitOp,
@@ -24,27 +22,25 @@ from ...errors import CannotExecuteActionError
 from ...proxies import current_events_service, current_registry
 from ...records.api import RequestEventType
 from ...resolvers.registry import ResolverRegistry
+from ..permissions import get_most_specific_policy_name
 from .links import RequestLinksTemplate
 
 
 class RequestsService(RecordService):
     """Requests service."""
 
-    def check_permission(self, identity, action_name, from_action=False, **kwargs):
+    def check_permission(
+        self, identity, action_name, from_action=False, request=None, **kwargs
+    ):
         """Check a permission against the identity."""
-        if from_action and "request" in kwargs:
+        if from_action and request is not None:
             # if we're checking permissions for a request action, we try to construct
-            # the permission name from the request action's name
-            type_id = kwargs["request"].type.type_id
-            custom_action_name = re.sub(r"[^a-zA-Z]", "_", f"{type_id}_{action_name}")
+            # the permission name from the request action's name and the request type
+            action_name = get_most_specific_policy_name(
+                action_name, request.type, self.config.permission_policy_cls
+            )
 
-            # use the custom action name if there's something registered
-            # otherwise use the default value
-            if hasattr(self.config.permission_policy_cls, custom_action_name):
-                action_name = custom_action_name
-            else:
-                action_name = f"action_{action_name}"
-
+        kwargs["request"] = request
         return self.permission_policy(action_name, **kwargs).allows(identity)
 
     @property
