@@ -41,7 +41,7 @@ class RequestItem(RecordItem):
 
     def __getitem__(self, key):
         """Key a key from the data."""
-        self.data[key]
+        return self.data[key]
 
     @property
     def links(self):
