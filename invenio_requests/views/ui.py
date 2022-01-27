@@ -1,7 +1,18 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright (C) 2022 CERN.
+#
+# Invenio-Requests is free software; you can redistribute it and/or
+# modify it under the terms of the MIT License; see LICENSE file for more
+# details.
+
+"""Request ui views module."""
+
 from flask import Blueprint, current_app, render_template
 from flask_login import current_user
 from invenio_pidstore.errors import PIDDeletedError, PIDDoesNotExistError
 from invenio_records_resources.services.errors import PermissionDeniedError
+
 #
 # Error handlers
 #
@@ -37,27 +48,16 @@ def create_ui_blueprint(app):
         static_folder='../static'
     )
 
-    # control blueprint endpoints registration
-    # TODO when communities enabled or requests enabled?
-    if app.config["COMMUNITIES_ENABLED"]:
-        # Requests URL rules
+    blueprint.add_url_rule(
+        routes["details"],
+        view_func=requests_detail,
+    )
 
-        # TODO search from here ?
-        # blueprint.add_url_rule(
-        #    routes["search"],
-        #    view_func=requests_search,
-        #)
-
-        blueprint.add_url_rule(
-            routes["details"],
-            view_func=requests_detail,
-        )
-
-        # Register error handlers
-        blueprint.register_error_handler(
-            PermissionDeniedError, record_permission_denied_error)
-        blueprint.register_error_handler(PIDDeletedError,
-                                         record_tombstone_error)
-        blueprint.register_error_handler(PIDDoesNotExistError, not_found_error)
+    # Register error handlers
+    blueprint.register_error_handler(
+        PermissionDeniedError, record_permission_denied_error)
+    blueprint.register_error_handler(PIDDeletedError,
+                                     record_tombstone_error)
+    blueprint.register_error_handler(PIDDoesNotExistError, not_found_error)
 
     return blueprint

@@ -26,8 +26,8 @@ requests = WebpackThemeBundle(
     themes={
         'semantic-ui': dict(
             entry={
-                # 'invenio-requests-theme':
-                #     './less/invenio_requests/theme.less',
+                'invenio-requests-theme':
+                    './less/invenio_requests/theme.less',
                 'invenio-requests-base':
                     './js/invenio_requests/requestDetails.js',
             },
@@ -37,7 +37,6 @@ requests = WebpackThemeBundle(
                 '@ckeditor/ckeditor5-build-classic': '^16.0.0',
                 '@ckeditor/ckeditor5-react': '^2.1.0',
                 'axios': '^0.19.0',
-                'formik': '^2.0.6',
                 'lodash': '^4.17.15',
                 'luxon': '^1.21.1',
                 'path': '^0.12.7',
@@ -45,8 +44,6 @@ requests = WebpackThemeBundle(
                 'qs': '^6.9.1',
                 'react': '^16.12.0',
                 'react-dom': '^16.11.0',
-                'react-redux': '^7.1.3',
-                'react-searchkit': '^0.15.0',
                 'redux': '^4.0.5',
                 'redux-thunk': '^2.3.0',
                 'yup': '^0.27.0',

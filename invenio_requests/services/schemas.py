@@ -89,7 +89,8 @@ class CommentSchema(BaseEventSchema):
             required=True, validate=validate.Length(min=1)
         )
         format = fields.Str(
-            validate=validate.OneOf(choices=[e.value for e in RequestEventFormat]),
+            validate=validate.OneOf(choices=[e.value for e in
+                                             RequestEventFormat]),
             load_default=RequestEventFormat.HTML.value,
         )
 

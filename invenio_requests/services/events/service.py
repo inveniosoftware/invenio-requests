@@ -93,7 +93,8 @@ class RequestEventsService(RecordService):
         """Update an event (except for type)."""
         record = self._get_event(id_)
         request = self._get_request(record.request.id)
-        data["type"] = record.type  # this service method doesn't allow type change
+        # this service method doesn't allow type change
+        data["type"] = record.type
 
         self.check_revision_id(record, revision_id)
 
@@ -146,18 +147,21 @@ class RequestEventsService(RecordService):
 
         # Permissions
         permission = self._get_permission("delete", record.type)
-        self.require_permission(identity, permission, request=request, event=record)
+        self.require_permission(identity, permission, request=request,
+                                event=record)
 
         if record.type == RequestEventType.COMMENT.value:
             record["payload"]["content"] = ""
             record.type = RequestEventType.REMOVED.value
             uow.register(
-                RecordCommitOp(record, indexer=self.indexer, index_refresh=True)
+                RecordCommitOp(record, indexer=self.indexer,
+                               index_refresh=True)
             )
         else:
             uow.register(
                 RecordDeleteOp(
-                    record, force=True, indexer=self.indexer, index_refresh=True
+                    record, force=True, indexer=self.indexer,
+                    index_refresh=True
                 )
             )
 
@@ -165,8 +169,12 @@ class RequestEventsService(RecordService):
         # we return as though we did.
         return True
 
-    def search(self, identity, request_id, params=None, es_preference=None, **kwargs):
-        """Search for events (optionally of request_id) matching the querystring."""
+    def search(self, identity, request_id, params=None, es_preference=None,
+               **kwargs):
+        """Search for events matching the querystring.
+
+        Request_id is optional.
+        """
         params = params or {}
         params.setdefault("sort", "oldest")
 
