@@ -1,15 +1,12 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import Overridable from "react-overridable";
 import { Container, Grid, Tab, Header, Image } from "semantic-ui-react";
-import ReactDOM from "react-dom";
-import Timeline from "./timeline";
-
-const requestDetailsDiv = document.getElementById("request-detail");
+import Timeline from "./Timeline";
 
 class RequestDetails extends Component {
   get menuPanes() {
-    const { request } = this.props;
-    console.log(request);
+    const { request, api } = this.props;
     return [
       {
         menuItem: "Conversation",
@@ -18,37 +15,37 @@ class RequestDetails extends Component {
             <Container>
               <Grid stackable reversed="mobile">
                 <Grid.Column width={13}>
-                  <Timeline url={request?.links?.timeline} />
+                  <Timeline api={api} />
                 </Grid.Column>
                 <Grid.Column width={3}>
                   <Header as="h4">Requester</Header>
                   <Image src="/static/images/placeholder.png" avatar rounded />
                   <span>{request.created_by.full_name}</span>
                 </Grid.Column>
-
               </Grid>
             </Container>
           </Tab.Pane>
-        )
+        ),
       },
-      { menuItem: "Record", render: () => <Tab.Pane>Record</Tab.Pane> }
+      { menuItem: "Record", render: () => <Tab.Pane>Record</Tab.Pane> },
     ];
   }
 
   render() {
-    return <Tab panes={this.menuPanes} />;
+    return (
+      <Overridable id="InvenioRequests.RequestDetails.layout" {...this.props}>
+        <Tab panes={this.menuPanes} />
+      </Overridable>
+    );
   }
 }
 
 RequestDetails.propTypes = {
   request: PropTypes.object.isRequired,
+  api: PropTypes.object.isRequired,
 };
 
-ReactDOM.render(
-  <RequestDetails request={JSON.parse(requestDetailsDiv.dataset.record)}
-
-  />,
-  requestDetailsDiv
+export default Overridable.component(
+  "InvenioRequests.RequestDetails",
+  RequestDetails
 );
-
-export default RequestDetails;

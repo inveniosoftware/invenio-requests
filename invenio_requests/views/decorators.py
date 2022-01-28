@@ -11,6 +11,7 @@
 from functools import wraps
 
 from flask import g
+from invenio_records_resources.services.errors import PermissionDeniedError
 
 from invenio_requests.proxies import current_requests
 
@@ -25,7 +26,8 @@ def pass_request(f):
 
     @wraps(f)
     def view(**kwargs):
-        pid_value = kwargs.get('pid_value')
+        """Decorated view."""
+        pid_value = kwargs['pid_value']
         request = service().read(
             id_=pid_value, identity=g.identity
         )

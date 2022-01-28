@@ -34,6 +34,4 @@ def requests_detail(request=None, pid_value=None):
     return render_template(
         "invenio_requests/details/index.html",
         request=request_dict,  # TODO: use serializer
-        # Pass permissions so we can disable partially UI components
-        permissions=request.has_permissions_to(['update', 'read']),
     )

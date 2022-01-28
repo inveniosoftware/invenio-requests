@@ -11,33 +11,26 @@
 
 {%- set title = _("Request ") -%}
 
+{%- block css %}
+{{ super() }}
+{{ webpack['invenio-requests-theme.css']}}
+{%-endblock %}
+
 {%- block javascript %}
+  {{ super() }}
   {{ webpack['invenio-requests-base.js'] }}
 {%- endblock %}
 
-{%- block topic_header %}
-  {#  TODO #}
+{%- block custom_header %}
   {#  placeholder for page header fe community #}
-{%- endblock topic_header %}
+{%- endblock custom_header %}
 
 {%- block page_body %}
   <div class="ui container request-detail-page">
-    {% if current_user.is_authenticated %}
-      <div class="ui stackable two column grid">
-        <div class="row">
-          <div class="column four wide">
-
-          </div>
-          <div class="column">
-            <div class="request-actions">{# react app root #}</div>
-          </div>
-        </div>
-      </div>
       <div class="ui header"><h2>{{ request.title }}</h2></div>
-            <div class="ui divider"></div>
+      <div class="ui divider"></div>
       <div id="request-detail"
            data-record='{{ request | tojson }}'
       >{# react app root #}</div>
-    {% endif %}
   </div>
 {%- endblock page_body %}

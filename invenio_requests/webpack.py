@@ -29,11 +29,11 @@ requests = WebpackThemeBundle(
                 'invenio-requests-theme':
                     './less/invenio_requests/theme.less',
                 'invenio-requests-base':
-                    './js/invenio_requests/requestDetails.js',
+                    './js/invenio_requests/index.js',
             },
             dependencies={
                 'semantic-ui-css': '^2.4.1',
-                'semantic-ui-react': '^0.88.2',
+                'semantic-ui-react': '^2.1.1',
                 '@ckeditor/ckeditor5-build-classic': '^16.0.0',
                 '@ckeditor/ckeditor5-react': '^2.1.0',
                 'axios': '^0.19.0',
@@ -44,9 +44,8 @@ requests = WebpackThemeBundle(
                 'qs': '^6.9.1',
                 'react': '^16.12.0',
                 'react-dom': '^16.11.0',
-                'redux': '^4.0.5',
-                'redux-thunk': '^2.3.0',
                 'yup': '^0.27.0',
+                'react-overridable': '^0.0.3',
             }
         ),
     }
