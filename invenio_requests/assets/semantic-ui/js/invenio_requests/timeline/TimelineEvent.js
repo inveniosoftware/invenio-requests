@@ -6,7 +6,7 @@ import Overridable from "react-overridable";
 const TimelineEvent = ({ event }) => {
   // TODO i18n
   return (
-    <Overridable id="InvenioRequests.TimelineEvent.layout" event={event}>
+    <Overridable id="TimelineEvent.layout" event={event}>
       <Feed.Event>
         <Feed.Label>
           <Image src="/static/images/placeholder.png" as={Image} rounded />
@@ -37,6 +37,6 @@ TimelineEvent.propTypes = {
 };
 
 export default Overridable.component(
-  "InvenioRequests.TimelineEvent",
+  "TimelineEvent",
   TimelineEvent
 );

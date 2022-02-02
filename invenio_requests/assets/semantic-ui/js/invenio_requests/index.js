@@ -1,24 +1,14 @@
-import {
-  InvenioRequestsAPI, RequestLinkExtractor,
-} from './api/api';
+import { InvenioRequestsAPI } from "./api/api";
 import React from "react";
 import ReactDOM from "react-dom";
-import { OverridableContext } from "react-overridable";
-import RequestDetails from './RequestDetails';
+import { InvenioRequestsApp } from "./InvenioRequestsApp";
 
 const requestDetailsDiv = document.getElementById("request-detail");
-const overriddenCmps = {};
 const request = JSON.parse(requestDetailsDiv.dataset.record);
-const api = new InvenioRequestsAPI(new RequestLinkExtractor(request.links));
 
-ReactDOM.render(
-  <OverridableContext.Provider value={overriddenCmps}>
-    <RequestDetails request={request} api={api}/>
-   </OverridableContext.Provider>,
-  requestDetailsDiv
-);
+ReactDOM.render(<InvenioRequestsApp request={request} />, requestDetailsDiv);
 
 export { default as RequestDetails } from "./RequestDetails";
-export { default as Timeline } from "./Timeline";
-export { default as TimelineEvent } from "./TimelineEvent";
-export { InvenioRequestsAPI } from "./api";
+export { default as Timeline } from "./timeline/TimelineFeed";
+export { default as TimelineEvent } from "./timeline/TimelineEvent";
+export { InvenioRequestsAPI } from "./api/api";

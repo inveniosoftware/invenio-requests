@@ -2,11 +2,11 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Overridable from "react-overridable";
 import { Container, Grid, Tab, Header, Image } from "semantic-ui-react";
-import Timeline from "./Timeline";
+import { Timeline } from './timeline';
 
 class RequestDetails extends Component {
   get menuPanes() {
-    const { request, api } = this.props;
+    const { request } = this.props;
     return [
       {
         menuItem: "Conversation",
@@ -15,7 +15,7 @@ class RequestDetails extends Component {
             <Container>
               <Grid stackable reversed="mobile">
                 <Grid.Column width={13}>
-                  <Timeline api={api} />
+                  <Timeline />
                 </Grid.Column>
                 <Grid.Column width={3}>
                   <Header as="h4">Requester</Header>
@@ -42,7 +42,6 @@ class RequestDetails extends Component {
 
 RequestDetails.propTypes = {
   request: PropTypes.object.isRequired,
-  api: PropTypes.object.isRequired,
 };
 
 export default Overridable.component(

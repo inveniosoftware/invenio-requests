@@ -46,6 +46,10 @@ requests = WebpackThemeBundle(
                 'react-dom': '^16.11.0',
                 'yup': '^0.27.0',
                 'react-overridable': '^0.0.3',
+                "redux": "^4.0.5",
+                "redux-devtools-extension": "^2.13.8",
+                "redux-thunk": "^2.3.0",
+                "react-redux": "^7.2.0",
             }
         ),
     }
