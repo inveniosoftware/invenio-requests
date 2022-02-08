@@ -30,6 +30,7 @@ class RequestItem(RecordItem):
         self._errors = errors
         self._identity = identity
         self._request = request
+        self._record = request
         self._service = service
         self._links_tpl = links_tpl
         self._schema = schema or service._wrap_schema(request.type.marshmallow_schema())
