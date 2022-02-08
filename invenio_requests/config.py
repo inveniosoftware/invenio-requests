@@ -45,3 +45,4 @@ REQUESTS_FACETS = {
     },
 }
 """Invenio requests facets."""
+
