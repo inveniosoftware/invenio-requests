@@ -10,6 +10,7 @@
 
 from flask import Blueprint, current_app, render_template
 from flask_login import current_user
+from flask_menu import current_menu
 from invenio_pidstore.errors import PIDDeletedError, PIDDoesNotExistError
 from invenio_records_resources.services.errors import PermissionDeniedError
 
@@ -52,6 +53,18 @@ def create_ui_blueprint(app):
         routes["details"],
         view_func=requests_detail,
     )
+
+    @blueprint.before_app_first_request
+    def register_menus():
+        """Register requests menu items."""
+        if app.config.get("COMMUNITIES_ENABLED", False):
+            current_menu.submenu("notifications.requests").register(
+                "invenio_app_rdm_records.dashboard",
+                endpoint_arguments_constructor=lambda: {
+                    "dashboard_name": "requests",
+                },
+                order=3,
+            )
 
     # Register error handlers
     blueprint.register_error_handler(
