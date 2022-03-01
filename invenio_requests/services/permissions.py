@@ -11,6 +11,8 @@
 """Request permissions."""
 
 from elasticsearch_dsl import Q
+from flask import current_app
+from invenio_access.permissions import any_user
 from invenio_records_permissions import RecordPermissionPolicy
 from invenio_records_permissions.generators import (
     AuthenticatedUser,
@@ -182,45 +184,92 @@ class AllowedSearcher(Generator):
         return Q("match_all")
 
 
+class RequestsEnabled(Generator):
+    """Generator to disabled the usage of requests endpoints."""
+
+    def excludes(self, **kwargs):
+        """Preventing Needs."""
+        if not current_app.config.get("COMMUNITIES_ENABLED"):
+            return [any_user]
+        return []
+
+
 class PermissionPolicy(RecordPermissionPolicy):
     """Permission policy."""
 
     # TODO:
     # - require: if receiver is community AND community restricted:
     #   community <id> member (delegate to entity?)
-    can_create = [AuthenticatedUser(), SystemProcess()]
-    can_read = [Creator(), Receiver(check=is_open), SystemProcess()]
+    can_create = [AuthenticatedUser(), SystemProcess(), RequestsEnabled()]
+    can_read = [
+        Creator(),
+        Receiver(check=is_open),
+        SystemProcess(),
+        RequestsEnabled(),
+    ]
     can_update = [
         Creator(check=is_not_closed),
         Receiver(check=is_open),
         SystemProcess(),
     ]
-    can_delete = [Creator(check=is_draft), SystemProcess()]
+    can_delete = [Creator(check=is_draft), SystemProcess(), RequestsEnabled()]
     # For search, recall that _what_ identities can see is defined by `can_read`
-    can_search = [AuthenticatedUser(), SystemProcess()]
+    can_search = [AuthenticatedUser(), SystemProcess(), RequestsEnabled()]
 
     # Actions: Submit/Cancel/Accept/Decline/Expire
-    can_action_submit = [Creator(check=is_draft), SystemProcess()]
-    can_action_cancel = [Creator(check=is_open), SystemProcess()]
-    can_action_accept = [Receiver(check=is_open), SystemProcess()]
-    can_action_decline = [Receiver(check=is_open), SystemProcess()]
+    can_action_submit = [
+        Creator(check=is_draft),
+        SystemProcess(),
+        RequestsEnabled(),
+    ]
+    can_action_cancel = [
+        Creator(check=is_open),
+        SystemProcess(),
+        RequestsEnabled(),
+    ]
+    can_action_accept = [
+        Receiver(check=is_open),
+        SystemProcess(),
+        RequestsEnabled(),
+    ]
+    can_action_decline = [
+        Receiver(check=is_open),
+        SystemProcess(),
+        RequestsEnabled(),
+    ]
     can_action_expire = [SystemProcess()]
 
     # Request Events: Comments
-    can_create_comment = [Creator(), Receiver(check=is_no_draft), SystemProcess()]
-    can_update_comment = [Commenter(), SystemProcess()]
+    can_create_comment = [
+        Creator(),
+        Receiver(check=is_no_draft),
+        SystemProcess(),
+        RequestsEnabled(),
+    ]
+    can_update_comment = [Commenter(), SystemProcess(), RequestsEnabled()]
     # Might need to revisit
-    can_delete_comment = [Commenter(), Receiver(), SystemProcess()]
+    can_delete_comment = [
+        Commenter(),
+        Receiver(),
+        SystemProcess(),
+        RequestsEnabled(),
+    ]
 
     # Request Events: All other events
-    can_create_event = [SystemProcess()]
+    can_create_event = [SystemProcess(), RequestsEnabled()]
     can_read_event = [
         # this is a search over Events and not Requests so we disable the search
         Creator(disable_query=True),
         Receiver(check=is_no_draft, disable_query=True),
         AllowedSearcher(),
         SystemProcess(),
+        RequestsEnabled(),
     ]
-    can_update_event = [SystemProcess()]
-    can_delete_event = [SystemProcess()]
-    can_search_event = [Creator(), Receiver(check=is_no_draft), SystemProcess()]
+    can_update_event = [SystemProcess(), RequestsEnabled()]
+    can_delete_event = [SystemProcess(), RequestsEnabled()]
+    can_search_event = [
+        Creator(),
+        Receiver(check=is_no_draft),
+        SystemProcess(),
+        RequestsEnabled(),
+    ]

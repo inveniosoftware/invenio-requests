@@ -65,6 +65,8 @@ def app_config(app_config):
         "RECORDS_REFRESOLVER_STORE"
     ] = "invenio_jsonschemas.proxies.current_refresolver_store"
     app_config["REQUESTS_REGISTERED_TYPES"] = [DefaultRequestType()]
+    app_config["COMMUNITIES_ENABLED"] = True
+
     return app_config
 
 

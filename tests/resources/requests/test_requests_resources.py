@@ -197,3 +197,18 @@ def test_simple_request_flow(app, client_logged_as, headers, example_request):
         }
     )
     assert_api_response(response, 200, expected_data)
+
+
+def test_disabled_endpoints(app, client_logged_as, headers, example_request):
+    app.config["COMMUNITIES_ENABLED"] = False
+    client = client_logged_as("user1@example.org")
+    id_ = str(example_request.id)
+
+    response = client.get(f"/requests/{id_}", headers=headers)
+    assert response.status_code == 403
+
+    response = client.post(f"/requests/{id_}/actions/submit", headers=headers)
+    assert response.status_code == 403  # id not found
+
+    response = client.post(f"/requests/{id_}/actions/cancel", headers=headers)
+    assert response.status_code == 403  # id not found
