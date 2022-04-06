@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021 CERN.
-# Copyright (C) 2021 TU Wien.
+# Copyright (C) 2021-2022 CERN.
+# Copyright (C) 2021-2022 TU Wien.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -18,7 +18,7 @@ from .proxies import (
     current_requests_service,
 )
 
-__version__ = "0.3.5"
+__version__ = "0.3.6"
 
 __all__ = (
     "__version__",
