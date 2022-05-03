@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021 CERN.
-# Copyright (C) 2021 Northwestern University.
-# Copyright (C) 2021 TU Wien.
+# Copyright (C) 2021-2022 CERN.
+# Copyright (C) 2021-2022 Northwestern University.
+# Copyright (C) 2021-2022 TU Wien.
 #
 # Invenio-Requests is free software; you can redistribute it and/or
 # modify it under the terms of the MIT License; see LICENSE file for more
@@ -10,7 +10,11 @@
 
 """Results for the requests service."""
 
-from invenio_records_resources.services.records.results import RecordItem, RecordList
+from invenio_records_resources.services.records.results import (
+    FieldsResolver,
+    RecordItem,
+    RecordList,
+)
 
 
 class RequestItem(RecordItem):
@@ -24,6 +28,8 @@ class RequestItem(RecordItem):
         errors=None,
         links_tpl=None,
         schema=None,
+        expandable_fields=None,
+        expand=False
     ):
         """Constructor."""
         self._data = None
@@ -34,6 +40,8 @@ class RequestItem(RecordItem):
         self._service = service
         self._links_tpl = links_tpl
         self._schema = schema or service._wrap_schema(request.type.marshmallow_schema())
+        self._fields_resolver = FieldsResolver(expandable_fields)
+        self._expand = expand
 
     @property
     def id(self):
@@ -71,6 +79,11 @@ class RequestItem(RecordItem):
         if self._links_tpl:
             self._data["links"] = self.links
 
+        if self._expand and self._fields_resolver:
+            self._fields_resolver.resolve(self._identity, [self._data])
+            fields = self._fields_resolver.expand(self._data)
+            self._data["expanded"] = fields
+
         return self._data
 
     @property
@@ -97,6 +110,8 @@ class RequestList(RecordList):
         params=None,
         links_tpl=None,
         links_item_tpl=None,
+        expandable_fields=None,
+        expand=False
     ):
         """Constructor.
 
@@ -111,6 +126,8 @@ class RequestList(RecordList):
         self._params = params
         self._links_tpl = links_tpl
         self._links_item_tpl = links_item_tpl
+        self._fields_resolver = FieldsResolver(expandable_fields)
+        self._expand = expand
 
     @property
     def hits(self):
@@ -142,12 +159,21 @@ class RequestList(RecordList):
         """Return result as a dictionary."""
         # TODO: This part should imitate the result item above. I.e. add a
         # "data" property which uses a ServiceSchema to dump the entire object.
+        hits = list(self.hits)
+
+        if self._expand and self._fields_resolver:
+            self._fields_resolver.resolve(self._identity, hits)
+            for hit in hits:
+                fields = self._fields_resolver.expand(hit)
+                hit["expanded"] = fields
+
         res = {
             "hits": {
-                "hits": list(self.hits),
+                "hits": hits,
                 "total": self.total,
             }
         }
+
         if self.aggregations:
             res["aggregations"] = self.aggregations
 

@@ -151,7 +151,7 @@ def test_timeline_links(
     """Tests the links for the timeline (search) endpoint."""
     client = client_logged_as("user1@example.org")
     request_id = example_request.id
-    response = client.post(
+    client.post(
         f"/requests/{request_id}/comments", headers=headers, json=events_resource_data
     )
 
@@ -160,7 +160,7 @@ def test_timeline_links(
 
     expected_links = {
         # NOTE: Variations are covered in records-resources
-        "self": f"https://127.0.0.1:5000/api/requests/{request_id}/timeline?page=1&size=25&sort=oldest"  # noqa
+        "self": f"https://127.0.0.1:5000/api/requests/{request_id}/timeline?expand=False&page=1&size=25&sort=oldest"  # noqa
     }
     assert expected_links == search_record_links
 

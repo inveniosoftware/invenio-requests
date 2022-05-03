@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021 CERN.
-# Copyright (C) 2021 TU Wien.
+# Copyright (C) 2021-2022 CERN.
+# Copyright (C) 2021-2022 TU Wien.
 #
 # Invenio-Requests is free software; you can redistribute it and/or
 # modify it under the terms of the MIT License; see LICENSE file for more
@@ -15,6 +15,7 @@ from flask_resources import resource_requestctx, response_handler, route
 from invenio_records_resources.resources import RecordResource
 from invenio_records_resources.resources.records.resource import (
     request_data,
+    request_expand_args,
     request_headers,
     request_search_args,
     request_view_args,
@@ -39,6 +40,7 @@ class RequestsResource(RecordResource):
             route("POST", routes["action"], self.execute_action),
         ]
 
+    @request_expand_args
     @request_search_args
     @request_view_args
     @response_handler(many=True)
@@ -48,9 +50,11 @@ class RequestsResource(RecordResource):
             identity=g.identity,
             params=resource_requestctx.args,
             es_preference=es_preference(),
+            expand=resource_requestctx.args["expand"],
         )
         return hits.to_dict(), 200
 
+    @request_expand_args
     @request_view_args
     @response_handler()
     def read(self):
@@ -58,9 +62,11 @@ class RequestsResource(RecordResource):
         item = self.service.read(
             id_=resource_requestctx.view_args["id"],
             identity=g.identity,
+            expand=resource_requestctx.args["expand"],
         )
         return item.to_dict(), 200
 
+    @request_expand_args
     @request_headers
     @request_view_args
     @request_data
@@ -72,6 +78,7 @@ class RequestsResource(RecordResource):
             id_=resource_requestctx.view_args["id"],
             identity=g.identity,
             data=resource_requestctx.data,
+            expand=resource_requestctx.args["expand"],
         )
         return item.to_dict(), 200
 
@@ -85,6 +92,7 @@ class RequestsResource(RecordResource):
         )
         return "", 204
 
+    @request_expand_args
     @request_view_args
     @request_headers
     @request_data
@@ -95,6 +103,7 @@ class RequestsResource(RecordResource):
             identity=g.identity,
             id_=resource_requestctx.view_args["id"],
             action=resource_requestctx.view_args["action"],
-            data=resource_requestctx.data
+            data=resource_requestctx.data,
+            expand=resource_requestctx.args["expand"],
         )
         return item.to_dict(), 200

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021 CERN.
-# Copyright (C) 2021 Northwestern University.
-# Copyright (C) 2021 TU Wien.
+# Copyright (C) 2021-2022 CERN.
+# Copyright (C) 2021-2022 Northwestern University.
+# Copyright (C) 2021-2022 TU Wien.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -22,8 +22,9 @@ from invenio_records_resources.services.uow import (
 )
 
 from invenio_requests.customizations import CommentEventType
-from invenio_requests.customizations.event_types import EventType, LogEventType
+from invenio_requests.customizations.event_types import LogEventType
 from invenio_requests.records.api import RequestEventFormat
+from invenio_requests.services.results import EntityResolverExpandableField
 
 
 class RequestEventsService(RecordService):
@@ -33,8 +34,16 @@ class RequestEventsService(RecordService):
         """Wrap schema."""
         return ServiceSchemaWrapper(self, schema)
 
+    @property
+    def _expandable_fields(self):
+        """Get expandable fields."""
+        return [
+            EntityResolverExpandableField("created_by")
+        ]
+
     @unit_of_work()
-    def create(self, identity, request_id, data, event_type, uow=None):
+    def create(self, identity, request_id, data, event_type, uow=None,
+               expand=False):
         """Create a request event.
 
         :param request_id: Identifier of the request (data-layer id).
@@ -70,9 +79,11 @@ class RequestEventsService(RecordService):
             event,
             schema=schema,
             links_tpl=self.links_item_tpl,
+            expandable_fields=self._expandable_fields,
+            expand=expand,
         )
 
-    def read(self, identity, id_):
+    def read(self, identity, id_, expand=False):
         """Retrieve a record."""
         event = self._get_event(id_)
         request = self._get_request(event.request_id)
@@ -85,10 +96,13 @@ class RequestEventsService(RecordService):
             event,
             schema=self._wrap_schema(event.type.marshmallow_schema()),
             links_tpl=self.links_item_tpl,
+            expandable_fields=self._expandable_fields,
+            expand=expand,
         )
 
     @unit_of_work()
-    def update(self, identity, id_, data, revision_id=None, uow=None):
+    def update(self, identity, id_, data, revision_id=None, uow=None,
+               expand=False):
         """Update a comment (only comments can be updated)."""
         event = self._get_event(id_)
         request = self._get_request(event.request.id)
@@ -118,6 +132,8 @@ class RequestEventsService(RecordService):
             event,
             schema=schema,
             links_tpl=self.links_item_tpl,
+            expandable_fields=self._expandable_fields,
+            expand=expand,
         )
 
     @unit_of_work()
@@ -158,6 +174,8 @@ class RequestEventsService(RecordService):
         params = params or {}
         params.setdefault("sort", "oldest")
 
+        expand = kwargs.pop("expand", False)
+
         # Permissions - guarded by the request's can_read.
         request = self._get_request(request_id)
         self.require_permission(identity, "read", request=request)
@@ -183,7 +201,9 @@ class RequestEventsService(RecordService):
                 self.config.links_search,
                 context={"request_id": request_id, "args": params},
             ),
-            links_item_tpl=self.links_item_tpl
+            links_item_tpl=self.links_item_tpl,
+            expandable_fields=self._expandable_fields,
+            expand=expand,
         )
 
     # Utilities

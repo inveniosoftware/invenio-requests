@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021 CERN.
-# Copyright (C) 2021 Northwestern University.
+# Copyright (C) 2021-2022 CERN.
+# Copyright (C) 2021-2022 Northwestern University.
 #
 # Invenio-Requests is free software; you can redistribute it and/or
 # modify it under the terms of the MIT License; see LICENSE file for more
@@ -21,7 +21,10 @@ from flask_resources import (
     route,
 )
 from invenio_records_resources.resources import RecordResource
-from invenio_records_resources.resources.records.resource import request_headers
+from invenio_records_resources.resources.records.resource import (
+    request_expand_args,
+    request_headers,
+)
 from invenio_records_resources.resources.records.utils import es_preference
 
 from ...customizations.event_types import CommentEventType
@@ -61,6 +64,7 @@ class RequestCommentsResource(RecordResource):
         ]
 
     @list_view_args_parser
+    @request_expand_args
     @data_parser
     @response_handler()
     def create(self):
@@ -70,11 +74,13 @@ class RequestCommentsResource(RecordResource):
             identity=g.identity,
             request_id=resource_requestctx.view_args["request_id"],
             data=data,
-            event_type=CommentEventType
+            event_type=CommentEventType,
+            expand=resource_requestctx.args["expand"],
         )
         return item.to_dict(), 201
 
     @item_view_args_parser
+    @request_expand_args
     @response_handler()
     def read(self):
         """Read an event.
@@ -85,10 +91,12 @@ class RequestCommentsResource(RecordResource):
         item = self.service.read(
             identity=g.identity,
             id_=resource_requestctx.view_args["comment_id"],
+            expand=resource_requestctx.args["expand"],
         )
         return item.to_dict(), 200
 
     @item_view_args_parser
+    @request_expand_args
     @request_headers
     @data_parser
     @response_handler()
@@ -99,6 +107,7 @@ class RequestCommentsResource(RecordResource):
             id_=resource_requestctx.view_args["comment_id"],
             data=resource_requestctx.data,
             revision_id=resource_requestctx.headers.get("if_match"),
+            expand=resource_requestctx.args["expand"],
         )
         return item.to_dict(), 200
 
@@ -114,6 +123,7 @@ class RequestCommentsResource(RecordResource):
         return "", 204
 
     @list_view_args_parser
+    @request_expand_args
     @search_args_parser
     @response_handler(many=True)
     def search(self):
@@ -126,5 +136,6 @@ class RequestCommentsResource(RecordResource):
             request_id=resource_requestctx.view_args["request_id"],
             params=resource_requestctx.args,
             es_preference=es_preference(),
+            expand=resource_requestctx.args["expand"],
         )
         return hits.to_dict(), 200

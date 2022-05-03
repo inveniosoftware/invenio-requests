@@ -8,7 +8,7 @@
 
 """Invenio module for generic and customizable requests."""
 
-from invenio_records_resources.references.resolvers import UserResolver
+from invenio_users_resources.resolvers import UserResolver
 
 from invenio_requests.services.requests import facets
 

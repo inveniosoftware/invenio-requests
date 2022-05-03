@@ -11,6 +11,7 @@
 """Requests service."""
 
 from invenio_records_resources.services import RecordService, ServiceSchemaWrapper
+from invenio_records_resources.services.records.results import FieldsResolver
 from invenio_records_resources.services.uow import (
     IndexRefreshOp,
     RecordCommitOp,
@@ -23,6 +24,7 @@ from ...customizations.event_types import CommentEventType
 from ...errors import CannotExecuteActionError
 from ...proxies import current_events_service, current_request_type_registry
 from ...resolvers.registry import ResolverRegistry
+from ..results import EntityResolverExpandableField
 from .links import RequestLinksTemplate
 
 
@@ -49,10 +51,17 @@ class RequestsService(RecordService):
         """Wrap schema."""
         return ServiceSchemaWrapper(self, schema)
 
+    @property
+    def _expandable_fields(self):
+        """Get expandable fields."""
+        return FieldsResolver([
+            EntityResolverExpandableField("created_by"),
+        ])
+
     @unit_of_work()
     def create(
         self, identity, data, request_type, receiver, creator=None, topic=None,
-        expires_at=None, uow=None
+        expires_at=None, uow=None, expand=False
     ):
         """Create a record."""
         self.require_permission(identity, "create")
@@ -109,9 +118,11 @@ class RequestsService(RecordService):
             schema=schema,
             links_tpl=self.links_item_tpl,
             errors=errors,
+            expandable_fields=self._expandable_fields,
+            expand=expand,
         )
 
-    def read(self, identity, id_):
+    def read(self, identity, id_, expand=False):
         """Retrieve a request."""
         # resolve and require permission
         request = self.record_cls.get_record(id_)
@@ -128,10 +139,13 @@ class RequestsService(RecordService):
             request,
             schema=self._wrap_schema(request.type.marshmallow_schema()),
             links_tpl=self.links_item_tpl,
+            expandable_fields=self._expandable_fields,
+            expand=expand,
         )
 
     @unit_of_work()
-    def update(self, identity, id_, data, revision_id=None, uow=None):
+    def update(self, identity, id_, data, revision_id=None, uow=None,
+               expand=False):
         """Update a request."""
         request = self.record_cls.get_record(id_)
 
@@ -162,6 +176,8 @@ class RequestsService(RecordService):
             request,
             schema=schema,
             links_tpl=self.links_item_tpl,
+            expandable_fields=self._expandable_fields,
+            expand=expand,
         )
 
     @unit_of_work()
@@ -195,7 +211,8 @@ class RequestsService(RecordService):
         action_obj.execute(identity, uow)
 
     @unit_of_work()
-    def execute_action(self, identity, id_, action, data=None, uow=None):
+    def execute_action(self, identity, id_, action, data=None, uow=None,
+                       expand=False):
         """Execute the given action for the request, if possible.
 
         For instance, it would be not possible to execute the specified
@@ -235,4 +252,6 @@ class RequestsService(RecordService):
             request,
             schema=self._wrap_schema(request.type.marshmallow_schema()),
             links_tpl=self.links_item_tpl,
+            expandable_fields=self._expandable_fields,
+            expand=expand,
         )

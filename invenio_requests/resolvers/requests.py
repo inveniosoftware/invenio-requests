@@ -24,7 +24,7 @@ class RequestProxy(EntityProxy):
 
     def _resolve(self):
         """Resolve the Request from the proxy's reference dict."""
-        request_id = self._parse_ref_dict_id(self._ref_dict)
+        request_id = self._parse_ref_dict_id()
         try:
             return Request.get_record(request_id)
         except StatementError as exc:
