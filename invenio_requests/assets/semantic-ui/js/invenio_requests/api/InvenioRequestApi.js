@@ -3,8 +3,9 @@
 //
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
-import { http } from "./config";
+
 import _isEmpty from "lodash/isEmpty";
+import { http } from "./config";
 
 export class RequestLinksExtractor {
   #urls;
@@ -14,10 +15,6 @@ export class RequestLinksExtractor {
       throw TypeError("Request resource links are undefined");
     }
     this.#urls = request.links;
-  }
-
-  get self_html() {
-    return this.#urls.self_html;
   }
 
   get self() {

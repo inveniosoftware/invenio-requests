@@ -5,13 +5,13 @@
 // under the terms of the MIT License; see LICENSE file for more details.
 
 import { RequestActionContext } from "@js/invenio_requests/request/actions/context";
-import Overridable from "react-overridable";
-import React, { Component } from "react";
+import { i18next } from "@translations/invenio_requests/i18next";
 import PropTypes from "prop-types";
+import React, { Component } from "react";
+import { Trans } from "react-i18next";
+import Overridable from "react-overridable";
 import { Button, Modal } from "semantic-ui-react";
 import Error from "../../components/Error";
-import { i18next } from "@translations/invenio_requests/i18next";
-import { Trans } from "react-i18next";
 
 export class RequestActionModal extends Component {
   static contextType = RequestActionContext;
@@ -61,6 +61,7 @@ export class RequestActionModal extends Component {
                   toggleModal(modalId, false);
                 }}
                 loading={loading}
+                floated="left"
               >
                 {i18next.t("Cancel")}
               </Button>
