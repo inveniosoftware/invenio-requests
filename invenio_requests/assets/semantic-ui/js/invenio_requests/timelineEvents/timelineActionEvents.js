@@ -4,9 +4,9 @@
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
 
+import { i18next } from "@translations/invenio_requests/i18next";
 import React from "react";
 import TimelineActionEvent from "../components/TimelineActionEvent";
-import { i18next } from "@translations/invenio_requests/i18next";
 
 export const TimelineAcceptEvent = ({ event }) => (
   <TimelineActionEvent
@@ -31,7 +31,6 @@ export const TimelineExpireEvent = ({ event }) => (
     iconName="calendar times"
     event={event}
     eventContent={i18next.t("this request expired")}
-    userAction={false}
     iconColor="red"
   />
 );
@@ -51,6 +50,5 @@ export const TimelineUnknownEvent = ({ event }) => (
     iconColor="red"
     event={event}
     eventContent={i18next.t("unknown event")}
-    userAction={false}
   />
 );

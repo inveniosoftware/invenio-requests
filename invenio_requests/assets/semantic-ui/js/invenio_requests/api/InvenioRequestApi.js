@@ -55,15 +55,22 @@ export class InvenioRequestsAPI {
   }
 
   getTimeline = async (params) => {
-    return await http.get(this.#urls.timeline, { params });
+    return await http.get(this.#urls.timeline, {
+      params: {
+        expand: 1,
+        ...params,
+      },
+    });
   };
 
   getRequest = async () => {
-    return await http.get(this.#urls.self);
+    return await http.get(this.#urls.self, { params: { expand: 1 } });
   };
 
   submitComment = async (payload) => {
-    return await http.post(this.#urls.comments, payload);
+    return await http.post(this.#urls.comments, payload, {
+      params: { expand: 1 },
+    });
   };
 
   performAction = async (action, commentContent = null) => {
@@ -76,6 +83,8 @@ export class InvenioRequestsAPI {
         },
       };
     }
-    return await http.post(this.#urls.actions[action], payload);
+    return await http.post(this.#urls.actions[action], payload, {
+      params: { expand: 1 },
+    });
   };
 }

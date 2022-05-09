@@ -15,22 +15,17 @@ from flask import g
 from invenio_requests.proxies import current_requests
 
 
-def service():
-    """Get the requests service."""
-    return current_requests.requests_service
-
-
-def pass_request(f):
-    """Retrieve request record to the view."""
-
-    @wraps(f)
-    def view(**kwargs):
-        """Decorated view."""
-        pid_value = kwargs['request_pid_value']
-        request = service().read(
-            id_=pid_value, identity=g.identity
-        )
-        kwargs['request'] = request
-        return f(**kwargs)
-
-    return view
+def pass_request(expand=False):
+    """Fetch the request record and pass it as kwarg."""
+    def decorator(f):
+        @wraps(f)
+        def view(**kwargs):
+            """Decorated view."""
+            pid_value = kwargs["request_pid_value"]
+            request = current_requests.requests_service.read(
+                id_=pid_value, identity=g.identity, expand=expand
+            )
+            kwargs["request"] = request
+            return f(**kwargs)
+        return view
+    return decorator

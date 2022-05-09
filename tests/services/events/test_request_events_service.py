@@ -69,6 +69,7 @@ def test_simple_flow(
     # Delete it
     deleted_item = request_events_service.delete(identity_simple, id_)
     assert deleted_item is True
+    RequestEvent.index.refresh()
     # assert that the comment was deleted and cannot be read anymore
     with pytest.raises(NoResultFound):
         request_events_service.read(identity_simple, id_)

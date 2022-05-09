@@ -11,7 +11,6 @@
 """Requests service."""
 
 from invenio_records_resources.services import RecordService, ServiceSchemaWrapper
-from invenio_records_resources.services.records.results import FieldsResolver
 from invenio_records_resources.services.uow import (
     IndexRefreshOp,
     RecordCommitOp,
@@ -52,11 +51,12 @@ class RequestsService(RecordService):
         return ServiceSchemaWrapper(self, schema)
 
     @property
-    def _expandable_fields(self):
+    def expandable_fields(self):
         """Get expandable fields."""
-        return FieldsResolver([
+        return [
             EntityResolverExpandableField("created_by"),
-        ])
+            EntityResolverExpandableField("receiver"),
+        ]
 
     @unit_of_work()
     def create(
@@ -118,7 +118,7 @@ class RequestsService(RecordService):
             schema=schema,
             links_tpl=self.links_item_tpl,
             errors=errors,
-            expandable_fields=self._expandable_fields,
+            expandable_fields=self.expandable_fields,
             expand=expand,
         )
 
@@ -139,7 +139,7 @@ class RequestsService(RecordService):
             request,
             schema=self._wrap_schema(request.type.marshmallow_schema()),
             links_tpl=self.links_item_tpl,
-            expandable_fields=self._expandable_fields,
+            expandable_fields=self.expandable_fields,
             expand=expand,
         )
 
@@ -176,7 +176,7 @@ class RequestsService(RecordService):
             request,
             schema=schema,
             links_tpl=self.links_item_tpl,
-            expandable_fields=self._expandable_fields,
+            expandable_fields=self.expandable_fields,
             expand=expand,
         )
 
@@ -243,7 +243,7 @@ class RequestsService(RecordService):
             current_events_service.create(identity, request.id, _data, CommentEventType,
                                           uow=uow)
 
-        # make events immediatelly available in search
+        # make events immediately available in search
         uow.register(IndexRefreshOp(index=current_events_service.record_cls.index))
 
         return self.result_item(
@@ -252,6 +252,6 @@ class RequestsService(RecordService):
             request,
             schema=self._wrap_schema(request.type.marshmallow_schema()),
             links_tpl=self.links_item_tpl,
-            expandable_fields=self._expandable_fields,
+            expandable_fields=self.expandable_fields,
             expand=expand,
         )

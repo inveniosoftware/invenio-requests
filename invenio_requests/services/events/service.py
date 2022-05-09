@@ -15,7 +15,6 @@ from invenio_access.permissions import system_process
 from invenio_records_resources.services import RecordService, ServiceSchemaWrapper
 from invenio_records_resources.services.base.links import LinksTemplate
 from invenio_records_resources.services.uow import (
-    IndexRefreshOp,
     RecordCommitOp,
     RecordDeleteOp,
     unit_of_work,
@@ -35,7 +34,7 @@ class RequestEventsService(RecordService):
         return ServiceSchemaWrapper(self, schema)
 
     @property
-    def _expandable_fields(self):
+    def expandable_fields(self):
         """Get expandable fields."""
         return [
             EntityResolverExpandableField("created_by")
@@ -79,7 +78,7 @@ class RequestEventsService(RecordService):
             event,
             schema=schema,
             links_tpl=self.links_item_tpl,
-            expandable_fields=self._expandable_fields,
+            expandable_fields=self.expandable_fields,
             expand=expand,
         )
 
@@ -96,7 +95,7 @@ class RequestEventsService(RecordService):
             event,
             schema=self._wrap_schema(event.type.marshmallow_schema()),
             links_tpl=self.links_item_tpl,
-            expandable_fields=self._expandable_fields,
+            expandable_fields=self.expandable_fields,
             expand=expand,
         )
 
@@ -132,7 +131,7 @@ class RequestEventsService(RecordService):
             event,
             schema=schema,
             links_tpl=self.links_item_tpl,
-            expandable_fields=self._expandable_fields,
+            expandable_fields=self.expandable_fields,
             expand=expand,
         )
 
@@ -164,8 +163,6 @@ class RequestEventsService(RecordService):
         )
 
         self.create(identity, request_id, data, LogEventType, uow=uow)
-
-        uow.register(IndexRefreshOp(index=self.record_cls.index))
         return True
 
     def search(self, identity, request_id, params=None, es_preference=None,
@@ -202,7 +199,7 @@ class RequestEventsService(RecordService):
                 context={"request_id": request_id, "args": params},
             ),
             links_item_tpl=self.links_item_tpl,
-            expandable_fields=self._expandable_fields,
+            expandable_fields=self.expandable_fields,
             expand=expand,
         )
 

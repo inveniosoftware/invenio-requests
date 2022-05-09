@@ -4,17 +4,18 @@
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
 
+import { i18next } from "@translations/invenio_requests/i18next";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import { Image } from "react-invenio-forms";
+import Overridable from "react-overridable";
+import { Container, Dropdown, Feed } from "semantic-ui-react";
+import { CancelButton, SaveButton } from "../components/Buttons";
 import Error from "../components/Error";
 import FormattedInputEditor from "../components/FormattedInputEditor";
-import React, { Component } from "react";
-import { Feed, Image, Container, Dropdown, Grid } from "semantic-ui-react";
-import PropTypes from "prop-types";
-import Overridable from "react-overridable";
-import { SaveButton, CancelButton } from "../components/Buttons";
-import { TimelineEventBody } from "../components/TimelineEventBody";
-import { i18next } from "@translations/invenio_requests/i18next";
 import RequestsFeed from "../components/RequestsFeed";
-import { timestampToRelativeTime } from "../timelineEvents/utils";
+import { TimelineEventBody } from "../components/TimelineEventBody";
+import { timestampToRelativeTime } from "../utils";
 
 class TimelineCommentEvent extends Component {
   constructor(props) {
@@ -57,6 +58,23 @@ class TimelineCommentEvent extends Component {
     const canDelete = event?.permissions?.can_delete_comment;
     const canUpdate = event?.permissions?.can_update_comment;
 
+    const createdBy = event.created_by;
+    const isUser = "user" in createdBy;
+    const expandedCreatedBy = event.expanded?.created_by;
+
+    let userAvatar,
+      user = null;
+    if (isUser) {
+      userAvatar = (
+        <RequestsFeed.Avatar
+          src={expandedCreatedBy.avatar}
+          as={Image}
+          circular
+        />
+      );
+      user = expandedCreatedBy.full_name;
+    }
+
     return (
       <Overridable
         id={`TimelineEvent.layout.${this.eventToType(event)}`}
@@ -64,11 +82,7 @@ class TimelineCommentEvent extends Component {
       >
         <RequestsFeed.Item>
           <RequestsFeed.Content>
-            <RequestsFeed.Avatar
-              src="/static/images/square-placeholder.png"
-              as={Image}
-              circular
-            />
+            {userAvatar}
             <RequestsFeed.Event>
               <Feed.Content>
                 {commentCanBeDeleted && (canDelete || canUpdate) && (
@@ -91,9 +105,7 @@ class TimelineCommentEvent extends Component {
                   </Dropdown>
                 )}
                 <Feed.Summary>
-                  {/*TODO replace with event.icon and add a translated event description*/}
-                  <Feed.User as="a">{event.created_by?.user}</Feed.User>{" "}
-                  {i18next.t("commented")}
+                  {user} {i18next.t("commented")}
                   <Feed.Date>
                     {timestampToRelativeTime(event.created)}
                   </Feed.Date>

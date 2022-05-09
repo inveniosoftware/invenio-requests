@@ -28,11 +28,11 @@ export class InvenioRequestEventsApi {
   }
 
   getComment = async () => {
-    return await http.get(this.#links.eventUrl);
+    return await http.get(this.#links.eventUrl, { params: { expand: 1 } });
   };
 
   updateComment = async (payload) => {
-    return http.put(this.#links.eventUrl, payload);
+    return http.put(this.#links.eventUrl, payload, { params: { expand: 1 } });
   };
 
   deleteComment = async () => {

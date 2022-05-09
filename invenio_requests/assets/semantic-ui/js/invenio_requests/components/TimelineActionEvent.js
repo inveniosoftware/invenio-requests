@@ -4,18 +4,29 @@
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
 
-import React, { Component } from "react";
-import { Feed } from "semantic-ui-react";
-import { TimelineEventBody } from "./TimelineEventBody";
-import { Image } from "react-invenio-forms";
 import PropTypes from "prop-types";
+import React, { Component } from "react";
+import { Image } from "react-invenio-forms";
 import Overridable from "react-overridable";
+import { Feed } from "semantic-ui-react";
+import { timestampToRelativeTime } from "../utils";
 import RequestsFeed from "./RequestsFeed";
-import { timestampToRelativeTime } from "../timelineEvents/utils";
+import { TimelineEventBody } from "./TimelineEventBody";
 
 class TimelineActionEvent extends Component {
   render() {
-    const { event, iconName, iconColor, userAction, eventContent } = this.props;
+    const { event, iconName, iconColor, eventContent } = this.props;
+
+    const createdBy = event.created_by;
+    const isUser = "user" in createdBy;
+    const expandedCreatedBy = event.expanded?.created_by;
+
+    let userAvatar,
+      user = null;
+    if (isUser) {
+      userAvatar = <Image src={expandedCreatedBy.avatar} avatar />;
+      user = expandedCreatedBy.full_name;
+    }
 
     return (
       <Overridable
@@ -23,26 +34,15 @@ class TimelineActionEvent extends Component {
         event={event}
         iconName={iconName}
         iconColor={iconColor}
-        userAction={userAction}
       >
         <RequestsFeed.Item>
           <RequestsFeed.Content isEvent={true}>
             <RequestsFeed.Icon name={iconName} size="large" color={iconColor} />
             <RequestsFeed.Event isActionEvent={true}>
-              <Feed.Label>
-                {userAction && (
-                  <Image
-                    src="/static/images/square-placeholder.png"
-                    as={Image}
-                    avatar
-                  />
-                )}
-              </Feed.Label>
+              <Feed.Label>{userAvatar}</Feed.Label>
               <Feed.Content>
                 <Feed.Summary>
-                  {userAction && (
-                    <Feed.User as="a">{event.created_by?.user}</Feed.User>
-                  )}{" "}
+                  {user}{" "}
                   <TimelineEventBody
                     content={eventContent}
                     format={event?.payload?.format}
@@ -65,12 +65,10 @@ TimelineActionEvent.propTypes = {
   iconName: PropTypes.string.isRequired,
   eventContent: PropTypes.string.isRequired,
   iconColor: PropTypes.string,
-  userAction: PropTypes.bool,
 };
 
 TimelineActionEvent.defaultProps = {
   iconColor: "grey",
-  userAction: true,
 };
 
 export default Overridable.component(

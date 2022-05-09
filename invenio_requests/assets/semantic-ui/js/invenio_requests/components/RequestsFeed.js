@@ -4,10 +4,10 @@
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
 
-import React from "react";
-import { Feed, Container, Icon } from "semantic-ui-react";
 import PropTypes from "prop-types";
+import React from "react";
 import { Image } from "react-invenio-forms";
+import { Container, Feed, Icon } from "semantic-ui-react";
 
 // Wrapper component for the custom styles being used inside the request events timeline
 // Enables centralizing the styles and abstracts it away from the template
@@ -24,18 +24,14 @@ export const RequestEventItem = ({ children }) => (
 );
 
 export const RequestEventInnerContainer = ({ children, isEvent }) => (
-  <div className={`requests-event-inner-container${isEvent ? " thread" : ""}`}>{children}</div>
+  <div className={`requests-event-inner-container${isEvent ? " thread" : ""}`}>
+    {children}
+  </div>
 );
 
 export const RequestEventAvatarContainer = ({ src, ...uiProps }) => (
   <div className="requests-avatar-container">
-    <Image
-      src="/static/images/square-placeholder.png"
-      as={Image}
-      rounded
-      avatar
-      {...uiProps}
-    />
+    <Image src={src} rounded avatar {...uiProps} />
   </div>
 );
 

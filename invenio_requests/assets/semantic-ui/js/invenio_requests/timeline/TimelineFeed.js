@@ -4,17 +4,17 @@
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
 
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import Overridable from "react-overridable";
+import { Container, Divider } from "semantic-ui-react";
 import Error from "../components/Error";
 import Loader from "../components/Loader";
-import { Pagination } from "../components/Pagination";
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import Overridable from "react-overridable";
-import { Container, Feed, Segment, Divider } from "semantic-ui-react";
-import { TimelineCommentEventControlled } from "../timelineCommentEventControlled";
-import { TimelineCommentEditor } from "../timelineCommentEditor";
 import { DeleteConfirmationModal } from "../components/modals/DeleteConfirmationModal";
+import { Pagination } from "../components/Pagination";
 import RequestsFeed from "../components/RequestsFeed";
+import { TimelineCommentEditor } from "../timelineCommentEditor";
+import { TimelineCommentEventControlled } from "../timelineCommentEventControlled";
 
 class TimelineFeed extends Component {
   constructor(props) {

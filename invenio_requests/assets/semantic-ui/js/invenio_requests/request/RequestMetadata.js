@@ -4,22 +4,63 @@
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
 
-import React, { Component } from "react";
-import PropTypes from "prop-types";
-import Overridable from "react-overridable";
-import { Divider, Header, Image, Label } from "semantic-ui-react";
 import { i18next } from "@translations/invenio_requests/i18next";
+import PropTypes from "prop-types";
+import React, { Component } from "react";
+import { Image } from "react-invenio-forms";
+import Overridable from "react-overridable";
+import { Divider, Header, Label } from "semantic-ui-react";
+import { timestampToRelativeTime } from "../utils";
 import RequestStatusIcon from "./RequestStatusIcon";
+
+const User = ({ user }) => (
+  <>
+    <Image src={user.avatar} avatar rounded />
+    <span>{user.full_name}</span>
+  </>
+);
+const Community = ({ community }) => (
+  <>
+    <Image src={community.logo} avatar rounded />
+    <span>{community.title}</span>
+  </>
+);
+
+const Requestor = ({ request }) => {
+  const createdBy = request.created_by;
+  const isUser = "user" in createdBy;
+  const isCommunity = "community" in createdBy;
+  const expandedCreatedBy = request.expanded?.created_by;
+
+  let cmp;
+  if (isUser) {
+    cmp = <User user={expandedCreatedBy} />;
+  } else if (isCommunity) {
+    cmp = <Community community={expandedCreatedBy} />;
+  } else {
+    // default unknown created_by
+    cmp = (
+      <>
+        <Image src="/static/images/square-placeholder.png" avatar rounded />
+        <span>{createdBy.user?.id || createdBy.community?.id}</span>
+      </>
+    );
+  }
+  return (
+    <>
+      <Header as="h4">{i18next.t("Requestor")}</Header>
+      {cmp}
+    </>
+  );
+};
 
 class RequestMetadata extends Component {
   render() {
     const { request } = this.props;
     return (
-      <Overridable id="InvenioRequest.RequestMetadata.Layout" {...this.props}>
+      <Overridable id="InvenioRequest.RequestMetadata.Layout" request={request}>
         <>
-          <Header as="h4">{i18next.t("Requestor")}</Header>
-          <Image src="/static/images/square-placeholder.png" avatar rounded />
-          <span>{request.created_by.full_name}</span>
+          <Requestor request={request} />
           <Divider />
           <Header as="h4">{i18next.t("Request type")}</Header>
           <Label>{request.type}</Label>
@@ -31,7 +72,7 @@ class RequestMetadata extends Component {
             <>
               <Divider />
               <Header as="h4">{i18next.t("Expires")}</Header>
-              {request.state}
+              {timestampToRelativeTime(request.expires_at)}
             </>
           )}
           <Divider hidden />
