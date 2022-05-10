@@ -8,10 +8,11 @@
 
 """Request views module."""
 
-from .api import create_request_events_bp, create_requests_bp
+from .api import blueprint, create_request_events_bp, create_requests_bp
 from .ui import create_ui_blueprint
 
 __all__ = (
+    'blueprint',
     'create_ui_blueprint',
     'create_requests_bp',
     'create_request_events_bp',

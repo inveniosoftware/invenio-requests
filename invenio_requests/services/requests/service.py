@@ -10,6 +10,7 @@
 
 """Requests service."""
 
+from elasticsearch_dsl import Q
 from invenio_records_resources.services import RecordService, ServiceSchemaWrapper
 from invenio_records_resources.services.uow import (
     IndexRefreshOp,
@@ -255,3 +256,41 @@ class RequestsService(RecordService):
             expandable_fields=self.expandable_fields,
             expand=expand,
         )
+
+    #
+    # notification handlers
+    #
+    def on_relation_update(
+        self, identity, record_type, records_info, notif_time
+    ):
+        """Handles the update of a related field record.
+
+        User related fields do not have a `@v` field in requests so we remove
+        that part of the query.
+        """
+        fieldpaths = self.config.relations.get(record_type, [])
+        clauses = []
+        for field in fieldpaths:
+            for record in records_info:
+                recid, uuid, revision_id = record
+                clauses.append(Q(
+                    "bool",
+                    must=[Q("term", **{f"{field}": recid})],
+                ))
+
+        filter = [Q("range", indexed_at={"lte": notif_time})]
+        es_query = Q(
+            "bool", minimum_should_match=1, should=clauses, filter=filter
+        )
+
+        search = self.search_request(
+            identity, {}, self.record_cls, self.config.search,
+        ).query(es_query)
+
+        search_result = search.scan()
+
+        # can be done sychronously since this function is executed as a task
+        for request in search_result:
+            self.update(identity, request.uuid, request.to_dict())
+
+        return True

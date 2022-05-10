@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021 CERN.
+# Copyright (C) 2021-2022 CERN.
 # Copyright (C) 2021 Northwestern University.
 # Copyright (C) 2021 TU Wien.
 #
@@ -57,7 +57,7 @@ class RequestSearchOptions(SearchOptions):
 
 class RequestsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
     """Requests service configuration."""
-
+    service_id = "requests"
     # common configuration
     permission_policy_cls = FromConfig(
         "REQUESTS_PERMISSION_POLICY", default=PermissionPolicy
@@ -69,7 +69,10 @@ class RequestsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
     # request-specific configuration
     record_cls = Request  # needed for model queries
     schema = None  # stored in the API classes, for customization
-    index_dumper = None
+    indexer_queue_name = service_id
+    relations = {
+        "members": ["receiver.user"]
+    }
 
     # links configuration
     links_item = {

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021 CERN.
+# Copyright (C) 2021-2022 CERN.
 # Copyright (C) 2021 Northwestern University.
 # Copyright (C) 2021 TU Wien.
 #
@@ -72,7 +72,7 @@ class RequestEventLink(Link):
 
 class RequestEventsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
     """Config."""
-
+    service_id = "requestevents"
     request_cls = Request
     permission_policy_cls = FromConfig(
         "REQUESTS_PERMISSION_POLICY", default=PermissionPolicy
@@ -81,6 +81,7 @@ class RequestEventsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
     record_cls = RequestEvent
     result_item_cls = RequestEventItem
     result_list_cls = RequestEventList
+    indexer_queue_name = service_id
 
     # ResultItem configurations
     links_item = {

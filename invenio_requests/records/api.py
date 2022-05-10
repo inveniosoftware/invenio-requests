@@ -2,6 +2,7 @@
 #
 # Copyright (C) 2021 - 2022 TU Wien.
 # Copyright (C) 2021 Northwestern University.
+# Copyright (C) 2022 CERN
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify
 # it under the terms of the MIT License; see LICENSE file for more details.
@@ -12,6 +13,7 @@ from enum import Enum
 from functools import partial
 
 from invenio_records.dumpers import ElasticsearchDumper
+from invenio_records.dumpers.indexedat import IndexedAtDumperExt
 from invenio_records.systemfields import ConstantField, DictField, ModelField
 from invenio_records_resources.records.api import Record
 from invenio_records_resources.records.systemfields import IndexField
@@ -47,6 +49,7 @@ class Request(Record):
             CalculatedFieldDumperExt("is_closed"),
             CalculatedFieldDumperExt("is_open"),
             GrantTokensDumperExt("created_by", "receiver"),
+            IndexedAtDumperExt(),
         ]
     )
     """Elasticsearch dumper with configured extensions."""

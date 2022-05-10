@@ -36,6 +36,9 @@
         "type": "integer",
         "index": "false"
       },
+      "indexed_at": {
+        "type": "date"
+      },
       "id": {
         "type": "keyword"
       },
