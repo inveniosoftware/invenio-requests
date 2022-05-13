@@ -246,7 +246,7 @@ class RequestsService(RecordService):
                                           uow=uow)
 
         # make events immediately available in search
-        uow.register(IndexRefreshOp(index=current_events_service.record_cls.index))
+        uow.register(IndexRefreshOp(indexer=self.indexer))
 
         return self.result_item(
             self,
