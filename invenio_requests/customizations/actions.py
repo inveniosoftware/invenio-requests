@@ -7,6 +7,9 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """Base class for customizable actions on requests."""
+
+from flask_babelex import gettext as _
+
 from ..errors import NoSuchActionError
 from ..proxies import current_events_service
 from .event_types import LogEventType
@@ -26,6 +29,12 @@ class RequestAction:
 
     log_event = True
     """Define if the action should be logged through a `LogEventType`."""
+
+    name = None
+    """Defines the readable name of the action.
+
+    This marks the name of the action class as translatable.
+    """
 
     def __init__(self, request):
         """Constructor."""
@@ -100,7 +109,7 @@ class CreateAction(RequestAction):
     status_from = None
     status_to = 'created'
     log_event = False
-
+    name = _('Create')
 
 class CreateAndSubmitAction(RequestAction):
     """Create and submit a request."""
@@ -108,6 +117,7 @@ class CreateAndSubmitAction(RequestAction):
     status_from = None
     status_to = 'submitted'
     log_event = False
+    name = _('Create')
 
 
 class DeleteAction(RequestAction):
@@ -115,6 +125,7 @@ class DeleteAction(RequestAction):
 
     status_from = ['created']
     status_to = 'deleted'
+    name = _('Delete')
 
 
 class SubmitAction(RequestAction):
@@ -123,6 +134,7 @@ class SubmitAction(RequestAction):
     status_from = ['created']
     status_to = 'submitted'
     log_event = False
+    name = _('Submit')
 
 
 class AcceptAction(RequestAction):
@@ -130,6 +142,7 @@ class AcceptAction(RequestAction):
 
     status_from = ['submitted']
     status_to = 'accepted'
+    name = _('Accept')
 
 
 class DeclineAction(RequestAction):
@@ -137,6 +150,7 @@ class DeclineAction(RequestAction):
 
     status_from = ['submitted']
     status_to = 'declined'
+    name = _('Decline')
 
 
 class CancelAction(RequestAction):
@@ -144,6 +158,7 @@ class CancelAction(RequestAction):
 
     status_from = ['submitted']
     status_to = 'cancelled'
+    name = _('Cancel')
 
 
 class ExpireAction(RequestAction):
@@ -151,3 +166,4 @@ class ExpireAction(RequestAction):
 
     status_from = ['submitted']
     status_to = 'expired'
+    name = _('Expire')
