@@ -2,6 +2,7 @@
 #
 # Copyright (C) 2021 CERN.
 # Copyright (C) 2021 TU Wien.
+# Copyright (C) 2022 KTH Royal Institute of Technology
 #
 # Invenio-Requests is free software; you can redistribute it and/or
 # modify it under the terms of the MIT License; see LICENSE file for more
@@ -11,12 +12,14 @@
 
 
 import marshmallow as ma
+from flask_resources import HTTPJSONException, create_error_handler
 from invenio_records_resources.resources import (
     RecordResourceConfig,
     SearchRequestArgsSchema,
 )
 from marshmallow import fields
 
+from ...errors import CannotExecuteActionError, NoSuchActionError
 from .fields import ReferenceString
 
 
@@ -48,8 +51,23 @@ class RequestsResourceConfig(RecordResourceConfig):
     }
 
     request_view_args = {
-        "id": ma.fields.Str(),
+        "id": ma.fields.UUID(),
         "action": ma.fields.Str(),
     }
 
     request_search_args = RequestSearchRequestArgsSchema
+
+    error_handlers = {
+        CannotExecuteActionError: create_error_handler(
+            lambda e: HTTPJSONException(
+                code=400,
+                description=str(e),
+            )
+        ),
+        NoSuchActionError: create_error_handler(
+            lambda e: HTTPJSONException(
+                code=400,
+                description=str(e),
+            )
+        ),
+    }

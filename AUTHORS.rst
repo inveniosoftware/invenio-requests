@@ -12,3 +12,4 @@ Invenio module for generic and customizable requests.
 
 - CERN <info@inveniosoftware.org>
 - TU Wien <tudata@tuwien.ac.at>
+- KTH Royal Institute of Technology <info@kth.se>

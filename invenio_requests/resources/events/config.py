@@ -2,6 +2,7 @@
 #
 # Copyright (C) 2021 CERN.
 # Copyright (C) 2021 Northwestern University.
+# Copyright (C) 2022 KTH Royal Institute of Technology
 #
 # Invenio-Requests is free software; you can redistribute it and/or
 # modify it under the terms of the MIT License; see LICENSE file for more
@@ -29,7 +30,7 @@ class RequestCommentsResourceConfig(RecordResourceConfig):
     #          "Request" of "RequestEvent". They are related to the Flask
     #          request.
     request_list_view_args = {
-        "request_id": fields.Str(),
+        "request_id": fields.UUID(),
     }
     request_item_view_args = {
         "request_id": fields.Str(),
