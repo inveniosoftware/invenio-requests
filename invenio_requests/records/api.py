@@ -11,7 +11,7 @@
 from enum import Enum
 from functools import partial
 
-from invenio_records.dumpers import ElasticsearchDumper
+from invenio_records.dumpers import SearchDumper
 from invenio_records.systemfields import ConstantField, DictField, ModelField
 from invenio_records_resources.records.api import Record
 from invenio_records_resources.records.systemfields import IndexField
@@ -42,14 +42,14 @@ class Request(Record):
     model_cls = RequestMetadata
     """The model class for the request."""
 
-    dumper = ElasticsearchDumper(
+    dumper = SearchDumper(
         extensions=[
             CalculatedFieldDumperExt("is_closed"),
             CalculatedFieldDumperExt("is_open"),
             GrantTokensDumperExt("created_by", "receiver"),
         ]
     )
-    """Elasticsearch dumper with configured extensions."""
+    """Search dumper with configured extensions."""
 
     number = IdentityField("number")
     """The request's number (i.e. external identifier)."""
@@ -58,7 +58,7 @@ class Request(Record):
     """Disabled metadata field from the base class."""
 
     index = IndexField("requests-request-v1.0.0", search_alias="requests")
-    """The Elasticsearch index to use for the request."""
+    """The Search index to use for the request."""
 
     schema = ConstantField("$schema", "local://requests/request-v1.0.0.json")
     """The JSON Schema to use for validation."""

@@ -5,14 +5,14 @@
 # Invenio-RDM-Records is free software; you can redistribute it and/or modify
 # it under the terms of the MIT License; see LICENSE file for more details.
 
-"""Elasticsearch dumpers for the is_expired state of requests."""
+"""Search dumpers for the is_expired state of requests."""
 
 
-from invenio_records.dumpers import ElasticsearchDumperExt
+from invenio_records.dumpers import SearchDumperExt
 
 
-class CalculatedFieldDumperExt(ElasticsearchDumperExt):
-    """Elasticsearch dumper extension for calculated fields."""
+class CalculatedFieldDumperExt(SearchDumperExt):
+    """Search dumper extension for calculated fields."""
 
     def __init__(self, field, prop=None):
         """Constructor.

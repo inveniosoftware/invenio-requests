@@ -8,11 +8,11 @@
 """Dumps entity grant tokens into the indexed request record."""
 
 
-from invenio_records.dumpers import ElasticsearchDumperExt
+from invenio_records.dumpers import SearchDumperExt
 from invenio_records_resources.references import EntityGrant
 
 
-class GrantTokensDumperExt(ElasticsearchDumperExt):
+class GrantTokensDumperExt(SearchDumperExt):
     """Grant tokens dumper.
 
     Responsible for serializing the required needs for accessing a request

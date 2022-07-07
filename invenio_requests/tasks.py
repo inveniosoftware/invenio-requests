@@ -11,10 +11,9 @@
 from datetime import datetime
 
 from celery import shared_task
-from elasticsearch_dsl import Q
-from elasticsearch_dsl.query import Bool
 from flask import current_app
 from invenio_access.permissions import system_identity
+from invenio_search.engine import dsl
 
 from .proxies import current_requests_service
 
@@ -28,12 +27,12 @@ def check_expired_requests():
     # using scan to get all requests
     requests_list = service.scan(
         identity=system_identity,
-        extra_filter=Bool(
+        extra_filter=dsl.query.Bool(
             "must",
             must=[
                 # somehow querying for '"term", **{"is_expired: True"}' will not return any requests # noqa
-                Q("range", **{"expires_at": {"lte": now}}),
-                Q("term", **{"is_open": True}),
+                dsl.Q("range", **{"expires_at": {"lte": now}}),
+                dsl.Q("term", **{"is_open": True}),
             ],
         ),
     )

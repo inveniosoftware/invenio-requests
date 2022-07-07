@@ -20,7 +20,7 @@ from invenio_records_resources.resources.records.resource import (
     request_search_args,
     request_view_args,
 )
-from invenio_records_resources.resources.records.utils import es_preference
+from invenio_records_resources.resources.records.utils import search_preference
 
 
 #
@@ -68,7 +68,7 @@ class RequestsResource(RecordResource):
         hits = self.service.search(
             identity=g.identity,
             params=resource_requestctx.args,
-            es_preference=es_preference(),
+            search_preference=search_preference(),
             expand=resource_requestctx.args.get("expand", False),
         )
         return hits.to_dict(), 200
@@ -85,7 +85,7 @@ class RequestsResource(RecordResource):
         hits = self.service.search_user_requests(
             identity=g.identity,
             params=resource_requestctx.args,
-            es_preference=es_preference(),
+            search_preference=search_preference(),
             expand=resource_requestctx.args.get("expand", False),
         )
         return hits.to_dict(), 200

@@ -10,7 +10,6 @@
 
 """Requests service."""
 
-from elasticsearch_dsl.query import Bool, Q
 from invenio_records_resources.services import RecordService, ServiceSchemaWrapper
 from invenio_records_resources.services.base import LinksTemplate
 from invenio_records_resources.services.uow import (
@@ -19,6 +18,7 @@ from invenio_records_resources.services.uow import (
     RecordDeleteOp,
     unit_of_work,
 )
+from invenio_search.engine import dsl
 
 from ...customizations import RequestActions
 from ...customizations.event_types import CommentEventType
@@ -265,7 +265,7 @@ class RequestsService(RecordService):
         )
 
     def search_user_requests(
-        self, identity, params=None, es_preference=None, expand=False, **kwargs
+        self, identity, params=None, search_preference=None, expand=False, **kwargs
     ):
         """Search for requests matching the querystring and belong to user.
 
@@ -280,15 +280,15 @@ class RequestsService(RecordService):
             "search",
             identity,
             params,
-            es_preference,
+            search_preference,
             permission_action=None,
-            extra_filter=Q(
+            extra_filter=dsl.Q(
                 "bool",
                 should=[
-                    Q("term", **{"receiver.user": identity.id}),
-                    Q("term", **{"created_by.user": identity.id}),
+                    dsl.Q("term", **{"receiver.user": identity.id}),
+                    dsl.Q("term", **{"created_by.user": identity.id}),
                 ],
-                must=[~Q("term", **{"status": "created"})],
+                must=[~dsl.Q("term", **{"status": "created"})],
                 minimum_should_match=1,
             ),
             **kwargs,

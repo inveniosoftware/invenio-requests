@@ -5,7 +5,7 @@
 # Invenio-Requests is free software; you can redistribute it and/or modify
 # it under the terms of the MIT License; see LICENSE file for more details.
 
-"""Elasticsearch dumpers, for transforming to and from versions to index."""
+"""Search dumpers, for transforming to and from versions to index."""
 
 from .calculated import CalculatedFieldDumperExt
 from .granttokens import GrantTokensDumperExt

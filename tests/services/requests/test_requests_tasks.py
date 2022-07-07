@@ -10,9 +10,8 @@
 
 from datetime import datetime, timedelta
 
-from elasticsearch_dsl import Q
-from elasticsearch_dsl.query import Bool
 from invenio_access.permissions import system_identity
+from invenio_search.engine import dsl
 
 from invenio_requests.records.api import Request
 from invenio_requests.tasks import check_expired_requests
@@ -33,10 +32,10 @@ def test_check_expired_requests(
     Request.index.refresh()
     request_list = requests_service.search(
         identity=system_identity,
-        extra_filter=Bool(
+        extra_filter=dsl.query.Bool(
             "must",
             must=[
-                Q("term", **{"is_closed": True}),
+                dsl.Q("term", **{"is_closed": True}),
             ],
         ),
     )
@@ -49,10 +48,10 @@ def test_check_expired_requests(
     Request.index.refresh()
     request_list = requests_service.search(
         identity=system_identity,
-        extra_filter=Bool(
+        extra_filter=dsl.query.Bool(
             "must",
             must=[
-                Q("term", **{"is_closed": True}),
+                dsl.Q("term", **{"is_closed": True}),
             ],
         ),
     )
@@ -67,10 +66,10 @@ def test_check_expired_requests(
     Request.index.refresh()
     request_list = requests_service.search(
         identity=system_identity,
-        extra_filter=Bool(
+        extra_filter=dsl.query.Bool(
             "must",
             must=[
-                Q("term", **{"is_closed": True}),
+                dsl.Q("term", **{"is_closed": True}),
             ],
         ),
     )
@@ -82,10 +81,10 @@ def test_check_expired_requests(
     Request.index.refresh()
     request_list = requests_service.search(
         identity=system_identity,
-        extra_filter=Bool(
+        extra_filter=dsl.query.Bool(
             "must",
             must=[
-                Q("term", **{"is_closed": True}),
+                dsl.Q("term", **{"is_closed": True}),
             ],
         ),
     )

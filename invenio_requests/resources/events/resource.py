@@ -25,7 +25,7 @@ from invenio_records_resources.resources.records.resource import (
     request_extra_args,
     request_headers,
 )
-from invenio_records_resources.resources.records.utils import es_preference
+from invenio_records_resources.resources.records.utils import search_preference
 
 from ...customizations.event_types import CommentEventType
 
@@ -135,7 +135,7 @@ class RequestCommentsResource(RecordResource):
             identity=g.identity,
             request_id=resource_requestctx.view_args["request_id"],
             params=resource_requestctx.args,
-            es_preference=es_preference(),
+            search_preference=search_preference(),
             expand=resource_requestctx.args.get("expand", False),
         )
         return hits.to_dict(), 200
