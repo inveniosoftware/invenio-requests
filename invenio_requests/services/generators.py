@@ -14,9 +14,9 @@ import operator
 from functools import reduce
 from itertools import chain
 
-from elasticsearch_dsl import Q
 from invenio_records_permissions.generators import Generator
 from invenio_records_resources.references import EntityGrant
+from invenio_search.engine import dsl
 
 
 class Status(Generator):
@@ -41,7 +41,7 @@ class Status(Generator):
         queries = reduce(operator.or_, queries) if queries else None
 
         if queries:
-            return Q("terms", **{"status": self._statuses}) & queries
+            return dsl.Q("terms", **{"status": self._statuses}) & queries
         return None
 
 
@@ -66,7 +66,7 @@ class EntityNeedsGenerator(Generator):
         for need in identity.provides:
             grants.append(EntityGrant(self.entity_field, need).token)
         if grants:
-            return Q("terms", **{self.grants_field: grants})
+            return dsl.Q("terms", **{self.grants_field: grants})
         return None
 
 

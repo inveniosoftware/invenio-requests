@@ -9,7 +9,6 @@
 
 """RequestEvents Service."""
 
-from elasticsearch_dsl import Q
 from flask_babelex import _
 from invenio_access.permissions import system_process
 from invenio_records_resources.services import RecordService, ServiceSchemaWrapper
@@ -19,6 +18,7 @@ from invenio_records_resources.services.uow import (
     RecordDeleteOp,
     unit_of_work,
 )
+from invenio_search.engine import dsl
 
 from invenio_requests.customizations import CommentEventType
 from invenio_requests.customizations.event_types import LogEventType
@@ -181,7 +181,7 @@ class RequestEventsService(RecordService):
             params,
             es_preference,
             permission_action="unused",
-            extra_filter=Q("term", request_id=str(request_id)),
+            extra_filter=dsl.Q("term", request_id=str(request_id)),
             **kwargs,
         )
         search_result = search.execute()
