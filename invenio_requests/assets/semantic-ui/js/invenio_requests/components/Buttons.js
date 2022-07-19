@@ -11,6 +11,7 @@ import { Button } from "semantic-ui-react";
 export const SaveButton = (props) => (
   <Button
     icon="save"
+    labelPosition="left"
     positive
     size="mini"
     content={i18next.t("Save")}
@@ -28,6 +29,7 @@ export const RequestDeclineButton = ({
   return (
     <Button
       icon="cancel"
+      labelPosition="left"
       content={i18next.t("Decline")}
       onClick={onClick}
       loading={loading}
@@ -55,6 +57,7 @@ export const RequestAcceptButton = ({
   return (
     <Button
       icon="checkmark"
+      labelPosition="left"
       content={buttonText}
       onClick={onClick}
       positive
@@ -77,6 +80,7 @@ export const CancelButton = React.forwardRef((props, ref) => {
     <Button
       ref={ref}
       icon="cancel"
+      labelPosition="left"
       content={i18next.t("Cancel")}
       size="mini"
       {...props}
@@ -95,6 +99,7 @@ export const RequestCancelButton = ({
   return (
     <Button
       icon="cancel"
+      labelPosition="left"
       content={content}
       onClick={onClick}
       loading={loading}

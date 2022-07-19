@@ -4,12 +4,12 @@
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
 
-import { RequestLinksExtractor } from "../../api";
+import { RequestLinksExtractor } from "../../../api";
 import React from "react";
 import Overridable from "react-overridable";
-import { RequestAction } from "./RequestAction";
+import { RequestAction } from "../RequestAction";
 
-export const RequestActions = ({ request, device }) => {
+export const ComputerTabletRequestActions = ({ request, device }) => {
   const actions = Object.keys(new RequestLinksExtractor(request).actions);
   return (
     <Overridable
@@ -29,8 +29,3 @@ export const RequestActions = ({ request, device }) => {
     </Overridable>
   );
 };
-
-export default Overridable.component(
-  "InvenioRequests.RequestActions",
-  RequestActions
-);
