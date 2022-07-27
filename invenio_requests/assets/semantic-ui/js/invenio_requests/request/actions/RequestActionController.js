@@ -64,7 +64,13 @@ export class RequestActionController extends Component {
           loading: loading,
         }}
       >
-        <RequestActions request={request} />
+        <div className="computer tablet only">
+          <RequestActions request={request} device="computer-tablet" />
+        </div>
+        <div className="mobile only">
+          <RequestActions request={request} device="mobile" />
+        </div>
+
         {children}
       </RequestActionContext.Provider>
     );
