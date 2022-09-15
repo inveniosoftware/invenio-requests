@@ -14,14 +14,12 @@ from invenio_records_resources.services import (
     RecordServiceConfig,
     ServiceSchemaWrapper,
 )
-from invenio_records_resources.services.records.components import DataComponent
+from invenio_records_resources.services.base.config import ConfiguratorMixin, FromConfig
 from invenio_records_resources.services.records.links import pagination_links
 from invenio_records_resources.services.records.results import RecordItem, RecordList
 
 from ...records.api import Request, RequestEvent
-from ..configurator import ConfiguratorMixin, FromConfig
 from ..permissions import PermissionPolicy
-from ..requests.components import EntityReferencesComponent
 from ..schemas import RequestEventSchema
 
 

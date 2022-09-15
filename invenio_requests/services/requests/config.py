@@ -11,13 +11,13 @@
 """Requests service configuration."""
 
 from invenio_records_resources.services import RecordServiceConfig, SearchOptions
+from invenio_records_resources.services.base.config import ConfiguratorMixin, FromConfig
 from invenio_records_resources.services.records.links import pagination_links
 
 from invenio_requests.services.requests import facets
 
 from ...customizations import RequestActions
 from ...records.api import Request
-from ..configurator import ConfiguratorMixin, FromConfig
 from ..permissions import PermissionPolicy
 from .components import (
     EntityReferencesComponent,
