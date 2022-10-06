@@ -16,7 +16,7 @@ from invenio_records_permissions.generators import (
     AuthenticatedUser,
     Disable,
     SystemProcess,
-    SystemProcessWithoutAdmin,
+    SystemProcessWithoutSuperUser,
 )
 
 from .generators import Commenter, Creator, Receiver, Status
@@ -63,10 +63,10 @@ class PermissionPolicy(RecordPermissionPolicy):
     # request status into account.
     can_action_submit = [Creator(), SystemProcess()]
     can_action_cancel = [Creator(), SystemProcess()]
-    # Expire is an automatic action done only by the system, therefore
-    # the admin role must be explicitly excluded as it's added by default
-    # to any action.
-    can_action_expire = [SystemProcessWithoutAdmin()]
+    # `SystemProcessWithoutSuperUser`: expire is an automatic action done only by
+    # the system, therefore the `superuser-action` must be explicitly excluded
+    # as it's added by default to any permission.
+    can_action_expire = [SystemProcessWithoutSuperUser()]
     can_action_accept = [Receiver(), SystemProcess()]
     can_action_decline = [Receiver(), SystemProcess()]
 
