@@ -80,6 +80,8 @@ class PermissionPolicy(RecordPermissionPolicy):
         Commenter(),
         SystemProcess(),
     ]
+    # If you can read the request you can create events for the request.
+    can_create_comment = can_read
 
     # Needed by the search events permission because a permission_action must
     # be provided to create_search(), but the event search is already protected

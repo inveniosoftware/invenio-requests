@@ -47,8 +47,7 @@ class RequestEventsService(RecordService):
         :param dict data: Input data according to the data schema.
         """
         request = self._get_request(request_id)
-        # If you can read the request you can create events for the request.
-        self.require_permission(identity, "read", request=request)
+        self.require_permission(identity, "create_comment", request=request)
 
         # Validate data (if there are errors, .load() raises)
         schema = self._wrap_schema(event_type.marshmallow_schema())
