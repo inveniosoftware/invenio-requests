@@ -7,18 +7,18 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: invenio-requests 0.3.25\n"
+"Project-Id-Version: invenio-requests 0.5.5\n"
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
-"POT-Creation-Date: 2022-05-25 14:25+0200\n"
+"POT-Creation-Date: 2022-10-12 10:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.1\n"
+"Generated-By: Babel 2.10.3\n"
 
-#: invenio_requests/services/events/service.py:160
+#: invenio_requests/services/events/service.py:152
 msgid "deleted a comment"
 msgstr ""
 

@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2022-05-25T12:27:59.326Z\n"
-"PO-Revision-Date: 2022-05-25T12:27:59.326Z\n"
+"POT-Creation-Date: 2022-10-12T08:08:24.546Z\n"
+"PO-Revision-Date: 2022-10-12T08:08:24.546Z\n"
 "Language: en\n"
 
 msgid "Save"
@@ -119,3 +119,6 @@ msgstr "Expired"
 
 msgid "Creator"
 msgstr "Creator"
+
+msgid "deleted a comment"
+msgstr "deleted a comment"

@@ -17,7 +17,7 @@
   "Decline": "",
   "Accept and publish": "",
   "Accept": "",
-  "Add comment (optional)": "Add comment (optional)",
+  "Add comment (optional)": "",
   "Receiver": "",
   "Created": "",
   "New submission": "",
@@ -35,5 +35,6 @@
   "Cancelled": "",
   "Declined": "",
   "Expired": "",
-  "Creator": ""
+  "Creator": "",
+  "deleted a comment": ""
 }
