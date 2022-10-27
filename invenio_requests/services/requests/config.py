@@ -68,6 +68,7 @@ class RequestsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
     # request-specific configuration
     record_cls = Request  # needed for model queries
     schema = None  # stored in the API classes, for customization
+    indexer_queue_name = "requests"
     index_dumper = None
 
     # links configuration

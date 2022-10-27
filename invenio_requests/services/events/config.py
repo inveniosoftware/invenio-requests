@@ -80,6 +80,7 @@ class RequestEventsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
     record_cls = RequestEvent
     result_item_cls = RequestEventItem
     result_list_cls = RequestEventList
+    indexer_queue_name = "events"
 
     # ResultItem configurations
     links_item = {
