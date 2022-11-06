@@ -5,7 +5,7 @@
 // under the terms of the MIT License; see LICENSE file for more details.
 
 import { applyMiddleware, createStore } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
+import { composeWithDevTools } from "@redux-devtools/extension";
 import { default as createReducers } from "./state/reducers";
 import thunk from "redux-thunk";
 import { initialState as initialTimeLineState } from "./timeline/state/reducer";
