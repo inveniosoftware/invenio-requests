@@ -9,10 +9,13 @@ exclude .dockerignore
 exclude .editorconfig
 exclude .tx/config
 exclude pytest.ini
-exclude run-tests.sh
 include *.rst
 include babel.ini
 include LICENSE
+include .prettierrc
+include *.yml
+include run-js-linter.sh
+include run-tests.sh
 prune docs/_build
 prune docs/_build
 prune tests
