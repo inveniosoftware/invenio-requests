@@ -7,5 +7,5 @@ export {
   RequestLinksExtractor,
   InvenioRequestEventsApi,
   InvenioRequestsAPI,
-  RequestEventsLinksExtractor
+  RequestEventsLinksExtractor,
 } from "./api";

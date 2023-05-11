@@ -10,17 +10,13 @@ import { initRequest, updateRequestAfterAction } from "./state/actions";
 
 const mapDispatchToProps = (dispatch) => ({
   initRequest: () => dispatch(initRequest()),
-  updateRequestAfterAction: (request) =>
-    dispatch(updateRequestAfterAction(request)),
+  updateRequestAfterAction: (request) => dispatch(updateRequestAfterAction(request)),
 });
 
 const mapStateToProps = (state) => ({
   request: state.request.data,
 });
 
-export const Request = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(RequestComponent);
+export const Request = connect(mapStateToProps, mapDispatchToProps)(RequestComponent);
 
 export * from "./Status";

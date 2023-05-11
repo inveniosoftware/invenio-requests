@@ -24,11 +24,7 @@ export const RequestActionButton = ({
       className={className}
       size={size}
     >
-      <Button
-        onClick={handleActionClick}
-        loading={loading}
-        requestType={requestType}
-      >
+      <Button onClick={handleActionClick} loading={loading} requestType={requestType}>
         <>{action}</>
       </Button>
     </Overridable>

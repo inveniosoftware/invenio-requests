@@ -10,6 +10,7 @@ import React from "react";
 import { Button, Header, Icon, Segment } from "semantic-ui-react";
 
 import { withState } from "react-searchkit";
+
 export const RequestsEmptyResults = ({
   queryString,
   userSelectionFilters,
@@ -18,9 +19,7 @@ export const RequestsEmptyResults = ({
   const isOpen = userSelectionFilters.some(
     (obj) => obj.includes("is_open") && obj.includes("true")
   );
-  const filtersToNotReset = userSelectionFilters.find((obj) =>
-    obj.includes("is_open")
-  );
+  const filtersToNotReset = userSelectionFilters.find((obj) => obj.includes("is_open"));
   const elementsToReset = {
     queryString: "",
     page: 1,

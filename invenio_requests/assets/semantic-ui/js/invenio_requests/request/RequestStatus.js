@@ -27,7 +27,4 @@ RequestStatus.propTypes = {
   status: PropTypes.string.isRequired,
 };
 
-export default Overridable.component(
-  "InvenioRequests.RequestStatus",
-  RequestStatus
-);
+export default Overridable.component("InvenioRequests.RequestStatus", RequestStatus);

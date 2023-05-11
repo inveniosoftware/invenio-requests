@@ -11,14 +11,7 @@ import { Button } from "semantic-ui-react";
 
 export class RequestActionModalTrigger extends Component {
   render() {
-    const {
-      action,
-      toggleModal,
-      loading,
-      modalOpen,
-      requestType,
-      size,
-    } = this.props;
+    const { action, toggleModal, loading, modalOpen, requestType, size } = this.props;
     const buttonAria = {
       "aria-expanded": !!modalOpen[action],
       "aria-haspopup": "dialog",

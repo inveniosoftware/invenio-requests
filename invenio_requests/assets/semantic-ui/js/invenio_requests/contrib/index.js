@@ -8,7 +8,7 @@ import {
   LabelTypeCommunityInclusion,
   LabelTypeCommunityInvitation,
   LabelTypeCommunitySubmission,
-} from "@js/invenio_requests/contrib"
+} from "@js/invenio_requests/contrib";
 import {
   RequestAcceptButton,
   RequestCancelButton,
@@ -17,8 +17,8 @@ import {
 import {
   RequestAcceptModalTrigger,
   RequestDeclineModalTrigger,
-  RequestCancelModalTrigger
-} from '@js/invenio_requests/components/ModalTriggers';
+  RequestCancelModalTrigger,
+} from "@js/invenio_requests/components/ModalTriggers";
 
 export const defaultContribComponents = {
   [`RequestTypeLabel.layout.community-submission`]: LabelTypeCommunitySubmission,
@@ -36,7 +36,6 @@ export const defaultContribComponents = {
   [`RequestActionModalTrigger.accept`]: RequestAcceptModalTrigger,
   [`RequestActionModalTrigger.decline`]: RequestDeclineModalTrigger,
   [`RequestActionModalTrigger.cancel`]: RequestCancelModalTrigger,
-}
+};
 
 export * from "./labels";
-

@@ -28,7 +28,7 @@ const CreatorList = ({ creators }) => {
 };
 
 CreatorList.propTypes = {
-  creators: PropTypes.array.isRequired
-}
+  creators: PropTypes.array.isRequired,
+};
 
 export default Overridable.component("CreatorList", CreatorList);

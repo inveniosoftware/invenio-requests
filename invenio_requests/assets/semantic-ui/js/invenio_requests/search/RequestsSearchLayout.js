@@ -9,18 +9,12 @@ import {
   SearchAppResultsPane,
 } from "@js/invenio_search_ui/components";
 import { i18next } from "@translations/invenio_requests/i18next";
-import {
-  RequestStatusFilter
-} from './RequestStatusFilterComponent';
+import { RequestStatusFilter } from "./RequestStatusFilterComponent";
 import PropTypes from "prop-types";
 import React from "react";
 import { GridResponsiveSidebarColumn } from "react-invenio-forms";
 import { SearchBar } from "react-searchkit";
-import {
-  Button,
-  Container,
-  Grid,
-} from "semantic-ui-react";
+import { Button, Container, Grid } from "semantic-ui-react";
 
 export const RequestsSearchLayout = ({ config, appName }) => {
   const [sidebarVisible, setSidebarVisible] = React.useState(false);

@@ -32,8 +32,7 @@ export const ComputerTabletRequestItem = ({
       result.created_by.user;
   } else if (isCreatorCommunity) {
     creatorName =
-      result.expanded?.created_by.metadata?.title ||
-      result.created_by.community;
+      result.expanded?.created_by.metadata?.title || result.created_by.community;
   }
 
   return (
@@ -66,7 +65,7 @@ export const ComputerTabletRequestItem = ({
         <Item.Meta>
           <small>
             <Trans
-              defaults={"Opened {{relativeTime}} by"}
+              defaults="Opened {{relativeTime}} by"
               values={{
                 relativeTime: toRelativeTime(
                   createdDate.toISOString(),
@@ -74,27 +73,22 @@ export const ComputerTabletRequestItem = ({
                 ),
               }}
             />
-            {isCreatorCommunity && (
-              <Icon className="default-margin" name="users" />
-            )}{" "}
+            {isCreatorCommunity && <Icon className="default-margin" name="users" />}{" "}
             {creatorName}
           </small>
           <small className="right floated">
-            {result.receiver.community &&
-              result.expanded?.receiver.metadata.title && (
-                <>
-                  <Icon className="default-margin" name="users" />
-                  <span className="ml-5">
-                    {result.expanded?.receiver.metadata.title}
-                  </span>
-                </>
-              )}
+            {result.receiver.community && result.expanded?.receiver.metadata.title && (
+              <>
+                <Icon className="default-margin" name="users" />
+                <span className="ml-5">{result.expanded?.receiver.metadata.title}</span>
+              </>
+            )}
             {result.expires_at && (
               <span>
                 {i18next.t("Expires at: {{- expiringDate}}", {
-                  expiringDate: DateTime.fromISO(
-                    result.expires_at
-                  ).toLocaleString(i18next.language),
+                  expiringDate: DateTime.fromISO(result.expires_at).toLocaleString(
+                    i18next.language
+                  ),
                 })}
               </span>
             )}

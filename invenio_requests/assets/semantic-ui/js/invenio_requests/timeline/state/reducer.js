@@ -4,13 +4,7 @@
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
 
-import {
-  CHANGE_PAGE,
-  HAS_ERROR,
-  IS_LOADING,
-  IS_REFRESHING,
-  SUCCESS,
-} from "./actions";
+import { CHANGE_PAGE, HAS_ERROR, IS_LOADING, IS_REFRESHING, SUCCESS } from "./actions";
 
 export const initialState = {
   loading: false,

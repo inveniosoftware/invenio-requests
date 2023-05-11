@@ -4,11 +4,11 @@
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
 
-import { REQUEST_INIT } from './actions';
+import { REQUEST_INIT } from "./actions";
 
 export const initialState = {
   loading: false,
-  data: {  },
+  data: {},
   error: null,
 };
 
@@ -25,4 +25,3 @@ export const requestReducer = (state = initialState, action) => {
       return state;
   }
 };
-

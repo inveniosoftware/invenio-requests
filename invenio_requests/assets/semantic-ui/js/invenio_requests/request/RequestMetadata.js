@@ -29,13 +29,7 @@ const User = ({ user }) => (
 );
 const Community = ({ community }) => (
   <div className="flex">
-    <Image
-      src={community.links.logo}
-      avatar
-      size="tiny"
-      className="mr-5"
-      ui={false}
-    />
+    <Image src={community.links.logo} avatar size="tiny" className="mr-5" ui={false} />
     <a href={`/communities/${community.slug}`}>{community.metadata.title}</a>
   </div>
 );

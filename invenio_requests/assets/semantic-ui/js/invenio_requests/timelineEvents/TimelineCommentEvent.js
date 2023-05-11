@@ -64,21 +64,13 @@ class TimelineCommentEvent extends Component {
       userName = null;
     if (isUser) {
       userAvatar = (
-        <RequestsFeed.Avatar
-          src={expandedCreatedBy.links.avatar}
-          as={Image}
-          circular
-        />
+        <RequestsFeed.Avatar src={expandedCreatedBy.links.avatar} as={Image} circular />
       );
-      userName =
-        expandedCreatedBy.profile?.full_name || expandedCreatedBy.username;
+      userName = expandedCreatedBy.profile?.full_name || expandedCreatedBy.username;
     }
 
     return (
-      <Overridable
-        id={`TimelineEvent.layout.${this.eventToType(event)}`}
-        event={event}
-      >
+      <Overridable id={`TimelineEvent.layout.${this.eventToType(event)}`} event={event}>
         <RequestsFeed.Item>
           <RequestsFeed.Content>
             {userAvatar}
@@ -108,7 +100,7 @@ class TimelineCommentEvent extends Component {
                   <b>{userName}</b>
                   <Feed.Date>
                     {i18next.t("commented {{commentTime}}", {
-                      commentTime: toRelativeTime(event.created, i18next.language)
+                      commentTime: toRelativeTime(event.created, i18next.language),
                     })}
                   </Feed.Date>
                 </Feed.Summary>
@@ -141,9 +133,7 @@ class TimelineCommentEvent extends Component {
                     </Container>
                   )}
                 </Feed.Extra>
-                {commentHasBeenEdited && (
-                  <Feed.Meta>{i18next.t("Edited")}</Feed.Meta>
-                )}
+                {commentHasBeenEdited && <Feed.Meta>{i18next.t("Edited")}</Feed.Meta>}
               </Feed.Content>
             </RequestsFeed.Event>
           </RequestsFeed.Content>

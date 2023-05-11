@@ -53,17 +53,8 @@ class FormattedInputEditor extends Component {
   }
 
   render() {
-    const {
-      editor,
-      data,
-      config,
-      id,
-      disabled,
-      onReady,
-      onChange,
-      onBlur,
-      onFocus,
-    } = this.props;
+    const { editor, data, config, id, disabled, onReady, onChange, onBlur, onFocus } =
+      this.props;
     return (
       <CKEditor
         editor={editor}

@@ -34,8 +34,7 @@ export class RequestAction extends Component {
   };
 
   render() {
-    const { loading, performAction, toggleModal, error, modalOpen } =
-      this.context;
+    const { loading, performAction, toggleModal, error, modalOpen } = this.context;
     const { action, requestType, size } = this.props;
     const modalId = action;
     return (
@@ -83,10 +82,7 @@ export class RequestAction extends Component {
 RequestAction.propTypes = {
   action: PropTypes.string.isRequired,
   requestType: PropTypes.string.isRequired,
-  size: PropTypes.string
+  size: PropTypes.string,
 };
 
-export default Overridable.component(
-  "InvenioRequests.RequestAction",
-  RequestAction
-);
+export default Overridable.component("InvenioRequests.RequestAction", RequestAction);

@@ -58,11 +58,7 @@ export const submitComment = (content, format) => {
 
       await dispatch({
         type: TIMELINE_SUCCESS,
-        payload: _updatedState(
-          response.data,
-          timelineState,
-          shouldGoToNextPage
-        ),
+        payload: _updatedState(response.data, timelineState, shouldGoToNextPage),
       });
       dispatch(setTimelineInterval());
     } catch (error) {

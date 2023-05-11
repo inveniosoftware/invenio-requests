@@ -42,10 +42,7 @@ export const RequestEventItemIconContainer = ({ name, size, color }) => (
 );
 
 export const RequestEventItemBody = ({ isActionEvent, ...props }) => (
-  <Feed.Event
-    {...props}
-    className={isActionEvent ? "requests-action-event" : ""}
-  />
+  <Feed.Event {...props} className={isActionEvent ? "requests-action-event" : ""} />
 );
 
 RequestEventItemBody.propTypes = {

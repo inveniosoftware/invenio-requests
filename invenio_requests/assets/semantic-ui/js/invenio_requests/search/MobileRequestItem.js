@@ -15,14 +15,12 @@ import { Trans } from "react-i18next";
 import { toRelativeTime } from "react-invenio-forms";
 import { DateTime } from "luxon";
 
-
 export const MobileRequestItem = ({
   result,
   updateQueryState,
   currentQueryState,
-  detailsURL
+  detailsURL,
 }) => {
-
   const createdDate = new Date(result.created);
   let creatorName = "";
   const isCreatorUser = "user" in result.created_by;
@@ -34,8 +32,7 @@ export const MobileRequestItem = ({
       result.created_by.user;
   } else if (isCreatorCommunity) {
     creatorName =
-      result.expanded?.created_by.metadata?.title ||
-      result.created_by.community;
+      result.expanded?.created_by.metadata?.title || result.created_by.community;
   }
   return (
     <Item key={result.id} className="mobile only flex">
@@ -47,10 +44,7 @@ export const MobileRequestItem = ({
           )}
         </Item.Extra>
         <Item.Header className="truncate-lines-2">
-          <a
-            className="header-link"
-            href={detailsURL}
-          >
+          <a className="header-link" href={detailsURL}>
             <Icon size="small" name="conversation" color="black" />
             {result.title}
           </a>
@@ -58,7 +52,7 @@ export const MobileRequestItem = ({
         <Item.Meta>
           <small>
             <Trans
-              defaults={"Opened {{relativeTime}} by"}
+              defaults="Opened {{relativeTime}} by"
               values={{
                 relativeTime: toRelativeTime(
                   createdDate.toISOString(),
@@ -69,21 +63,18 @@ export const MobileRequestItem = ({
             {creatorName}
           </small>
           <small className="mb-5 block">
-            {result.receiver.community &&
-              result.expanded?.receiver.metadata.title && (
-                <>
-                  <Icon className="default-margin" name="users" />
-                  <span className="ml-5">
-                    {result.expanded?.receiver.metadata.title}
-                  </span>
-                </>
-              )}
+            {result.receiver.community && result.expanded?.receiver.metadata.title && (
+              <>
+                <Icon className="default-margin" name="users" />
+                <span className="ml-5">{result.expanded?.receiver.metadata.title}</span>
+              </>
+            )}
             {result.expires_at && (
               <span>
                 {i18next.t("Expires at: {{- expiringDate}}", {
-                  expiringDate: DateTime.fromISO(
-                    result.expires_at
-                  ).toLocaleString(i18next.language),
+                  expiringDate: DateTime.fromISO(result.expires_at).toLocaleString(
+                    i18next.language
+                  ),
                 })}
               </span>
             )}
@@ -92,9 +83,7 @@ export const MobileRequestItem = ({
             <div className="block">
               <RequestActionController
                 request={result}
-                actionSuccessCallback={() =>
-                  updateQueryState(currentQueryState)
-                }
+                actionSuccessCallback={() => updateQueryState(currentQueryState)}
               />
             </div>
           )}

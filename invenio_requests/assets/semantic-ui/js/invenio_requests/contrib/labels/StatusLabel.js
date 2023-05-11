@@ -55,7 +55,7 @@ export const LabelStatusCancel = (props) => {
 
 export const LabelStatusExpire = (props) => {
   return (
-    <Label className="expired" size="small" >
+    <Label className="expired" size="small">
       <Icon name="expire" />
       {i18next.t("Expired")}
     </Label>

@@ -41,8 +41,7 @@ class TimelineFeed extends Component {
   };
 
   render() {
-    const { timeline, loading, error, setPage, size, page, userAvatar } =
-      this.props;
+    const { timeline, loading, error, setPage, size, page, userAvatar } = this.props;
     const { modalOpen, modalAction } = this.state;
 
     return (

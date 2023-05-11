@@ -9,7 +9,6 @@ import Overridable from "react-overridable";
 const element = document.getElementById("request-actions");
 
 const RequestActionsPortalCmp = ({ request, actionSuccessCallback }) => {
-
   return ReactDOM.createPortal(
     <RequestActionController
       request={request}
@@ -29,5 +28,3 @@ export default Overridable.component(
   "InvenioRequests.RequestActionsPortal",
   RequestActionsPortalCmp
 );
-
-

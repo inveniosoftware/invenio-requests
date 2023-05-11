@@ -40,7 +40,4 @@ RequestDetails.defaultProps = {
   userAvatar: "",
 };
 
-export default Overridable.component(
-  "InvenioRequests.RequestDetails",
-  RequestDetails
-);
+export default Overridable.component("InvenioRequests.RequestDetails", RequestDetails);

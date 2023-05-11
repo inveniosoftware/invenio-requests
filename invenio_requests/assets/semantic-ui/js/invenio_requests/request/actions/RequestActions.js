@@ -59,7 +59,4 @@ export const RequestActions = ({ request, size }) => {
   );
 };
 
-export default Overridable.component(
-  "InvenioRequests.RequestActions",
-  RequestActions
-);
+export default Overridable.component("InvenioRequests.RequestActions", RequestActions);

@@ -24,7 +24,10 @@ const TimelineCommentEditor = ({
     <div className="timeline-comment-editor-container">
       {error && <Message negative>{error}</Message>}
       <div className="flex">
-        <RequestEventAvatarContainer src={userAvatar} className="tablet computer only rel-mr-1"/>
+        <RequestEventAvatarContainer
+          src={userAvatar}
+          className="tablet computer only rel-mr-1"
+        />
         <Container fluid className="ml-0-mobile mr-0-mobile fluid-mobile">
           <FormattedInputEditor
             data={commentContent}

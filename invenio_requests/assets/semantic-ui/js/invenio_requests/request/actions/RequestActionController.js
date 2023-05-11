@@ -1,7 +1,4 @@
-import {
-  RequestLinksExtractor,
-  InvenioRequestsAPI,
-} from "@js/invenio_requests/api";
+import { RequestLinksExtractor, InvenioRequestsAPI } from "@js/invenio_requests/api";
 import { errorSerializer } from "@js/invenio_requests/api/serializers";
 import { RequestActions } from "@js/invenio_requests/request/actions/RequestActions";
 import PropTypes from "prop-types";
@@ -31,10 +28,7 @@ export class RequestActionController extends Component {
     this.setState({ loading: true });
     const { actionSuccessCallback } = this.props;
     try {
-      const response = await this.requestApi.performAction(
-        action,
-        commentContent
-      );
+      const response = await this.requestApi.performAction(action, commentContent);
       this.setState({ loading: false });
       this.toggleActionModal(action, false);
       actionSuccessCallback(response.data);

@@ -39,11 +39,7 @@ export const RequestDeclineModalTrigger = ({
         />
       </Media>
       <Media at="mobile">
-        <Dropdown.Item
-          icon="cancel"
-          onClick={onClick}
-          content={i18next.t("Decline")}
-        ></Dropdown.Item>
+        <Dropdown.Item icon="cancel" onClick={onClick} content={i18next.t("Decline")} />
       </Media>
     </MediaContextProvider>
   );
@@ -59,8 +55,8 @@ RequestDeclineModalTrigger.propTypes = {
 
 RequestDeclineModalTrigger.defaultProps = {
   size: "mini",
-  className: "ml-5"
-}
+  className: "ml-5",
+};
 
 export const RequestAcceptModalTrigger = ({
   onClick,
@@ -88,11 +84,7 @@ export const RequestAcceptModalTrigger = ({
         />
       </Media>
       <Media at="mobile">
-        <Dropdown.Item
-          icon="checkmark"
-          onClick={onClick}
-          content={text}
-        ></Dropdown.Item>{" "}
+        <Dropdown.Item icon="checkmark" onClick={onClick} content={text} />{" "}
       </Media>
     </MediaContextProvider>
   );
@@ -108,8 +100,8 @@ RequestAcceptModalTrigger.propTypes = {
 
 RequestAcceptModalTrigger.defaultProps = {
   size: "mini",
-  className: "ml-5"
-}
+  className: "ml-5",
+};
 
 export const RequestCancelModalTrigger = ({
   onClick,
@@ -133,11 +125,7 @@ export const RequestCancelModalTrigger = ({
         />
       </Media>
       <Media at="mobile">
-        <Dropdown.Item
-          icon="cancel"
-          onClick={onClick}
-          content={i18next.t("Cancel")}
-        ></Dropdown.Item>
+        <Dropdown.Item icon="cancel" onClick={onClick} content={i18next.t("Cancel")} />
       </Media>
     </MediaContextProvider>
   );
@@ -153,5 +141,5 @@ RequestCancelModalTrigger.propTypes = {
 
 RequestCancelModalTrigger.defaultProps = {
   size: "mini",
-  className: "ml-5"
-}
+  className: "ml-5",
+};

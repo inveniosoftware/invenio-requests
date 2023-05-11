@@ -4,17 +4,13 @@
 // Invenio is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
 
-import {
-  InvenioSearchPagination,
-} from "@js/invenio_search_ui/components";
+import { InvenioSearchPagination } from "@js/invenio_search_ui/components";
 import { i18next } from "@translations/invenio_requests/i18next";
 import PropTypes from "prop-types";
 import React from "react";
 import { Count, ResultsList, Sort } from "react-searchkit";
-import {
-  Grid,
-  Segment,
-} from "semantic-ui-react";
+import { Grid, Segment } from "semantic-ui-react";
+
 export const RequestsResults = ({
   sortOptions,
   paginationOptions,
@@ -77,4 +73,3 @@ RequestsResults.propTypes = {
   paginationOptions: PropTypes.object.isRequired,
   currentResultsState: PropTypes.object.isRequired,
 };
-

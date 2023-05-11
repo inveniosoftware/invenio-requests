@@ -45,9 +45,9 @@ class TimelineActionEvent extends Component {
         iconColor={iconColor}
       >
         <RequestsFeed.Item>
-          <RequestsFeed.Content isEvent={true}>
+          <RequestsFeed.Content isEvent>
             <RequestsFeed.Icon name={iconName} size="large" color={iconColor} />
-            <RequestsFeed.Event isActionEvent={true}>
+            <RequestsFeed.Event isActionEvent>
               <Feed.Content>
                 <Feed.Summary className="flex">
                   {userAvatar}
@@ -80,7 +80,4 @@ TimelineActionEvent.defaultProps = {
   iconColor: "grey",
 };
 
-export default Overridable.component(
-  "TimelineActionEvent",
-  TimelineActionEvent
-);
+export default Overridable.component("TimelineActionEvent", TimelineActionEvent);

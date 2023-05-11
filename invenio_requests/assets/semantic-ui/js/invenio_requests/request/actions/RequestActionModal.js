@@ -34,39 +34,20 @@ export class RequestActionModal extends Component {
   };
 
   render() {
-    const {
-      action,
-      handleActionClick,
-      modalId,
-      children,
-      requestType,
-    } = this.props;
-    const {
-      modalOpen,
-      loading,
-      toggleModal,
-      error,
-      cleanError,
-      className,
-      size,
-    } = this.context;
+    const { action, handleActionClick, modalId, children, requestType } = this.props;
+    const { modalOpen, loading, toggleModal, error, cleanError, className, size } =
+      this.context;
 
     const currentModalOpen = modalOpen[modalId];
 
     return (
-      <Overridable
-        id="InvenioRequests.RequestActionModal.layout"
-        {...this.props}
-      >
+      <Overridable id="InvenioRequests.RequestActionModal.layout" {...this.props}>
         {/*currentModalOpen prevents mounting multiple instances*/}
         {currentModalOpen && (
           <Modal role="dialog" id={modalId} open={currentModalOpen}>
             <Modal.Header as="h2">
               <Overridable id={`RequestActionModal.title.${action}`}>
-                <Trans
-                  defaults="{{action}} request"
-                  values={{ action: action }}
-                />
+                <Trans defaults="{{action}} request" values={{ action: action }} />
               </Overridable>
             </Modal.Header>
             <Modal.Content>
@@ -94,8 +75,7 @@ export class RequestActionModal extends Component {
                 className={className}
                 size={size}
                 requestType={requestType}
-              >
-              </RequestActionButton>
+              />
             </Modal.Actions>
           </Modal>
         )}
