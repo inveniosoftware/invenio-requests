@@ -59,18 +59,22 @@ class RequestMetadata extends Component {
     return (
       <Overridable id="InvenioRequest.RequestMetadata.Layout" request={request}>
         <>
-          <Header as="h3" size="tiny">
-            {i18next.t("Creator")}
-          </Header>
-          {this.isResourceDeleted(expandedCreatedBy) ? (
-            <DeletedResource details={expandedCreatedBy} />
-          ) : (
-            <UserOrCommunity
-              userData={request.created_by}
-              details={request.expanded?.created_by}
-            />
-          )}
-          <Divider />
+          {expandedCreatedBy !== undefined &&
+            <>
+              <Header as="h3" size="tiny">
+                {i18next.t("Creator")}
+              </Header>
+              {this.isResourceDeleted(expandedCreatedBy) ? (
+                <DeletedResource details={expandedCreatedBy} />
+              ) : (
+                <UserOrCommunity
+                  userData={request.created_by}
+                  details={request.expanded?.created_by}
+                />
+              )}
+              <Divider />
+            </>
+          }
 
           <Header as="h3" size="tiny">
             {i18next.t("Receiver")}
