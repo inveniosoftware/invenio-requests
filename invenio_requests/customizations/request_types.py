@@ -190,6 +190,19 @@ class RequestType:
             current_requests._schema_cache[type_id] = cls._create_marshmallow_schema()
         return current_requests._schema_cache[type_id]
 
+    def _update_link_config(cls, **context_values):
+        """Method for updating the context values when generating links.
+
+        WARNING: this method potentially mixes layers and might be a footgun;
+        it will likely be removed in a future release!
+
+        This method takes the already determined context values for the link as
+        keyword arguments and should return values that will be used to update the
+        original context values.
+        """
+        # FIXME/TODO this should be reworked into a service feature
+        return {}
+
     def generate_request_number(self, request, **kwargs):
         """Generate a new request number identifier.
 

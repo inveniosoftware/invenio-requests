@@ -53,3 +53,4 @@ class RequestLink(Link):
         """Variables for the URI template."""
         # TODO this uses the UUID of the record, should we maybe use the number/ext-id?
         vars.update({"id": record.id})
+        vars.update(record.type._update_link_config(**vars))
