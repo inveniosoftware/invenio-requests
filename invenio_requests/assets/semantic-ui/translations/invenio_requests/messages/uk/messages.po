@@ -1,10 +1,14 @@
 # 
+# Translators:
+# Vasyl Ostrovskyi <vasyusya@yahoo.com>, 2023
+# 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2022-10-12T08:08:24.546Z\n"
 "PO-Revision-Date: 2022-02-18 11:12+0000\n"
-"Language-Team: Ukrainian (https://www.transifex.com/inveniosoftware/teams/23537/uk/)\n"
+"Last-Translator: Vasyl Ostrovskyi <vasyusya@yahoo.com>, 2023\n"
+"Language-Team: Ukrainian (https://app.transifex.com/inveniosoftware/teams/23537/uk/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: uk\n"
@@ -12,7 +16,7 @@ msgstr ""
 "mime-version: 1.0\n"
 
 msgid "Save"
-msgstr ""
+msgstr "Зберегти"
 
 msgid "Something went wrong."
 msgstr ""
@@ -21,7 +25,7 @@ msgid "Confirm"
 msgstr ""
 
 msgid "Cancel"
-msgstr ""
+msgstr "Скасувати"
 
 msgid "{{action}} request"
 msgstr ""
@@ -30,10 +34,10 @@ msgid "Request type"
 msgstr ""
 
 msgid "Status"
-msgstr ""
+msgstr "Статус"
 
 msgid "Expires"
-msgstr ""
+msgstr "Термін дії"
 
 msgid "Comment"
 msgstr ""
@@ -42,10 +46,10 @@ msgid "commented"
 msgstr ""
 
 msgid "Edit"
-msgstr ""
+msgstr "Редагувати"
 
 msgid "Delete"
-msgstr ""
+msgstr "Видалити"
 
 msgid "Edited"
 msgstr ""
@@ -72,7 +76,7 @@ msgid "Receiver"
 msgstr ""
 
 msgid "Created"
-msgstr ""
+msgstr "Створено"
 
 msgid "New submission"
 msgstr ""
@@ -105,19 +109,19 @@ msgid "Decline request"
 msgstr ""
 
 msgid "Submitted"
-msgstr ""
+msgstr "Подано"
 
 msgid "Accepted"
-msgstr ""
+msgstr "Прийнято"
 
 msgid "Cancelled"
-msgstr ""
+msgstr "Скасовано"
 
 msgid "Declined"
-msgstr ""
+msgstr "Відхилено"
 
 msgid "Expired"
-msgstr ""
+msgstr "Застаріло"
 
 msgid "Creator"
 msgstr ""

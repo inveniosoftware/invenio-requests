@@ -4,6 +4,9 @@
 # project.
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
 # 
+# Translators:
+# Vasyl Ostrovskyi <vasyusya@yahoo.com>, 2023
+# 
 #, fuzzy
 msgid ""
 msgstr ""
@@ -11,7 +14,8 @@ msgstr ""
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
 "POT-Creation-Date: 2022-10-12 10:07+0200\n"
 "PO-Revision-Date: 2022-02-15 12:46+0000\n"
-"Language-Team: Ukrainian (https://www.transifex.com/inveniosoftware/teams/23537/uk/)\n"
+"Last-Translator: Vasyl Ostrovskyi <vasyusya@yahoo.com>, 2023\n"
+"Language-Team: Ukrainian (https://app.transifex.com/inveniosoftware/teams/23537/uk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -25,7 +29,7 @@ msgstr ""
 
 #: invenio_requests/services/requests/facets.py:15
 msgid "Type"
-msgstr ""
+msgstr "Тип"
 
 #: invenio_requests/services/requests/facets.py:17
 msgid "New submission"
@@ -37,27 +41,27 @@ msgstr ""
 
 #: invenio_requests/services/requests/facets.py:24
 msgid "Status"
-msgstr ""
+msgstr "Статус"
 
 #: invenio_requests/services/requests/facets.py:26
 msgid "Submitted"
-msgstr ""
+msgstr "Подано"
 
 #: invenio_requests/services/requests/facets.py:27
 msgid "Expired"
-msgstr ""
+msgstr "Застаріло"
 
 #: invenio_requests/services/requests/facets.py:28
 msgid "Accepted"
-msgstr ""
+msgstr "Прийнято"
 
 #: invenio_requests/services/requests/facets.py:29
 msgid "Declined"
-msgstr ""
+msgstr "Відхилено"
 
 #: invenio_requests/services/requests/facets.py:30
 msgid "Cancelled"
-msgstr ""
+msgstr "Скасовано"
 
 #: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:9
 msgid "Tombstone"
@@ -65,7 +69,7 @@ msgstr ""
 
 #: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:12
 msgid "Gone"
-msgstr ""
+msgstr "Втрачений"
 
 #: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:14
 #, python-format
@@ -75,10 +79,14 @@ msgid ""
 "    metadata of the record is kept for archival purposes.\n"
 "  "
 msgstr ""
+"\n"
+"    Запис, який ви намагаєтесь отримати, видалено з сайту%(sitename)s. \n"
+"    Метадані запису збережено з метою архівування.\n"
+"  "
 
 #: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:21
 msgid "Reason for removal:"
-msgstr ""
+msgstr "Підстава для видалення:"
 
 #: invenio_requests/templates/semantic-ui/invenio_requests/details/index.html:16
 msgid "Request "
