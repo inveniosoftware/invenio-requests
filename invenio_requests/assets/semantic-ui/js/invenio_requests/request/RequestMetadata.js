@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Image } from "react-invenio-forms";
 import Overridable from "react-overridable";
-import { Divider, Header, Message } from "semantic-ui-react";
+import { Divider, Header, Icon, Message } from "semantic-ui-react";
 import { toRelativeTime } from "react-invenio-forms";
 import RequestStatus from "./RequestStatus";
 import RequestTypeLabel from "./RequestTypeLabel";
@@ -33,15 +33,24 @@ const Community = ({ community }) => (
     <a href={`/communities/${community.slug}`}>{community.metadata.title}</a>
   </div>
 );
+const ExternalEmail = ({ email }) => (
+  <div className="flex">
+    <Icon name="mail" className="mr-5" />
+    <span>{i18next.t("External email")}: {email.id}</span>
+  </div>
+);
 
-const UserOrCommunity = ({ userData, details }) => {
+const EntityDetails = ({ userData, details }) => {
   const isUser = "user" in userData;
   const isCommunity = "community" in userData;
+  const isExternalEmail = "email" in userData;
 
   if (isUser) {
     return <User user={details} />;
   } else if (isCommunity) {
     return <Community community={details} />;
+  } else if (isExternalEmail) {
+    return <ExternalEmail email={details} />;
   }
 };
 
@@ -67,7 +76,7 @@ class RequestMetadata extends Component {
               {this.isResourceDeleted(expandedCreatedBy) ? (
                 <DeletedResource details={expandedCreatedBy} />
               ) : (
-                <UserOrCommunity
+                <EntityDetails
                   userData={request.created_by}
                   details={request.expanded?.created_by}
                 />
@@ -82,7 +91,7 @@ class RequestMetadata extends Component {
           {this.isResourceDeleted(expandedReceiver) ? (
             <DeletedResource details={expandedReceiver} />
           ) : (
-            <UserOrCommunity
+            <EntityDetails
               userData={request.receiver}
               details={request.expanded?.receiver}
             />
