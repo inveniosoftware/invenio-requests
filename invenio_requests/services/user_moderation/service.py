@@ -41,8 +41,8 @@ class UserModerationRequestService:
         topic = {"user": str(user_id)}
 
         # Receiver can be configured, by default send the request to users with moderation role
-        receiver = {"group": role.name}  # TODO to be changed to role id
-        creator = {"group": role.name}  # TODO to be changed to role id
+        receiver = {"group": role.id}
+        creator = {"group": role.id}
 
         request_item = self.requests_service.create(
             identity,

@@ -294,7 +294,7 @@ def superuser_role(database):
 def moderator_role(app, database):
     """Moderator role."""
     REQUESTS_MODERATION_ROLE = app.config["REQUESTS_MODERATION_ROLE"]
-    mod_role = Role(name=REQUESTS_MODERATION_ROLE)
+    mod_role = Role(id=REQUESTS_MODERATION_ROLE, name=REQUESTS_MODERATION_ROLE)
     database.session.add(mod_role)
 
     action_role = ActionRoles.create(action=user_management_action, role=mod_role)
