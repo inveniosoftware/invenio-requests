@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2022 CERN.
+# Copyright (C) 2024 Graz University of Technology.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify
 # it under the terms of the MIT License; see LICENSE file for more details.
@@ -104,9 +105,9 @@ class EventType:
         """Create a schema for the entire request including payload."""
         type_id = cls.type_id
         if type_id not in current_requests._events_schema_cache:
-            current_requests._events_schema_cache[
-                type_id
-            ] = cls._create_marshmallow_schema()
+            current_requests._events_schema_cache[type_id] = (
+                cls._create_marshmallow_schema()
+            )
         return current_requests._events_schema_cache[type_id]
 
 
