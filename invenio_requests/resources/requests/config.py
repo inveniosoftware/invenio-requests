@@ -77,3 +77,10 @@ class RequestsResourceConfig(RecordResourceConfig, ConfiguratorMixin):
     error_handlers = FromConfig(
         "REQUESTS_ERROR_HANDLERS", default=request_error_handlers
     )
+
+    response_handlers = {
+        "application/vnd.inveniordm.v1+json": RecordResourceConfig.response_handlers[
+            "application/json"
+        ],
+        **RecordResourceConfig.response_handlers,
+    }
