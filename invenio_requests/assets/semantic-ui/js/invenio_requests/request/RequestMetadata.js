@@ -59,6 +59,7 @@ const EntityDetails = ({ userData, details }) => {
   } else if (isExternalEmail) {
     return <ExternalEmail email={details} />;
   }
+  return null;
 };
 
 const DeletedResource = ({ details }) => (
