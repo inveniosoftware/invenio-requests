@@ -81,15 +81,15 @@
       },
       "created_by": {
         "type": "object",
-        "dynamic": true
+        "dynamic": "true"
       },
       "topic": {
         "type": "object",
-        "dynamic": true
+        "dynamic": "true"
       },
       "receiver": {
         "type": "object",
-        "dynamic": true
+        "dynamic": "true"
       },
       "grants": {
         "type": "keyword"

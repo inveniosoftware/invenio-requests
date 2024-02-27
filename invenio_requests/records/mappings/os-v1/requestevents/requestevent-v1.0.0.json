@@ -30,7 +30,7 @@
 
       "created_by": {
         "type": "object",
-        "dynamic": true
+        "dynamic": "true"
       },
       "id": {
         "type": "keyword"
