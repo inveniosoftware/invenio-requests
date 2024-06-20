@@ -2,6 +2,7 @@
 #
 # Copyright (C) 2021 CERN.
 # Copyright (C) 2021 Northwestern University.
+# Copyright (C) 2022-2024 TU Wien.
 #
 # Invenio-Requests is free software; you can redistribute it and/or
 # modify it under the terms of the MIT License; see LICENSE file for more
@@ -215,3 +216,67 @@ def test_empty_comment(
     )
     assert 400 == response.status_code
     assert expected_json == response.json
+
+
+#
+# Read-only mode
+#
+
+
+def test_comment_request_ro(
+    rw_app, client_logged_as, headers, events_resource_data, example_request
+):
+    rw_app.config["RECORDS_PERMISSIONS_READ_ONLY"] = True
+    request_id = example_request.id
+    client = client_logged_as("admin@example.org")
+
+    # Commenting on a request in read-only mode should fail
+    response = client.post(
+        f"/requests/{request_id}/comments", headers=headers, json=events_resource_data
+    )
+    assert response.status_code == 403
+
+
+def test_update_comment_request_ro(
+    rw_app, client_logged_as, headers, events_resource_data, example_request
+):
+    request_id = example_request.id
+    client = client_logged_as("admin@example.org")
+
+    response = client.post(
+        f"/requests/{request_id}/comments", headers=headers, json=events_resource_data
+    )
+    comment_id = response.json["id"]
+    assert response.status_code == 201
+
+    # Updating the comment in read-only mode should fail
+    rw_app.config["RECORDS_PERMISSIONS_READ_ONLY"] = True
+    data = copy.deepcopy(events_resource_data)
+    data["payload"]["content"] = "I've revised my comment."
+    response = client.put(
+        f"/requests/{request_id}/comments/{comment_id}",
+        headers=headers,
+        json=data,
+    )
+    assert response.status_code == 403
+
+
+def test_delete_comment_request_ro(
+    rw_app, client_logged_as, headers, events_resource_data, example_request
+):
+    request_id = example_request.id
+    client = client_logged_as("admin@example.org")
+
+    response = client.post(
+        f"/requests/{request_id}/comments", headers=headers, json=events_resource_data
+    )
+    comment_id = response.json["id"]
+    assert response.status_code == 201
+
+    # Updating the comment in read-only mode should fail
+    rw_app.config["RECORDS_PERMISSIONS_READ_ONLY"] = True
+    response = client.delete(
+        f"/requests/{request_id}/comments/{comment_id}",
+        headers=headers,
+    )
+    assert response.status_code == 403
