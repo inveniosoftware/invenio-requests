@@ -2,6 +2,7 @@
 #
 # Copyright (C) 2021 CERN.
 # Copyright (C) 2021 - 2022 TU Wien.
+# Copyright (C) 2024 KTH Royal Institute of Technology.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -117,3 +118,6 @@ REQUESTS_USER_MODERATION_FACETS = {
     "is_open": {"facet": facets.is_open, "ui": {"field": "is_open"}},
 }
 """Available facets defined for this module."""
+
+REQUESTS_COMMENT_CONTENT_MAX_LENGTH = 25000
+"""Maximum length of a comment content."""

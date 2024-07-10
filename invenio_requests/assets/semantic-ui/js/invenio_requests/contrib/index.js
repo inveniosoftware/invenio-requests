@@ -1,5 +1,4 @@
 import {
-
   LabelStatusAccept,
   LabelStatusCancel,
   LabelStatusDecline,
@@ -12,24 +11,20 @@ import {
   LabelTypeGuestAccess,
   LabelTypeUserAccess,
   LabelTypeCommunityManageRecord,
-  LabelTypeCommunitySubcommunity
-
+  LabelTypeCommunitySubcommunity,
 } from "@js/invenio_requests/contrib";
 import {
-
   RequestAcceptButton,
   RequestCancelButton,
   RequestDeclineButton,
   RequestSubmitButton,
 } from "@js/invenio_requests/components/Buttons";
 import {
-
   RequestAcceptModalTrigger,
   RequestDeclineModalTrigger,
   RequestCancelModalTrigger,
 } from "@js/invenio_requests/components/ModalTriggers";
 import {
-
   AccessRequestIcon,
   CommunityInclusionIcon,
   CommunityInvitationIcon,

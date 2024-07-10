@@ -1,15 +1,17 @@
 // This file is part of InvenioRequests
 // Copyright (C) 2022 CERN.
+// Copyright (C) 2024 KTH Royal Institute of Technology.
 //
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
 
-import { IS_LOADING, HAS_ERROR, SUCCESS, SETTING_CONTENT } from "./actions";
+import { IS_LOADING, HAS_ERROR, SUCCESS, SETTING_CONTENT, SET_CHAR_COUNT } from "./actions";
 
 const initial_state = {
   error: null,
   isLoading: false,
   commentContent: "",
+  charCount: 0,
 };
 
 export const commentEditorReducer = (state = initial_state, action) => {
@@ -27,6 +29,8 @@ export const commentEditorReducer = (state = initial_state, action) => {
         error: null,
         commentContent: "",
       };
+    case SET_CHAR_COUNT:
+      return { ...state, charCount: action.payload };
     default:
       return state;
   }

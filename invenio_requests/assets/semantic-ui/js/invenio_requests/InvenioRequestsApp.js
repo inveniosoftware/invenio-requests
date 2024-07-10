@@ -1,5 +1,6 @@
 // This file is part of InvenioRequests
 // Copyright (C) 2022 CERN.
+// Copyright (C) 2024 KTH Royal Institute of Technology.
 //
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
@@ -20,7 +21,13 @@ import { Provider } from "react-redux";
 export class InvenioRequestsApp extends Component {
   constructor(props) {
     super(props);
-    const { requestsApi, requestEventsApi, request, defaultQueryParams } = this.props;
+    const {
+      request,
+      requestsApi,
+      requestEventsApi,
+      defaultQueryParams,
+      commentContentMaxLength,
+    } = this.props;
     const defaultRequestsApi = new InvenioRequestsAPI(
       new RequestLinksExtractor(request)
     );
@@ -32,8 +39,8 @@ export class InvenioRequestsApp extends Component {
       requestEventsApi: requestEventsApi || defaultRequestEventsApi,
       refreshIntervalMs: 5000,
       defaultQueryParams,
+      commentContentMaxLength,
     };
-
     this.store = configureStore(appConfig);
   }
 
@@ -52,12 +59,13 @@ export class InvenioRequestsApp extends Component {
 
 InvenioRequestsApp.propTypes = {
   requestsApi: PropTypes.object,
-  requestEventsApi: PropTypes.object,
   overriddenCmps: PropTypes.object,
+  requestEventsApi: PropTypes.object,
   request: PropTypes.object.isRequired,
-  userAvatar: PropTypes.string.isRequired,
   defaultQueryParams: PropTypes.object,
+  userAvatar: PropTypes.string.isRequired,
   permissions: PropTypes.object.isRequired,
+  commentContentMaxLength: PropTypes.number.isRequired,
 };
 
 InvenioRequestsApp.defaultProps = {
