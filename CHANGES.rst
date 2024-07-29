@@ -8,6 +8,11 @@
 Changes
 =======
 
+Version 4.6.0 (released 2024-07-28)
+
+- comments: fix jumping cursor
+- ui: add community membership request label type
+
 Version 4.5.1 (released 2024-06-28)
 
 - service: fix request ID passing
