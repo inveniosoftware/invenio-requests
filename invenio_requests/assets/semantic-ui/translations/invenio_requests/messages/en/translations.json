@@ -50,5 +50,16 @@
   "unknown event": "unknown event",
   "Edit": "Edit",
   "commented {{commentTime}}": "commented {{commentTime}}",
-  "Edited": "Edited"
+  "Edited": "Edited",
+  "Request access": "Request access",
+  "Guest access": "Guest access",
+  "User access": "User access",
+  "Community manage record": "Community manage record",
+  "Subcommunity": "Subcommunity",
+  "Membership request": "Membership request",
+  "Anonymous user": "Anonymous user",
+  "Email": "Email",
+  "Group": "Group",
+  "Record": "Record",
+  "Actions": "Actions"
 }

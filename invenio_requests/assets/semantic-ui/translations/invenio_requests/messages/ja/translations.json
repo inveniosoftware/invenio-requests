@@ -49,5 +49,16 @@
   "Search in my requests...": "",
   "Open": "",
   "Closed": "",
-  "commented {{commentTime}}": ""
+  "commented {{commentTime}}": "",
+  "Request access": "",
+  "Guest access": "",
+  "User access": "",
+  "Community manage record": "",
+  "Subcommunity": "",
+  "Membership request": "",
+  "Anonymous user": "",
+  "Email": "",
+  "Group": "",
+  "Record": "",
+  "Actions": ""
 }

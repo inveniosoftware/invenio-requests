@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2023-06-29T15:19:07.164Z\n"
-"PO-Revision-Date: 2023-06-29T15:19:07.164Z\n"
+"POT-Creation-Date: 2024-08-06T08:57:02.744Z\n"
+"PO-Revision-Date: 2024-08-06T08:57:02.744Z\n"
 "Language: en\n"
 
 msgid "Save"
@@ -163,3 +163,36 @@ msgstr "commented {{commentTime}}"
 
 msgid "Edited"
 msgstr "Edited"
+
+msgid "Request access"
+msgstr "Request access"
+
+msgid "Guest access"
+msgstr "Guest access"
+
+msgid "User access"
+msgstr "User access"
+
+msgid "Community manage record"
+msgstr "Community manage record"
+
+msgid "Subcommunity"
+msgstr "Subcommunity"
+
+msgid "Membership request"
+msgstr "Membership request"
+
+msgid "Anonymous user"
+msgstr "Anonymous user"
+
+msgid "Email"
+msgstr "Email"
+
+msgid "Group"
+msgstr "Group"
+
+msgid "Record"
+msgstr "Record"
+
+msgid "Actions"
+msgstr "Actions"
