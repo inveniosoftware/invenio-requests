@@ -114,7 +114,7 @@ class TimelineCommentEvent extends Component {
                   {isEditing ? (
                     <RichEditor
                       initialValue={event?.payload?.content}
-                      inputValue={commentContent}
+                      inputValue={() => commentContent}
                       onEditorChange={(event, editor) => {
                         this.setState({ commentContent: editor.getContent() });
                       }}

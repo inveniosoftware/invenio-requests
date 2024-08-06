@@ -30,7 +30,7 @@ const TimelineCommentEditor = ({
         />
         <Container fluid className="ml-0-mobile mr-0-mobile fluid-mobile">
           <RichEditor
-            inputValue={commentContent}
+            inputValue={() => commentContent}
             onEditorChange={(event, editor) => {
               setCommentContent(editor.getContent());
             }}
