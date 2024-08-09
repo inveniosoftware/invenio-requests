@@ -1,11 +1,13 @@
 // This file is part of InvenioRequests
 // Copyright (C) 2022 CERN.
+// Copyright (C) 2024 KTH Royal Institute of Technology.
 //
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
 import { i18next } from "@translations/invenio_requests/i18next";
 import React, { useEffect } from "react";
 import { Button } from "semantic-ui-react";
+import PropTypes from "prop-types";
 
 // components for most common actions, used in other modules, not explicitly in invenio-requests
 
@@ -43,6 +45,21 @@ export const RequestDeclineButton = ({
   );
 };
 
+RequestDeclineButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
+  ariaAttributes: PropTypes.object,
+  size: PropTypes.string,
+  className: PropTypes.string,
+};
+
+RequestDeclineButton.defaultProps = {
+  loading: false,
+  ariaAttributes: {},
+  size: "mini",
+  className: "",
+};
+
 export const RequestAcceptButton = ({
   onClick,
   requestType,
@@ -71,10 +88,26 @@ export const RequestAcceptButton = ({
   );
 };
 
+RequestAcceptButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  requestType: PropTypes.string.isRequired,
+  loading: PropTypes.bool,
+  ariaAttributes: PropTypes.object,
+  size: PropTypes.string,
+  className: PropTypes.string,
+};
+
+RequestAcceptButton.defaultProps = {
+  loading: false,
+  ariaAttributes: {},
+  size: "mini",
+  className: "",
+};
+
 export const CancelButton = React.forwardRef((props, ref) => {
   useEffect(() => {
     ref?.current?.focus();
-  }, []);
+  }, [ref]);
 
   return (
     <Button
@@ -87,6 +120,8 @@ export const CancelButton = React.forwardRef((props, ref) => {
     />
   );
 });
+
+CancelButton.displayName = "CancelButton";
 
 export const RequestCancelButton = ({
   onClick,
@@ -113,6 +148,25 @@ export const RequestCancelButton = ({
   );
 };
 
+RequestCancelButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
+  ariaAttributes: PropTypes.object,
+  size: PropTypes.string,
+  content: PropTypes.string,
+  className: PropTypes.string,
+  negative: PropTypes.bool,
+};
+
+RequestCancelButton.defaultProps = {
+  loading: false,
+  ariaAttributes: {},
+  size: "mini",
+  content: i18next.t("Cancel request"),
+  className: "",
+  negative: true,
+};
+
 export const RequestSubmitButton = ({
   onClick,
   loading,
@@ -135,4 +189,21 @@ export const RequestSubmitButton = ({
       {...ariaAttributes}
     />
   );
+};
+
+RequestSubmitButton.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  loading: PropTypes.bool,
+  ariaAttributes: PropTypes.object,
+  size: PropTypes.string,
+  content: PropTypes.string,
+  className: PropTypes.string,
+};
+
+RequestSubmitButton.defaultProps = {
+  loading: false,
+  ariaAttributes: {},
+  size: "mini",
+  content: i18next.t("Request access"),
+  className: "",
 };

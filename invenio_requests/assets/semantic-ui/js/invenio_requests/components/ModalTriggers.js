@@ -63,6 +63,8 @@ RequestDeclineModalTrigger.propTypes = {
 };
 
 RequestDeclineModalTrigger.defaultProps = {
+  loading: false,
+  ariaAttributes: {},
   size: "mini",
   className: "ml-5",
 };
@@ -109,6 +111,7 @@ export const RequestAcceptModalTrigger = ({
 
 RequestAcceptModalTrigger.propTypes = {
   onClick: PropTypes.func.isRequired,
+  requestType: PropTypes.string.isRequired,
   loading: PropTypes.bool,
   ariaAttributes: PropTypes.object,
   size: PropTypes.string,
@@ -116,6 +119,8 @@ RequestAcceptModalTrigger.propTypes = {
 };
 
 RequestAcceptModalTrigger.defaultProps = {
+  loading: false,
+  ariaAttributes: {},
   size: "mini",
   className: "ml-5",
 };
@@ -164,6 +169,8 @@ RequestCancelModalTrigger.propTypes = {
 };
 
 RequestCancelModalTrigger.defaultProps = {
+  loading: false,
+  ariaAttributes: {},
   size: "mini",
   className: "ml-5",
 };
@@ -207,6 +214,7 @@ export const RequestSubmitModalTrigger = ({
 
 RequestSubmitModalTrigger.propTypes = {
   onClick: PropTypes.func.isRequired,
+  requestType: PropTypes.string.isRequired,
   loading: PropTypes.bool,
   ariaAttributes: PropTypes.object,
   size: PropTypes.string,
@@ -214,6 +222,8 @@ RequestSubmitModalTrigger.propTypes = {
 };
 
 RequestSubmitModalTrigger.defaultProps = {
+  loading: false,
+  ariaAttributes: {},
   size: "mini",
   className: "ml-5",
 };

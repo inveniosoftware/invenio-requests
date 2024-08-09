@@ -1,5 +1,6 @@
 // This file is part of InvenioRequests
 // Copyright (C) 2022 CERN.
+// Copyright (C) 2024 KTH Royal Institute of Technology.
 //
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
@@ -16,20 +17,18 @@ class RequestDetails extends Component {
     const { request, userAvatar, permissions } = this.props;
     return (
       <Overridable id="InvenioRequests.RequestDetails.layout" {...this.props}>
-        <>
-          <Grid stackable reversed="mobile">
-            <Grid.Column mobile={16} tablet={12} computer={13}>
-              <Timeline
-                userAvatar={userAvatar}
-                request={request}
-                permissions={permissions}
-              />
-            </Grid.Column>
-            <Grid.Column mobile={16} tablet={4} computer={3}>
-              <RequestMetadata request={request} />
-            </Grid.Column>
-          </Grid>
-        </>
+        <Grid stackable reversed="mobile">
+          <Grid.Column mobile={16} tablet={12} computer={13}>
+            <Timeline
+              userAvatar={userAvatar}
+              request={request}
+              permissions={permissions}
+            />
+          </Grid.Column>
+          <Grid.Column mobile={16} tablet={4} computer={3}>
+            <RequestMetadata request={request} />
+          </Grid.Column>
+        </Grid>
       </Overridable>
     );
   }

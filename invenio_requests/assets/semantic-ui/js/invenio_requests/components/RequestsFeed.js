@@ -1,5 +1,6 @@
 // This file is part of InvenioRequests
 // Copyright (C) 2022 CERN.
+// Copyright (C) 2024 KTH Royal Institute of Technology.
 //
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
@@ -17,17 +18,43 @@ export const RequestsFeed = ({ children }) => (
   </Container>
 );
 
+RequestsFeed.propTypes = {
+  children: PropTypes.node,
+};
+
+RequestsFeed.defaultProps = {
+  children: null,
+};
+
 export const RequestEventItem = ({ children }) => (
   <div className="requests-event-item">
     <div className="requests-event-container">{children}</div>
   </div>
 );
 
+RequestEventItem.propTypes = {
+  children: PropTypes.node,
+};
+
+RequestEventItem.defaultProps = {
+  children: null,
+};
+
 export const RequestEventInnerContainer = ({ children, isEvent }) => (
   <div className={`requests-event-inner-container${isEvent ? " thread" : ""}`}>
     {children}
   </div>
 );
+
+RequestEventInnerContainer.propTypes = {
+  children: PropTypes.node,
+  isEvent: PropTypes.bool,
+};
+
+RequestEventInnerContainer.defaultProps = {
+  children: null,
+  isEvent: false,
+};
 
 export const RequestEventAvatarContainer = ({ src, ...uiProps }) => (
   <div className="requests-avatar-container">
@@ -36,11 +63,25 @@ export const RequestEventAvatarContainer = ({ src, ...uiProps }) => (
   </div>
 );
 
+RequestEventAvatarContainer.propTypes = {
+  src: PropTypes.string,
+};
+
+RequestEventAvatarContainer.defaultProps = {
+  src: null,
+};
+
 export const RequestEventItemIconContainer = ({ name, size, color }) => (
   <div className="requests-action-event-icon">
     <Icon name={name} size={size} className={color} />
   </div>
 );
+
+RequestEventItemIconContainer.propTypes = {
+  name: PropTypes.string.isRequired,
+  size: PropTypes.string.isRequired,
+  color: PropTypes.string.isRequired,
+};
 
 export const RequestEventItemBody = ({ isActionEvent, ...props }) => (
   <Feed.Event {...props} className={isActionEvent ? "requests-action-event" : ""} />

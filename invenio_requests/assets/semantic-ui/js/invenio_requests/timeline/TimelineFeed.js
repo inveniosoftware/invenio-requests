@@ -1,5 +1,6 @@
 // This file is part of InvenioRequests
 // Copyright (C) 2022 CERN.
+// Copyright (C) 2024 KTH Royal Institute of Technology.
 //
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
@@ -109,9 +110,15 @@ TimelineFeed.propTypes = {
   userAvatar: PropTypes.string,
   request: PropTypes.object.isRequired,
   permissions: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
 TimelineFeed.defaultProps = {
+  timeline: null,
+  error: null,
+  isSubmitting: false,
+  page: 1,
+  size: 10,
   userAvatar: "",
 };
 

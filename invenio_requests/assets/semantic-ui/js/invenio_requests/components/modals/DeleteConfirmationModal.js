@@ -1,3 +1,9 @@
+// This file is part of InvenioRequests
+// Copyright (C) 2022 CERN.
+// Copyright (C) 2024 KTH Royal Institute of Technology.
+//
+// Invenio RDM Records is free software; you can redistribute it and/or modify it
+// under the terms of the MIT License; see LICENSE file for more details.
 import React, { Component } from "react";
 import BaseModal from "./BaseModal";
 import { i18next } from "@translations/invenio_requests/i18next";
@@ -61,4 +67,5 @@ DeleteConfirmationModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onOpen: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
+  action: PropTypes.func.isRequired,
 };

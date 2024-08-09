@@ -1,5 +1,6 @@
 // This file is part of InvenioRequests
 // Copyright (C) 2022 CERN.
+// Copyright (C) 2024 KTH Royal Institute of Technology.
 //
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
@@ -7,6 +8,7 @@
 import { i18next } from "@translations/invenio_requests/i18next";
 import React from "react";
 import TimelineActionEvent from "../components/TimelineActionEvent";
+import PropTypes from "prop-types";
 
 export const TimelineAcceptEvent = ({ event }) => (
   <TimelineActionEvent
@@ -17,6 +19,10 @@ export const TimelineAcceptEvent = ({ event }) => (
   />
 );
 
+TimelineAcceptEvent.propTypes = {
+  event: PropTypes.object.isRequired,
+};
+
 export const TimelineDeclineEvent = ({ event }) => (
   <TimelineActionEvent
     iconName="close"
@@ -25,6 +31,10 @@ export const TimelineDeclineEvent = ({ event }) => (
     iconColor="negative"
   />
 );
+
+TimelineDeclineEvent.propTypes = {
+  event: PropTypes.object.isRequired,
+};
 
 export const TimelineExpireEvent = ({ event }) => (
   <TimelineActionEvent
@@ -35,6 +45,10 @@ export const TimelineExpireEvent = ({ event }) => (
   />
 );
 
+TimelineExpireEvent.propTypes = {
+  event: PropTypes.object.isRequired,
+};
+
 export const TimelineCancelEvent = ({ event }) => (
   <TimelineActionEvent
     iconName="close"
@@ -43,6 +57,10 @@ export const TimelineCancelEvent = ({ event }) => (
     iconColor="negative"
   />
 );
+
+TimelineCancelEvent.propTypes = {
+  event: PropTypes.object.isRequired,
+};
 
 export const TimelineUnknownEvent = ({ event }) => (
   <TimelineActionEvent
@@ -53,6 +71,10 @@ export const TimelineUnknownEvent = ({ event }) => (
   />
 );
 
+TimelineUnknownEvent.propTypes = {
+  event: PropTypes.object.isRequired,
+};
+
 export const TimelineCommentDeletionEvent = ({ event }) => (
   <TimelineActionEvent
     iconName="erase"
@@ -61,3 +83,7 @@ export const TimelineCommentDeletionEvent = ({ event }) => (
     eventContent={i18next.t("deleted a comment")}
   />
 );
+
+TimelineCommentDeletionEvent.propTypes = {
+  event: PropTypes.object.isRequired,
+};

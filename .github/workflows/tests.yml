@@ -31,8 +31,7 @@ jobs:
       uses: inveniosoftware/workflows/.github/workflows/tests-python.yml@master
       with:
         extras: "tests"
-# Uncomment when JS errors is been resolved
-  # JS:
-  #   uses: inveniosoftware/workflows/.github/workflows/tests-js.yml@master
-  #   with:
-  #     translations-working-directory: invenio_requests/assets/semantic-ui/translations
+  JS:
+    uses: inveniosoftware/workflows/.github/workflows/tests-js.yml@master
+    with:
+      translations-working-directory: invenio_requests/assets/semantic-ui/translations/invenio_requests

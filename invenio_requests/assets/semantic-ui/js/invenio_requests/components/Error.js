@@ -1,3 +1,9 @@
+// This file is part of InvenioRequests
+// Copyright (C) 2022 CERN.
+// Copyright (C) 2024 KTH Royal Institute of Technology.
+//
+// Invenio RDM Records is free software; you can redistribute it and/or modify it
+// under the terms of the MIT License; see LICENSE file for more details.
 import React, { Component } from "react";
 import Overridable from "react-overridable";
 import { Message } from "semantic-ui-react";
@@ -33,6 +39,7 @@ Error.propTypes = {
 
 Error.defaultProps = {
   error: null,
+  errorInfo: null,
   children: null,
 };
 

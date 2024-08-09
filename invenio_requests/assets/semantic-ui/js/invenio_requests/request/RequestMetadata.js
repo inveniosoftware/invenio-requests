@@ -1,6 +1,7 @@
 // This file is part of InvenioRequests
 // Copyright (C) 2022 CERN.
 // Copyright (C) 2024 Graz University of Technology.
+// Copyright (C) 2024 KTH Royal Institute of Technology.
 //
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
@@ -33,12 +34,39 @@ const User = ({ user }) => (
     </span>
   </div>
 );
+
+User.propTypes = {
+  user: PropTypes.shape({
+    links: PropTypes.shape({
+      avatar: PropTypes.string.isRequired,
+    }).isRequired,
+    profile: PropTypes.shape({
+      full_name: PropTypes.string,
+    }),
+    username: PropTypes.string,
+    email: PropTypes.string,
+  }).isRequired,
+};
+
 const Community = ({ community }) => (
   <div className="flex">
     <Image src={community.links.logo} avatar size="tiny" className="mr-5" ui={false} />
     <a href={`/communities/${community.slug}`}>{community.metadata.title}</a>
   </div>
 );
+
+Community.propTypes = {
+  community: PropTypes.shape({
+    links: PropTypes.shape({
+      logo: PropTypes.string.isRequired,
+    }).isRequired,
+    slug: PropTypes.string.isRequired,
+    metadata: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
+
 const ExternalEmail = ({ email }) => (
   <div className="flex">
     <Icon name="mail" className="mr-5" />
@@ -47,6 +75,13 @@ const ExternalEmail = ({ email }) => (
     </span>
   </div>
 );
+
+ExternalEmail.propTypes = {
+  email: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+  }).isRequired,
+};
+
 const Group = ({ group }) => (
   <div className="flex">
     <Icon name="group" className="mr-5" />
@@ -55,6 +90,12 @@ const Group = ({ group }) => (
     </span>
   </div>
 );
+
+Group.propTypes = {
+  group: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+  }).isRequired,
+};
 
 const EntityDetails = ({ userData, details }) => {
   const isUser = "user" in userData;
@@ -74,9 +115,41 @@ const EntityDetails = ({ userData, details }) => {
   return null;
 };
 
+EntityDetails.propTypes = {
+  userData: PropTypes.object.isRequired,
+  details: PropTypes.oneOfType([
+    PropTypes.shape({
+      links: PropTypes.shape({
+        avatar: PropTypes.string,
+        logo: PropTypes.string,
+      }),
+      profile: PropTypes.shape({
+        full_name: PropTypes.string,
+      }),
+      username: PropTypes.string,
+      email: PropTypes.string,
+      slug: PropTypes.string,
+      metadata: PropTypes.shape({
+        title: PropTypes.string,
+      }),
+      id: PropTypes.string,
+      name: PropTypes.string,
+    }),
+    PropTypes.object,
+  ]).isRequired,
+};
+
 const DeletedResource = ({ details }) => (
   <Message negative>{details.metadata.title}</Message>
 );
+
+DeletedResource.propTypes = {
+  details: PropTypes.shape({
+    metadata: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+    }).isRequired,
+  }).isRequired,
+};
 
 class RequestMetadata extends Component {
   isResourceDeleted = (details) => details.is_ghost === true;

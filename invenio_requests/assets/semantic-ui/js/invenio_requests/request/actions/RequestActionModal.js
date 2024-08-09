@@ -1,5 +1,6 @@
 // This file is part of InvenioRequests
 // Copyright (C) 2022 CERN.
+// Copyright (C) 2024 KTH Royal Institute of Technology.
 //
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
@@ -19,7 +20,6 @@ export class RequestActionModal extends Component {
     super(props);
     this.cancelBtnRef = React.createRef();
   }
-  static contextType = RequestActionContext;
 
   componentDidMount() {
     this.subscribeToContext();
@@ -42,7 +42,7 @@ export class RequestActionModal extends Component {
 
     return (
       <Overridable id="InvenioRequests.RequestActionModal.layout" {...this.props}>
-        {/*currentModalOpen prevents mounting multiple instances*/}
+        {/* currentModalOpen prevents mounting multiple instances */}
         {currentModalOpen && (
           <Modal aria-label={action} role="dialog" id={modalId} open={currentModalOpen}>
             <Modal.Header as="h2" className="capitalize-first-char">
@@ -84,10 +84,16 @@ export class RequestActionModal extends Component {
   }
 }
 
+RequestActionModal.contextType = RequestActionContext;
+
 RequestActionModal.propTypes = {
+  action: PropTypes.string.isRequired,
   handleActionClick: PropTypes.func.isRequired,
   modalId: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
   requestType: PropTypes.string.isRequired,
+  loading: PropTypes.bool,
+  modalOpen: PropTypes.bool,
 };
 
 RequestActionModal.defaultProps = {

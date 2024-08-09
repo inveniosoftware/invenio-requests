@@ -1,5 +1,6 @@
 // This file is part of InvenioRequests
 // Copyright (C) 2022 CERN.
+// Copyright (C) 2024 KTH Royal Institute of Technology.
 //
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
@@ -46,6 +47,10 @@ RequestActionModalTrigger.propTypes = {
   modalOpen: PropTypes.object.isRequired,
   requestType: PropTypes.string.isRequired,
   size: PropTypes.string,
+};
+
+RequestActionModalTrigger.defaultProps = {
+  size: "medium",
 };
 
 export default Overridable.component(

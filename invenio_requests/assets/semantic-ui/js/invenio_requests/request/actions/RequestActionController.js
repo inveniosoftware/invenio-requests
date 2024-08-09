@@ -1,3 +1,9 @@
+// This file is part of InvenioRequests
+// Copyright (C) 2022 CERN.
+// Copyright (C) 2024 KTH Royal Institute of Technology.
+//
+// Invenio RDM Records is free software; you can redistribute it and/or modify it
+// under the terms of the MIT License; see LICENSE file for more details.
 import { RequestLinksExtractor, InvenioRequestsAPI } from "@js/invenio_requests/api";
 import { errorSerializer } from "@js/invenio_requests/api/serializers";
 import { RequestActions } from "@js/invenio_requests/request/actions/RequestActions";
@@ -71,8 +77,12 @@ RequestActionController.propTypes = {
   requestApi: PropTypes.instanceOf(InvenioRequestsAPI),
   actionSuccessCallback: PropTypes.func,
   size: PropTypes.string,
+  children: PropTypes.node,
 };
 
 RequestActionController.defaultProps = {
+  requestApi: null,
   actionSuccessCallback: () => {},
+  size: "medium",
+  children: null,
 };

@@ -16,12 +16,12 @@ import { RequestActionModalTrigger } from "./RequestActionModalTrigger";
 import { i18next } from "@translations/invenio_requests/i18next";
 
 export class RequestAction extends Component {
-  static contextType = RequestActionContext;
-
   constructor(props) {
     super(props);
-    this.state = { actionComment: "", modalOpen: false };
+    this.state = { actionComment: "" };
   }
+
+  static contextType = RequestActionContext;
 
   onCommentChange = (event, editor) => {
     this.setState({ actionComment: editor.getContent() });
@@ -37,7 +37,9 @@ export class RequestAction extends Component {
   render() {
     const { loading, performAction, toggleModal, error, modalOpen } = this.context;
     const { action, requestType, size } = this.props;
+    const { actionComment } = this.state;
     const modalId = action;
+
     return (
       <Overridable
         id="InvenioRequests.RequestAction.layout"
@@ -71,7 +73,7 @@ export class RequestAction extends Component {
                 {i18next.t("Add comment (optional)")}
                 <Divider hidden />
                 <RichEditor
-                  inputValue={() => this.state.actionComment}
+                  inputValue={() => actionComment}
                   onChange={this.onCommentChange}
                 />
               </Modal.Description>
@@ -87,6 +89,10 @@ RequestAction.propTypes = {
   action: PropTypes.string.isRequired,
   requestType: PropTypes.string.isRequired,
   size: PropTypes.string,
+};
+
+RequestAction.defaultProps = {
+  size: "medium",
 };
 
 export default Overridable.component("InvenioRequests.RequestAction", RequestAction);
