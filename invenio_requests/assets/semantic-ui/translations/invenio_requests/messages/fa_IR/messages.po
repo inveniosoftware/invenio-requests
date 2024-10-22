@@ -2,7 +2,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2022-10-12T08:08:24.546Z\n"
+"POT-Creation-Date: 2024-08-06T08:57:02.744Z\n"
 "PO-Revision-Date: 2022-02-18 11:12+0000\n"
 "Language-Team: Persian (Iran) (https://app.transifex.com/inveniosoftware/teams/23537/fa_IR/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -14,48 +14,6 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-msgid "Something went wrong."
-msgstr ""
-
-msgid "Confirm"
-msgstr ""
-
-msgid "Cancel"
-msgstr ""
-
-msgid "{{action}} request"
-msgstr ""
-
-msgid "Request type"
-msgstr ""
-
-msgid "Status"
-msgstr ""
-
-msgid "Expires"
-msgstr ""
-
-msgid "Comment"
-msgstr ""
-
-msgid "commented"
-msgstr ""
-
-msgid "Edit"
-msgstr ""
-
-msgid "Delete"
-msgstr ""
-
-msgid "Edited"
-msgstr ""
-
-msgid "Deleted"
-msgstr ""
-
-msgid "Are you sure you want to delete this comment?"
-msgstr ""
-
 msgid "Decline"
 msgstr ""
 
@@ -65,25 +23,123 @@ msgstr ""
 msgid "Accept"
 msgstr ""
 
-msgid "Add comment (optional)"
-msgstr ""
-
-msgid "Receiver"
-msgstr ""
-
-msgid "Created"
-msgstr ""
-
-msgid "New submission"
-msgstr ""
-
-msgid "New invitation"
+msgid "Cancel"
 msgstr ""
 
 msgid "Cancel request"
 msgstr ""
 
+msgid "Something went wrong."
+msgstr ""
+
+msgid "Are you sure you want to delete this comment?"
+msgstr ""
+
+msgid "Confirm"
+msgstr ""
+
+msgid "Delete"
+msgstr ""
+
+msgid "Submitted"
+msgstr ""
+
+msgid "Deleted"
+msgstr ""
+
+msgid "Accepted"
+msgstr ""
+
+msgid "Declined"
+msgstr ""
+
+msgid "Cancelled"
+msgstr ""
+
+msgid "Expired"
+msgstr ""
+
+msgid "Draft review"
+msgstr ""
+
+msgid "Community inclusion"
+msgstr ""
+
+msgid "Member invitation"
+msgstr ""
+
+msgid "Add comment (optional)"
+msgstr ""
+
+msgid "{{action}} request"
+msgstr ""
+
+msgid "Creator"
+msgstr ""
+
+msgid "Receiver"
+msgstr ""
+
+msgid "Request type"
+msgstr ""
+
+msgid "Status"
+msgstr ""
+
+msgid "Created"
+msgstr ""
+
+msgid "Expires"
+msgstr ""
+
 msgid "Accept request"
+msgstr ""
+
+msgid "Decline request"
+msgstr ""
+
+msgid "Expires at: {{- expiringDate}}"
+msgstr ""
+
+msgid "Opened {{relativeTime}} by"
+msgstr ""
+
+msgid "All done!"
+msgstr ""
+
+msgid "You've caught up with all open requests."
+msgstr ""
+
+msgid "No requests found!"
+msgstr ""
+
+msgid "Reset search"
+msgstr ""
+
+msgid "{{count}} results found"
+msgid_plural "{{count}} results found"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "Sort by"
+msgstr ""
+
+msgid "Filter results"
+msgstr ""
+
+msgid "Search in my requests..."
+msgstr ""
+
+msgid "Open"
+msgstr ""
+
+msgid "Closed"
+msgstr ""
+
+msgid "Comment"
+msgstr ""
+
+msgid "deleted a comment"
 msgstr ""
 
 msgid "accepted this request"
@@ -101,26 +157,44 @@ msgstr ""
 msgid "unknown event"
 msgstr ""
 
-msgid "Decline request"
+msgid "Edit"
 msgstr ""
 
-msgid "Submitted"
+msgid "commented {{commentTime}}"
 msgstr ""
 
-msgid "Accepted"
+msgid "Edited"
 msgstr ""
 
-msgid "Cancelled"
+msgid "Request access"
 msgstr ""
 
-msgid "Declined"
+msgid "Guest access"
 msgstr ""
 
-msgid "Expired"
+msgid "User access"
 msgstr ""
 
-msgid "Creator"
+msgid "Community manage record"
 msgstr ""
 
-msgid "deleted a comment"
+msgid "Subcommunity"
+msgstr ""
+
+msgid "Membership request"
+msgstr ""
+
+msgid "Anonymous user"
+msgstr ""
+
+msgid "Email"
+msgstr ""
+
+msgid "Group"
+msgstr ""
+
+msgid "Record"
+msgstr ""
+
+msgid "Actions"
 msgstr ""
