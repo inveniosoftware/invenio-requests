@@ -1,70 +1,132 @@
 # Translations template for invenio-requests.
-# Copyright (C) 2022 CERN
+# Copyright (C) 2024 CERN
 # This file is distributed under the same license as the invenio-requests
 # project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
 # 
 # Translators:
-# Mojib Wali <mojib.wali@tugraz.at>, 2022
 # Tibor Simko <tibor.simko@cern.ch>, 2022
 # Hermann Schranzhofer <hermann.schranzhofer@tugraz.at>, 2022
-# chriz_uniba <christina.zeller@uni-bamberg.de>, 2022
+# David Eckhard <dabombeeer@gmail.com>, 2023
+# chriz_uniba <christina.zeller@uni-bamberg.de>, 2024
+# Zacharias Zacharodimos <zacharias.zacharodimos@cern.ch>, 2024
+# Sarah Wiechers, 2024
+# Frank Berkemeier, 2024
 # 
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: invenio-requests 0.5.5\n"
+"Project-Id-Version: invenio-requests 4.6.0\n"
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
-"POT-Creation-Date: 2022-10-12 10:07+0200\n"
+"POT-Creation-Date: 2024-08-06 08:56+0000\n"
 "PO-Revision-Date: 2022-02-15 12:46+0000\n"
-"Last-Translator: chriz_uniba <christina.zeller@uni-bamberg.de>, 2022\n"
+"Last-Translator: Frank Berkemeier, 2024\n"
 "Language-Team: German (https://app.transifex.com/inveniosoftware/teams/23537/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.3\n"
+"Generated-By: Babel 2.15.0\n"
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: invenio_requests/services/events/service.py:152
+#: invenio_requests/config.py:47 invenio_requests/config.py:96
+msgid "Best match"
+msgstr "Beste Übereinstimmung"
+
+#: invenio_requests/config.py:51 invenio_requests/config.py:100
+msgid "Newest"
+msgstr "Neuster"
+
+#: invenio_requests/config.py:55 invenio_requests/config.py:104
+msgid "Oldest"
+msgstr "Ältester"
+
+#: invenio_requests/customizations/user_moderation/user_moderation.py:48
+msgid "User moderation"
+msgstr "Benutzerverwaltung"
+
+#: invenio_requests/services/events/service.py:174
 msgid "deleted a comment"
 msgstr "hat einen Kommentar gelöscht"
 
-#: invenio_requests/services/requests/facets.py:15
+#: invenio_requests/services/requests/facets.py:16
 msgid "Type"
 msgstr "Typ"
 
-#: invenio_requests/services/requests/facets.py:17
-msgid "New submission"
-msgstr "Neue Einreichung"
-
 #: invenio_requests/services/requests/facets.py:18
-msgid "New invitation"
-msgstr "Neue Einladung"
+msgid "Draft review"
+msgstr "Entwurf zur Begutachtung"
+
+#: invenio_requests/services/requests/facets.py:19
+msgid "Community inclusion"
+msgstr "Community Einbindung"
+
+#: invenio_requests/services/requests/facets.py:20
+msgid "Member invitation"
+msgstr "Mitglieder Einladung"
+
+#: invenio_requests/services/requests/facets.py:21
+msgid "Guest access"
+msgstr "Gastzugang"
+
+#: invenio_requests/services/requests/facets.py:22
+msgid "User access"
+msgstr "Benutzerzugang"
+
+#: invenio_requests/services/requests/facets.py:23
+msgid "Community manage record"
+msgstr "Community-Eintrag verwalten"
 
 #: invenio_requests/services/requests/facets.py:24
+msgid "Membership request"
+msgstr "Mitgliedschaft beantragen"
+
+#: invenio_requests/services/requests/facets.py:30
 msgid "Status"
 msgstr "Status"
 
-#: invenio_requests/services/requests/facets.py:26
+#: invenio_requests/services/requests/facets.py:32
 msgid "Submitted"
 msgstr "Eingereicht"
 
-#: invenio_requests/services/requests/facets.py:27
+#: invenio_requests/services/requests/facets.py:33
 msgid "Expired"
 msgstr "Abgelaufen"
 
-#: invenio_requests/services/requests/facets.py:28
+#: invenio_requests/services/requests/facets.py:34
 msgid "Accepted"
 msgstr "Angenommen"
 
-#: invenio_requests/services/requests/facets.py:29
+#: invenio_requests/services/requests/facets.py:35
 msgid "Declined"
 msgstr "Abgelehnt"
 
-#: invenio_requests/services/requests/facets.py:30
+#: invenio_requests/services/requests/facets.py:36
 msgid "Cancelled"
 msgstr "Abgebrochen"
+
+#: invenio_requests/services/requests/facets.py:43
+#: invenio_requests/services/requests/facets.py:45
+msgid "Open"
+msgstr "Offen"
+
+#: invenio_requests/services/requests/facets.py:46
+msgid "Closed"
+msgstr "Geschlossen"
+
+#: invenio_requests/services/user_moderation/errors.py:14
+msgid "Invalid creator for user moderation request."
+msgstr "Ungültiger Ersteller für die Benutzerverwaltungs-Anfrage."
+
+#: invenio_requests/services/user_moderation/errors.py:20
+msgid "There is already an open moderation request for this user."
+msgstr "Es gibt bereits eine offene Anfrage für diese BenutzerIn."
+
+#: invenio_requests/services/user_moderation/service.py:82
+msgid "Moderation role must exist to enable user moderation requests."
+msgstr ""
+"Es muss eine Person existieren, die das Recht zur Verwaltung von "
+"BenutzerInnen besitzt, um Anfragen zur Benutzerverwaltung zu ermöglichen."
 
 #: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:9
 msgid "Tombstone"
@@ -83,13 +145,13 @@ msgid ""
 "  "
 msgstr ""
 "\n"
-"    Der Eintrag, auf den Sie zuzugreifen versuchen, wurde von %(sitename)s entfernt.\n"
-"Die Metadaten des Eintrags werden zu Archivierungszwecken aufbewahrt."
+"    Der Eintrag, auf den Sie zugreifen möchten, wurde von %(sitename)s entfernt.\n"
+"Die Metadaten des Eintrags werden zum Zweck der Archivierung aufbewahrt."
 
 #: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:21
 msgid "Reason for removal:"
-msgstr "Grund für die Entfernung:"
+msgstr "Grund der Löschung:"
 
-#: invenio_requests/templates/semantic-ui/invenio_requests/details/index.html:16
+#: invenio_requests/templates/semantic-ui/invenio_requests/details/index.html:19
 msgid "Request "
 msgstr "Anfrage"
