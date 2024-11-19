@@ -21,7 +21,13 @@ import { Provider } from "react-redux";
 export class InvenioRequestsApp extends Component {
   constructor(props) {
     super(props);
-    const { requestsApi, requestEventsApi, request, defaultQueryParams } = this.props;
+    const {
+      request,
+      requestsApi,
+      requestEventsApi,
+      defaultQueryParams,
+      commentContentMaxLength,
+    } = this.props;
     const defaultRequestsApi = new InvenioRequestsAPI(
       new RequestLinksExtractor(request)
     );
@@ -33,8 +39,8 @@ export class InvenioRequestsApp extends Component {
       requestEventsApi: requestEventsApi || defaultRequestEventsApi,
       refreshIntervalMs: 5000,
       defaultQueryParams,
+      commentContentMaxLength,
     };
-
     this.store = configureStore(appConfig);
   }
 
@@ -53,12 +59,13 @@ export class InvenioRequestsApp extends Component {
 
 InvenioRequestsApp.propTypes = {
   requestsApi: PropTypes.object,
-  requestEventsApi: PropTypes.object,
   overriddenCmps: PropTypes.object,
+  requestEventsApi: PropTypes.object,
   request: PropTypes.object.isRequired,
-  userAvatar: PropTypes.string.isRequired,
   defaultQueryParams: PropTypes.object,
+  userAvatar: PropTypes.string.isRequired,
   permissions: PropTypes.object.isRequired,
+  commentContentMaxLength: PropTypes.number.isRequired,
 };
 
 InvenioRequestsApp.defaultProps = {

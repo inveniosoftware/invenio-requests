@@ -1,5 +1,6 @@
 // This file is part of InvenioRequests
 // Copyright (C) 2022 CERN.
+// Copyright (C) 2024 KTH Royal Institute of Technology.
 //
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
@@ -12,11 +13,13 @@ import {
   SUCCESS as TIMELINE_SUCCESS,
 } from "../../timeline/state/actions";
 import _cloneDeep from "lodash/cloneDeep";
+import { i18next } from "@translations/invenio_requests/i18next";
 
 export const IS_LOADING = "eventEditor/IS_LOADING";
 export const HAS_ERROR = "eventEditor/HAS_ERROR";
 export const SUCCESS = "eventEditor/SUCCESS";
 export const SETTING_CONTENT = "eventEditor/SETTING_CONTENT";
+export const SET_CHAR_COUNT = "eventEditor/SET_CHAR_COUNT";
 
 export const setEventContent = (content) => {
   return async (dispatch, getState, config) => {
@@ -24,6 +27,19 @@ export const setEventContent = (content) => {
       type: SETTING_CONTENT,
       payload: content,
     });
+
+    const commentContentMaxLength = config.commentContentMaxLength;
+    const charCount = content.length;
+    const errorMessage = i18next.t("Character count exceeds the maximum allowed limit.");
+
+    const validateContentLength = (charCount, maxLength, errorMessage) => {
+      return charCount >= maxLength ? errorMessage : null;
+    };
+
+    const error = validateContentLength(charCount, commentContentMaxLength, errorMessage);
+
+    dispatch({ type: SET_CHAR_COUNT, payload: charCount });
+    dispatch({ type: HAS_ERROR, payload: error });
   };
 };
 
@@ -44,7 +60,6 @@ export const submitComment = (content, format) => {
       That includes the pagination logic e.g. changing pages if the current page size is exceeded by a new comment. */
 
       const response = await config.requestsApi.submitComment(payload);
-
       const currentPage = timelineState.page;
       const currentSize = timelineState.size;
       const currentCommentsLength = timelineState.data.hits.hits.length;
