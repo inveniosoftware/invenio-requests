@@ -1,69 +1,129 @@
 # Translations template for invenio-requests.
-# Copyright (C) 2022 CERN
+# Copyright (C) 2024 CERN
 # This file is distributed under the same license as the invenio-requests
 # project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2022.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2024.
 # 
 # Translators:
 # Tibor Simko <tibor.simko@cern.ch>, 2022
-# Sam Arbid, 2022
 # Rim Sharif, 2023
+# Sam Arbid, 2024
+# Mattias Vesterlund, 2024
 # 
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: invenio-requests 0.5.5\n"
+"Project-Id-Version: invenio-requests 4.6.0\n"
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
-"POT-Creation-Date: 2022-10-12 10:07+0200\n"
+"POT-Creation-Date: 2024-08-06 08:56+0000\n"
 "PO-Revision-Date: 2022-02-15 12:46+0000\n"
-"Last-Translator: Rim Sharif, 2023\n"
+"Last-Translator: Mattias Vesterlund, 2024\n"
 "Language-Team: Swedish (https://app.transifex.com/inveniosoftware/teams/23537/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.10.3\n"
+"Generated-By: Babel 2.15.0\n"
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: invenio_requests/services/events/service.py:152
+#: invenio_requests/config.py:47 invenio_requests/config.py:96
+msgid "Best match"
+msgstr "Bästa matchningen"
+
+#: invenio_requests/config.py:51 invenio_requests/config.py:100
+msgid "Newest"
+msgstr "Nyast"
+
+#: invenio_requests/config.py:55 invenio_requests/config.py:104
+msgid "Oldest"
+msgstr "Äldst"
+
+#: invenio_requests/customizations/user_moderation/user_moderation.py:48
+msgid "User moderation"
+msgstr "Användarmoderering"
+
+#: invenio_requests/services/events/service.py:174
 msgid "deleted a comment"
 msgstr "raderade en kommentar"
 
-#: invenio_requests/services/requests/facets.py:15
+#: invenio_requests/services/requests/facets.py:16
 msgid "Type"
 msgstr "Typ"
 
-#: invenio_requests/services/requests/facets.py:17
-msgid "New submission"
-msgstr "Ny submission"
-
 #: invenio_requests/services/requests/facets.py:18
-msgid "New invitation"
-msgstr "Ny inbjudan"
+msgid "Draft review"
+msgstr "Granskning av utkast"
+
+#: invenio_requests/services/requests/facets.py:19
+msgid "Community inclusion"
+msgstr "Community-inkludering"
+
+#: invenio_requests/services/requests/facets.py:20
+msgid "Member invitation"
+msgstr "Medlemsinbjudan"
+
+#: invenio_requests/services/requests/facets.py:21
+msgid "Guest access"
+msgstr "Gäståtkomst"
+
+#: invenio_requests/services/requests/facets.py:22
+msgid "User access"
+msgstr "Användaråtkomst"
+
+#: invenio_requests/services/requests/facets.py:23
+msgid "Community manage record"
+msgstr "Community-Hantera post"
 
 #: invenio_requests/services/requests/facets.py:24
+msgid "Membership request"
+msgstr "Begäran om medlemskap"
+
+#: invenio_requests/services/requests/facets.py:30
 msgid "Status"
 msgstr "Status"
 
-#: invenio_requests/services/requests/facets.py:26
+#: invenio_requests/services/requests/facets.py:32
 msgid "Submitted"
-msgstr "Lämnats"
+msgstr "Inskickad"
 
-#: invenio_requests/services/requests/facets.py:27
+#: invenio_requests/services/requests/facets.py:33
 msgid "Expired"
 msgstr "Utgånget"
 
-#: invenio_requests/services/requests/facets.py:28
+#: invenio_requests/services/requests/facets.py:34
 msgid "Accepted"
 msgstr "Accepterad"
 
-#: invenio_requests/services/requests/facets.py:29
+#: invenio_requests/services/requests/facets.py:35
 msgid "Declined"
-msgstr "Tackade nej"
+msgstr "Avslagen"
 
-#: invenio_requests/services/requests/facets.py:30
+#: invenio_requests/services/requests/facets.py:36
 msgid "Cancelled"
-msgstr "avbruten"
+msgstr "Avbruten"
+
+#: invenio_requests/services/requests/facets.py:43
+#: invenio_requests/services/requests/facets.py:45
+msgid "Open"
+msgstr "Öppen"
+
+#: invenio_requests/services/requests/facets.py:46
+msgid "Closed"
+msgstr "Stängd"
+
+#: invenio_requests/services/user_moderation/errors.py:14
+msgid "Invalid creator for user moderation request."
+msgstr "Ogiltig skapare av begäran om användarmoderering."
+
+#: invenio_requests/services/user_moderation/errors.py:20
+msgid "There is already an open moderation request for this user."
+msgstr "Det finns redan en öppen modereringsbegäran för den här användaren."
+
+#: invenio_requests/services/user_moderation/service.py:82
+msgid "Moderation role must exist to enable user moderation requests."
+msgstr ""
+"Modereringsrollen måste finnas för att aktivera modereringsförfrågningar "
+"från användare."
 
 #: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:9
 msgid "Tombstone"
@@ -90,6 +150,6 @@ msgstr ""
 msgid "Reason for removal:"
 msgstr "Orsak till borttagning:"
 
-#: invenio_requests/templates/semantic-ui/invenio_requests/details/index.html:16
+#: invenio_requests/templates/semantic-ui/invenio_requests/details/index.html:19
 msgid "Request "
-msgstr "Begäran"
+msgstr "Förfrågan"
