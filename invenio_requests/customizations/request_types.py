@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021 - 2022 TU Wien.
-# Copyright (C) 2021 CERN.
+# Copyright (C) 2021-2022 TU Wien.
+# Copyright (C) 2021-2024 CERN.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify
 # it under the terms of the MIT License; see LICENSE file for more details.
@@ -18,6 +18,7 @@ import base32_lib as base32
 import marshmallow as ma
 from invenio_records_resources.services.references import EntityReferenceBaseSchema
 
+from ..notifications.builders import CommentRequestEventCreateNotificationBuilder
 from ..proxies import current_requests
 from .actions import (
     AcceptAction,
@@ -129,6 +130,8 @@ class RequestType:
             # ...
         }
     """
+
+    comment_notification_builder = CommentRequestEventCreateNotificationBuilder
 
     needs_context = None
     """The context for needs.

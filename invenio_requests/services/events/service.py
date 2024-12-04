@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021-2022 CERN.
+# Copyright (C) 2021-2024 CERN.
 # Copyright (C) 2021-2022 Northwestern University.
 # Copyright (C) 2021-2022 TU Wien.
 # Copyright (C) 2023 Graz University of Technology.
@@ -14,18 +14,11 @@ from invenio_i18n import _
 from invenio_notifications.services.uow import NotificationOp
 from invenio_records_resources.services import RecordService, ServiceSchemaWrapper
 from invenio_records_resources.services.base.links import LinksTemplate
-from invenio_records_resources.services.uow import (
-    RecordCommitOp,
-    RecordDeleteOp,
-    unit_of_work,
-)
+from invenio_records_resources.services.uow import RecordCommitOp, unit_of_work
 from invenio_search.engine import dsl
 
 from invenio_requests.customizations import CommentEventType
 from invenio_requests.customizations.event_types import LogEventType
-from invenio_requests.notifications.builders import (
-    CommentRequestEventCreateNotificationBuilder,
-)
 from invenio_requests.records.api import RequestEventFormat
 from invenio_requests.services.results import EntityResolverExpandableField
 
@@ -86,7 +79,7 @@ class RequestEventsService(RecordService):
         if notify and event_type is CommentEventType:
             uow.register(
                 NotificationOp(
-                    CommentRequestEventCreateNotificationBuilder.build(request, event)
+                    request.type.comment_notification_builder.build(request, event)
                 )
             )
 
