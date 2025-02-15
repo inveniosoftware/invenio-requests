@@ -82,6 +82,43 @@ class Receiver(EntityNeedsGenerator):
     entity_field = "receiver"
 
 
+class Topic(EntityNeedsGenerator):
+    """Allows the topic of the request."""
+
+    entity_field = "topic"
+
+    def needs(self, request=None, **kwargs):
+        """Needs for the given entity reference."""
+        entity = getattr(request, self.entity_field)
+        if getattr(request.type, "resolve_topic_needs", None):
+            return request.type.entity_needs(entity)
+        return []
+
+    def query_filter(self, identity=None, **kwargs):
+        """Query filters for the current identity."""
+        from invenio_requests.proxies import current_requests
+
+        exclude_request_types = []
+        for _type in current_requests.request_type_registry:
+            if not getattr(_type, "resolve_topic_needs", None):
+                exclude_request_types.append(~dsl.Q("term", **{"type": _type.type_id}))
+
+        grants = []
+        for need in identity.provides:
+            grants.append(EntityGrant(self.entity_field, need).token)
+        if grants:
+            query = dsl.Q(
+                "bool",
+                must=[
+                    dsl.Q("terms", **{self.grants_field: grants}),
+                    dsl.Q("bool", must=exclude_request_types),
+                ],
+            )
+            return query
+
+        return None
+
+
 class Commenter(Generator):
     """The user who created a specific comment."""
 

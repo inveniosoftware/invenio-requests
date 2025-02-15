@@ -117,6 +117,9 @@ class RequestType:
     allowed_topic_ref_types = []
     """A list of allowed TYPE keys for ``topic`` reference dicts."""
 
+    resolve_topic_needs = False
+    """Whether to resolve needs for the topic entity."""
+
     payload_schema = None
     payload_schema_cls = None
     """Schema for supported payload fields.
@@ -146,6 +149,14 @@ class RequestType:
         """Generate entity needs for the given entity."""
         if entity is not None:
             return entity.get_needs(ctx=cls.needs_context)
+        return []
+
+    @classmethod
+    def topic_needs(cls, entity):
+        """Generate topic needs for the given entity.
+
+        Opt in to generate needs for the topic entity.
+        """
         return []
 
     @classmethod
