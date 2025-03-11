@@ -150,6 +150,29 @@ class Topic(EntityNeedsGenerator):
         return query
 
 
+class Reviewer(EntityNeedsGenerator):
+    """Allows the reviewer of the request."""
+
+    entity_field = "reviewer"
+
+    def needs(self, request=None, **kwargs):
+        """Needs for the given entity reference."""
+        entities = getattr(request, self.entity_field)
+        _needs = []
+        for entity in entities:
+            _needs.extend(request.type.entity_needs(entity))
+        return _needs
+
+    def query_filter(self, identity=None, **kwargs):
+        """Query filters for the current identity."""
+        grants = []
+        for need in identity.provides:
+            grants.append(EntityGrant(self.entity_field, need).token)
+        if grants:
+            return dsl.Q("terms", **{self.grants_field: grants})
+        return None
+
+
 class Commenter(Generator):
     """The user who created a specific comment."""
 
