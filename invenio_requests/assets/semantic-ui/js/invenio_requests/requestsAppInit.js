@@ -14,6 +14,7 @@ import { InvenioRequestsApp } from "./InvenioRequestsApp";
 import { defaultContribComponents } from "./contrib";
 import {
   AcceptStatus,
+  ApprovedStatus,
   CancelStatus,
   DeclineStatus,
   DeleteStatus,
@@ -22,6 +23,7 @@ import {
 } from "./request";
 import {
   TimelineAcceptEvent,
+  TimelineApproveEvent,
   TimelineCancelEvent,
   TimelineCommentDeletionEvent,
   TimelineDeclineEvent,
@@ -40,12 +42,14 @@ const defaultComponents = {
   "TimelineEvent.layout.unknown": TimelineUnknownEvent,
   "TimelineEvent.layout.declined": TimelineDeclineEvent,
   "TimelineEvent.layout.accepted": TimelineAcceptEvent,
+  "TimelineEvent.layout.approved": TimelineApproveEvent,
   "TimelineEvent.layout.expired": TimelineExpireEvent,
   "TimelineEvent.layout.cancelled": TimelineCancelEvent,
   "TimelineEvent.layout.comment_deleted": TimelineCommentDeletionEvent,
   "RequestStatus.layout.submitted": SubmitStatus,
   "RequestStatus.layout.deleted": DeleteStatus,
   "RequestStatus.layout.accepted": AcceptStatus,
+  "RequestStatus.layout.approved": ApprovedStatus,
   "RequestStatus.layout.declined": DeclineStatus,
   "RequestStatus.layout.cancelled": CancelStatus,
   "RequestStatus.layout.expired": ExpireStatus,

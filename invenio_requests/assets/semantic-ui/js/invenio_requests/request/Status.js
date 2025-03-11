@@ -29,6 +29,13 @@ export const AcceptStatus = () => (
   </div>
 );
 
+export const ApprovedStatus = () => (
+  <div>
+    <Icon name="green check circle" />
+    <span>{i18next.t("Approved")}</span>
+  </div>
+);
+
 export const DeclineStatus = () => (
   <div>
     <Icon name="times" />
