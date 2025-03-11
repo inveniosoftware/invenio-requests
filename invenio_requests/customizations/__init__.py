@@ -10,6 +10,7 @@
 
 from .actions import (
     AcceptAction,
+    ApproveAction,
     CancelAction,
     CreateAction,
     CreateAndSubmitAction,
@@ -26,6 +27,7 @@ from .states import RequestState
 
 __all__ = (
     "AcceptAction",
+    "ApproveAction",
     "CancelAction",
     "CommentEventType",
     "CreateAction",
