@@ -17,6 +17,122 @@ from invenio_records_resources.services.records.results import (
 )
 
 
+### TODO: move this ###
+from invenio_records.dictutils import dict_lookup, dict_merge, dict_set
+
+
+class MultiFieldsResolver:
+    """Resolve the reference record for each of the configured fields.
+
+    Given a list of fields referencing other records/objects,
+    it fetches and returns the dereferenced record/obj.
+
+    This class supports resolution of nested fields and efficiently batches
+    resolution requests to services.
+    """
+
+    def __init__(self, expandable_fields):
+        """Constructor.
+
+        :params expandable_fields: list of ExpandableField objects.
+        """
+        self._fields = expandable_fields
+
+    def _collect_values(self, hits):
+        """Collect all field values to be expanded."""
+        grouped_values = dict()
+
+        for hit in hits:
+            for field in self._fields:
+                try:
+                    value = dict_lookup(hit, field.field_name)
+                    if value is None:
+                        continue
+                except KeyError:
+                    continue
+
+                # Ensure `get_value_service` can return multiple (v, service) tuples
+                values_services = field.get_value_service(value)
+
+                if not isinstance(values_services, list):
+                    values_services = [values_services]  # Ensure list format
+
+                for v, service in values_services:
+                    field.add_service_value(service, v)
+                    grouped_values.setdefault(service, set()).add(v)
+
+        return grouped_values
+
+    def _find_fields(self, service, value):
+        """Find all fields matching the given service and value."""
+        return [field for field in self._fields if field.has(service, value)]
+
+    def _fetch_referenced(self, grouped_values, identity):
+        """Fetch referenced records in bulk and store resolved records."""
+
+        def _add_dereferenced_record(service, value, resolved_rec):
+            """Helper to set the dereferenced record in each matching field."""
+            for field in self._find_fields(service, value):
+                field.add_dereferenced_record(service, value, resolved_rec)
+
+        for service, all_values in grouped_values.items():
+            results = service.read_many(identity, list(all_values))
+
+            found_values = set()
+            for hit in results.hits:
+                value = hit.get("id", None)
+                found_values.add(value)
+                _add_dereferenced_record(service, value, hit)
+
+            ghost_values = all_values - found_values
+            for value in ghost_values:
+                _add_dereferenced_record(service, value, None)
+
+    def resolve(self, identity, hits):
+        """Collect field values and resolve referenced records."""
+        _hits = list(hits)  # Ensure it is a list
+        grouped_values = self._collect_values(_hits)
+        self._fetch_referenced(grouped_values, identity)
+
+    def expand(self, identity, hit):
+        """Expand and return the resolved fields for the given hit."""
+        results = {}
+
+        for field in self._fields:
+            try:
+                value = dict_lookup(hit, field.field_name)
+                if value is None:
+                    continue
+            except KeyError:
+                continue
+
+            # Ensure `get_value_service` supports lists of (value, service)
+            values_services = field.get_value_service(value)
+            resolved_recs = {}
+            if isinstance(values_services, list):
+                resolved_recs = []
+                for v, service in values_services:
+                    resolved_rec = field.get_dereferenced_record(service, v)
+                    if resolved_rec:
+                        resolved = field.pick(identity, resolved_rec)
+                        if isinstance(resolved, list):
+                            resolved_recs.extend(resolved)
+                        else:
+                            resolved_recs.append(field.pick(identity, resolved_rec))
+            else:
+                v, service = values_services
+                resolved_rec = field.get_dereferenced_record(service, v)
+                if resolved_rec:
+                    resolved_recs = field.pick(identity, resolved_rec)
+            if resolved_recs:
+                # Maintain nested structure
+                d = dict()
+                dict_set(d, field.field_name, resolved_recs)
+                dict_merge(results, d)
+
+        return results
+
+
 class RequestItem(RecordItem):
     """Single request result."""
 
@@ -40,7 +156,7 @@ class RequestItem(RecordItem):
         self._service = service
         self._links_tpl = links_tpl
         self._schema = schema or service._wrap_schema(request.type.marshmallow_schema())
-        self._fields_resolver = FieldsResolver(expandable_fields)
+        self._fields_resolver = MultiFieldsResolver(expandable_fields)
         self._expand = expand
 
     @property
@@ -131,7 +247,7 @@ class RequestList(RecordList):
         self._params = params
         self._links_tpl = links_tpl
         self._links_item_tpl = links_item_tpl
-        self._fields_resolver = FieldsResolver(expandable_fields)
+        self._fields_resolver = MultiFieldsResolver(expandable_fields)
         self._expand = expand
 
     @property

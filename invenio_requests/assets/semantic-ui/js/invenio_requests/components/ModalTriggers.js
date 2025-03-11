@@ -14,6 +14,7 @@ import {
   RequestSubmitButton,
   RequestCancelButton,
   RequestDeclineButton,
+  RequestApproveButton,
 } from "./Buttons";
 
 const { MediaContextProvider, Media } = AppMedia;
@@ -118,7 +119,52 @@ RequestAcceptModalTrigger.propTypes = {
   className: PropTypes.string,
 };
 
-RequestAcceptModalTrigger.defaultProps = {
+export const RequestApproveModalTrigger = ({
+  onClick,
+  requestType,
+  loading,
+  ariaAttributes,
+  size,
+  className,
+}) => {
+  return (
+    <MediaContextProvider>
+      <Media greaterThanOrEqual="tablet">
+        <RequestApproveButton
+          onClick={onClick}
+          loading={loading}
+          disabled={loading}
+          requestType={requestType}
+          size={size}
+          className={className}
+          {...ariaAttributes}
+        />
+      </Media>
+      <Media at="mobile">
+        <Dropdown.Item
+          icon={{
+            name: "checkmark",
+            color: "positive",
+            className: "mr-5",
+          }}
+          onClick={onClick}
+          content={i18next.t("Approve")}
+        />
+      </Media>
+    </MediaContextProvider>
+  );
+};
+
+RequestApproveModalTrigger.propTypes = {
+  onClick: PropTypes.func.isRequired,
+  requestType: PropTypes.string.isRequired,
+  loading: PropTypes.bool,
+  ariaAttributes: PropTypes.object,
+  size: PropTypes.string,
+  className: PropTypes.string,
+};
+
+RequestApproveModalTrigger.defaultProps = {
   loading: false,
   ariaAttributes: {},
   size: "mini",

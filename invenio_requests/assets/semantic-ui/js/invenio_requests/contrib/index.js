@@ -23,12 +23,14 @@ import {
 } from "@js/invenio_requests/contrib";
 import {
   RequestAcceptButton,
+  RequestApproveButton,
   RequestCancelButton,
   RequestDeclineButton,
   RequestSubmitButton,
 } from "@js/invenio_requests/components/Buttons";
 import {
   RequestAcceptModalTrigger,
+  RequestApproveModalTrigger,
   RequestDeclineModalTrigger,
   RequestCancelModalTrigger,
   RequestSubmitModalTrigger,
@@ -61,7 +63,9 @@ export const defaultContribComponents = {
   [`RequestActionButton.decline`]: RequestDeclineButton,
   [`RequestActionButton.submit`]: RequestSubmitButton,
   [`RequestActionButton.accept`]: RequestAcceptButton,
+  [`RequestActionButton.approve`]: RequestApproveButton,
   [`RequestActionModalTrigger.accept`]: RequestAcceptModalTrigger,
+  [`RequestActionModalTrigger.approve`]: RequestApproveModalTrigger,
   [`RequestActionModalTrigger.decline`]: RequestDeclineModalTrigger,
   [`RequestActionModalTrigger.cancel`]: RequestCancelModalTrigger,
   [`RequestActionModalTrigger.submit`]: RequestSubmitModalTrigger,

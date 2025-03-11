@@ -41,7 +41,7 @@ class RequestDataComponent(DataComponent):
         if record.status == "created":
             keys = ("title", "description", "payload", "receiver", "topic")
         else:
-            keys = ("title", "description")
+            keys = ("title", "description", "reviewer")
 
         for k in keys:
             if k in data:
