@@ -16,8 +16,9 @@ from itertools import chain
 
 from invenio_records_permissions.generators import Generator
 from invenio_records_resources.references import EntityGrant
-from invenio_requests.proxies import current_requests
 from invenio_search.engine import dsl
+
+from invenio_requests.proxies import current_requests
 
 
 class Status(Generator):
@@ -105,7 +106,7 @@ class Topic(EntityNeedsGenerator):
         """
         entity = getattr(request, self.entity_field)
 
-        if hasattr(request.type, "resolve_topic_needs"):
+        if getattr(request.type, "resolve_topic_needs"):
             return request.type.entity_needs(entity)
 
         return []
@@ -125,7 +126,7 @@ class Topic(EntityNeedsGenerator):
         excluded_request_types = [
             ~dsl.Q("term", **{"type": _type.type_id})
             for _type in current_requests.request_type_registry
-            if not hasattr(_type, "resolve_topic_needs")
+            if not getattr(_type, "resolve_topic_needs")
         ]
 
         # Generate grant tokens based on the user's identity
