@@ -152,14 +152,6 @@ class RequestType:
         return []
 
     @classmethod
-    def topic_needs(cls, entity):
-        """Generate topic needs for the given entity.
-
-        Opt in to generate needs for the topic entity.
-        """
-        return []
-
-    @classmethod
     def _create_payload_cls(cls):
         class PayloadBaseSchema(ma.Schema):
             class Meta:
