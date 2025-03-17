@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version v5.5.1 (released 2025-03-17)
+
+- i18n: update translations
+
 Version v5.5.0 (released 2024-12-09)
 
 - config: allow comment notification builder to be custom
