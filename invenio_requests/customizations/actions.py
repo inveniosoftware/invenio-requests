@@ -123,28 +123,35 @@ class SubmitAction(RequestAction):
 
 
 class AcceptAction(RequestAction):
-    """Decline a request."""
+    """Accept a request."""
 
-    status_from = ["submitted"]
+    status_from = ["submitted", "approved"]
     status_to = "accepted"
 
 
 class DeclineAction(RequestAction):
     """Decline a request."""
 
-    status_from = ["submitted"]
+    status_from = ["submitted", "approved"]
     status_to = "declined"
 
 
 class CancelAction(RequestAction):
     """Cancel a request."""
 
-    status_from = ["submitted"]
+    status_from = ["submitted", "approved"]
     status_to = "cancelled"
 
 
 class ExpireAction(RequestAction):
     """Expire a request."""
 
-    status_from = ["submitted"]
+    status_from = ["submitted", "approved"]
     status_to = "expired"
+
+
+class ApproveAction(RequestAction):
+    """Approve a request."""
+
+    status_from = ["submitted", "approved"]
+    status_to = "approved"

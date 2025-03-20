@@ -5,6 +5,7 @@
 // under the terms of the MIT License; see LICENSE file for more details.
 
 import _isEmpty from "lodash/isEmpty";
+import _toNumber from "lodash/toNumber";
 import { http } from "react-invenio-forms";
 
 export class RequestLinksExtractor {
@@ -70,6 +71,14 @@ export class InvenioRequestsAPI {
   submitComment = async (payload) => {
     return await http.post(this.#urls.comments, payload, {
       params: { expand: 1 },
+    });
+  };
+
+  addReviewer = async (reviewers) => {
+    return await http.put(this.#urls.self, {
+      reviewer: reviewers.map((r) => {
+        return !_toNumber(r.id) ? { group: r.id } : { user: r.id };
+      }),
     });
   };
 

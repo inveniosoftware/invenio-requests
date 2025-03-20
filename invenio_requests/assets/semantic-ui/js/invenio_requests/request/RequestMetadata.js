@@ -15,6 +15,7 @@ import { Divider, Header, Icon, Message } from "semantic-ui-react";
 import { toRelativeTime } from "react-invenio-forms";
 import RequestStatus from "./RequestStatus";
 import RequestTypeLabel from "./RequestTypeLabel";
+import { RequestReviewers } from "./RequestReviewers";
 
 const User = ({ user }) => (
   <div className="flex">
@@ -85,9 +86,7 @@ ExternalEmail.propTypes = {
 const Group = ({ group }) => (
   <div className="flex">
     <Icon name="group" className="mr-5" />
-    <span>
-      {i18next.t("Group")}: {group?.name}
-    </span>
+    <span>{group?.name}</span>
   </div>
 );
 
@@ -154,13 +153,65 @@ DeletedResource.propTypes = {
 class RequestMetadata extends Component {
   isResourceDeleted = (details) => details.is_ghost === true;
 
+  constructor(props) {
+    super(props);
+
+    const { request } = props;
+
+    this.state = {
+      selectedExpandedReviewers: request.expanded?.reviewer || [],
+      selectedReviewers: request.reviewer || [],
+    };
+  }
+
   render() {
     const { request } = this.props;
+    const { selectedReviewers, selectedExpandedReviewers } = this.state;
+    const expandedReviewer = selectedExpandedReviewers.reduce((acc, reviewer) => {
+      acc[reviewer.id] = reviewer;
+      return acc;
+    }, {});
     const expandedCreatedBy = request.expanded?.created_by;
     const expandedReceiver = request.expanded?.receiver;
+
     return (
       <Overridable id="InvenioRequest.RequestMetadata.Layout" request={request}>
         <>
+          {expandedReviewer !== undefined && (
+            <>
+              <RequestReviewers
+                request={request}
+                permissions={this.props.permissions}
+                initialReviewers={selectedExpandedReviewers}
+                onReviewerAdded={({ newReviewers, newExpandedReviewers }) => {
+                  this.setState({
+                    selectedReviewers: newReviewers,
+                    selectedExpandedReviewers: newExpandedReviewers,
+                  });
+                }}
+              />
+              {selectedReviewers.map((reviewer) => (
+                <React.Fragment key={reviewer.id}>
+                  {this.isResourceDeleted(reviewer) ? (
+                    <DeletedResource details={reviewer} />
+                  ) : (
+                    <>
+                      <EntityDetails
+                        userData={reviewer}
+                        details={
+                          "user" in reviewer
+                            ? expandedReviewer[reviewer.user]
+                            : expandedReviewer[reviewer.group]
+                        }
+                      />
+                      <div className="mt-10" />
+                    </>
+                  )}
+                </React.Fragment>
+              ))}
+              <Divider />
+            </>
+          )}
           {expandedCreatedBy !== undefined && (
             <>
               <Header as="h3" size="tiny">
