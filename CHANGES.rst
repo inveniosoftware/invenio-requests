@@ -9,6 +9,10 @@
 Changes
 =======
 
+Version v6.1.2 (released 2025-03-26)
+
+- i18n: Fix untranslated strings in facets
+
 Version v6.1.1 (released 2025-03-12)
 
 - search: make shared filters toggleable
