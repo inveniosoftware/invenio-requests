@@ -11,10 +11,11 @@ import PropTypes from "prop-types";
 import React, { Component } from "react";
 import { Image } from "react-invenio-forms";
 import Overridable from "react-overridable";
-import { Divider, Header, Icon, Message } from "semantic-ui-react";
+import { Divider, Header, Icon, Message, Button } from "semantic-ui-react";
 import { toRelativeTime } from "react-invenio-forms";
 import RequestStatus from "./RequestStatus";
 import RequestTypeLabel from "./RequestTypeLabel";
+import { RequestReviewers } from "./RequestReviewers";
 
 const User = ({ user }) => (
   <div className="flex">
@@ -84,10 +85,8 @@ ExternalEmail.propTypes = {
 
 const Group = ({ group }) => (
   <div className="flex">
-    <Icon name="group" className="mr-5" />
-    <span>
-      {i18next.t("Group")}: {group?.name}
-    </span>
+    <Icon name="group" className="mr-10" />
+    <span>{group?.name}</span>
   </div>
 );
 
@@ -97,7 +96,7 @@ Group.propTypes = {
   }).isRequired,
 };
 
-const EntityDetails = ({ userData, details }) => {
+export const EntityDetails = ({ userData, details }) => {
   const isUser = "user" in userData;
   const isCommunity = "community" in userData;
   const isExternalEmail = "email" in userData;
@@ -139,7 +138,7 @@ EntityDetails.propTypes = {
   ]).isRequired,
 };
 
-const DeletedResource = ({ details }) => (
+export const DeletedResource = ({ details }) => (
   <Message negative>{details.metadata.title}</Message>
 );
 
@@ -158,9 +157,20 @@ class RequestMetadata extends Component {
     const { request } = this.props;
     const expandedCreatedBy = request.expanded?.created_by;
     const expandedReceiver = request.expanded?.receiver;
+    const expandedReviewer = request.expanded?.reviewer;
+
     return (
       <Overridable id="InvenioRequest.RequestMetadata.Layout" request={request}>
         <>
+          {expandedReviewer !== undefined && (
+            <>
+              <RequestReviewers
+                request={request}
+                permissions={this.props.permissions}
+              />
+              <Divider />
+            </>
+          )}
           {expandedCreatedBy !== undefined && (
             <>
               <Header as="h3" size="tiny">

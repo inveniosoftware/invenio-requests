@@ -123,7 +123,7 @@ class SubmitAction(RequestAction):
 
 
 class AcceptAction(RequestAction):
-    """Decline a request."""
+    """Accept a request."""
 
     status_from = ["submitted"]
     status_to = "accepted"
@@ -148,3 +148,10 @@ class ExpireAction(RequestAction):
 
     status_from = ["submitted"]
     status_to = "expired"
+
+
+class ApproveAction(RequestAction):
+    """Approve a request."""
+
+    status_from = ["submitted"]
+    status_to = "submitted"

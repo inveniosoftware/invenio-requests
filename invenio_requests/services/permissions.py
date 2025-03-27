@@ -19,7 +19,7 @@ from invenio_records_permissions.generators import (
     SystemProcessWithoutSuperUser,
 )
 
-from .generators import Commenter, Creator, Receiver, Status, Topic
+from .generators import Commenter, Creator, Receiver, Reviewer, Status, Topic
 
 
 class PermissionPolicy(RecordPermissionPolicy):
@@ -37,8 +37,15 @@ class PermissionPolicy(RecordPermissionPolicy):
     can_read = [
         Status(["created"], [Creator()]),
         Status(
-            ["submitted", "deleted", "cancelled", "expired", "accepted", "declined"],
-            [Creator(), Receiver(), Topic()],
+            [
+                "submitted",
+                "deleted",
+                "cancelled",
+                "expired",
+                "accepted",
+                "declined",
+            ],
+            [Creator(), Receiver(), Reviewer(), Topic()],
         ),
         SystemProcess(),
     ]
@@ -70,6 +77,7 @@ class PermissionPolicy(RecordPermissionPolicy):
     # as it's added by default to any permission.
     can_action_expire = [SystemProcessWithoutSuperUser()]
     can_action_accept = [Receiver(), SystemProcess()]
+    can_action_approve = [Reviewer(), SystemProcess()]
     can_action_decline = [Receiver(), SystemProcess()]
 
     # Request events/comments
