@@ -43,9 +43,6 @@
   "You've caught up with all open requests.": "",
   "No requests found!": "",
   "Reset search": "",
-  "{{count}} results found_0": "",
-  "{{count}} results found_1": "",
-  "{{count}} results found_2": "",
   "Sort by": "",
   "Filter results": "",
   "Search in my requests...": "",
@@ -62,5 +59,6 @@
   "Email": "",
   "Group": "",
   "Record": "",
-  "Actions": ""
+  "Actions": "",
+  "Subcommunity invitation": ""
 }

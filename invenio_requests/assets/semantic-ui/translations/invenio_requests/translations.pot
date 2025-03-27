@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2024-08-06T08:57:02.744Z\n"
-"PO-Revision-Date: 2024-08-06T08:57:02.744Z\n"
+"POT-Creation-Date: 2025-03-27T14:12:23.605Z\n"
+"PO-Revision-Date: 2025-03-27T14:12:23.605Z\n"
 "Language: en\n"
 
 msgid "Save"
@@ -114,11 +114,6 @@ msgstr "No requests found!"
 msgid "Reset search"
 msgstr "Reset search"
 
-msgid "{{count}} results found"
-msgid_plural "{{count}} results found"
-msgstr[0] "{{count}} results found"
-msgstr[1] "{{count}} results found"
-
 msgid "Sort by"
 msgstr "Sort by"
 
@@ -196,3 +191,6 @@ msgstr "Record"
 
 msgid "Actions"
 msgstr "Actions"
+
+msgid "Subcommunity invitation"
+msgstr "Subcommunity invitation"

@@ -34,8 +34,6 @@
   "You've caught up with all open requests.": "You've caught up with all open requests.",
   "No requests found!": "No requests found!",
   "Reset search": "Reset search",
-  "{{count}} results found": "{{count}} results found",
-  "{{count}} results found_plural": "{{count}} results found",
   "Sort by": "Sort by",
   "Filter results": "Filter results",
   "Search in my requests...": "Search in my requests...",
@@ -61,5 +59,6 @@
   "Email": "Email",
   "Group": "Group",
   "Record": "Record",
-  "Actions": "Actions"
+  "Actions": "Actions",
+  "Subcommunity invitation": "Subcommunity invitation"
 }
