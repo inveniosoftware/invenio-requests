@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2021 TU Wien.
+# Copyright (C) 2021-2024 TU Wien.
 #
 # Invenio-Requests is free software; you can redistribute it and/or
 # modify it under the terms of the MIT License; see LICENSE file for more
@@ -198,3 +198,48 @@ def test_simple_request_flow(app, client_logged_as, headers, example_request):
         }
     )
     assert_api_response(response, 200, expected_data)
+
+
+#
+# Read-only mode
+#
+
+
+def test_update_request_ro(rw_app, client_logged_as, headers, example_request):
+    rw_app.config["RECORDS_PERMISSIONS_READ_ONLY"] = True
+    request_id = example_request.id
+    client = client_logged_as("admin@example.org")
+    response = client.put(
+        f"/requests/{request_id}", headers=headers, data=example_request
+    )
+    assert response.status_code == 403
+
+
+def test_delete_request_ro(rw_app, client_logged_as, headers, example_request):
+    rw_app.config["RECORDS_PERMISSIONS_READ_ONLY"] = True
+    request_id = example_request.id
+    client = client_logged_as("admin@example.org")
+    response = client.delete(f"/requests/{request_id}", headers=headers)
+    assert response.status_code == 403
+
+
+def test_submit_request_ro(rw_app, client_logged_as, headers, example_request):
+    rw_app.config["RECORDS_PERMISSIONS_READ_ONLY"] = True
+    request_id = example_request.id
+    client = client_logged_as("admin@example.org")
+    response = client.post(f"/requests/{request_id}/actions/submit", headers=headers)
+    assert response.status_code == 403
+
+
+def test_request_actions_ro(rw_app, client_logged_as, headers, example_request):
+    request_id = example_request.id
+    client = client_logged_as("admin@example.org")
+    response = client.post(f"/requests/{request_id}/actions/submit", headers=headers)
+    assert response.status_code == 200
+
+    for action in ["accept", "decline", "cancel"]:
+        rw_app.config["RECORDS_PERMISSIONS_READ_ONLY"] = True
+        response = client.post(
+            f"/requests/{request_id}/actions/{action}", headers=headers
+        )
+        assert response.status_code == 403

@@ -2,7 +2,7 @@
 #
 # Copyright (C) 2021-2024 CERN.
 # Copyright (C) 2021 Northwestern University.
-# Copyright (C) 2021 TU Wien.
+# Copyright (C) 2021-2024 TU Wien.
 # Copyright (C) 2023 Graz University of Technology.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify it
