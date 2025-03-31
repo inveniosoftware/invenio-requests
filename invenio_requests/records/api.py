@@ -29,10 +29,12 @@ from .systemfields import (
     RequestTypeField,
 )
 from .systemfields.entity_reference import (
+    MultiEntityReferenceField,
     check_allowed_creators,
     check_allowed_receivers,
     check_allowed_references,
     check_allowed_topics,
+    check_allowed_reviewer,
 )
 
 
@@ -46,7 +48,7 @@ class Request(Record):
         extensions=[
             CalculatedFieldDumperExt("is_closed"),
             CalculatedFieldDumperExt("is_open"),
-            GrantTokensDumperExt("created_by", "receiver", "topic"),
+            GrantTokensDumperExt("created_by", "receiver", "topic", "reviewer"),
         ]
     )
     """Search dumper with configured extensions."""
@@ -79,6 +81,9 @@ class Request(Record):
     """The entity that created the request."""
 
     receiver = EntityReferenceField("receiver", check_allowed_receivers)
+    """The entity that will receive the request."""
+
+    reviewer = MultiEntityReferenceField("reviewer", check_allowed_reviewer)
     """The entity that will receive the request."""
 
     status = RequestStatusField("status")
