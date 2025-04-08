@@ -162,15 +162,8 @@ class RequestMetadata extends Component {
     return (
       <Overridable id="InvenioRequest.RequestMetadata.Layout" request={request}>
         <>
-          {expandedReviewer !== undefined && (
-            <>
-              <RequestReviewers
-                request={request}
-                permissions={this.props.permissions}
-              />
-              <Divider />
-            </>
-          )}
+          <RequestReviewers request={request} permissions={this.props.permissions} />
+          <Divider />
           {expandedCreatedBy !== undefined && (
             <>
               <Header as="h3" size="tiny">

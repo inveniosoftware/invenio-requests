@@ -7,6 +7,7 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """Base class for customizable actions on requests."""
+from datetime import datetime
 from ..errors import NoSuchActionError
 from ..proxies import current_events_service
 from .event_types import LogEventType
@@ -155,3 +156,21 @@ class ApproveAction(RequestAction):
 
     status_from = ["submitted"]
     status_to = "submitted"
+
+    def execute(self, identity, uow):
+        """Execute the request action."""
+        self.request.status = self.status_to
+        # check if identity is a reviewer then add it to the lastOpiniatedReview
+        # new_reviewer = {"user": identity.id, "state": "approved"}
+        # set_of_reviewers = set(self.request.reviewer)
+        # set_of_reviewers.add(new_reviewer)
+        # self.request.reviewer = list(set_of_reviewers)
+        # breakpoint()
+        event = LogEventType(payload=dict(event="approved"))
+        _data = dict(payload=event.payload)
+        current_events_service.create(identity, self.request.id, _data, event, uow=uow)
+        self.request.lastOpiniatedReviews = {
+            "user": str(identity.id),
+            "state": "approved",
+            "timestamp": datetime.now().isoformat(),
+        }

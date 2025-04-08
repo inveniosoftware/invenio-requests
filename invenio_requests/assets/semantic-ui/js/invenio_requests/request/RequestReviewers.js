@@ -228,18 +228,28 @@ export const RequestReviewers = ({ request, permissions }) => {
         label={i18next.t("Reviewers")}
       />
       {!isMenuOpen ? (
-        selectedReviewers.map((reviewer) => (
-          <React.Fragment key={reviewer.id}>
-            {isResourceDeleted(reviewer) ? (
-              <DeletedResource details={reviewer} />
-            ) : (
-              <>
-                <EntityDetails userData={reviewer} details={reviewer} />
-                <div className="mt-10" />
-              </>
-            )}
-          </React.Fragment>
-        ))
+        <Grid>
+          {selectedReviewers.map((reviewer) => (
+            <>
+              <Grid.Column width={14} className="pb-0">
+                <React.Fragment key={reviewer.id}>
+                  {isResourceDeleted(reviewer) ? (
+                    <DeletedResource details={reviewer} />
+                  ) : (
+                    <>
+                      <EntityDetails userData={reviewer} details={reviewer} />
+                    </>
+                  )}
+                </React.Fragment>
+              </Grid.Column>
+              {request.last_opiniated_reviews?.user == reviewer.id && (
+                <Grid.Column width={2}>
+                  <Icon name="green check" className="right-floated" />
+                </Grid.Column>
+              )}
+            </>
+          ))}
+        </Grid>
       ) : (
         <Segment attached>
           <ReviewerSearch
