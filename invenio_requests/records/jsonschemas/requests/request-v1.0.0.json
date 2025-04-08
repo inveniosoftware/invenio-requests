@@ -42,6 +42,9 @@
       "items": {
         "$ref": "local://definitions-v1.0.0.json#/entity_reference"
       }
+    },
+    "last_opiniated_reviews": {
+      "$ref": "local://requests/definitions-v1.0.0.json#/anything"
     }
   }
 }
