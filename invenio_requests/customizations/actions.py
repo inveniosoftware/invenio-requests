@@ -162,9 +162,9 @@ class ApproveAction(RequestAction):
         self.request.status = self.status_to
         # check if identity is a reviewer then add it to the lastOpiniatedReview
         # new_reviewer = {"user": identity.id, "state": "approved"}
-        # set_of_reviewers = set(self.request.reviewer)
+        # set_of_reviewers = set(self.request.reviewers)
         # set_of_reviewers.add(new_reviewer)
-        # self.request.reviewer = list(set_of_reviewers)
+        # self.request.reviewers = list(set_of_reviewers)
         # breakpoint()
         event = LogEventType(payload=dict(event="approved"))
         _data = dict(payload=event.payload)

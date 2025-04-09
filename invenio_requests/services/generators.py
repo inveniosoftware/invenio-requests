@@ -153,7 +153,7 @@ class Topic(EntityNeedsGenerator):
 class Reviewer(EntityNeedsGenerator):
     """Allows the reviewer of the request."""
 
-    entity_field = "reviewer"
+    entity_field = "reviewers"
 
     def needs(self, request=None, **kwargs):
         """Needs for the given entity reference."""
