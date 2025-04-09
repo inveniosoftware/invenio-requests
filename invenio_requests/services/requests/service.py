@@ -60,7 +60,7 @@ class RequestsService(RecordService):
             EntityResolverExpandableField("receiver"),
             # TODO to be verified
             EntityResolverExpandableField("topic"),
-            MultiEntityResolverExpandableField("reviewer"),
+            MultiEntityResolverExpandableField("reviewers"),
         ]
 
     @unit_of_work()

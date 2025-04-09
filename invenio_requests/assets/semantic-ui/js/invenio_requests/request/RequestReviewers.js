@@ -159,12 +159,12 @@ export const RequestReviewers = ({ request, permissions }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [results, setResults] = useState([]);
 
-  const reviewers = request.expanded?.reviewer || [];
+  const reviewers = request.expanded?.reviewers || [];
 
   const initialReviewers = reviewers.map((r, index) => {
-    return "user" in request.reviewer[index]
-      ? { ...r, user: request.reviewer[index].user }
-      : { ...r, group: request.reviewer[index].group };
+    return "user" in request.reviewers[index]
+      ? { ...r, user: request.reviewers[index].user }
+      : { ...r, group: request.reviewers[index].group };
   });
 
   const [selectedReviewers, setSelectedReviewers] = useState(initialReviewers);

@@ -157,7 +157,7 @@ class RequestMetadata extends Component {
     const { request } = this.props;
     const expandedCreatedBy = request.expanded?.created_by;
     const expandedReceiver = request.expanded?.receiver;
-    const expandedReviewer = request.expanded?.reviewer;
+    const expandedReviewers = request.expanded?.reviewers;
 
     return (
       <Overridable id="InvenioRequest.RequestMetadata.Layout" request={request}>
