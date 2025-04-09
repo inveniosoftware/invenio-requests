@@ -134,7 +134,7 @@ class RequestType:
     receiver_can_be_none = False
     """Determines if the ``receiver`` reference accepts ``None``."""
 
-    reviewer_can_be_none = False
+    reviewers_can_be_none = False
     """Determines if the ``reviewer`` reference accepts ``None``."""
 
     topic_can_be_none = True
@@ -146,7 +146,7 @@ class RequestType:
     allowed_receiver_ref_types = ["user"]
     """A list of allowed TYPE keys for ``receiver`` reference dicts."""
 
-    allowed_reviewer_ref_types = ["user", "group"]
+    allowed_reviewers_ref_types = ["user", "group"]
     """A list of allowed TYPE keys for ``receiver`` reference dicts."""
 
     allowed_topic_ref_types = []
@@ -218,12 +218,12 @@ class RequestType:
                 timestamp=ma.fields.DateTime(),
                 allow_none=True,
             ),
-            "reviewer": ma.fields.List(
+            "reviewers": ma.fields.List(
                 ma.fields.Nested(
                     MultipleEntityReferenceBaseSchema.create_from_dict(
-                        cls.allowed_reviewer_ref_types
+                        cls.allowed_reviewers_ref_types
                     ),
-                    allow_none=cls.reviewer_can_be_none,
+                    allow_none=cls.reviewers_can_be_none,
                 )
             ),
             "topic": ma.fields.Nested(

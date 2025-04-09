@@ -114,7 +114,7 @@ class SharedOrMyRequestsParam(ParamInterpreter):
             if need.method in allowed_need_methods
         ]
         reviewer_grants = [
-            EntityGrant("reviewer", need).token
+            EntityGrant("reviewers", need).token
             for need in identity.provides
             if need.method in allowed_need_methods
         ]

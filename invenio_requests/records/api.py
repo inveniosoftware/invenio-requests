@@ -34,7 +34,7 @@ from .systemfields.entity_reference import (
     check_allowed_receivers,
     check_allowed_references,
     check_allowed_topics,
-    check_allowed_reviewer,
+    check_allowed_reviewers,
 )
 
 
@@ -48,7 +48,7 @@ class Request(Record):
         extensions=[
             CalculatedFieldDumperExt("is_closed"),
             CalculatedFieldDumperExt("is_open"),
-            GrantTokensDumperExt("created_by", "receiver", "topic", "reviewer"),
+            GrantTokensDumperExt("created_by", "receiver", "topic", "reviewers"),
         ]
     )
     """Search dumper with configured extensions."""
@@ -83,7 +83,7 @@ class Request(Record):
     receiver = EntityReferenceField("receiver", check_allowed_receivers)
     """The entity that will receive the request."""
 
-    reviewer = MultiEntityReferenceField("reviewer", check_allowed_reviewer)
+    reviewers = MultiEntityReferenceField("reviewers", check_allowed_reviewers)
     """The entity that will receive the request."""
 
     lastOpiniatedReviews = DictField("last_opiniated_reviews")

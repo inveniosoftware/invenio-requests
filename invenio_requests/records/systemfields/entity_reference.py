@@ -115,10 +115,10 @@ class MultiReferenceEntityField(SystemField):
         return self.obj(record)
 
 
-check_allowed_reviewer = partial(
+check_allowed_reviewers = partial(
     check_allowed_references,
-    lambda r: r.type.reviewer_can_be_none,
-    lambda r: r.type.allowed_reviewer_ref_types,
+    lambda r: r.type.reviewers_can_be_none,
+    lambda r: r.type.allowed_reviewers_ref_types,
 )
 """Check function specific for the ``re`` field of requests."""
 
