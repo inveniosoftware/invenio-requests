@@ -123,45 +123,6 @@ export const CancelButton = React.forwardRef((props, ref) => {
 
 CancelButton.displayName = "CancelButton";
 
-export const RequestApproveButton = ({
-  onClick,
-  loading,
-  ariaAttributes,
-  size,
-  content = i18next.t("Approve"),
-  className,
-}) => {
-  return (
-    <Button
-      icon="checkmark"
-      labelPosition="left"
-      content={content}
-      onClick={onClick}
-      loading={loading}
-      disabled={loading}
-      size={size}
-      positive
-      className={className}
-      {...ariaAttributes}
-    />
-  );
-};
-
-RequestApproveButton.propTypes = {
-  onClick: PropTypes.func.isRequired,
-  requestType: PropTypes.string.isRequired,
-  loading: PropTypes.bool,
-  ariaAttributes: PropTypes.object,
-  size: PropTypes.string,
-  className: PropTypes.string,
-};
-
-RequestApproveButton.defaultProps = {
-  loading: false,
-  ariaAttributes: {},
-  size: "mini",
-  className: "",
-};
 
 export const RequestCancelButton = ({
   onClick,

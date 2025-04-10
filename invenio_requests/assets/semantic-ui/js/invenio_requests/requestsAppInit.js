@@ -22,7 +22,6 @@ import {
 } from "./request";
 import {
   TimelineAcceptEvent,
-  TimelineApproveEvent,
   TimelineCancelEvent,
   TimelineCommentDeletionEvent,
   TimelineDeclineEvent,
@@ -41,7 +40,6 @@ const defaultComponents = {
   "TimelineEvent.layout.unknown": TimelineUnknownEvent,
   "TimelineEvent.layout.declined": TimelineDeclineEvent,
   "TimelineEvent.layout.accepted": TimelineAcceptEvent,
-  "TimelineEvent.layout.approved": TimelineApproveEvent,
   "TimelineEvent.layout.expired": TimelineExpireEvent,
   "TimelineEvent.layout.cancelled": TimelineCancelEvent,
   "TimelineEvent.layout.comment_deleted": TimelineCommentDeletionEvent,

@@ -21,7 +21,6 @@ from ..notifications.builders import CommentRequestEventCreateNotificationBuilde
 from ..proxies import current_requests
 from .actions import (
     AcceptAction,
-    ApproveAction,
     CancelAction,
     CreateAction,
     DeclineAction,
@@ -112,7 +111,6 @@ class RequestType:
         "submit": SubmitAction,
         "delete": DeleteAction,
         "accept": AcceptAction,
-        "approve": ApproveAction,
         "decline": DeclineAction,
         "cancel": CancelAction,
         "expire": ExpireAction,
