@@ -13,7 +13,6 @@ mechanism for custom types of requests.
 TODO explain what can be done here, and how!
 """
 
-
 import base32_lib as base32
 import marshmallow as ma
 from invenio_records_resources.services.references import EntityReferenceBaseSchema

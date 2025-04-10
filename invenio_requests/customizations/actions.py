@@ -7,7 +7,9 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """Base class for customizable actions on requests."""
+
 from datetime import datetime
+
 from ..errors import NoSuchActionError
 from ..proxies import current_events_service
 from .event_types import LogEventType
