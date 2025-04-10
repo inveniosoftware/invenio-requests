@@ -43,7 +43,6 @@ class EntityResolverExpandableField(ExpandableField):
         return self.entity_proxy.pick_resolved_fields(identity, resolved_rec)
 
 
-### TODO: move this ###
 class MultiEntityResolverExpandableField(ExpandableField):
     """Expandable entity resolver field for multiple references.
 
