@@ -23,19 +23,6 @@ TimelineAcceptEvent.propTypes = {
   event: PropTypes.object.isRequired,
 };
 
-export const TimelineApproveEvent = ({ event }) => (
-  <TimelineActionEvent
-    iconName="check circle"
-    iconColor="positive"
-    event={event}
-    eventContent={i18next.t("approved this request")}
-  />
-);
-
-TimelineApproveEvent.propTypes = {
-  event: PropTypes.object.isRequired,
-};
-
 export const TimelineDeclineEvent = ({ event }) => (
   <TimelineActionEvent
     iconName="close"
