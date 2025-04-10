@@ -86,9 +86,6 @@ class Request(Record):
     reviewers = MultiEntityReferenceField("reviewers", check_allowed_reviewers)
     """The entity that will receive the request."""
 
-    lastOpiniatedReviews = DictField("last_opiniated_reviews")
-    """The last opiniated reviews of the request."""
-
     status = RequestStatusField("status")
     """The current status of the request."""
 

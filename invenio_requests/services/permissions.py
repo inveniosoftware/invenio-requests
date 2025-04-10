@@ -77,7 +77,6 @@ class PermissionPolicy(RecordPermissionPolicy):
     # as it's added by default to any permission.
     can_action_expire = [SystemProcessWithoutSuperUser()]
     can_action_accept = [Receiver(), SystemProcess()]
-    can_action_approve = [Reviewer(), SystemProcess()]
     can_action_decline = [Receiver(), SystemProcess()]
 
     # Request events/comments
