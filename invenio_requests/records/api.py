@@ -33,8 +33,8 @@ from .systemfields.entity_reference import (
     check_allowed_creators,
     check_allowed_receivers,
     check_allowed_references,
-    check_allowed_topics,
     check_allowed_reviewers,
+    check_allowed_topics,
 )
 
 
