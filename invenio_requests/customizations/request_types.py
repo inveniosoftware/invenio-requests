@@ -15,7 +15,10 @@ TODO explain what can be done here, and how!
 
 import base32_lib as base32
 import marshmallow as ma
-from invenio_records_resources.services.references import EntityReferenceBaseSchema
+from invenio_records_resources.services.references import (
+    EntityReferenceBaseSchema,
+    MultipleEntityReferenceBaseSchema,
+)
 
 from ..notifications.builders import CommentRequestEventCreateNotificationBuilder
 from ..proxies import current_requests
@@ -29,33 +32,6 @@ from .actions import (
     SubmitAction,
 )
 from .states import RequestState
-
-
-class MultipleEntityReferenceBaseSchema(EntityReferenceBaseSchema):
-    """Base schema for entity references, allowing multiple keys.
-
-    Example of an allowed value: ``{"user": 1, "record": "abcd-1234"}``.
-    Example of a disallowed value: ``{"user": 1}``.
-    """
-
-    @classmethod
-    def create_from_dict(cls, allowed_types, special_fields=None):
-        """Create an entity reference schema based on the allowed ref types.
-
-        Per default, a ``fields.String()`` field is registered for each of
-        the type names in the ``allowed_types`` list.
-        The field type can be customized by providing an entry in the
-        ``special_fields`` dict, with the type name as key and the field type
-        as value (e.g. ``{"user": fields.Integer()}``).
-        """
-        field_types = special_fields or {}
-        for ref_type in allowed_types:
-            # each type would be a String field per default
-            field_types.setdefault(ref_type, ma.fields.String())
-
-        return cls.from_dict(
-            {ref_type: field_types[ref_type] for ref_type in allowed_types}
-        )
 
 
 class RequestType:
