@@ -13,10 +13,12 @@ mechanism for custom types of requests.
 TODO explain what can be done here, and how!
 """
 
-
 import base32_lib as base32
 import marshmallow as ma
-from invenio_records_resources.services.references import EntityReferenceBaseSchema
+from invenio_records_resources.services.references import (
+    EntityReferenceBaseSchema,
+    MultipleEntityReferenceBaseSchema,
+)
 
 from ..notifications.builders import CommentRequestEventCreateNotificationBuilder
 from ..proxies import current_requests
@@ -105,6 +107,9 @@ class RequestType:
     receiver_can_be_none = False
     """Determines if the ``receiver`` reference accepts ``None``."""
 
+    reviewers_can_be_none = False
+    """Determines if the ``reviewer`` reference accepts ``None``."""
+
     topic_can_be_none = True
     """Determines if the ``topic`` reference accepts ``None``."""
 
@@ -112,6 +117,9 @@ class RequestType:
     """A list of allowed TYPE keys for ``created_by`` reference dicts."""
 
     allowed_receiver_ref_types = ["user"]
+    """A list of allowed TYPE keys for ``receiver`` reference dicts."""
+
+    allowed_reviewers_ref_types = ["user", "group"]
     """A list of allowed TYPE keys for ``receiver`` reference dicts."""
 
     allowed_topic_ref_types = []
@@ -176,6 +184,20 @@ class RequestType:
             "receiver": ma.fields.Nested(
                 RefBaseSchema.create_from_dict(cls.allowed_receiver_ref_types),
                 allow_none=cls.receiver_can_be_none,
+            ),
+            "last_opiniated_reviews": ma.fields.Dict(
+                user=ma.fields.String(),
+                state=ma.fields.String(),
+                timestamp=ma.fields.DateTime(),
+                allow_none=True,
+            ),
+            "reviewers": ma.fields.List(
+                ma.fields.Nested(
+                    MultipleEntityReferenceBaseSchema.create_from_dict(
+                        cls.allowed_reviewers_ref_types
+                    ),
+                    allow_none=cls.reviewers_can_be_none,
+                )
             ),
             "topic": ma.fields.Nested(
                 RefBaseSchema.create_from_dict(cls.allowed_topic_ref_types),
