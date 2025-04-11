@@ -44,10 +44,16 @@ const CollapsedHeader = ({ canReview, onOpen, label }) => {
     );
   }
   return (
-    <Header as="h3" size="tiny" onClick={onOpen} className="cursor-pointer">
-      {label}
-      <Icon name="setting" className="right-floated" size="mini" />
-    </Header>
+    <Grid onClick={onOpen} className="pb-0">
+      <Grid.Column width={12}>
+        <Header as="h3" size="tiny" className="m-0">
+          {label}
+        </Header>
+      </Grid.Column>
+      <Grid.Column width={4}>
+        <Icon name="setting" />
+      </Grid.Column>
+    </Grid>
   );
 };
 
@@ -121,10 +127,10 @@ const SelectedReviewersList = ({ selectedReviewers, removeReviewer, i18next }) =
         {i18next.t("Selected reviewers")}
       </Header>
 
-      <Grid>
+      <Grid className="pt-10 mb-5">
         {selectedReviewers.map((reviewer) => (
           <>
-            <Grid.Column width={14} className="pb-0">
+            <Grid.Column width={13} className="pb-0">
               <React.Fragment key={reviewer.id}>
                 {isResourceDeleted(reviewer) ? (
                   <DeletedResource details={reviewer} />
@@ -136,7 +142,7 @@ const SelectedReviewersList = ({ selectedReviewers, removeReviewer, i18next }) =
               </React.Fragment>
             </Grid.Column>
             <Grid.Column width={2}>
-              <Icon name="close" className="right-floated" />
+              <Icon name="close" className="right-floated" onClick={() => removeReviewer(reviewer.id)} />
             </Grid.Column>
           </>
         ))}
@@ -228,7 +234,7 @@ export const RequestReviewers = ({ request, permissions }) => {
         label={i18next.t("Reviewers")}
       />
       {!isMenuOpen ? (
-        <Grid>
+        <Grid className="mt-0">
           {selectedReviewers.map((reviewer) => (
             <>
               <Grid.Column width={14} className="pb-0">
@@ -242,16 +248,11 @@ export const RequestReviewers = ({ request, permissions }) => {
                   )}
                 </React.Fragment>
               </Grid.Column>
-              {request.last_opiniated_reviews?.user == reviewer.id && (
-                <Grid.Column width={2}>
-                  <Icon name="green check" className="right-floated" />
-                </Grid.Column>
-              )}
             </>
           ))}
         </Grid>
       ) : (
-        <Segment attached>
+        <Segment>
           <ReviewerSearch
             searchType={searchType}
             onFilterChange={setSearchType}
