@@ -118,13 +118,6 @@ RequestAcceptModalTrigger.propTypes = {
   className: PropTypes.string,
 };
 
-RequestAcceptModalTrigger.defaultProps = {
-  loading: false,
-  ariaAttributes: {},
-  size: "mini",
-  className: "ml-5",
-};
-
 export const RequestCancelModalTrigger = ({
   onClick,
   loading,

@@ -2,30 +2,30 @@
   "mappings": {
     "dynamic": "strict",
     "dynamic_templates": [
-        {
-          "creators": {
-            "path_match": "created_by.*",
-            "mapping": {
-              "type": "keyword"
-            }
-          }
-        },
-        {
-          "topics": {
-            "path_match": "topic.*",
-            "mapping": {
-              "type": "keyword"
-            }
-          }
-        },
-        {
-          "receivers": {
-            "path_match": "receiver.*",
-            "mapping": {
-              "type": "keyword"
-            }
+      {
+        "creators": {
+          "path_match": "created_by.*",
+          "mapping": {
+            "type": "keyword"
           }
         }
+      },
+      {
+        "topics": {
+          "path_match": "topic.*",
+          "mapping": {
+            "type": "keyword"
+          }
+        }
+      },
+      {
+        "receivers": {
+          "path_match": "receiver.*",
+          "mapping": {
+            "type": "keyword"
+          }
+        }
+      }
     ],
     "properties": {
       "$schema": {
@@ -93,6 +93,17 @@
       },
       "grants": {
         "type": "keyword"
+      },
+      "reviewers": {
+        "type": "object",
+        "properties": {
+          "group": {
+            "type": "keyword"
+          },
+          "user": {
+            "type": "keyword"
+          }
+        }
       }
     }
   }

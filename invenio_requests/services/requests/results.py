@@ -11,7 +11,7 @@
 """Results for the requests service."""
 
 from invenio_records_resources.services.records.results import (
-    FieldsResolver,
+    MultiFieldsResolver,
     RecordItem,
     RecordList,
 )
@@ -40,7 +40,7 @@ class RequestItem(RecordItem):
         self._service = service
         self._links_tpl = links_tpl
         self._schema = schema or service._wrap_schema(request.type.marshmallow_schema())
-        self._fields_resolver = FieldsResolver(expandable_fields)
+        self._fields_resolver = MultiFieldsResolver(expandable_fields)
         self._expand = expand
 
     @property
@@ -131,7 +131,7 @@ class RequestList(RecordList):
         self._params = params
         self._links_tpl = links_tpl
         self._links_item_tpl = links_item_tpl
-        self._fields_resolver = FieldsResolver(expandable_fields)
+        self._fields_resolver = MultiFieldsResolver(expandable_fields)
         self._expand = expand
 
     @property
