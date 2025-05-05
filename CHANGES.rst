@@ -8,6 +8,11 @@
 Changes
 =======
 
+Version 4.1.3 (released 2025-05-05)
+
+- fix: bump axios version
+- ci: update workflows
+
 Version 4.1.2 (released 2024-08-06)
 
 - comments: fix comment editor loses content on focus change
