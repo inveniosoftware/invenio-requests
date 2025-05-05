@@ -2,6 +2,7 @@
 #
 # This file is part of Invenio.
 # Copyright (C) 2016-2021 CERN.
+# Copyright (C) 2025 KTH Royal Institute of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -33,7 +34,7 @@ requests = WebpackThemeBundle(
                 "semantic-ui-react": "^2.1.1",
                 "@tinymce/tinymce-react": "^4.3.0",
                 "tinymce": "^6.7.2",
-                "axios": "^0.19.0",
+                "axios": "^1.8.2",
                 "lodash": "^4.17.15",
                 "luxon": "^1.21.1",
                 "path": "^0.12.7",
