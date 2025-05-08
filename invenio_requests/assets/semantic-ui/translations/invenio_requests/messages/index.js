@@ -16,6 +16,6 @@ export const translations = {
 };
 */
 
-import { translations } from "./translations";
+import { translations } from "./_generatedTranslations";
 
 export { translations };
