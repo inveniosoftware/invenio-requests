@@ -8,6 +8,15 @@
 Changes
 =======
 
+Version 4.1.4 (released 2025-05-08)
+
+- i18n: compile js translations
+- i18n: Update commands for message extraction and compilation
+- i18n:pulled translations
+- translations: update package-lock.json
+- i18n:backport changes from maint-5
+- i18n: Fix untranslated strings in facets
+
 Version 4.1.3 (released 2025-05-05)
 
 - fix: bump axios version
