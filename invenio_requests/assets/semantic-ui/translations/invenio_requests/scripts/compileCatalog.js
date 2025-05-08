@@ -48,7 +48,7 @@ function writeGeneratedTranslationsFile(languages) {
   for (const lang of languages) {
     appendFileSync(
       generatedTranslationsFilePath,
-      `  ${lang}: { translation: TRANSLATE_${lang} },\n`
+      `  ${lang}: { translation: TRANSLATE_${lang.toUpperCase()} },\n`
     );
   }
   appendFileSync(generatedTranslationsFilePath, `};\n`);
