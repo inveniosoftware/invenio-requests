@@ -26,7 +26,7 @@ class RequestDetails extends Component {
             />
           </Grid.Column>
           <Grid.Column mobile={16} tablet={4} computer={3}>
-            <RequestMetadata request={request} />
+            <RequestMetadata request={request} permissions={permissions} />
           </Grid.Column>
         </Grid>
       </Overridable>
