@@ -63,6 +63,7 @@ ReactDOM.render(
     overriddenCmps={{ ...defaultComponents, ...overriddenComponents }}
     userAvatar={userAvatar}
     permissions={permissions}
+    config={config}
   />,
   requestDetailsDiv
 );
