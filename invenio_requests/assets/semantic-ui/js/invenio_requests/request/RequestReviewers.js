@@ -13,7 +13,7 @@ import {
   Header,
   Button,
   Icon,
-  Item,
+  HeaderSubheader,
   Grid,
   Search,
   List,
@@ -44,14 +44,14 @@ const CollapsedHeader = ({ canReview, onOpen, label }) => {
     );
   }
   return (
-    <Grid onClick={onOpen} className="pb-0">
+    <Grid onClick={onOpen} className="pb-0 mr-0">
       <Grid.Column width={12}>
         <Header as="h3" size="tiny" className="m-0">
           {label}
         </Header>
       </Grid.Column>
-      <Grid.Column width={4}>
-        <Icon name="setting" />
+      <Grid.Column width={4} className="pl-10 mr-0">
+        <Icon name="setting" className="pr-0" />
       </Grid.Column>
     </Grid>
   );
@@ -74,19 +74,21 @@ const ReviewerSearch = ({
   onResultSelect,
   renderResult,
   i18next,
+  enableGroupReviewers,
 }) => (
   <>
-    <div className="mb-10">
-      <Button.Group fluid basic size="mini">
-        <Button active={searchType === "user"} onClick={() => onFilterChange("user")}>
-          {i18next.t("People")}
-        </Button>
-        <Button active={searchType === "group"} onClick={() => onFilterChange("group")}>
-          {i18next.t("Groups")}
-        </Button>
-      </Button.Group>
-    </div>
-
+    {enableGroupReviewers && (
+      <div className="mb-10">
+        <Button.Group fluid basic size="mini">
+          <Button active={searchType === "user"} onClick={() => onFilterChange("user")}>
+            {i18next.t("People")}
+          </Button>
+          <Button active={searchType === "group"} onClick={() => onFilterChange("group")}>
+            {i18next.t("Groups")}
+          </Button>
+        </Button.Group>
+      </div>
+    )}
     <div>
       <Search
         placeholder={
@@ -101,7 +103,7 @@ const ReviewerSearch = ({
         onResultSelect={onResultSelect}
         showNoResults={false}
         input={{ fluid: true }}
-        size="mini"
+      // size="mini"
       />
     </div>
   </>
@@ -116,37 +118,46 @@ ReviewerSearch.propTypes = {
   onResultSelect: PropTypes.func.isRequired,
   renderResult: PropTypes.func.isRequired,
   i18next: PropTypes.object.isRequired,
+  reviewerGroupsEnabled: PropTypes.bool.isRequired,
 };
 
 // Renders the list of selected reviewers.
 const SelectedReviewersList = ({ selectedReviewers, removeReviewer, i18next }) => {
-  if (!selectedReviewers.length) return null;
   return (
     <>
       <Header fluid as="h4" className="mb-5" size="tiny">
         {i18next.t("Selected reviewers")}
       </Header>
-
-      <Grid className="pt-10 mb-5">
-        {selectedReviewers.map((reviewer) => (
-          <>
-            <Grid.Column width={13} className="pb-0">
-              <React.Fragment key={reviewer.id}>
-                {isResourceDeleted(reviewer) ? (
-                  <DeletedResource details={reviewer} />
-                ) : (
-                  <>
-                    <EntityDetails userData={reviewer} details={reviewer} />
-                  </>
-                )}
-              </React.Fragment>
-            </Grid.Column>
-            <Grid.Column width={2}>
-              <Icon name="close" className="right-floated" onClick={() => removeReviewer(reviewer.id)} />
-            </Grid.Column>
-          </>
-        ))}
-      </Grid>
+      <>
+        {
+          selectedReviewers.length == 0 ? (
+            <HeaderSubheader className="pl-2 pt-2">
+              {i18next.t("No reviewers selected")}
+            </HeaderSubheader>
+          ) : (
+            <Grid className="pt-10 mb-5">
+              {selectedReviewers.map((reviewer) => (
+                <>
+                  <Grid.Column width={13} className="pb-0">
+                    <React.Fragment key={reviewer.id}>
+                      {isResourceDeleted(reviewer) ? (
+                        <DeletedResource details={reviewer} />
+                      ) : (
+                        <>
+                          <EntityDetails userData={reviewer} details={reviewer} />
+                        </>
+                      )}
+                    </React.Fragment>
+                  </Grid.Column>
+                  <Grid.Column width={2}>
+                    <Icon name="close" className="right-floated" onClick={() => removeReviewer(reviewer.id)} />
+                  </Grid.Column>
+                </>
+              ))}
+            </Grid>
+          )
+        }
+      </>
     </>
   );
 };
@@ -159,7 +170,7 @@ SelectedReviewersList.propTypes = {
 
 /* --- Main Component --- */
 
-export const RequestReviewers = ({ request, permissions }) => {
+export const RequestReviewers = ({ request, permissions, enableGroupReviewers }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchType, setSearchType] = useState("user");
   const [searchQuery, setSearchQuery] = useState("");
@@ -235,21 +246,30 @@ export const RequestReviewers = ({ request, permissions }) => {
       />
       {!isMenuOpen ? (
         <Grid className="mt-0">
-          {selectedReviewers.map((reviewer) => (
-            <>
-              <Grid.Column width={14} className="pb-0">
-                <React.Fragment key={reviewer.id}>
-                  {isResourceDeleted(reviewer) ? (
-                    <DeletedResource details={reviewer} />
-                  ) : (
-                    <>
-                      <EntityDetails userData={reviewer} details={reviewer} />
-                    </>
-                  )}
-                </React.Fragment>
-              </Grid.Column>
-            </>
-          ))}
+          {
+            selectedReviewers.length > 0 ?
+              selectedReviewers.map((reviewer) => (
+                <>
+                  <Grid.Column width={14} className="pb-0">
+                    <React.Fragment key={reviewer.id}>
+                      {isResourceDeleted(reviewer) ? (
+                        <DeletedResource details={reviewer} />
+                      ) : (
+                        <>
+                          <EntityDetails userData={reviewer} details={reviewer} />
+                        </>
+                      )}
+                    </React.Fragment>
+                  </Grid.Column>
+                </>
+              )) : (
+                <Grid.Column width={12} className="pb-0 pl-20">
+                  <HeaderSubheader>
+                    {i18next.t("No reviewers selected")}
+                  </HeaderSubheader>
+                </Grid.Column>
+              )
+          }
         </Grid>
       ) : (
         <Segment>
@@ -262,6 +282,7 @@ export const RequestReviewers = ({ request, permissions }) => {
             onResultSelect={handleResultSelect}
             renderResult={renderResult}
             i18next={i18next}
+            enableGroupReviewers={enableGroupReviewers}
           />
 
           <SelectedReviewersList
