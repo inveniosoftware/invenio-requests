@@ -77,8 +77,7 @@ export class InvenioRequestsAPI {
   addReviewer = async (reviewers) => {
     return await http.put(this.#urls.self, {
       reviewers: reviewers.map((r) => {
-        console.log(r);
-        return !_toNumber(r.id) ? { group: r.id } : { user: r.id };
+        return "user" in r ? { user: r.id } : { group: r.id };
       }),
     });
   };
