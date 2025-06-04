@@ -1,5 +1,6 @@
 // This file is part of InvenioRequests
 // Copyright (C) 2022 CERN.
+// Copyright (C) 2024 KTH Royal Institute of Technology.
 //
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
@@ -16,12 +17,13 @@ const composeEnhancers = composeWithDevTools({
 
 export function configureStore(config) {
   const { size } = config.defaultQueryParams;
+  const { commentContentMaxLength } = config;
 
   return createStore(
     createReducers(),
     // config object will be available in the actions,
     {
-      timeline: { ...initialTimeLineState, size },
+      timeline: { ...initialTimeLineState, size, commentContentMaxLength },
     },
     composeEnhancers(applyMiddleware(thunk.withExtraArgument(config)))
   );

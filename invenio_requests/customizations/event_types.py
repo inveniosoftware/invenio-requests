@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2022-2024 CERN.
+# Copyright (C) 2024      KTH Royal Institute of Technology.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify
 # it under the terms of the MIT License; see LICENSE file for more details.
@@ -10,6 +11,7 @@
 import inspect
 
 import marshmallow as ma
+from flask import current_app
 from marshmallow import RAISE, fields, validate
 from marshmallow_utils import fields as utils_fields
 
@@ -140,9 +142,10 @@ class CommentEventType(EventType):
         # we need to import here because of circular imports
         from invenio_requests.records.api import RequestEventFormat
 
+        max = current_app.config.get("REQUESTS_COMMENT_CONTENT_MAX_LENGTH", 25000)
         return dict(
             content=utils_fields.SanitizedHTML(
-                required=True, validate=validate.Length(min=1)
+                required=True, validate=validate.Length(min=1, max=max)
             ),
             format=fields.Str(
                 validate=validate.OneOf(choices=[e.value for e in RequestEventFormat]),
