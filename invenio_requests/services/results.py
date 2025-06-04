@@ -56,12 +56,10 @@ class MultiEntityResolverExpandableField(ExpandableField):
         super().__init__(key)
         self.entity_proxies = []
 
-    def ghost_record(self, values):
+    def ghost_record(self, value):
         """Return ghost representation for unresolved values."""
-        return [
-            ResolverRegistry.resolve_entity_proxy(value).ghost_record(value)
-            for value in values
-        ]
+        proxy = ResolverRegistry.resolve_entity_proxy(value)
+        return proxy.ghost_record({"id": proxy._parse_ref_dict_id()})
 
     def system_record(self):
         """Return the representation of a system user."""
@@ -89,3 +87,20 @@ class MultiEntityResolverExpandableField(ExpandableField):
         for proxy in self.entity_proxies:
             if proxy._parse_ref_dict_id() == resolved_record["id"]:
                 return proxy.pick_resolved_fields(identity, resolved_record)
+
+    def add_dereferenced_record(self, service, value, resolved_rec):
+        """Save the dereferenced record."""
+        # mark the record as a "ghost" or "system" record i.e not resolvable
+        if resolved_rec is None:
+            if value == "1":
+                resolved_rec = self.system_record()
+            else:
+                resolver_type = self._get_resolver_type(service)
+                resolved_rec = self.ghost_record({resolver_type: value})
+        self._service_values[service][value] = resolved_rec
+
+    def _get_resolver_type(self, service):
+        """Return the resolver type."""
+        for resolver in ResolverRegistry.get_registered_resolvers():
+            if resolver._service_id == service.id:
+                return resolver.type_id
