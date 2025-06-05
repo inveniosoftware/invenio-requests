@@ -117,3 +117,9 @@ REQUESTS_USER_MODERATION_FACETS = {
     "is_open": {"facet": facets.is_open, "ui": {"field": "is_open"}},
 }
 """Available facets defined for this module."""
+
+REQUESTS_REVIEWERS_ENABLED = False
+"""Enable reviewers for requests."""
+
+REQUESTS_GROUP_REVIEWERS_ENABLED = False
+"""Enable group reviewers for requests. If ``True``, it allows the assignment of groups as reviewers."""
