@@ -98,7 +98,6 @@ class SharedOrMyRequestsParam(ParamInterpreter):
             should=[
                 dsl.Q("term", **{created_by: identity.id}),
                 dsl.Q("term", **{receiver: identity.id}),
-                dsl.Q("term", **{receiver: identity.id}),
             ],
         )
 

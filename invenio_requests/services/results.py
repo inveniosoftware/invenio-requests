@@ -7,6 +7,7 @@
 
 """Request service results."""
 
+from invenio_access.permissions import system_user_id
 from invenio_records_resources.services.records.results import ExpandableField
 
 from ..resolvers.registry import ResolverRegistry
@@ -92,7 +93,7 @@ class MultiEntityResolverExpandableField(ExpandableField):
         """Save the dereferenced record."""
         # mark the record as a "ghost" or "system" record i.e not resolvable
         if resolved_rec is None:
-            if value == "1":
+            if value == system_user_id:
                 resolved_rec = self.system_record()
             else:
                 resolver_type = self._get_resolver_type(service)
