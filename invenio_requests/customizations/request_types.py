@@ -185,12 +185,6 @@ class RequestType:
                 RefBaseSchema.create_from_dict(cls.allowed_receiver_ref_types),
                 allow_none=cls.receiver_can_be_none,
             ),
-            "last_opiniated_reviews": ma.fields.Dict(
-                user=ma.fields.String(),
-                state=ma.fields.String(),
-                timestamp=ma.fields.DateTime(),
-                allow_none=True,
-            ),
             "reviewers": ma.fields.List(
                 ma.fields.Nested(
                     MultipleEntityReferenceBaseSchema.create_from_dict(
