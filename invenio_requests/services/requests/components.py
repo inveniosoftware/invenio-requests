@@ -61,7 +61,7 @@ class RequestReviewersComponent(ServiceComponent):
         if "reviewers" in data:
             if current_app.config.get("REQUESTS_REVIEWERS_ENABLED") is False:
                 raise ValueError(_("Reviewers are not enabled for this request type."))
-            if current_app.config.get("REQUESTS_ENABLE_GROUP_REVIEWERS") is False:
+            if current_app.config.get("REQUESTS_GROUP_REVIEWERS_ENABLED") is False:
                 # Ensure that reviewers are not groups
                 for reviewer in data["reviewers"]:
                     if "group" in reviewer:
