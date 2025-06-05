@@ -68,6 +68,6 @@ InvenioRequestsApp.defaultProps = {
   requestEventsApi: null,
   defaultQueryParams: { size: 15 },
   config: {
-    reviewerGroupsEnabled: false,
+    allowGroupReviewers: false,
   },
 };

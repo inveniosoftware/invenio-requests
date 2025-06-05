@@ -118,8 +118,8 @@ REQUESTS_USER_MODERATION_FACETS = {
 }
 """Available facets defined for this module."""
 
-REQUESTS_ENABLE_REVIEWERS = False
+REQUESTS_REVIEWERS_ENABLED = False
 """Enable reviewers for requests."""
 
-REQUESTS_ENABLE_GROUP_REVIEWERS = False
-"""Enable reviewers for requests."""
+REQUESTS_GROUP_REVIEWERS_ENABLED = False
+"""Enable group reviewers for requests. If ``True``, it allows the assignment of groups as reviewers."""

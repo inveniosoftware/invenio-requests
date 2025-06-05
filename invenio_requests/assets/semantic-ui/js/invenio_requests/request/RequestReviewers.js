@@ -74,10 +74,10 @@ const ReviewerSearch = ({
   onResultSelect,
   renderResult,
   i18next,
-  enableGroupReviewers,
+  allowGroupReviewers,
 }) => (
   <>
-    {enableGroupReviewers && (
+    {allowGroupReviewers && (
       <div className="mb-10">
         <Button.Group fluid basic size="mini">
           <Button active={searchType === "user"} onClick={() => onFilterChange("user")}>
@@ -118,7 +118,7 @@ ReviewerSearch.propTypes = {
   onResultSelect: PropTypes.func.isRequired,
   renderResult: PropTypes.func.isRequired,
   i18next: PropTypes.object.isRequired,
-  reviewerGroupsEnabled: PropTypes.bool.isRequired,
+  allowGroupReviewers: PropTypes.bool.isRequired,
 };
 
 // Renders the list of selected reviewers.
@@ -170,7 +170,7 @@ SelectedReviewersList.propTypes = {
 
 /* --- Main Component --- */
 
-export const RequestReviewers = ({ request, permissions, enableGroupReviewers }) => {
+export const RequestReviewers = ({ request, permissions, allowGroupReviewers }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchType, setSearchType] = useState("user");
   const [searchQuery, setSearchQuery] = useState("");
@@ -282,7 +282,7 @@ export const RequestReviewers = ({ request, permissions, enableGroupReviewers })
             onResultSelect={handleResultSelect}
             renderResult={renderResult}
             i18next={i18next}
-            enableGroupReviewers={enableGroupReviewers}
+            allowGroupReviewers={allowGroupReviewers}
           />
 
           <SelectedReviewersList
