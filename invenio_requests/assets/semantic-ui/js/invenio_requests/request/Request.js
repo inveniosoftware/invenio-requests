@@ -19,7 +19,12 @@ export class Request extends Component {
   }
 
   render() {
-    const { request, updateRequestAfterAction, userAvatar, permissions } = this.props;
+    const {
+      request,
+      userAvatar,
+      permissions,
+      updateRequestAfterAction,
+    } = this.props;
 
     return (
       <Overridable id="InvenioRequest.Request.layout">

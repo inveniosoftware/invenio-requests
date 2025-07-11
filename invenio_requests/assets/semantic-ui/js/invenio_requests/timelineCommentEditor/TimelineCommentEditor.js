@@ -1,5 +1,6 @@
 // This file is part of InvenioRequests
 // Copyright (C) 2022 CERN.
+// Copyright (C) 2024 KTH Royal Institute of Technology.
 //
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
@@ -19,7 +20,10 @@ const TimelineCommentEditor = ({
   error,
   submitComment,
   userAvatar,
+  charCount,
+  commentContentMaxLength,
 }) => {
+  const isSubmitDisabled = () => isLoading || (charCount === 0) || (charCount >= commentContentMaxLength)
   return (
     <div className="timeline-comment-editor-container">
       {error && <Message negative>{error}</Message>}
@@ -43,6 +47,7 @@ const TimelineCommentEditor = ({
           icon="send"
           size="medium"
           content={i18next.t("Comment")}
+          disabled={isSubmitDisabled()}
           loading={isLoading}
           onClick={() => submitComment(commentContent, "html")}
         />
@@ -58,6 +63,8 @@ TimelineCommentEditor.propTypes = {
   error: PropTypes.string,
   submitComment: PropTypes.func.isRequired,
   userAvatar: PropTypes.string,
+  charCount: PropTypes.number,
+  commentContentMaxLength: PropTypes.number,
 };
 
 TimelineCommentEditor.defaultProps = {
@@ -65,6 +72,8 @@ TimelineCommentEditor.defaultProps = {
   isLoading: false,
   error: "",
   userAvatar: "",
+  charCount: 0,
+  commentContentMaxLength: 0,
 };
 
 export default TimelineCommentEditor;

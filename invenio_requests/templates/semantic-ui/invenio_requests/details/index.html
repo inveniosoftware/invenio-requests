@@ -2,6 +2,7 @@
 
   This file is part of Invenio.
   Copyright (C) 2016-2024 CERN.
+  Copyright (C) 2024      KTH Royal Institute of Technology.
 
   Invenio is free software; you can redistribute it and/or modify it
   under the terms of the MIT License; see LICENSE file for more details.
@@ -49,6 +50,7 @@
          data-default-query-config='{{ dict(size=config["REQUESTS_TIMELINE_PAGE_SIZE"]) | tojson }}'
          data-user-avatar='{{ user_avatar | tojson }}'
          data-permissions='{{ permissions | tojson }}'
+         data-comment-content-max-length='{{ config["REQUESTS_COMMENT_CONTENT_MAX_LENGTH"] }}'
     >{# react app root #}
       <div class="ui grid">
         <div class="stretched row">

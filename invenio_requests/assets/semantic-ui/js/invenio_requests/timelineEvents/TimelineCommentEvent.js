@@ -24,10 +24,47 @@ class TimelineCommentEvent extends Component {
     const { event } = props;
 
     this.state = {
-      commentContent: event?.payload?.content,
+      commentContent: event?.payload?.content || '',
+      inputError: null,
+      isDisabled: false,
+      commentContentMaxLength: 0,
+      charCount: event?.payload?.content?.length || 0,
     };
   }
 
+  componentDidMount() {
+    const requestDetailsDiv = document.getElementById("request-detail");
+    if (requestDetailsDiv) {
+      const commentContentMaxLength = parseInt(
+        requestDetailsDiv.dataset.commentContentMaxLength,
+        10
+      );
+      this.setState({ commentContentMaxLength });
+    }
+  }
+
+  validateContentLength = (charCount, maxLength) => {
+    const errorMessage = i18next.t("Character count exceeds the maximum allowed limit.");
+    return {
+      isDisabled: (charCount === 0) || (charCount >= maxLength),
+      inputError: charCount >= maxLength ? errorMessage : null,
+    };
+  };
+
+  handleEditorChange = (event, editor) => {
+    const content = editor.getContent();
+    const charCount = content.length;
+    const { commentContentMaxLength } = this.state;
+
+    const { isDisabled, inputError } = this.validateContentLength(charCount, commentContentMaxLength);
+
+    this.setState({
+      commentContent: content,
+      charCount,
+      isDisabled,
+      inputError,
+    });
+  };
   eventToType = ({ type, payload }) => {
     switch (type) {
       case "L":
@@ -49,7 +86,7 @@ class TimelineCommentEvent extends Component {
       deleteComment,
       toggleEditMode,
     } = this.props;
-    const { commentContent } = this.state;
+    const { commentContent, inputError } = this.state;
 
     const commentHasBeenEdited = event?.revision_id > 1 && event?.payload;
 
@@ -109,15 +146,13 @@ class TimelineCommentEvent extends Component {
                 </Feed.Summary>
 
                 <Feed.Extra text={!isEditing}>
-                  {error && <Error error={error} />}
+                  {(error || inputError) && <Error error={error || inputError} />}
 
                   {isEditing ? (
                     <RichEditor
                       initialValue={event?.payload?.content}
                       inputValue={commentContent}
-                      onEditorChange={(event, editor) => {
-                        this.setState({ commentContent: editor.getContent() });
-                      }}
+                      onEditorChange={this.handleEditorChange}
                       minHeight={150}
                     />
                   ) : (
@@ -133,6 +168,7 @@ class TimelineCommentEvent extends Component {
                       <SaveButton
                         onClick={() => updateComment(commentContent, "html")}
                         loading={isLoading}
+                        disabled={isLoading || this.state.isDisabled}
                       />
                     </Container>
                   )}

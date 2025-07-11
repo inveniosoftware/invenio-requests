@@ -34,7 +34,10 @@ const request = JSON.parse(requestDetailsDiv.dataset.record);
 const defaultQueryParams = JSON.parse(requestDetailsDiv.dataset.defaultQueryConfig);
 const userAvatar = JSON.parse(requestDetailsDiv.dataset.userAvatar);
 const permissions = JSON.parse(requestDetailsDiv.dataset.permissions);
-
+const commentContentMaxLength = parseInt(
+  requestDetailsDiv.dataset.commentContentMaxLength,
+  10
+);
 const defaultComponents = {
   ...defaultContribComponents,
   "TimelineEvent.layout.unknown": TimelineUnknownEvent,
@@ -63,6 +66,7 @@ ReactDOM.render(
     overriddenCmps={{ ...defaultComponents, ...overriddenComponents }}
     userAvatar={userAvatar}
     permissions={permissions}
+    commentContentMaxLength={commentContentMaxLength}
   />,
   requestDetailsDiv
 );

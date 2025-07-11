@@ -2,6 +2,7 @@
 #
 # Copyright (C) 2021 CERN.
 # Copyright (C) 2021 Northwestern University.
+# Copyright (C) 2024 KTH Royal Institute of Technology.
 #
 # Invenio-Requests is free software; you can redistribute it and/or
 # modify it under the terms of the MIT License; see LICENSE file for more
@@ -197,7 +198,10 @@ def test_empty_comment(
     expected_json = {
         **expected_json,
         "errors": [
-            {"field": "payload.content", "messages": ["Shorter than minimum length 1."]}
+            {
+                "field": "payload.content",
+                "messages": ["Length must be between 1 and 25000."],
+            }
         ],
     }
     assert expected_json == response.json

@@ -5,12 +5,13 @@
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
 
-import { IS_LOADING, HAS_ERROR, SUCCESS, SETTING_CONTENT } from "./actions";
+import { IS_LOADING, HAS_ERROR, SUCCESS, SETTING_CONTENT, SET_CHAR_COUNT } from "./actions";
 
 const initialState = {
   error: null,
   isLoading: false,
   commentContent: "",
+  charCount: 0,
 };
 
 export const commentEditorReducer = (state = initialState, action) => {
@@ -28,6 +29,8 @@ export const commentEditorReducer = (state = initialState, action) => {
         error: null,
         commentContent: "",
       };
+    case SET_CHAR_COUNT:
+      return { ...state, charCount: action.payload };
     default:
       return state;
   }
