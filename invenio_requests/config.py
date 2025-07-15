@@ -121,4 +121,3 @@ REQUESTS_USER_MODERATION_FACETS = {
 
 REQUESTS_REVIEWERS_ENABLED = False
 """Enable reviewers for requests."""
-

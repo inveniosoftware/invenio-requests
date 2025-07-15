@@ -164,6 +164,10 @@ class RequestsService(RecordService):
         self.check_revision_id(request, revision_id)
 
         self.require_permission(identity, f"update", record=request, request=request)
+        if "reviewers" in data:
+            self.require_permission(
+                identity, f"action_accept", record=request, request=request
+            )
 
         # we're not using "self.schema" b/c the schema may differ per
         # request type!

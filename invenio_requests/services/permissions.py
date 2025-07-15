@@ -19,7 +19,7 @@ from invenio_records_permissions.generators import (
     SystemProcessWithoutSuperUser,
 )
 
-from .generators import Commenter, Creator, Receiver, Reviewer, Status, Topic
+from .generators import Commenter, Creator, Receiver, Reviewers, Status, Topic
 
 
 class PermissionPolicy(RecordPermissionPolicy):
@@ -45,7 +45,7 @@ class PermissionPolicy(RecordPermissionPolicy):
                 "accepted",
                 "declined",
             ],
-            [Creator(), Receiver(), Reviewer(), Topic()],
+            [Creator(), Receiver(), Reviewers(), Topic()],
         ),
         SystemProcess(),
     ]

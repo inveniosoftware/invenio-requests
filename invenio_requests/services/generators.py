@@ -150,7 +150,7 @@ class Topic(EntityNeedsGenerator):
         return query
 
 
-class Reviewer(EntityNeedsGenerator):
+class Reviewers(EntityNeedsGenerator):
     """Allows the reviewer of the request."""
 
     entity_field = "reviewers"
