@@ -75,7 +75,7 @@ TimelineUnknownEvent.propTypes = {
   event: PropTypes.object.isRequired,
 };
 
-export const TimelineReviewersChangedEvent = ({ event }) => (
+export const TimelineReviewersUpdatedEvent = ({ event }) => (
   <TimelineActionEvent
     iconName="user circle"
     iconColor="grey"
@@ -84,7 +84,7 @@ export const TimelineReviewersChangedEvent = ({ event }) => (
   />
 );
 
-TimelineReviewersChangedEvent.propTypes = {
+TimelineReviewersUpdatedEvent.propTypes = {
   event: PropTypes.object.isRequired,
 };
 

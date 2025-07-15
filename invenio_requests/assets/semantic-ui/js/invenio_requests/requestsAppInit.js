@@ -27,7 +27,7 @@ import {
   TimelineDeclineEvent,
   TimelineExpireEvent,
   TimelineUnknownEvent,
-  TimelineReviewersChangedEvent,
+  TimelineReviewersUpdatedEvent,
 } from "./timelineEvents";
 
 const requestDetailsDiv = document.getElementById("request-detail");
@@ -44,7 +44,7 @@ const defaultComponents = {
   "TimelineEvent.layout.accepted": TimelineAcceptEvent,
   "TimelineEvent.layout.expired": TimelineExpireEvent,
   "TimelineEvent.layout.cancelled": TimelineCancelEvent,
-  "TimelineEvent.layout.reviewers_changed": TimelineReviewersChangedEvent,
+  "TimelineEvent.layout.reviewers_updated": TimelineReviewersUpdatedEvent,
   "TimelineEvent.layout.comment_deleted": TimelineCommentDeletionEvent,
   "RequestStatus.layout.submitted": SubmitStatus,
   "RequestStatus.layout.deleted": DeleteStatus,

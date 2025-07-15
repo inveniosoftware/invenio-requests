@@ -12,9 +12,9 @@ import inspect
 import marshmallow as ma
 from marshmallow import RAISE, fields, validate
 from marshmallow_utils import fields as utils_fields
+from marshmallow.validate import OneOf
 
 from ..proxies import current_requests
-
 
 class EventType:
     """Base class for event types."""
@@ -126,6 +126,32 @@ class LogEventType(EventType):
             format=fields.Str(
                 validate=validate.OneOf(choices=[e.value for e in RequestEventFormat]),
                 load_default=RequestEventFormat.HTML.value,
+            ),
+        )
+
+class ReviewersUpdated(EventType):
+    """Reviewers updated event type."""
+
+    type_id = "R"
+
+    def payload_schema():
+        """Return payload schema as a dictionary."""
+        # we need to import here because of circular imports
+        from invenio_requests.records.api import RequestEventFormat
+
+
+        return dict(
+            event=fields.String(validate=validate.Length(min=1)),
+            content=utils_fields.SanitizedHTML(validate=validate.Length(min=1)),
+            format=fields.Str(
+                validate=validate.OneOf(choices=[e.value for e in RequestEventFormat]),
+                load_default=RequestEventFormat.HTML.value,
+            ),
+            reviewers = fields.List(
+                fields.Dict(
+                    keys=fields.String(validate=OneOf(('user', 'group'))),
+                    values=fields.String(required=True)
+                )
             ),
         )
 
