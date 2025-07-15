@@ -10,6 +10,7 @@
 """Component for creating request numbers."""
 
 from flask import current_app
+from marshmallow import ValidationError
 from invenio_i18n import _
 from invenio_records_resources.services.records.components import (
     DataComponent,
@@ -79,35 +80,43 @@ class RequestReviewersComponent(ServiceComponent):
             return "added", updated
         return None
 
+    def _validate_reviewers(self, reviewers):
+        """Validate the reviewers data."""
+        reviewers_enabled = current_app.config["REQUESTS_REVIEWERS_ENABLED"]
+        reviewers_groups_enabled = current_app.config["USERS_RESOURCES_GROUPS_ENABLED"]
+        max_reviewers = current_app.config["REQUESTS_REVIEWERS_MAX_NUMBER"]
+
+        if not reviewers_enabled:
+            raise ValidationError(_("Reviewers are not enabled for this request type."))
+        if not reviewers_groups_enabled:
+            for reviewer in reviewers:
+                if "group" in reviewer:
+                    raise ValidationError(_("Group reviewers are not enabled."))
+
+        if len(reviewers) > max_reviewers:
+            raise ValidationError(
+                _(f"You can only add up to {max_reviewers} reviewers.")
+            )
+
     def update(self, identity, data=None, record=None, **kwargs):
         """Update the reviewers of a request."""
 
-        if "reviewers" in data:
-            if len(data["reviewers"]) > 15:
-                raise ValueError(_("You can only add up to 15 reviewers."))
-            if current_app.config.get("REQUESTS_REVIEWERS_ENABLED") is False:
-                raise ValueError(_("Reviewers are not enabled for this request type."))
-            if current_app.config.get("USERS_RESOURCES_GROUPS_ENABLED") is False:
-                for reviewer in data["reviewers"]:
-                    if "group" in reviewer:
-                        raise ValueError(_("Group reviewers are not enabled."))
+        self._validate_reviewers(data["reviewers"])
 
-            event_type, updated_reviewers = self._reviewers_updated(
-                record.get("reviewers", []), data["reviewers"]
+        event_type, updated_reviewers = self._reviewers_updated(
+            record.get("reviewers", []), data["reviewers"]
+        )
+        event = ReviewersUpdated(
+            payload=dict(
+                event="reviewers_updated",
+                content=_(f"{event_type} a reviewer"),
+                reviewers=updated_reviewers,
             )
-            event = ReviewersUpdated(
-                payload=dict(
-                    event="reviewers_updated",
-                    content=_(f"{event_type} a reviewer"),
-                    reviewers=updated_reviewers,
-                )
-            )
-            _data = dict(payload=event.payload)
-            current_events_service.create(
-                identity, record.id, _data, event, uow=self.uow
-            )
+        )
+        _data = dict(payload=event.payload)
+        current_events_service.create(identity, record.id, _data, event, uow=self.uow)
 
-            record["reviewers"] = data["reviewers"]
+        record["reviewers"] = data["reviewers"]
 
 
 class RequestPayloadComponent(DataComponent):

@@ -157,17 +157,22 @@ class RequestMetadata extends Component {
     const { request } = this.props;
     const expandedCreatedBy = request.expanded?.created_by;
     const expandedReceiver = request.expanded?.receiver;
-    const expandedReviewers = request.expanded?.reviewers;
 
     const enableReviewers = this.props.config.enableReviewers;
     const allowGroupReviewers = this.props.config.allowGroupReviewers;
+    const maxReviewers = this.props.config.maxReviewers;
 
     return (
       <Overridable id="InvenioRequest.RequestMetadata.Layout" request={request}>
         <>
           {enableReviewers && (
             <>
-              <RequestReviewers request={request} permissions={this.props.permissions} allowGroupReviewers={allowGroupReviewers} />
+              <RequestReviewers
+                request={request}
+                permissions={this.props.permissions}
+                allowGroupReviewers={allowGroupReviewers}
+                maxReviewers={maxReviewers}
+              />
               <Divider />
             </>
           )}

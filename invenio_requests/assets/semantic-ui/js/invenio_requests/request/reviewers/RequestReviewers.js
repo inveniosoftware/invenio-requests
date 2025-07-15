@@ -32,11 +32,14 @@ import { CollapsedHeader } from "./components/CollapsedHeader";
 import { ReviewerSearch } from "./components/ReviewerSearch";
 import { SelectedReviewersList } from "./components/SelectedReviewersList";
 
-
 const isResourceDeleted = (details) => details.is_ghost === true;
 
-
-export const RequestReviewers = ({ request, permissions, allowGroupReviewers }) => {
+export const RequestReviewers = ({
+  request,
+  permissions,
+  allowGroupReviewers,
+  maxReviewers,
+}) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchType, setSearchType] = useState("user");
   const [searchQuery, setSearchQuery] = useState("");
@@ -82,7 +85,7 @@ export const RequestReviewers = ({ request, permissions, allowGroupReviewers }) 
         { ...result, [searchType]: result.id },
       ];
       setSelectedReviewers(newReviewers);
-      const res = await requestApi.addReviewer(newReviewers);
+      const _ = await requestApi.addReviewer(newReviewers);
     }
     setSearchQuery("");
     setResults([]);
@@ -91,7 +94,7 @@ export const RequestReviewers = ({ request, permissions, allowGroupReviewers }) 
   const removeReviewer = async (userId) => {
     const newReviewers = selectedReviewers.filter((r) => r.id !== userId);
     setSelectedReviewers(newReviewers);
-    const res = await requestApi.addReviewer(newReviewers);
+    const _ = await requestApi.addReviewer(newReviewers);
     setSelectedReviewers(newReviewers);
   };
 
@@ -112,30 +115,27 @@ export const RequestReviewers = ({ request, permissions, allowGroupReviewers }) 
       />
       {!isMenuOpen ? (
         <Grid className="mt-0">
-          {
-            selectedReviewers.length > 0 ?
-              selectedReviewers.map((reviewer) => (
-                <>
-                  <Grid.Column width={14} className="pb-0">
-                    <React.Fragment key={reviewer.id}>
-                      {isResourceDeleted(reviewer) ? (
-                        <DeletedResource details={reviewer} />
-                      ) : (
-                        <>
-                          <EntityDetails userData={reviewer} details={reviewer} />
-                        </>
-                      )}
-                    </React.Fragment>
-                  </Grid.Column>
-                </>
-              )) : (
-                <Grid.Column width={12} className="pb-0 pl-20">
-                  <HeaderSubheader>
-                    {i18next.t("No reviewers selected")}
-                  </HeaderSubheader>
+          {selectedReviewers.length > 0 ? (
+            selectedReviewers.map((reviewer) => (
+              <>
+                <Grid.Column width={14} className="pb-0">
+                  <React.Fragment key={reviewer.id}>
+                    {isResourceDeleted(reviewer) ? (
+                      <DeletedResource details={reviewer} />
+                    ) : (
+                      <>
+                        <EntityDetails userData={reviewer} details={reviewer} />
+                      </>
+                    )}
+                  </React.Fragment>
                 </Grid.Column>
-              )
-          }
+              </>
+            ))
+          ) : (
+            <Grid.Column width={12} className="pb-0 pl-20">
+              <HeaderSubheader>{i18next.t("No reviewers selected")}</HeaderSubheader>
+            </Grid.Column>
+          )}
         </Grid>
       ) : (
         <Segment>
@@ -155,6 +155,7 @@ export const RequestReviewers = ({ request, permissions, allowGroupReviewers }) 
             selectedReviewers={selectedReviewers}
             removeReviewer={removeReviewer}
             i18next={i18next}
+            maxReviewers={maxReviewers}
           />
         </Segment>
       )}

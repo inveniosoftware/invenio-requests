@@ -121,3 +121,6 @@ REQUESTS_USER_MODERATION_FACETS = {
 
 REQUESTS_REVIEWERS_ENABLED = False
 """Enable reviewers for requests."""
+
+REQUESTS_REVIEWERS_MAX_NUMBER = 15
+"""Maximum number of reviewers allowed for a request."""
