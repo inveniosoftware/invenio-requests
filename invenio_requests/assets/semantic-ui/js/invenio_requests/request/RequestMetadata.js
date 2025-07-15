@@ -15,7 +15,7 @@ import { Divider, Header, Icon, Message, Button } from "semantic-ui-react";
 import { toRelativeTime } from "react-invenio-forms";
 import RequestStatus from "./RequestStatus";
 import RequestTypeLabel from "./RequestTypeLabel";
-import { RequestReviewers } from "./RequestReviewers";
+import { RequestReviewers } from "./reviewers/RequestReviewers";
 
 const User = ({ user }) => (
   <div className="flex">

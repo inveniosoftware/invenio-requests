@@ -1,7 +1,6 @@
 /*
  * This file is part of Invenio.
- * Copyright (C) 2022-2024 CERN.
- * Copyright (C) 2024      KTH Royal Institute of Technology.
+ * Copyright (C) 2025 CERN.
  *
  * Invenio is free software; you can redistribute it and/or modify it
  * under the terms of the MIT License; see LICENSE file for more details.
@@ -27,148 +26,15 @@ import {
   RequestLinksExtractor,
 } from "@js/invenio_requests/api/InvenioRequestApi";
 import { i18next } from "@translations/invenio_requests/i18next";
-import RequestsFeed from "../components/RequestsFeed";
-import { EntityDetails, DeletedResource } from "./RequestMetadata";
+import RequestsFeed from "../../components/RequestsFeed";
+import { EntityDetails, DeletedResource } from "../RequestMetadata";
+import { CollapsedHeader } from "./components/CollapsedHeader";
+import { ReviewerSearch } from "./components/ReviewerSearch";
+import { SelectedReviewersList } from "./components/SelectedReviewersList";
+
 
 const isResourceDeleted = (details) => details.is_ghost === true;
 
-/* --- Sub-components --- */
-
-// Renders the header when the menu is collapsed.
-const CollapsedHeader = ({ canReview, onOpen, label }) => {
-  if (!canReview) {
-    return (
-      <Header as="h3" size="tiny">
-        {label}
-      </Header>
-    );
-  }
-  return (
-    <Grid onClick={onOpen} className="pb-0 mr-0">
-      <Grid.Column width={12}>
-        <Header as="h3" size="tiny" className="m-0">
-          {label}
-        </Header>
-      </Grid.Column>
-      <Grid.Column width={4} className="pl-10 mr-0">
-        <Icon name="setting" className="pr-0" />
-      </Grid.Column>
-    </Grid>
-  );
-};
-
-CollapsedHeader.propTypes = {
-  canReview: PropTypes.bool.isRequired,
-  onOpen: PropTypes.func,
-  label: PropTypes.string.isRequired,
-  headerTriggerClass: PropTypes.string,
-};
-
-// Renders the filter buttons and search input.
-const ReviewerSearch = ({
-  searchType,
-  onFilterChange,
-  searchQuery,
-  results,
-  onSearchChange,
-  onResultSelect,
-  renderResult,
-  i18next,
-  allowGroupReviewers,
-}) => (
-  <>
-    {allowGroupReviewers && (
-      <div className="mb-10">
-        <Button.Group fluid basic size="mini">
-          <Button active={searchType === "user"} onClick={() => onFilterChange("user")}>
-            {i18next.t("People")}
-          </Button>
-          <Button active={searchType === "group"} onClick={() => onFilterChange("group")}>
-            {i18next.t("Groups")}
-          </Button>
-        </Button.Group>
-      </div>
-    )}
-    <div>
-      <Search
-        placeholder={
-          searchType === "user"
-            ? i18next.t("Search for user")
-            : i18next.t("Search for groups")
-        }
-        onSearchChange={onSearchChange}
-        results={results}
-        resultRenderer={renderResult}
-        value={searchQuery}
-        onResultSelect={onResultSelect}
-        showNoResults={false}
-        input={{ fluid: true }}
-      // size="mini"
-      />
-    </div>
-  </>
-);
-
-ReviewerSearch.propTypes = {
-  searchType: PropTypes.oneOf(["user", "group"]).isRequired,
-  onFilterChange: PropTypes.func.isRequired,
-  searchQuery: PropTypes.string.isRequired,
-  results: PropTypes.array.isRequired,
-  onSearchChange: PropTypes.func.isRequired,
-  onResultSelect: PropTypes.func.isRequired,
-  renderResult: PropTypes.func.isRequired,
-  i18next: PropTypes.object.isRequired,
-  allowGroupReviewers: PropTypes.bool.isRequired,
-};
-
-// Renders the list of selected reviewers.
-const SelectedReviewersList = ({ selectedReviewers, removeReviewer, i18next }) => {
-  return (
-    <>
-      <Header fluid as="h4" className="mb-5" size="tiny">
-        {i18next.t("Selected reviewers")}
-      </Header>
-      <>
-        {
-          selectedReviewers.length == 0 ? (
-            <HeaderSubheader className="pl-2 pt-2">
-              {i18next.t("No reviewers selected")}
-            </HeaderSubheader>
-          ) : (
-            <Grid className="pt-10 mb-5">
-              {selectedReviewers.map((reviewer) => (
-                <>
-                  <Grid.Column width={13} className="pb-0">
-                    <React.Fragment key={reviewer.id}>
-                      {isResourceDeleted(reviewer) ? (
-                        <DeletedResource details={reviewer} />
-                      ) : (
-                        <>
-                          <EntityDetails userData={reviewer} details={reviewer} />
-                        </>
-                      )}
-                    </React.Fragment>
-                  </Grid.Column>
-                  <Grid.Column width={2}>
-                    <Icon name="close" className="right-floated" onClick={() => removeReviewer(reviewer.id)} />
-                  </Grid.Column>
-                </>
-              ))}
-            </Grid>
-          )
-        }
-      </>
-    </>
-  );
-};
-
-SelectedReviewersList.propTypes = {
-  selectedReviewers: PropTypes.array.isRequired,
-  removeReviewer: PropTypes.func.isRequired,
-  i18next: PropTypes.object.isRequired,
-};
-
-/* --- Main Component --- */
 
 export const RequestReviewers = ({ request, permissions, allowGroupReviewers }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -240,7 +106,7 @@ export const RequestReviewers = ({ request, permissions, allowGroupReviewers }) 
   return (
     <>
       <CollapsedHeader
-        canReview={permissions.can_review}
+        canUpdateReviewers={permissions.can_action_accept}
         onOpen={() => setIsMenuOpen(!isMenuOpen)}
         label={i18next.t("Reviewers")}
       />
@@ -299,6 +165,6 @@ export const RequestReviewers = ({ request, permissions, allowGroupReviewers }) 
 RequestReviewers.propTypes = {
   request: PropTypes.object.isRequired,
   permissions: PropTypes.shape({
-    can_review: PropTypes.bool.isRequired,
+    can_action_accept: PropTypes.bool.isRequired,
   }).isRequired,
 };
