@@ -9,12 +9,8 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
 import {
-  Header,
-  Button,
-  Icon,
   HeaderSubheader,
   Grid,
-  Search,
   List,
   Image,
   Segment,

@@ -131,7 +131,7 @@ class LogEventType(EventType):
         )
 
 
-class ReviewersUpdated(EventType):
+class ReviewersUpdatedType(EventType):
     """Reviewers updated event type."""
 
     type_id = "R"

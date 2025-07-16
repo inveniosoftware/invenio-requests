@@ -13,7 +13,7 @@ from invenio_users_resources.entity_resolvers import GroupResolver, UserResolver
 
 from invenio_requests.services.requests import facets
 
-from .customizations import CommentEventType, LogEventType, ReviewersUpdated
+from .customizations import CommentEventType, LogEventType, ReviewersUpdatedType
 from .services.permissions import PermissionPolicy
 
 REQUESTS_PERMISSION_POLICY = PermissionPolicy
@@ -25,7 +25,7 @@ REQUESTS_REGISTERED_TYPES = []
 REQUESTS_REGISTERED_EVENT_TYPES = [
     LogEventType(),
     CommentEventType(),
-    ReviewersUpdated(),
+    ReviewersUpdatedType(),
 ]
 """Configuration for registered Request Event Types."""
 

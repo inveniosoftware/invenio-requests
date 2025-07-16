@@ -10,14 +10,14 @@
 """Component for creating request numbers."""
 
 from flask import current_app
-from marshmallow import ValidationError
 from invenio_i18n import _
 from invenio_records_resources.services.records.components import (
     DataComponent,
     ServiceComponent,
 )
+from marshmallow import ValidationError
 
-from invenio_requests.customizations.event_types import ReviewersUpdated
+from invenio_requests.customizations.event_types import ReviewersUpdatedType
 from invenio_requests.proxies import current_events_service
 
 
@@ -74,11 +74,14 @@ class RequestReviewersComponent(ServiceComponent):
                 if f"group:{reviewer['group']}" not in prev_rev:
                     updated.append(reviewer)
 
+        # NOTE this just supports adding OR removing at a time
+        # if both are done, we return "updated" for now
         if len(previous_reviewers) > len(new_reviewers):
             return "removed", updated
         elif len(previous_reviewers) < len(new_reviewers):
             return "added", updated
-        return None
+        elif updated:
+            return "updated", updated
 
     def _validate_reviewers(self, reviewers):
         """Validate the reviewers data."""
@@ -100,23 +103,24 @@ class RequestReviewersComponent(ServiceComponent):
 
     def update(self, identity, data=None, record=None, **kwargs):
         """Update the reviewers of a request."""
+        if reviewers := data.get("reviewers", None):
+            self._validate_reviewers(reviewers)
 
-        self._validate_reviewers(data["reviewers"])
-
-        event_type, updated_reviewers = self._reviewers_updated(
-            record.get("reviewers", []), data["reviewers"]
-        )
-        event = ReviewersUpdated(
-            payload=dict(
-                event="reviewers_updated",
-                content=_(f"{event_type} a reviewer"),
-                reviewers=updated_reviewers,
+            event_type, updated_reviewers = self._reviewers_updated(
+                record.get("reviewers", []), reviewers
             )
-        )
-        _data = dict(payload=event.payload)
-        current_events_service.create(identity, record.id, _data, event, uow=self.uow)
-
-        record["reviewers"] = data["reviewers"]
+            event = ReviewersUpdatedType(
+                payload=dict(
+                    event="reviewers_updated",
+                    content=_(f"{event_type} a reviewer"),
+                    reviewers=updated_reviewers,
+                )
+            )
+            _data = dict(payload=event.payload)
+            current_events_service.create(
+                identity, record.id, _data, event, uow=self.uow
+            )
+            record["reviewers"] = reviewers
 
 
 class RequestPayloadComponent(DataComponent):

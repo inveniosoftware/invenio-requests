@@ -20,7 +20,7 @@ from .actions import (
     RequestActions,
     SubmitAction,
 )
-from .event_types import CommentEventType, EventType, LogEventType, ReviewersUpdated
+from .event_types import CommentEventType, EventType, LogEventType, ReviewersUpdatedType
 from .request_types import RequestType
 from .states import RequestState
 
@@ -41,5 +41,5 @@ __all__ = (
     "RequestState",
     "RequestType",
     "SubmitAction",
-    "ReviewersUpdated",
+    "ReviewersUpdatedType",
 )
