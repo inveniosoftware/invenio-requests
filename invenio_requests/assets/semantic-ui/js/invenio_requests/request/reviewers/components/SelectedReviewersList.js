@@ -48,7 +48,7 @@ export const SelectedReviewersList = ({
                 <Grid.Column width={2}>
                   <Icon
                     name="close"
-                    className="right-floated"
+                    className="right-floated link"
                     onClick={() => removeReviewer(reviewer.id)}
                   />
                 </Grid.Column>

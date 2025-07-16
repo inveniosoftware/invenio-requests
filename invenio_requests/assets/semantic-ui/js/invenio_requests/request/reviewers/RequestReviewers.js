@@ -102,7 +102,7 @@ export const RequestReviewers = ({
   const renderResult = (item) => (
     <List.Item key={item.id}>
       <RequestsFeed.Avatar src={item.links?.avatar} as={Image} circular size="tiny" />
-      {item.profile?.full_name || item.name}
+      <List.Content>{item.profile?.full_name || item.name}</List.Content>
     </List.Item>
   );
 
@@ -114,7 +114,7 @@ export const RequestReviewers = ({
         label={i18next.t("Reviewers")}
       />
       {!isMenuOpen ? (
-        <Grid className="mt-0">
+        <Grid className="mt-0 mb-5">
           {selectedReviewers.length > 0 ? (
             selectedReviewers.map((reviewer) => (
               <>

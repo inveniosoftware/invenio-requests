@@ -52,7 +52,7 @@ export const ReviewerSearch = ({
         resultRenderer={renderResult}
         value={searchQuery}
         onResultSelect={onResultSelect}
-        showNoResults={true}
+        showNoResults={false}
         input={{ fluid: true }}
       />
     </div>

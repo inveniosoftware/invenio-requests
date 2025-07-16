@@ -8,11 +8,7 @@
 
 import PropTypes from "prop-types";
 import React from "react";
-import {
-    Grid,
-    Header,
-    Icon,
-} from "semantic-ui-react";
+import { Grid, Header, Icon } from "semantic-ui-react";
 
 // Renders the header when the menu is collapsed.
 export const CollapsedHeader = ({ canUpdateReviewers, onOpen, label }) => {
@@ -24,14 +20,14 @@ export const CollapsedHeader = ({ canUpdateReviewers, onOpen, label }) => {
     );
   }
   return (
-    <Grid onClick={onOpen} className="pb-0 mr-0" style={{ cursor: "pointer" }}>
+    <Grid onClick={onOpen} className="pb-0 mr-0">
       <Grid.Column width={12} floated="left">
         <Header as="h3" size="tiny" className="m-0">
           {label}
         </Header>
       </Grid.Column>
       <Grid.Column floated="right" className="mt-2 pr-20">
-        <Icon name="setting" className="m-0" />
+        <Icon name="setting" className="m-0 link" />
       </Grid.Column>
     </Grid>
   );
