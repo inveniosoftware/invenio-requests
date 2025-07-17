@@ -251,6 +251,7 @@ class RequestMetadata extends Component {
 RequestMetadata.propTypes = {
   request: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
+  permissions: PropTypes.object.isRequired,
 };
 
 export default Overridable.component(

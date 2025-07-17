@@ -123,7 +123,6 @@ export const CancelButton = React.forwardRef((props, ref) => {
 
 CancelButton.displayName = "CancelButton";
 
-
 export const RequestCancelButton = ({
   onClick,
   loading,

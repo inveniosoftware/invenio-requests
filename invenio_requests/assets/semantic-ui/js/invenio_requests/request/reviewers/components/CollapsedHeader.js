@@ -37,5 +37,4 @@ CollapsedHeader.propTypes = {
   canUpdateReviewers: PropTypes.bool.isRequired,
   onOpen: PropTypes.func,
   label: PropTypes.string.isRequired,
-  headerTriggerClass: PropTypes.string,
 };

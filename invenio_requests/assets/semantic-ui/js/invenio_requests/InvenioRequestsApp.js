@@ -21,7 +21,7 @@ import { Provider } from "react-redux";
 export class InvenioRequestsApp extends Component {
   constructor(props) {
     super(props);
-    const { requestsApi, requestEventsApi, request, defaultQueryParams, config } = this.props;
+    const { requestsApi, requestEventsApi, request, defaultQueryParams } = this.props;
     const defaultRequestsApi = new InvenioRequestsAPI(
       new RequestLinksExtractor(request)
     );

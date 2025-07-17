@@ -8,13 +8,7 @@
 
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import {
-  HeaderSubheader,
-  Grid,
-  List,
-  Image,
-  Segment,
-} from "semantic-ui-react";
+import { HeaderSubheader, Grid, List, Image, Segment } from "semantic-ui-react";
 import { UsersApi } from "@js/invenio_communities/api/UsersApi";
 import { GroupsApi } from "@js/invenio_communities/api/GroupsApi";
 import {

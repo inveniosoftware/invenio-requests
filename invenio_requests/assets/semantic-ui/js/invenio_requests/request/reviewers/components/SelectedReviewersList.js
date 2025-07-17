@@ -64,5 +64,6 @@ export const SelectedReviewersList = ({
 SelectedReviewersList.propTypes = {
   selectedReviewers: PropTypes.array.isRequired,
   removeReviewer: PropTypes.func.isRequired,
+  maxReviewers: PropTypes.number.isRequired,
   i18next: PropTypes.object.isRequired,
 };
