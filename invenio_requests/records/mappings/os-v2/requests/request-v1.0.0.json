@@ -25,6 +25,14 @@
             "type": "keyword"
           }
         }
+      },
+      {
+        "reviewer_nested_fields": {
+          "path_match": "reviewers.*",
+          "mapping": {
+            "type": "keyword"
+          }
+        }
       }
     ],
     "properties": {
@@ -96,14 +104,7 @@
       },
       "reviewers": {
         "type": "object",
-        "properties": {
-          "group": {
-            "type": "keyword"
-          },
-          "user": {
-            "type": "keyword"
-          }
-        }
+        "dynamic": "true"
       }
     }
   }
