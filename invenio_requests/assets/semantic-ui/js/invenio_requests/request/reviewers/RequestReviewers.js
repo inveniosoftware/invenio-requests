@@ -158,4 +158,6 @@ RequestReviewers.propTypes = {
   permissions: PropTypes.shape({
     can_action_accept: PropTypes.bool.isRequired,
   }).isRequired,
+  allowGroupReviewers: PropTypes.bool.isRequired,
+  maxReviewers: PropTypes.number.isRequired,
 };

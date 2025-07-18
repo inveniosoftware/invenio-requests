@@ -59,7 +59,7 @@ InvenioRequestsApp.propTypes = {
   userAvatar: PropTypes.string.isRequired,
   defaultQueryParams: PropTypes.object,
   permissions: PropTypes.object.isRequired,
-  config: PropTypes.object.isRequired,
+  config: PropTypes.object,
 };
 
 InvenioRequestsApp.defaultProps = {
