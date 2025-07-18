@@ -105,6 +105,7 @@ class RequestReviewersComponent(ServiceComponent):
         """Update the reviewers of a request."""
         if reviewers := data.get("reviewers", None):
             self._validate_reviewers(reviewers)
+            self.service.require_permission(identity, f"action_accept", request=record)
 
             event_type, updated_reviewers = self._reviewers_updated(
                 record.get("reviewers", []), reviewers
