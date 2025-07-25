@@ -88,7 +88,7 @@ export const ComputerTabletRequestItem = ({
             {creatorName}
           </small>
           <small className="right floated">
-            {result.receiver.community && result.expanded?.receiver.metadata.title && (
+            {result.receiver?.community && result.expanded?.receiver?.metadata.title && (
               <>
                 <Icon
                   className="default-margin"

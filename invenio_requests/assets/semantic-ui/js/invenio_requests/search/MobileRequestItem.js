@@ -76,7 +76,7 @@ export const MobileRequestItem = ({
             {creatorName}
           </small>
           <small className="block rel-mt-1">
-            {result.receiver.community && result.expanded?.receiver.metadata.title && (
+            {result.receiver?.community && result.expanded?.receiver?.metadata.title && (
               <>
                 <Icon
                   className="default-margin"
