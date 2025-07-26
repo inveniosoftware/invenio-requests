@@ -18,6 +18,7 @@ from marshmallow import (
     fields,
 )
 from marshmallow_utils import fields as utils_fields
+from marshmallow_utils.context import context_schema
 
 from invenio_requests.proxies import current_requests
 
@@ -45,30 +46,31 @@ class RequestEventSchema(BaseRecordSchema):
     def get_permissions(self, obj):
         """Return permissions to act on comments or empty dict."""
         is_comment = obj.type == CommentEventType
+        current_identity = context_schema.get()["identity"]
+        current_request = context_schema.get().get("request", None)
         if is_comment:
             service = current_requests.request_events_service
-            request = self.context.get("request", None)
             permissions = {
                 "can_update_comment": service.check_permission(
-                    self.context["identity"],
+                    current_identity,
                     "update_comment",
                     event=obj,
-                    request=request,
+                    request=current_request,
                 ),
                 "can_delete_comment": service.check_permission(
-                    self.context["identity"],
+                    current_identity,
                     "delete_comment",
                     event=obj,
-                    request=request,
+                    request=current_request,
                 ),
             }
 
-            if request is not None:
+            if current_request is not None:
                 permissions["can_reply_comment"] = service.check_permission(
-                    self.context["identity"],
+                    current_identity,
                     "reply_comment",
                     event=obj,
-                    request=request,
+                    request=current_request,
                 )
 
             return permissions
