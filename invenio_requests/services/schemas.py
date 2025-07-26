@@ -12,6 +12,7 @@
 
 from datetime import timezone
 
+from invenio_access.context import context_identity
 from invenio_records_resources.services.records.schema import BaseRecordSchema
 from marshmallow import (
     INCLUDE,
@@ -96,14 +97,15 @@ class RequestEventSchema(BaseRecordSchema):
     def get_permissions(self, obj):
         """Return permissions to act on comments or empty dict."""
         is_comment = obj.type == CommentEventType
+        current_identity = context_identity.get()
         if is_comment:
             service = current_requests.request_events_service
             return {
                 "can_update_comment": service.check_permission(
-                    self.context["identity"], "update_comment", event=obj
+                    current_identity, "update_comment", event=obj
                 ),
                 "can_delete_comment": service.check_permission(
-                    self.context["identity"], "delete_comment", event=obj
+                    current_identity, "delete_comment", event=obj
                 ),
             }
         else:
