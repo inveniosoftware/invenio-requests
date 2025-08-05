@@ -103,6 +103,26 @@ class RequestItem(RecordItem):
             res["errors"] = self._errors
         return res
 
+    def has_permissions_to(self, actions):
+        """Returns dict of "can_<action>": bool.
+
+        Placing this functionality here because it is a projection of the
+        request item's characteristics and allows us to re-use the
+        underlying data layer record. Because it is selective about the actions
+        it checks for performance reasons, it is not embedded in the `to_dict`
+        method.
+
+        :params actions: list of action strings
+        :returns dict:
+        """
+        return {
+            f"can_{action}": self._service.check_permission(
+                self._identity, action, request=self._record
+            )
+            for action in actions
+        }
+
+
 
 class RequestList(RecordList):
     """List of request results."""
