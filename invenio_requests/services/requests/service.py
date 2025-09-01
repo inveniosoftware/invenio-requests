@@ -9,9 +9,13 @@
 # details.
 
 """Requests service."""
+from typing import Any
 
+from flask_principal import Identity
+from invenio_db.uow import UnitOfWork
 from invenio_records_resources.services import RecordService, ServiceSchemaWrapper
 from invenio_records_resources.services.base import LinksTemplate
+from invenio_records_resources.services.records.results import RecordItem
 from invenio_records_resources.services.uow import (
     IndexRefreshOp,
     RecordCommitOp,
@@ -20,6 +24,7 @@ from invenio_records_resources.services.uow import (
 )
 from invenio_search.engine import dsl
 
+from . import RequestItem
 from ...customizations import RequestActions
 from ...customizations.event_types import CommentEventType
 from ...errors import CannotExecuteActionError
@@ -157,7 +162,15 @@ class RequestsService(RecordService):
         )
 
     @unit_of_work()
-    def update(self, identity, id_, data, revision_id=None, uow=None, expand=False):
+    def update(
+        self,
+        identity: Identity,
+        id_: str,
+        data: dict,
+        revision_id: int | None = None,
+        uow: UnitOfWork | None = None,
+        expand: bool = False,
+    ) -> RequestItem:
         """Update a request."""
         request = self.record_cls.get_record(id_)
 
@@ -196,7 +209,9 @@ class RequestsService(RecordService):
         )
 
     @unit_of_work()
-    def delete(self, identity, id_, uow=None):
+    def delete(
+        self, identity: Identity, id_: str, uow: UnitOfWork | None = None
+    ) -> bool:
         """Delete a request from database and search indexes."""
         request = self.record_cls.get_record(id_)
 
@@ -227,8 +242,15 @@ class RequestsService(RecordService):
 
     @unit_of_work()
     def execute_action(
-        self, identity, id_, action, data=None, uow=None, expand=False, **kwargs
-    ):
+        self,
+        identity: Identity,
+        id_: str,
+        action: str,
+        data: dict | None = None,
+        uow: UnitOfWork | None = None,
+        expand: bool = False,
+        **kwargs: Any,
+    ) -> RequestItem:
         """Execute the given action for the request, if possible.
 
         For instance, it would be not possible to execute the specified
