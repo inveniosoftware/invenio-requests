@@ -75,9 +75,19 @@ class RequestsService(RecordService):
         expires_at=None,
         uow=None,
         expand=False,
+        **kwargs,
     ):
         """Create a record."""
-        self.require_permission(identity, "create")
+        self.require_permission(
+            identity,
+            "create",
+            request_type=request_type,
+            receiver=receiver,
+            creator=creator,
+            record=topic,
+            expires_at=expires_at,
+            **kwargs,
+        )
 
         # we're not using "self.schema" b/c the schema may differ per
         # request type!
@@ -135,11 +145,11 @@ class RequestsService(RecordService):
             expand=expand,
         )
 
-    def read(self, identity, id_, expand=False):
+    def read(self, identity, id_, expand=False, **kwargs):
         """Retrieve a request."""
         # resolve and require permission
         request = self.record_cls.get_record(id_)
-        self.require_permission(identity, f"read", request=request)
+        self.require_permission(identity, f"read", request=request, **kwargs)
 
         # run components
         for component in self.components:
@@ -157,13 +167,17 @@ class RequestsService(RecordService):
         )
 
     @unit_of_work()
-    def update(self, identity, id_, data, revision_id=None, uow=None, expand=False):
+    def update(
+        self, identity, id_, data, revision_id=None, uow=None, expand=False, **kwargs
+    ):
         """Update a request."""
         request = self.record_cls.get_record(id_)
 
         self.check_revision_id(request, revision_id)
 
-        self.require_permission(identity, f"update", record=request, request=request)
+        self.require_permission(
+            identity, f"update", record=request, request=request, data=data, **kwargs
+        )
 
         # we're not using "self.schema" b/c the schema may differ per
         # request type!
@@ -196,7 +210,7 @@ class RequestsService(RecordService):
         )
 
     @unit_of_work()
-    def delete(self, identity, id_, uow=None):
+    def delete(self, identity, id_, uow=None, **kwargs):
         """Delete a request from database and search indexes."""
         request = self.record_cls.get_record(id_)
 
@@ -204,7 +218,7 @@ class RequestsService(RecordService):
         # self.check_revision_id(request, revision_id)
 
         # check permissions
-        self.require_permission(identity, f"action_delete", request=request)
+        self.require_permission(identity, f"action_delete", request=request, **kwargs)
 
         # run components
         self.run_components("delete", identity, record=request, uow=uow)
@@ -240,7 +254,14 @@ class RequestsService(RecordService):
 
         # Check permissions - example of permission: can_cancel_submitted
         permission_name = f"action_{action}"
-        self.require_permission(identity, permission_name, request=request)
+        self.require_permission(
+            identity,
+            permission_name,
+            request=request,
+            action_obj=action,
+            data=data,
+            **kwargs,
+        )
 
         # Check if the action *can* be executed (i.e. a given state transition
         # is allowed).
@@ -281,7 +302,9 @@ class RequestsService(RecordService):
         The user is able to search the requests that were created by them
         they are the receiver or they got access via the requests topic e.g record sharing.
         """
-        self.require_permission(identity, "search_user_requests")
+        self.require_permission(
+            identity, "search_user_requests", params=params, **kwargs
+        )
 
         # Prepare and execute the search
         params = params or {}
