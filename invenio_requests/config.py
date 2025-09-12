@@ -56,6 +56,10 @@ REQUESTS_SORT_OPTIONS = {
         title=_("Oldest"),
         fields=["created"],
     ),
+    "last_replied": dict(
+        title=_("Last replied"),
+        fields=["last_reply.created"],
+    ),
 }
 """Definitions of available request sort options."""
 
