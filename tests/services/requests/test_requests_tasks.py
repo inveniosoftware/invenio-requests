@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# Copyright (C) 2022 Graz University of Technology.
+# Copyright (C) 2022-2026 Graz University of Technology.
 #
 # Invenio-Requests is free software; you can redistribute it and/or
 # modify it under the terms of the MIT License; see LICENSE file for more
@@ -8,7 +8,7 @@
 
 """Tasks tests."""
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 from invenio_access.permissions import system_identity
 from invenio_search.engine import dsl
@@ -21,7 +21,7 @@ def test_check_expired_requests(
     app, identity_simple, create_request, submit_request, requests_service
 ):
     """Test if the expired system field works as intended."""
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc).replace(tzinfo=None)
 
     # created only should not be picked up
     created_request = create_request(
