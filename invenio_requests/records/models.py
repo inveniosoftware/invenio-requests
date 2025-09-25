@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2021 TU Wien.
-# Copyright (C) 2024 Graz University of Technology.
+# Copyright (C) 2024-2026 Graz University of Technology.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify
 # it under the terms of the MIT License; see LICENSE file for more details.
@@ -32,7 +32,7 @@ class RequestMetadata(db.Model, RecordMetadataBase):
     number = db.Column(String(50), unique=True, index=True, nullable=True)
 
     expires_at = db.Column(
-        db.DateTime().with_variant(mysql.DATETIME(fsp=6), "mysql"),
+        db.UTCDateTime(),
         default=None,
         nullable=True,
     )

@@ -1,15 +1,16 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2021 - 2022 TU Wien.
+# Copyright (C) 2025-2026 Graz University of Technology.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify
 # it under the terms of the MIT License; see LICENSE file for more details.
 
 """Systemfield for calculating the ``is_expired`` property of a request."""
 
-from datetime import datetime
+from datetime import datetime, timezone
 
-import pytz
+import arrow
 from invenio_records_resources.records.systemfields.calculated import CalculatedField
 
 
@@ -28,10 +29,7 @@ class ExpiredStateCalculatedField(CalculatedField):
         if expires_at is None:
             return False
 
-        # comparing timezone-aware and naive datetimes results in an error
-        # https://docs.python.org/3/library/datetime.html#determining-if-an-object-is-aware-or-naive # noqa
-        now = datetime.utcnow()
-        if expires_at.tzinfo and expires_at.tzinfo.utcoffset(expires_at) is not None:
-            now = now.replace(tzinfo=pytz.utc)
+        expires_at = arrow.get(expires_at, tzinfo=timezone.utc).datetime
+        now = datetime.now(timezone.utc)
 
         return expires_at < now
