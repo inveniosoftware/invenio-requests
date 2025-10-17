@@ -98,7 +98,7 @@ msgid "Subcommunity"
 msgstr "Sub-comunidad"
 
 msgid "Subcommunity invitation"
-msgstr ""
+msgstr "Invitación a la subcomunidad"
 
 msgid "Membership request"
 msgstr "Solicitud de membresía"
