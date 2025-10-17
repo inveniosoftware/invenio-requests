@@ -86,7 +86,7 @@ msgstr "Sub-comunidad"
 
 #: invenio_requests/services/requests/facets.py:29
 msgid "Subcommunity invitation"
-msgstr ""
+msgstr "Invitación a la subcomunidad"
 
 #: invenio_requests/services/requests/facets.py:33
 msgid "Community manage record"
@@ -146,25 +146,27 @@ msgstr ""
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:21
 #, python-brace-format
 msgid "💬 New comment on '{request_title}'"
-msgstr ""
+msgstr "💬 Nuevo comentario en '{request_title}'"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:27
 #, python-brace-format
 msgid "'@{user_name}' commented on '{request_title}':"
-msgstr ""
+msgstr "'@{user_name}' comentó en '{request_title}':"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:33
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:59
 msgid "Check out the request"
-msgstr ""
+msgstr "Consultar la solicitud"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:39
 msgid "This is an auto-generated message. To manage notifications, visit your"
 msgstr ""
+"Este es un mensaje generado automáticamente. Para administrar las "
+"notificaciones, visite su"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:39
 msgid "account settings"
-msgstr ""
+msgstr "configuraciones de la cuenta"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:45
 #, python-brace-format
