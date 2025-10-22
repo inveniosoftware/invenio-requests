@@ -1,6 +1,7 @@
 ..
     Copyright (C) 2021-2024 CERN.
     Copyright (C) 2024-2025 Graz University of Technology.
+    Copyright (C) 2025 KTH Royal Institute of Technology.
 
     Invenio-Requests is free software; you can redistribute it and/or
     modify it under the terms of the MIT License; see LICENSE file for more
@@ -8,6 +9,10 @@
 
 Changes
 =======
+
+Version v7.2.4 (released 2025-10-22)
+
+- i18n: pulled translations
 
 Version v7.2.3 (released 2025-09-30)
 
