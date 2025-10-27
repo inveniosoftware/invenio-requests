@@ -12,10 +12,11 @@ import uuid
 
 from invenio_db import db
 from invenio_records.models import RecordMetadataBase
-from sqlalchemy import func
+from sqlalchemy import ForeignKeyConstraint, UniqueConstraint, func
 from sqlalchemy.dialects import mysql
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.ext.declarative import declared_attr
+from sqlalchemy.orm import backref
 from sqlalchemy.sql import text
 from sqlalchemy.types import String
 from sqlalchemy_utils import UUIDType
@@ -47,6 +48,48 @@ class RequestEventModel(db.Model, RecordMetadataBase):
         UUIDType, db.ForeignKey(RequestMetadata.id, ondelete="CASCADE"), index=True
     )
     request = db.relationship(RequestMetadata)
+
+    # Parent event for threading
+    parent_id = db.Column(UUIDType, index=True, nullable=True)
+
+    # Self-referential relationships
+    parent = db.relationship(
+        "RequestEventModel",
+        primaryjoin=lambda: db.foreign(RequestEventModel.parent_id)
+        == db.remote(RequestEventModel.id),
+        backref=db.backref("children", cascade="all, delete-orphan"),
+        remote_side=lambda: RequestEventModel.id,
+        foreign_keys=lambda: [RequestEventModel.parent_id],
+    )
+
+    __table_args__ = (
+        # TODO: alembic needed
+        UniqueConstraint("id", "request_id", name="uq_request_events_id_request"),
+        # Enforce: a child's parent must be in the same request
+        ForeignKeyConstraint(
+            ["parent_id", "request_id"],
+            ["request_events.id", "request_events.request_id"],
+            ondelete="CASCADE",
+        ),
+    )
+
+    @classmethod
+    def get_children(cls, event_model):
+        """Get direct children of an event efficiently.
+
+        This method uses the SQLAlchemy relationship backref for efficient querying.
+        The children are already loaded via the relationship, so this is just an
+        accessor method.
+
+        :param event_model: The parent RequestEventModel instance.
+        :return: List of child RequestEventModel instances.
+        """
+        # Access the children via the backref relationship
+        # This is efficient because:
+        # 1. If children are already loaded (eager loading), no query is made
+        # 2. If not loaded, SQLAlchemy makes a single efficient query
+        # 3. The relationship is indexed via parent_id for fast lookups
+        return event_model.children
 
 
 class SequenceMixin:

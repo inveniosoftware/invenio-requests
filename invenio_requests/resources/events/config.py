@@ -10,8 +10,21 @@
 
 """RequestEvent Resource Configuration."""
 
+from flask_resources import HTTPJSONException, create_error_handler
 from invenio_records_resources.resources import RecordResourceConfig
 from marshmallow import fields
+
+from ...errors import NestedThreadingNotAllowedError
+
+
+events_error_handlers = {
+    NestedThreadingNotAllowedError: create_error_handler(
+        lambda e: HTTPJSONException(
+            code=400,
+            description=str(e),
+        )
+    ),
+}
 
 
 class RequestCommentsResourceConfig(RecordResourceConfig):
@@ -22,6 +35,8 @@ class RequestCommentsResourceConfig(RecordResourceConfig):
     routes = {
         "list": "/<request_id>/comments",
         "item": "/<request_id>/comments/<comment_id>",
+        "reply": "/<request_id>/comments/<comment_id>/reply",
+        "replies": "/<request_id>/comments/<comment_id>/replies",
         "timeline": "/<request_id>/timeline",
     }
 
@@ -36,6 +51,8 @@ class RequestCommentsResourceConfig(RecordResourceConfig):
         "request_id": fields.Str(),
         "comment_id": fields.Str(),
     }
+
+    error_handlers = events_error_handlers
 
     response_handlers = {
         "application/vnd.inveniordm.v1+json": RecordResourceConfig.response_handlers[
