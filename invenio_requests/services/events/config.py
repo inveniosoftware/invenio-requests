@@ -59,6 +59,40 @@ class RequestEventList(RecordList):
                 ),
             )
 
+            # Handle inner_hits from has_child queries (join relationship approach)
+            if (
+                hasattr(hit.meta, "inner_hits")
+                and "replies_preview" in hit.meta.inner_hits
+            ):
+                # Extract children from inner_hits
+                inner_children = hit.meta.inner_hits.replies_preview.hits.hits
+                projection["children"] = []
+
+                for inner_hit in inner_children:
+                    # Load child record
+                    child_record = self._service.record_cls.loads(
+                        inner_hit["_source"].to_dict()
+                    )
+
+                    # Project child record
+                    child_schema = ServiceSchemaWrapper(
+                        self._service, child_record.type.marshmallow_schema()
+                    )
+                    child_projection = child_schema.dump(
+                        child_record,
+                        context=dict(
+                            identity=self._identity,
+                            record=child_record,
+                        ),
+                    )
+
+                    if self._links_item_tpl:
+                        child_projection["links"] = self._links_item_tpl.expand(
+                            self._identity, child_record
+                        )
+
+                    projection["children"].append(child_projection)
+
             if self._links_item_tpl:
                 projection["links"] = self._links_item_tpl.expand(
                     self._identity, record
@@ -75,6 +109,8 @@ class RequestEventLink(Link):
         """Variables for the URI template."""
         request_type = current_request_type_registry.lookup(vars["request_type"])
         vars.update({"id": obj.id, "request_id": obj.request_id})
+        parent_id = obj.parent_id if obj.parent_id else obj.id
+        vars.update({"parent_id": parent_id})
         vars.update(request_type._update_link_config(**vars))
 
 
@@ -97,8 +133,18 @@ class RequestEventsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
     links_item = {
         "self": RequestEventLink("{+api}/requests/{request_id}/comments/{id}"),
         "self_html": RequestEventLink("{+ui}/requests/{request_id}#commentevent-{id}"),
+        "reply": RequestEventLink(
+            "{+api}/requests/{request_id}/comments/{parent_id}/reply"
+        ),
+        "replies": RequestEventLink(
+            "{+api}/requests/{request_id}/comments/{parent_id}/replies"
+        ),
     }
     links_search = pagination_links("{+api}/requests/{request_id}/timeline{?args*}")
+
+    links_replies = pagination_links(
+        "{+api}/requests/{request_id}/comments/{parent_id}/replies{?args*}"
+    )
 
     components = FromConfig(
         "REQUESTS_EVENTS_SERVICE_COMPONENTS",
