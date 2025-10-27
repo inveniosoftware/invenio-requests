@@ -139,6 +139,19 @@
           "payload": {
             "type": "object",
             "enabled": false
+          },
+          "parent_id": {
+            "type": "keyword"
+          },
+          "children_preview": {
+            "type": "object",
+            "dynamic": "true"
+          },
+          "children_count": {
+            "type": "integer"
+          },
+          "has_more_children": {
+            "type": "boolean"
           }
         }
       },

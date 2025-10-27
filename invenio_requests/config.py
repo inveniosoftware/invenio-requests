@@ -132,3 +132,10 @@ REQUESTS_REVIEWERS_ENABLED = False
 
 REQUESTS_REVIEWERS_MAX_NUMBER = 15
 """Maximum number of reviewers allowed for a request."""
+
+REQUESTS_COMMENT_PREVIEW_LIMIT = 5
+"""Number of most recent child comments to inline in parent's search index.
+
+This limits the size of indexed documents when comments have many replies.
+Additional replies can be loaded via pagination.
+"""

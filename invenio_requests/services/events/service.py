@@ -31,6 +31,7 @@ from invenio_requests.proxies import current_requests_service as requests_servic
 from invenio_requests.records.api import RequestEventFormat
 from invenio_requests.services.results import EntityResolverExpandableField
 
+from ...errors import NestedThreadingNotAllowedError
 from ...resolvers.registry import ResolverRegistry
 
 
@@ -65,12 +66,14 @@ class RequestEventsService(RecordService):
         expand=False,
         notify=True,
     ):
-        """Create a request event.
+        """Create a top-level request event (no parent).
 
         :param request_id: Identifier of the request (data-layer id).
         :param identity: Identity of user creating the event.
         :param dict data: Input data according to the data schema.
+        :param event_type: The type of event to create.
         """
+
         request = self._get_request(request_id)
         self.require_permission(identity, "create_comment", request=request)
 
@@ -101,7 +104,7 @@ class RequestEventsService(RecordService):
             uow=uow,
         )
 
-        # Persist record (DB and index)
+        # Persist record (DB and index) - top-level events only
         uow.register(RecordCommitOp(event, indexer=self.indexer))
 
         # Reindex the request to update events-related computed fields
@@ -131,6 +134,98 @@ class RequestEventsService(RecordService):
             links_tpl=self.links_tpl_factory(
                 self.config.links_item, request_type=str(request.type)
             ),
+            expandable_fields=self.expandable_fields,
+            expand=expand,
+        )
+
+    @unit_of_work()
+    def reply(
+        self,
+        identity,
+        request_id,
+        parent_id,
+        data,
+        event_type,
+        uow=None,
+        expand=False,
+        notify=True,
+    ):
+        """Create a reply to an existing comment (child event).
+
+        :param request_id: Identifier of the request (data-layer id).
+        :param parent_id: UUID of the parent event to reply to.
+        :param identity: Identity of user creating the reply.
+        :param dict data: Input data according to the data schema.
+        :param event_type: The type of event to create.
+        """
+        request = self._get_request(request_id)
+        self.require_permission(identity, "create_comment", request=request)
+
+        # Validate that nested threading (reply to reply) is not allowed
+        parent_event = None
+        has_parent = parent_id is not None
+
+        if has_parent:
+            parent_event = self._get_event(parent_id)
+            if parent_event.parent_id is not None:
+                raise NestedThreadingNotAllowedError()
+
+        # Validate data (if there are errors, .load() raises)
+        schema = self._wrap_schema(event_type.marshmallow_schema())
+
+        data, errors = schema.load(
+            data,
+            context={"identity": identity},
+        )
+
+        event = self.record_cls.create(
+            {},
+            request=request.model,
+            request_id=str(request.id),
+            type=event_type,
+        )
+        event.update(data)
+        event.created_by = self._get_creator(identity, request=request)
+
+        # Set parent_id from the route parameter
+        event.parent_id = parent_id
+
+        # Run components
+        self.run_components(
+            "create",
+            identity,
+            data=data,
+            event=event,
+            errors=errors,
+            uow=uow,
+        )
+
+        # Persist record (DB and index) - child event
+        # Commit child with indexing (parent's children_preview fetches from DB dynamically)
+        uow.register(RecordCommitOp(event, indexer=self.indexer))
+        # Reindex parent to pick up the new child in children_preview
+        uow.register(RecordCommitOp(parent_event, indexer=self.indexer))
+
+        # Reindex the request to update events-related computed fields
+        is_delete_event = (
+            isinstance(event_type, LogEventType) or event_type is LogEventType
+        ) and (data.get("payload", {}).get("event") == "deleted")
+        if not is_delete_event:
+            uow.register(RecordIndexOp(request, indexer=requests_service.indexer))
+
+        if notify and event_type is CommentEventType:
+            uow.register(
+                NotificationOp(
+                    request.type.comment_notification_builder.build(request, event)
+                )
+            )
+
+        return self.result_item(
+            self,
+            identity,
+            event,
+            schema=schema,
+            links_tpl=self.links_item_tpl,
             expandable_fields=self.expandable_fields,
             expand=expand,
         )
@@ -168,7 +263,7 @@ class RequestEventsService(RecordService):
             raise PermissionError("You cannot update this event.")
 
         schema = self._wrap_schema(event.type.marshmallow_schema())
-        data, _ = schema.load(
+        data, _errors = schema.load(
             data,
             context=dict(identity=identity, record=event, event_type=event.type),
         )
@@ -185,8 +280,15 @@ class RequestEventsService(RecordService):
             uow=uow,
         )
 
-        # Persist record (DB and index)
-        uow.register(RecordCommitOp(event, indexer=self.indexer))
+        # Handle threading: reindex parent if this is a child event
+        if event.parent_id is not None:
+            # Threaded event: commit the event and reindex parent
+            parent_event = self._get_event(event.parent_id)
+            uow.register(RecordCommitOp(event))
+            uow.register(RecordIndexOp(parent_event, indexer=self.indexer))
+        else:
+            # Persist record (DB and index)
+            uow.register(RecordCommitOp(event, indexer=self.indexer))
 
         # Reindex the request to update events-related computed fields
         uow.register(RecordIndexOp(request, indexer=requests_service.indexer))
@@ -245,7 +347,44 @@ class RequestEventsService(RecordService):
             uow=uow,
         )
 
-        uow.register(RecordCommitOp(event, indexer=self.indexer))
+        # Handle threading when deleting comments
+        if event.model.parent_id is not None:
+            # Deleting a CHILD comment: keep parent_id so it shows inline
+            parent_event = self._get_event(event.model.parent_id)
+            uow.register(RecordCommitOp(event))
+            # Reindex parent to update its children array
+            uow.register(RecordIndexOp(parent_event, indexer=self.indexer))
+        else:
+            # Deleting a PARENT comment: cascade delete all children
+            # Get all children and convert them to LogEvents
+            from invenio_requests.records.systemfields.computed import EventChildren
+
+            children_field = EventChildren()
+            all_children = children_field.get_all_children(event)
+
+            for child in all_children:
+                # Convert child to LogEvent
+                child.type = LogEventType
+                child_schema = self._wrap_schema(child.type.marshmallow_schema())
+                child_data = dict(
+                    payload=dict(
+                        event="comment_deleted",
+                        content=_("deleted a comment"),
+                        format=RequestEventFormat.HTML.value,
+                    )
+                )
+                child_data, _errors = child_schema.load(
+                    child_data,
+                    context=dict(
+                        identity=identity, record=child, event_type=child.type
+                    ),
+                )
+                child["payload"] = child_data["payload"]
+                # Commit each child (no indexer - parent will include them)
+                uow.register(RecordCommitOp(child))
+
+            # Commit the parent LogEvent
+            uow.register(RecordCommitOp(event, indexer=self.indexer))
 
         # Reindex the request to update events-related computed fields
         uow.register(RecordIndexOp(request, indexer=requests_service.indexer))
@@ -264,6 +403,11 @@ class RequestEventsService(RecordService):
         request = self._get_request(request_id)
         self.require_permission(identity, "read", request=request)
 
+        # only search top-level events (no parent)
+        extra_filter = dsl.Q("term", request_id=str(request.id)) & ~dsl.Q(
+            "exists", field="parent_id"
+        )
+
         # Prepare and execute the search
         search_result = self._search(
             "search",
@@ -271,7 +415,7 @@ class RequestEventsService(RecordService):
             params,
             search_preference,
             permission_action="unused",
-            extra_filter=dsl.Q("term", request_id=str(request.id)),
+            extra_filter=extra_filter,
             **kwargs,
         ).execute()
 
@@ -388,6 +532,55 @@ class RequestEventsService(RecordService):
             links_item_tpl=self.links_tpl_factory(
                 self.config.links_item, request_type=str(request.type)
             ),
+            expandable_fields=self.expandable_fields,
+            expand=expand,
+        )
+
+    def get_comment_replies(
+        self, identity, parent_id, params=None, search_preference=None, **kwargs
+    ):
+        """Get paginated replies for a specific comment.
+
+        :param identity: Identity of user.
+        :param parent_id: ID of the parent comment.
+        :param params: Query parameters (page, size, sort, etc.).
+        :param search_preference: Search preference.
+        :returns: Paginated list of reply events.
+        """
+        params = params or {}
+        params.setdefault("sort", "oldest")
+
+        expand = kwargs.pop("expand", False)
+
+        # Get the parent event to verify permissions and get request_id
+        parent_event = self._get_event(parent_id)
+        request = self._get_request(parent_event.request_id)
+
+        # Permissions - guarded by the request's can_read
+        self.require_permission(identity, "read", request=request)
+
+        # Prepare and execute the search for children
+        search = self._search(
+            "search",
+            identity,
+            params,
+            search_preference,
+            permission_action="unused",
+            extra_filter=dsl.Q("term", parent_id=str(parent_id)),
+            **kwargs,
+        )
+        search_result = search.execute()
+
+        return self.result_list(
+            self,
+            identity,
+            search_result,
+            params,
+            links_tpl=LinksTemplate(
+                self.config.links_search,
+                context={"parent_id": str(parent_id), "args": params},
+            ),
+            links_item_tpl=self.links_item_tpl,
             expandable_fields=self.expandable_fields,
             expand=expand,
         )

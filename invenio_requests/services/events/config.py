@@ -39,6 +39,59 @@ class RequestEventItem(RecordItem):
 class RequestEventList(RecordList):
     """RequestEvent result item."""
 
+    def to_dict(self):
+        """Return result as a dictionary."""
+        # TODO: This part should imitate the result item above. I.e. add a
+        # "data" property which uses a ServiceSchema to dump the entire object.
+        hits = list(self.hits)
+
+        for hit in hits:
+            for child in hit.get("children_preview", []):
+
+                # Load dump
+                record = self._service.record_cls.loads(child)
+
+                # Project the record
+                projection = self._schema.dump(
+                    record,
+                    context=dict(
+                        identity=self._identity,
+                        record=record,
+                    ),
+                )
+                if self._links_item_tpl:
+                    projection["links"] = self._links_item_tpl.expand(
+                        self._identity, record
+                    )
+                child.update(projection)
+                if self._expand and self._fields_resolver:
+                    child_fields = self._fields_resolver.expand(self._identity, child)
+                    child["expanded"] = child_fields
+
+                if self._expand and self._fields_resolver:
+                    fields = self._fields_resolver.expand(self._identity, hit)
+                    hit["expanded"] = fields
+
+        if self._expand and self._fields_resolver:
+            self._fields_resolver.resolve(self._identity, hits)
+
+        res = {
+            "hits": {
+                "hits": hits,
+                "total": self.total,
+            }
+        }
+
+        if self.aggregations:
+            res["aggregations"] = self.aggregations
+
+        if self._params:
+            res["sortBy"] = self._params["sort"]
+            if self._links_tpl:
+                res["links"] = self._links_tpl.expand(self._identity, self.pagination)
+
+        return res
+
     @property
     def hits(self):
         """Iterator over the hits."""

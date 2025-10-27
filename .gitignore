@@ -70,3 +70,6 @@ target/
 **/*/node_modules
 node_modules
 .python-version
+
+# Claude
+Claude.md
