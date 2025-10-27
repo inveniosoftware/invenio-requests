@@ -80,9 +80,8 @@ def test_simple_flow(
     res = request_events_service.search(identity_simple, request_id, sort="newest")
     deleted = list(res.hits)[0]
 
-    assert LogEventType.type_id == deleted["type"]
-    assert "comment_deleted" == deleted["payload"]["event"]
-    assert "deleted a comment" == deleted["payload"]["content"]
+    assert CommentEventType.type_id == deleted["type"]
+    assert "Comment was deleted." == deleted["payload"]["content"]
     # Search (batch read) events
     # Let's create a separate request with comment and make sure search is isolated
     data = copy.deepcopy(comment)
@@ -413,4 +412,4 @@ def test_delete_component_called(
     deleted = list(res.hits)[0]
 
     assert deleted["payload"]["content"] == "Component modified deletion message"
-    assert deleted["type"] == LogEventType.type_id
+    assert deleted["type"] == CommentEventType.type_id
