@@ -50,6 +50,7 @@ class TimelineCommentEvent extends Component {
       updateComment,
       deleteComment,
       toggleEditMode,
+      quote,
     } = this.props;
     const { commentContent } = this.state;
 
@@ -88,6 +89,9 @@ class TimelineCommentEvent extends Component {
                     aria-label={i18next.t("Actions")}
                   >
                     <Dropdown.Menu>
+                      <Dropdown.Item onClick={() => quote()}>
+                        {i18next.t("Quote")}
+                      </Dropdown.Item>
                       {canUpdate && (
                         <Dropdown.Item onClick={() => toggleEditMode()}>
                           {i18next.t("Edit")}
@@ -126,6 +130,7 @@ class TimelineCommentEvent extends Component {
                     <TimelineEventBody
                       content={event?.payload?.content}
                       format={event?.payload?.format}
+                      quote={quote}
                     />
                   )}
 
@@ -154,6 +159,7 @@ TimelineCommentEvent.propTypes = {
   deleteComment: PropTypes.func.isRequired,
   updateComment: PropTypes.func.isRequired,
   toggleEditMode: PropTypes.func.isRequired,
+  quote: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
   isEditing: PropTypes.bool,
   error: PropTypes.string,
