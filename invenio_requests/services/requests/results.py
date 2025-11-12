@@ -10,6 +10,7 @@
 
 """Results for the requests service."""
 
+from flask_principal import ItemNeed
 from invenio_records_resources.services.records.results import (
     MultiFieldsResolver,
     RecordItem,
@@ -25,8 +26,10 @@ class RequestItem(RecordItem):
         service,
         identity,
         request,
+        *,
         errors=None,
         links_tpl=None,
+        nested_links_item=None,
         schema=None,
         expandable_fields=None,
         expand=False,
@@ -39,6 +42,7 @@ class RequestItem(RecordItem):
         self._record = request
         self._service = service
         self._links_tpl = links_tpl
+        self._nested_links_item = nested_links_item
         self._schema = schema or service._wrap_schema(request.type.marshmallow_schema())
         self._fields_resolver = MultiFieldsResolver(expandable_fields)
         self._expand = expand
@@ -85,23 +89,26 @@ class RequestItem(RecordItem):
             self._data["links"] = self.links
 
         if self._expand and self._fields_resolver:
+            # Expand identity to include explicit read permissions for the participating users
+            context_needs = set()
+            created_by = self._request.get("created_by")
+            if created_by is not None:
+                ref_type, ref_value = next(iter(created_by.items()))
+                context_needs.add(ItemNeed("read", ref_value, ref_type))
+            recipient = self._request.get("recipient")
+            if recipient is not None:
+                ref_type, ref_value = next(iter(recipient.items()))
+                context_needs.add(ItemNeed("read", ref_value, ref_type))
+
+            old_provides = self._identity.provides.copy()
+            self._identity.provides |= context_needs
             self._fields_resolver.resolve(self._identity, [self._data])
             fields = self._fields_resolver.expand(self._identity, self._data)
+            self._identity.provides = old_provides
+
             self._data["expanded"] = fields
 
         return self._data
-
-    @property
-    def errors(self):
-        """Get the errors."""
-        return self._errors
-
-    def to_dict(self):
-        """Get a dictionary for the request."""
-        res = self.data
-        if self._errors:
-            res["errors"] = self._errors
-        return res
 
     def has_permissions_to(self, actions):
         """Returns dict of "can_<action>": bool.
