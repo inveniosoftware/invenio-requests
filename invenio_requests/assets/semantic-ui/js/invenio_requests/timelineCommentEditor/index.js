@@ -19,6 +19,7 @@ const mapStateToProps = (state) => ({
   error: state.timelineCommentEditor.error,
   commentContent: state.timelineCommentEditor.commentContent,
   storedCommentContent: state.timelineCommentEditor.storedCommentContent,
+  draftSavingStatus: state.timelineCommentEditor.draftSavingStatus,
 });
 
 export const TimelineCommentEditor = connect(

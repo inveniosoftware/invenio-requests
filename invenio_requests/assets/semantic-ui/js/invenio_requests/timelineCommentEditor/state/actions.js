@@ -18,6 +18,8 @@ export const HAS_ERROR = "eventEditor/HAS_ERROR";
 export const SUCCESS = "eventEditor/SUCCESS";
 export const SETTING_CONTENT = "eventEditor/SETTING_CONTENT";
 export const RESTORE_CONTENT = "eventEditor/RESTORE_CONTENT";
+export const DRAFT_SAVED = "eventEditor/DRAFT_SAVED";
+export const DRAFT_SAVE_ERROR = "eventEditor/DRAFT_SAVE_ERROR";
 
 const draftCommentKey = (requestId) => `draft-comment-${requestId}`;
 const setDraftComment = (requestId, content) => {
@@ -40,11 +42,15 @@ export const setEventContent = (content) => {
 
     try {
       setDraftComment(request.data.id, content);
+      dispatch({ type: DRAFT_SAVED });
     } catch (e) {
       // This should not be a fatal error. The comment editor is still usable if
       // draft saving isn't working (e.g. on very old browsers or ultra-restricted
       // environments with 0 storage quota.)
-      console.warn("Failed to save comment:", e);
+      console.warn("Failed to save comment draft:", e);
+      // Local Storage errors are ambiguous and heavily browser-dependent so showing the
+      // specific error message in the UI would not be helpful.
+      dispatch({ type: DRAFT_SAVE_ERROR });
     }
   };
 };
@@ -56,7 +62,7 @@ export const restoreEventContent = () => {
     try {
       savedDraft = getDraftComment(request.data.id);
     } catch (e) {
-      console.warn("Failed to get saved comment:", e);
+      console.warn("Failed to get saved comment draft:", e);
     }
 
     if (savedDraft) {
@@ -100,7 +106,7 @@ export const submitComment = (content, format) => {
       try {
         deleteDraftComment(request.data.id);
       } catch (e) {
-        console.warn("Failed to delete saved comment:", e);
+        console.warn("Failed to delete saved comment draft:", e);
       }
 
       await dispatch({
