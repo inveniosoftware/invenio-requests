@@ -127,3 +127,120 @@ class LastActivity(CachedCalculatedField):
         if last_activity_dump:
             last_activity = datetime.fromisoformat(last_activity_dump)
         self._set_cache(record, last_activity)
+
+
+class EventChildren(CachedCalculatedField):
+    """System field for event children with limited preview indexing.
+
+    By default, fetches only the most recent N children from the database to avoid
+    loading all children into memory. Provides metadata for lazy loading additional
+    children via pagination.
+
+    Can optionally fetch all children when needed for operations like deletion,
+    export, or administration. Use with caution for records with many children.
+    """
+
+    def __init__(self, key=None, use_cache=True):
+        """Constructor.
+
+        :param key: The name of the attribute (defaults to 'children').
+        :param use_cache: Whether to cache the calculated value.
+        """
+        super().__init__(key=key, use_cache=use_cache)
+
+    def _get_preview_limit(self):
+        """Get the preview limit from config."""
+        from flask import current_app
+
+        return current_app.config.get("REQUESTS_COMMENT_PREVIEW_LIMIT", 5)
+
+    def calculate(self, record, fetch_all=False):
+        """Fetch children from the database.
+
+        By default, queries the database with a limit to avoid loading all children
+        into memory. Can optionally fetch all children when needed.
+
+        :param record: The parent event record.
+        :param fetch_all: If True, fetch all children. If False, fetch only preview.
+        :returns: List of RequestEvent instances representing children.
+
+        .. warning::
+           Using fetch_all=True with records that have 1000+ children may cause
+           performance issues. Use only when genuinely needed (e.g., deletion,
+           export, admin operations).
+        """
+        # Skip cache lookup when fetching all (different data than cached preview)
+        if not fetch_all:
+            res = super().calculate(record)
+            if res is not self.CACHE_MISS:
+                return res
+
+        if not record.model:
+            return []
+
+        RequestEvent = type(record)
+        RecordEventModel = record.model_cls
+
+        # Build query
+        query = (
+            db.session.query(RecordEventModel)
+            .filter(RecordEventModel.parent_id == record.id)
+            .order_by(RecordEventModel.created.desc())
+        )
+
+        # Apply limit only if not fetching all
+        if not fetch_all:
+            preview_limit = self._get_preview_limit()
+            query = query.limit(preview_limit)
+
+        children_models = query.all()
+        return [RequestEvent(child.data, model=child) for child in children_models]
+
+    def pre_dump(self, record, data, dumper=None):
+        """Dump limited children preview with metadata to the search index.
+
+        Only dumps the most recent N children to keep document size bounded.
+        Includes metadata (count, has_more) for lazy loading additional children.
+        """
+        preview_limit = self._get_preview_limit()
+        preview_children = getattr(record, self.attr_name)
+
+        if preview_children:
+            # Get total count directly from database
+            RecordEventModel = record.model_cls
+            total_count = (
+                db.session.query(db.func.count(RecordEventModel.id))
+                .filter(RecordEventModel.parent_id == record.id)
+                .scalar()
+            )
+
+            # Dump preview children with full metadata
+            data["children_preview"] = [child.dumps() for child in preview_children]
+            data["children_count"] = total_count
+            data["has_more_children"] = total_count > preview_limit
+        else:
+            data["children_preview"] = []
+            data["children_count"] = 0
+            data["has_more_children"] = False
+
+    def get_all_children(self, record):
+        """Fetch all children for a record (no limit).
+
+        Convenience method for operations that need access to all children
+        regardless of the preview limit.
+
+        :param record: The parent event record.
+        :returns: List of all child RequestEvent instances.
+
+        .. warning::
+           This method loads all children into memory. For records with 1000+
+           children, this may cause performance issues. Use only when necessary
+           for operations like cascade deletion, full export, or admin tasks.
+
+        Example:
+            >>> # Get all children for deletion
+            >>> all_children = event.children_field.get_all_children(event)
+            >>> for child in all_children:
+            ...     process_child(child)
+        """
+        return self.calculate(record, fetch_all=True)

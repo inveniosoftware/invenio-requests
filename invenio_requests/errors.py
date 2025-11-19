@@ -47,3 +47,36 @@ class CannotExecuteActionError(ActionError):
         """
         reason = reason or "Could not execute the action"
         super().__init__(action, reason)
+
+
+class ThreadingNotSupportedError(Exception):
+    """Exception raised when threading is attempted on an event type that doesn't support it."""
+
+    def __init__(self, event_type, message=None):
+        """Constructor.
+
+        :param event_type: The event type that doesn't support threading.
+        :param message: Optional custom error message.
+        """
+        self.event_type = event_type
+        self.message = message or (
+            f"Event type '{event_type}' does not support threading. "
+            "Only event types with allow_threading=True can have parent-child relationships."
+        )
+        super().__init__(self.message)
+
+
+class NestedThreadingNotAllowedError(Exception):
+    """Exception raised when attempting to create nested threading (reply to a reply)."""
+
+    def __init__(self, message=None):
+        """Constructor.
+
+        :param message: Optional custom error message.
+        """
+        self.message = message or (
+            "Nested threading is not allowed. "
+            "You cannot reply to a comment that is already a reply. "
+            "Only one level of threading is supported."
+        )
+        super().__init__(self.message)

@@ -10,6 +10,7 @@
 
 from enum import Enum
 from functools import partial
+from werkzeug.utils import cached_property
 
 from invenio_records.dumpers import SearchDumper
 from invenio_records.systemfields import ConstantField, DictField, ModelField
@@ -21,6 +22,7 @@ from .dumpers import CalculatedFieldDumperExt, GrantTokensDumperExt
 from .models import RequestEventModel, RequestMetadata
 from .systemfields import (
     EntityReferenceField,
+    EventChildren,
     EventTypeField,
     ExpiredStateCalculatedField,
     IdentityField,
@@ -82,6 +84,36 @@ class RequestEvent(Record):
 
     created_by = EntityReferenceField("created_by", check_referenced)
     """Who created the event."""
+
+    parent_id = ModelField("parent_id")
+    """The parent event ID for threading."""
+
+    @cached_property
+    def parent(self):
+        """Get the parent event as a RequestEvent instance.
+
+        Returns None if this is a top-level event or if the event type
+        doesn't support threading.
+        """
+        if not self.model or not self.model.parent:
+            return None
+
+        # Use the SQLAlchemy relationship to get parent (efficient)
+        parent_model = self.model.parent
+        return type(self)(parent_model.data, model=parent_model)
+
+    children = EventChildren()
+    """Event children systemfield with full metadata indexing."""
+
+    def pre_commit(self):
+        """Hook called before committing the record.
+
+        Validates that threading is allowed for this event type.
+        """
+        from .validators import validate_threading_allowed
+
+        validate_threading_allowed(self)
+        super().pre_commit()
 
 
 class Request(Record):
