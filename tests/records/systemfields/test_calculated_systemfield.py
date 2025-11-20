@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2021 TU Wien.
+# Copyright (C) 2025 Graz University of Technology.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """Test the calculated systemfields."""
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 import pytest
 
@@ -16,7 +17,7 @@ from invenio_requests.customizations import RequestState
 
 def test_expired_systemfield(example_request):
     """Test if the expired system field works as intended."""
-    now = datetime.utcnow()
+    now = datetime.now(timezone.utc)
     example_request.expires_at = None
     example_request.commit()
 
