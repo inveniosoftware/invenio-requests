@@ -59,6 +59,23 @@ class TimelineCommentEventControlled extends Component {
     openConfirmModal(() => deleteComment({ event }));
   };
 
+  /**
+   * Append a quote of the comment's content to the new comment in the editor.
+   *
+   * @param {string} [text] - A subset of the text to quote. If null, the entire comment is quoted.
+   */
+  quote = (text) => {
+    const {
+      appendCommentContent,
+      event: {
+        payload: { content },
+      },
+    } = this.props;
+
+    const quotedText = text ?? content;
+    appendCommentContent(`<blockquote>${quotedText}</blockquote><br />`);
+  };
+
   render() {
     const { event } = this.props;
     const { isLoading, isEditing, error } = this.state;
@@ -69,6 +86,7 @@ class TimelineCommentEventControlled extends Component {
           updateComment={this.updateComment}
           deleteComment={this.deleteComment}
           toggleEditMode={this.toggleEditMode}
+          quote={this.quote}
           isLoading={isLoading}
           isEditing={isEditing}
           error={error}
@@ -83,6 +101,7 @@ TimelineCommentEventControlled.propTypes = {
   event: PropTypes.object.isRequired,
   updateComment: PropTypes.func.isRequired,
   deleteComment: PropTypes.func.isRequired,
+  appendCommentContent: PropTypes.func.isRequired,
   openConfirmModal: PropTypes.func.isRequired,
 };
 
