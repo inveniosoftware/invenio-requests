@@ -32,7 +32,12 @@ from .components import (
     RequestReviewersComponent,
 )
 from .links import RequestLink
-from .params import IsOpenParam, ReferenceFilterParam, SharedOrMyRequestsParam
+from .params import (
+    IsOpenParam,
+    ReferenceFilterParam,
+    SharedOrMyRequestsParam,
+    _TypeFilterParam,
+)
 from .results import RequestItem, RequestList
 
 
@@ -53,6 +58,7 @@ class RequestSearchOptions(SearchOptions, SearchOptionsMixin):
         ReferenceFilterParam.factory(param="receiver", field="receiver"),
         ReferenceFilterParam.factory(param="topic", field="topic"),
         IsOpenParam.factory("is_open"),
+        _TypeFilterParam.factory(param="_type", field="type"),
     ]
 
     facets = {
