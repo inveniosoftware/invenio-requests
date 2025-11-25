@@ -45,9 +45,16 @@ class RequestEventList(RecordList):
         # "data" property which uses a ServiceSchema to dump the entire object.
         hits = list(self.hits)
 
-        for hit in hits:
-            for child in hit.get("children_preview", []):
+        if self._expand and self._fields_resolver:
+            self._fields_resolver.resolve(self._identity, hits)
 
+        for hit in hits:
+            if self._expand and self._fields_resolver:
+                # Expand the hit itself
+                fields = self._fields_resolver.expand(self._identity, hit)
+                hit["expanded"] = fields
+
+            for child in hit.get("children_preview", []):
                 # Load dump
                 record = self._service.record_cls.loads(child)
 
@@ -64,16 +71,11 @@ class RequestEventList(RecordList):
                         self._identity, record
                     )
                 child.update(projection)
+
                 if self._expand and self._fields_resolver:
+                    # Expand the child
                     child_fields = self._fields_resolver.expand(self._identity, child)
                     child["expanded"] = child_fields
-
-                if self._expand and self._fields_resolver:
-                    fields = self._fields_resolver.expand(self._identity, hit)
-                    hit["expanded"] = fields
-
-        if self._expand and self._fields_resolver:
-            self._fields_resolver.resolve(self._identity, hits)
 
         res = {
             "hits": {
