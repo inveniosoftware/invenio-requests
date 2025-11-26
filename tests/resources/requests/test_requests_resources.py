@@ -135,7 +135,6 @@ def test_create_is_disallowed(app, client_logged_as, headers, request_resource_d
 def test_simple_request_flow(app, client_logged_as, headers, example_request):
     client = client_logged_as("user1@example.org")
     id_ = str(example_request.id)
-    number = str(example_request.number)
 
     # test read
     response = client.get(f"/requests/{id_}", headers=headers)

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2021 CERN.
-# Copyright (C) 2021 Northwestern University.
+# Copyright (C) 2021-2026 Northwestern University.
 # Copyright (C) 2021 TU Wien.
 #
 # Invenio-Requests is free software; you can redistribute it and/or
@@ -10,19 +10,28 @@
 
 """Requests service configuration."""
 
-from invenio_records_resources.services import RecordServiceConfig, SearchOptions
+from invenio_records_resources.services import (
+    RecordServiceConfig,
+    SearchOptions,
+    pagination_endpoint_links,
+)
 from invenio_records_resources.services.base.config import (
     ConfiguratorMixin,
     FromConfig,
     FromConfigSearchOptions,
     SearchOptionsMixin,
 )
-from invenio_records_resources.services.records.links import pagination_links
 
 from invenio_requests.services.requests import facets
 
 from ...customizations import RequestActions
 from ...records.api import Request
+from ..links import (
+    ActionsEndpointLinks,
+    RequestCommentsEndpointLink,
+    RequestEndpointLink,
+    RequestTypeEndpointLink,
+)
 from ..permissions import PermissionPolicy
 from .components import (
     EntityReferencesComponent,
@@ -32,7 +41,6 @@ from .components import (
     RequestPayloadComponent,
     RequestReviewersComponent,
 )
-from .links import RequestLink
 from .params import IsOpenParam, ReferenceFilterParam, SharedOrMyRequestsParam
 from .results import RequestItem, RequestList
 
@@ -104,18 +112,32 @@ class RequestsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
 
     # links configuration
     links_item = {
-        "self": RequestLink("{+api}/requests/{id}"),
-        "self_html": RequestLink("{+ui}/requests/{id}"),
-        "comments": RequestLink("{+api}/requests/{id}/comments"),
-        "timeline": RequestLink("{+api}/requests/{id}/timeline"),
-        "timeline_focused": RequestLink("{+api}/requests/{id}/timeline_focused"),
-        "lock": RequestLink("{+api}/requests/{id}/lock"),
-        "unlock": RequestLink("{+api}/requests/{id}/unlock"),
+        "self": RequestEndpointLink("requests.read"),
+        "self_html": RequestTypeEndpointLink(
+            "self_html",
+            params=["request_pid_value"],
+            vars=lambda obj, vars: vars.update({"request_pid_value": obj.id}),
+        ),
+        # Note that `request_events` is the name of the blueprint for
+        # the RequestCommentsResource actually.
+        "comments": RequestCommentsEndpointLink("request_events.create"),
+        "timeline": RequestCommentsEndpointLink("request_events.search"),
+        "timeline_focused": RequestCommentsEndpointLink("request_events.focused_list"),
+        "lock": RequestEndpointLink("requests.lock_request"),
+        "unlock": RequestEndpointLink("requests.unlock_request"),
+        "actions": ActionsEndpointLinks(
+            RequestEndpointLink(
+                "requests.execute_action",
+                # "id" would have been added by RequestEndpointLink but
+                # it's more explicit this way
+                params=["id", "action"],
+                when=_is_action_available,
+            )
+        ),
     }
-    links_search = pagination_links("{+api}/requests{?args*}")
-    links_user_requests_search = pagination_links("{+api}/user/requests{?args*}")
-    action_link = RequestLink(
-        "{+api}/requests/{id}/actions/{action}", when=_is_action_available
+    links_search = pagination_endpoint_links("requests.search")
+    links_user_requests_search = pagination_endpoint_links(
+        "requests.search_user_requests"
     )
 
     payload_schema_cls = None

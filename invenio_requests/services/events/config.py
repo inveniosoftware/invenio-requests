@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2021 CERN.
-# Copyright (C) 2021 Northwestern University.
+# Copyright (C) 2021-2025 Northwestern University.
 # Copyright (C) 2021 TU Wien.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify it
@@ -11,19 +11,19 @@
 
 from invenio_indexer.api import RecordIndexer
 from invenio_records_resources.services import (
-    Link,
     RecordServiceConfig,
     ServiceSchemaWrapper,
+    pagination_endpoint_links,
 )
 from invenio_records_resources.services.base.config import ConfiguratorMixin, FromConfig
-from invenio_records_resources.services.records.links import pagination_links
 from invenio_records_resources.services.records.results import (
     RecordItem,
     RecordList,
 )
 
-from invenio_requests.proxies import (
-    current_request_type_registry,
+from invenio_requests.services.links import (
+    RequestCommentEndpointLink,
+    RequestTypeEndpointLinkFromEvent,
 )
 
 from ...records.api import Request, RequestEvent
@@ -186,20 +186,6 @@ class RequestEventList(RecordList):
             yield projection
 
 
-class RequestEventLink(Link):
-    """Link variables setter for RequestEvent links."""
-
-    @staticmethod
-    def vars(obj, vars):
-        """Variables for the URI template."""
-        request_type = current_request_type_registry.lookup(vars["request_type"])
-        parent_id = obj.parent_id if obj.parent_id else obj.id
-        vars.update(
-            {"id": obj.id, "request_id": obj.request_id, "parent_id": parent_id}
-        )
-        vars.update(request_type._update_link_config(**vars))
-
-
 class ParentChildRecordIndexer(RecordIndexer):
     """Parent-Child Record Indexer placeholder."""
 
@@ -232,19 +218,49 @@ class RequestEventsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
 
     # ResultItem configurations
     links_item = {
-        "self": RequestEventLink("{+api}/requests/{request_id}/comments/{id}"),
-        "self_html": RequestEventLink("{+ui}/requests/{request_id}#commentevent-{id}"),
-        "reply": RequestEventLink(
-            "{+api}/requests/{request_id}/comments/{parent_id}/reply"
+        # Note that `request_events` is the name of the blueprint for
+        # the RequestCommentsResource actually.
+        "self": RequestCommentEndpointLink("request_events.read"),
+        "self_html": RequestTypeEndpointLinkFromEvent(
+            "self_html",
+            # <request_pid_value> must be used in the RequestType's route
+            params=["request_pid_value"],
+            vars=lambda obj, vars: vars.update({"request_pid_value": obj.request_id}),
+            # don't include the '#'
+            anchor=lambda obj, vars: f"commentevent-{obj.id}",
         ),
-        "replies": RequestEventLink(
-            "{+api}/requests/{request_id}/comments/{parent_id}/replies"
+        "reply": RequestCommentEndpointLink(
+            "request_events.reply",
+            # this runs after the RequestCommentEndpointLink.vars so it
+            # takes precedence
+            vars=lambda obj, vars: vars.update(
+                # This translates previous logic, but does it make sense
+                # to have a reply link if there is no parent_id?
+                # when=lambda obj, ctx: obj.parent_id would solve that
+                {"comment_id": obj.parent_id or obj.id}
+            ),
+        ),
+        "replies": RequestCommentEndpointLink(
+            "request_events.get_replies",
+            # this runs after the RequestCommentEndpointLink.vars so it
+            # takes precedence
+            vars=lambda obj, vars: vars.update(
+                # This translates previous logic, but does it make sense
+                # to list the replies to the parent if it exists and not
+                # always to the current comment?
+                {"comment_id": obj.parent_id or obj.id}
+            ),
         ),
     }
-    links_search = pagination_links("{+api}/requests/{request_id}/timeline{?args*}")
 
-    links_replies = pagination_links(
-        "{+api}/requests/{request_id}/comments/{parent_id}/replies{?args*}"
+    links_search = pagination_endpoint_links(
+        "request_events.search",
+        params=["request_id"],
+    )
+
+    links_replies = pagination_endpoint_links(
+        "request_events.get_replies",
+        params=["request_id", "comment_id"],
     )
 
     components = FromConfig(

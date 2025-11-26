@@ -597,6 +597,12 @@ def test_get_replies_endpoint(
     assert "hits" in response.json
     hits = response.json["hits"]["hits"]
     assert len(hits) == 3, "Should return all 3 replies"
+    # Just to check links_replies configured
+    links = response.json["links"]
+    assert 1 == len(links)
+    assert links["self"].endswith(
+        f"/api/requests/{request_id}/comments/{parent_comment_id}/replies?page=1&size=25&sort=oldest"
+    )
 
     # Verify content
     contents = [hit["payload"]["content"] for hit in hits]
