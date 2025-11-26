@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2021 CERN.
-# Copyright (C) 2021 Northwestern University.
+# Copyright (C) 2021-2025 Northwestern University.
 #
 # Invenio-Requests is free software; you can redistribute it and/or
 # modify it under the terms of the MIT License; see LICENSE file for more
@@ -11,9 +11,9 @@
 
 import pytest
 
-from invenio_requests.customizations import RequestType
 from invenio_requests.proxies import current_requests
 from invenio_requests.records.api import RequestEventFormat
+from tests.mock_module.request_type import FakeRequestType
 
 
 @pytest.fixture(scope="module")
@@ -38,7 +38,7 @@ def create_request(user2, request_record_input_data, requests_service):
         receiver = receiver or user2.user
         # Need to use the service to get the id
         item = requests_service.create(
-            identity, input_data, RequestType, receiver=receiver, **kwargs
+            identity, input_data, FakeRequestType, receiver=receiver, **kwargs
         )
         return item._request
 
