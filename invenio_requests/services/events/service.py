@@ -129,7 +129,7 @@ class RequestEventsService(RecordService):
             event,
             schema=schema,
             links_tpl=self.links_tpl_factory(
-                self.config.links_item, request_type=str(request.type)
+                self.config.links_item, request_type=request.type
             ),
             expandable_fields=self.expandable_fields,
             expand=expand,
@@ -148,7 +148,7 @@ class RequestEventsService(RecordService):
             event,
             schema=self._wrap_schema(event.type.marshmallow_schema()),
             links_tpl=self.links_tpl_factory(
-                self.config.links_item, request_type=str(request.type)
+                self.config.links_item, request_type=request.type
             ),
             expandable_fields=self.expandable_fields,
             expand=expand,
@@ -197,7 +197,7 @@ class RequestEventsService(RecordService):
             event,
             schema=schema,
             links_tpl=self.links_tpl_factory(
-                self.config.links_item, request_type=str(request.type)
+                self.config.links_item, request_type=request.type
             ),
             expandable_fields=self.expandable_fields,
             expand=expand,
@@ -285,7 +285,7 @@ class RequestEventsService(RecordService):
                 context={"request_id": str(request.id), "args": params},
             ),
             links_item_tpl=self.links_tpl_factory(
-                self.config.links_item, request_type=str(request.type)
+                self.config.links_item, request_type=request.type
             ),
             expandable_fields=self.expandable_fields,
             expand=expand,
@@ -351,7 +351,7 @@ class RequestEventsService(RecordService):
                 context={"request_id": str(request.id), "args": params},
             ),
             links_item_tpl=self.links_tpl_factory(
-                self.config.links_item, request_type=str(request.type)
+                self.config.links_item, request_type=request.type
             ),
             expandable_fields=self.expandable_fields,
             expand=expand,
@@ -386,7 +386,7 @@ class RequestEventsService(RecordService):
                 context={"request_id": str(request.id), "args": params},
             ),
             links_item_tpl=self.links_tpl_factory(
-                self.config.links_item, request_type=str(request.type)
+                self.config.links_item, request_type=request.type
             ),
             expandable_fields=self.expandable_fields,
             expand=expand,

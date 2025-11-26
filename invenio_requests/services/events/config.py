@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2021 CERN.
-# Copyright (C) 2021 Northwestern University.
+# Copyright (C) 2021-2025 Northwestern University.
 # Copyright (C) 2021 TU Wien.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify it
@@ -10,16 +10,16 @@
 """Request Events Service Config."""
 
 from invenio_records_resources.services import (
-    Link,
     RecordServiceConfig,
     ServiceSchemaWrapper,
+    pagination_endpoint_links,
 )
 from invenio_records_resources.services.base.config import ConfiguratorMixin, FromConfig
-from invenio_records_resources.services.records.links import pagination_links
 from invenio_records_resources.services.records.results import RecordItem, RecordList
 
-from invenio_requests.proxies import (
-    current_request_type_registry,
+from invenio_requests.services.links import (
+    RequestEventEndpointLink,
+    RequestTypeEndpointLinkFromEvent,
 )
 
 from ...records.api import Request, RequestEvent
@@ -67,17 +67,6 @@ class RequestEventList(RecordList):
             yield projection
 
 
-class RequestEventLink(Link):
-    """Link variables setter for RequestEvent links."""
-
-    @staticmethod
-    def vars(obj, vars):
-        """Variables for the URI template."""
-        request_type = current_request_type_registry.lookup(vars["request_type"])
-        vars.update({"id": obj.id, "request_id": obj.request_id})
-        vars.update(request_type._update_link_config(**vars))
-
-
 class RequestEventsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
     """Config."""
 
@@ -95,11 +84,20 @@ class RequestEventsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
 
     # ResultItem configurations
     links_item = {
-        "self": RequestEventLink("{+api}/requests/{request_id}/comments/{id}"),
-        "self_html": RequestEventLink("{+ui}/requests/{request_id}#commentevent-{id}"),
+        "self": RequestEventEndpointLink("request_events.read"),
+        "self_html": RequestTypeEndpointLinkFromEvent(
+            "self_html",
+            # <request_pid_value> must be used in the RequestType's route
+            params=["request_pid_value"],
+            vars=lambda obj, vars: vars.update({"request_pid_value": obj.request_id}),
+            # don't include the '#'
+            anchor=lambda obj, vars: f"commentevent-{obj.id}",
+        ),
     }
-    links_search = pagination_links("{+api}/requests/{request_id}/timeline{?args*}")
-
+    links_search = pagination_endpoint_links(
+        "request_events.search",
+        params=["request_id"],
+    )
     components = FromConfig(
         "REQUESTS_EVENTS_SERVICE_COMPONENTS",
         default=[],
