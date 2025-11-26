@@ -95,6 +95,7 @@ class TimelineFeed extends Component {
                     key={event.id}
                     event={event}
                     openConfirmModal={this.onOpenModal}
+                    userAvatar={userAvatar}
                   />
                 ))}
               </RequestsFeed>

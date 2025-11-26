@@ -5,7 +5,7 @@
 // under the terms of the MIT License; see LICENSE file for more details.
 
 import { RichEditor } from "react-invenio-forms";
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect } from "react";
 import { SaveButton } from "../components/Buttons";
 import { Container, Message } from "semantic-ui-react";
 import PropTypes from "prop-types";
@@ -21,10 +21,19 @@ const TimelineCommentEditor = ({
   error,
   submitComment,
   userAvatar,
+  autoFocus,
 }) => {
   useEffect(() => {
     restoreCommentContent();
   }, [restoreCommentContent]);
+
+  const onInit = useCallback(
+    (_, editor) => {
+      if (!autoFocus) return;
+      editor.focus();
+    },
+    [autoFocus]
+  );
 
   return (
     <div className="timeline-comment-editor-container">
@@ -42,6 +51,7 @@ const TimelineCommentEditor = ({
             onEditorChange={(event, editor) => {
               setCommentContent(editor.getContent());
             }}
+            onInit={onInit}
             minHeight={150}
           />
         </Container>
@@ -68,6 +78,7 @@ TimelineCommentEditor.propTypes = {
   submitComment: PropTypes.func.isRequired,
   restoreCommentContent: PropTypes.func.isRequired,
   userAvatar: PropTypes.string,
+  autoFocus: PropTypes.bool,
 };
 
 TimelineCommentEditor.defaultProps = {
@@ -76,6 +87,7 @@ TimelineCommentEditor.defaultProps = {
   isLoading: false,
   error: "",
   userAvatar: "",
+  autoFocus: false,
 };
 
 export default TimelineCommentEditor;

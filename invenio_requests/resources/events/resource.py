@@ -160,6 +160,7 @@ class RequestCommentsResource(RecordResource):
             search_preference=search_preference(),
             expand=resource_requestctx.args.get("expand", False),
         )
+        print("hits before dict", hits)
         return hits.to_dict(), 200
 
     @list_view_args_parser
