@@ -35,9 +35,62 @@ class RequestEventItem(RecordItem):
         """Id property."""
         return self._record.id
 
+    @property
+    def data(self):
+        """Property to get the record with expanded children fields."""
+        # Get standard data from parent (includes standard field expansion)
+        if self._data:
+            return self._data
+
+        self._data = super().data
+
+        # Additionally expand children fields if present
+        if self._expand and self._fields_resolver and "children" in self._data:
+            children = self._data.get("children", [])
+            if children:
+                # Batch resolve all children
+                self._fields_resolver.resolve(self._identity, children)
+                # Expand each child
+                for child in children:
+                    fields = self._fields_resolver.expand(self._identity, child)
+                    child["expanded"] = fields
+
+        return self._data
+
 
 class RequestEventList(RecordList):
     """RequestEvent result item."""
+
+    def to_dict(self):
+        """Return result as a dictionary with expanded fields for parents and children."""
+        # Call parent to handle standard expansion
+        res = super().to_dict()
+
+        # Additionally expand children fields if present
+        if self._expand and self._fields_resolver:
+            self._expand_children_fields(res["hits"]["hits"])
+
+        return res
+
+    def _expand_children_fields(self, hits):
+        """Apply field expansion to children arrays in hits.
+
+        :param hits: List of hit dictionaries that may contain children arrays
+        """
+        # Collect all children from all hits
+        all_children = []
+        for hit in hits:
+            if "children" in hit and hit["children"]:
+                all_children.extend(hit["children"])
+
+        if all_children:
+            # Batch resolve all children at once for efficiency
+            self._fields_resolver.resolve(self._identity, all_children)
+
+            # Expand each child individually
+            for child in all_children:
+                fields = self._fields_resolver.expand(self._identity, child)
+                child["expanded"] = fields
 
     @property
     def hits(self):
