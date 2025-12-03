@@ -18,8 +18,7 @@ const mapDispatchToProps = (dispatch) => ({
     dispatch(getTimelineWithRefresh(includeEventId)),
   timelineStopRefresh: () => dispatch(clearTimelineInterval()),
   fetchTimelinePage: (page, size) => dispatch(fetchTimelinePage(page, size)),
-  appendPage: (newHits, nextPage) =>
-    dispatch(appendPage(newHits, nextPage)),
+  appendPage: (newHits, nextPage) => dispatch(appendPage(newHits, nextPage)),
 });
 
 const mapStateToProps = (state) => ({

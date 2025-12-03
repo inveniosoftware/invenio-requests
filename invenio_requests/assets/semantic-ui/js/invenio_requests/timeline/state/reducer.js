@@ -45,12 +45,12 @@ export const timelineReducer = (state = initialState, action) => {
         lastPage: action.payload.lastPage || state.lastPage,
         error: null,
       };
-      case APPEND_PAGE:
-        return {
-          ...state,
-          appendedPage: [...state.appendedPage, ...action.payload.newHits],
-          firstPageCurrent: action.payload.nextPage,
-        };
+    case APPEND_PAGE:
+      return {
+        ...state,
+        appendedPage: [...state.appendedPage, ...action.payload.newHits],
+        firstPageCurrent: action.payload.nextPage,
+      };
     case HAS_ERROR:
       return {
         ...state,

@@ -124,7 +124,7 @@ export const submitComment = (content, format) => {
 };
 
 const _updatedState = (newComment, timelineState, shouldGoToNextPage) => {
-  // return timeline with new comment 
+  // return timeline with new comment
   const timelineData = _cloneDeep(timelineState);
 
   const totalPages = Math.ceil(timelineData.firstPage.hits.total / timelineData.size);
@@ -136,10 +136,7 @@ const _updatedState = (newComment, timelineState, shouldGoToNextPage) => {
       timelineData.firstPage.hits.hits.push(newComment);
       timelineData.firstPage.hits.total += 1;
     } else {
-      timelineData.appendedPage = [
-        ...(timelineData.appendedPage || []),
-        newComment,
-      ];
+      timelineData.appendedPage = [...(timelineData.appendedPage || []), newComment];
       timelineData.firstPageCurrent += 1;
     }
     // lastPage should remain null
