@@ -96,13 +96,14 @@ export const submitComment = (content, format) => {
 
       const response = await config.requestsApi.submitComment(payload);
 
-      const currentPage = timelineState.page;
-      const currentSize = timelineState.size;
-      const currentCommentsLength = timelineState.data.hits.hits.length;
-      const shouldGoToNextPage = currentCommentsLength + 1 > currentSize;
+      const currentCommentsLength = timelineState.firstPage?.hits?.hits?.length || 0;
+      const shouldGoToNextPage = currentCommentsLength + 1 > timelineState.size;
 
       if (shouldGoToNextPage) {
-        dispatch({ type: CHANGE_PAGE, payload: currentPage + 1 });
+        dispatch({
+          type: CHANGE_PAGE,
+          payload: timelineState.page + 1,
+        });
       }
 
       dispatch({ type: SUCCESS });
@@ -133,15 +134,30 @@ export const submitComment = (content, format) => {
 };
 
 const _updatedState = (newComment, timelineState, shouldGoToNextPage) => {
-  // return timeline with new comment and pagination logic
-  const timelineData = _cloneDeep(timelineState.data);
-  const currentHits = timelineData.hits.hits;
+  // return timeline with new comment
+  const timelineData = _cloneDeep(timelineState);
 
-  timelineData.hits.hits = shouldGoToNextPage
-    ? [newComment]
-    : [...currentHits, newComment];
+  const totalPages = Math.ceil(timelineData.firstPage.hits.total / timelineData.size);
+  const isSinglePage = totalPages <= 1;
 
-  timelineData.hits.total++;
+  if (isSinglePage) {
+    // Single page: append to firstPage / appendedPage
+    if (!shouldGoToNextPage) {
+      timelineData.firstPage.hits.hits.push(newComment);
+      timelineData.firstPage.hits.total += 1;
+    } else {
+      timelineData.appendedPage = [...(timelineData.appendedPage || []), newComment];
+      timelineData.firstPageCurrent += 1;
+    }
+    // lastPage should remain null
+  } else {
+    // Multi-page: append to lastPage
+    if (!timelineData.lastPage?.hits) {
+      timelineData.lastPage = { hits: { hits: [], total: 0 } };
+    }
+    timelineData.lastPage.hits.hits.push(newComment);
+    timelineData.lastPage.hits.total += 1;
+  }
 
   return timelineData;
 };

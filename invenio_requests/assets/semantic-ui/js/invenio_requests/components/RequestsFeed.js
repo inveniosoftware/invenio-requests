@@ -12,18 +12,20 @@ import { Container, Feed, Icon } from "semantic-ui-react";
 
 // Wrapper component for the custom styles being used inside the request events timeline
 // Enables centralizing the styles and abstracts it away from the template
-export const RequestsFeed = ({ children }) => (
+export const RequestsFeed = ({ children, isLastPage }) => (
   <Container className="requests-feed-container rich-input-content ml-0-mobile mr-0-mobile">
-    <Feed>{children}</Feed>
+    <Feed className={`${isLastPage ? "last-page" : ""}`}>{children}</Feed>
   </Container>
 );
 
 RequestsFeed.propTypes = {
   children: PropTypes.node,
+  isLastPage: PropTypes.bool,
 };
 
 RequestsFeed.defaultProps = {
   children: null,
+  isLastPage: false,
 };
 
 export const RequestEventItem = forwardRef(function RequestEventItem(
