@@ -12,12 +12,16 @@ import {
   IS_REFRESHING,
   MISSING_REQUESTED_EVENT,
   SUCCESS,
+  APPEND_PAGE,
 } from "./actions";
 
 export const initialState = {
   loading: false,
   refreshing: false,
   data: {},
+  firstPage: {},
+  appendedPage: [],
+  lastPage: {},
   error: null,
   size: 15,
   page: 1,
@@ -35,9 +39,18 @@ export const timelineReducer = (state = initialState, action) => {
         ...state,
         refreshing: false,
         loading: false,
-        data: action.payload,
+        data: action.payload.data || state.data,
+        firstPage: action.payload.firstPage || state.firstPage,
+        appendedPage: action.payload.appendedPage || state.appendedPage,
+        lastPage: action.payload.lastPage || state.lastPage,
         error: null,
       };
+      case APPEND_PAGE:
+        return {
+          ...state,
+          appendedPage: [...state.appendedPage, ...action.payload.newHits],
+          firstPageCurrent: action.payload.nextPage,
+        };
     case HAS_ERROR:
       return {
         ...state,

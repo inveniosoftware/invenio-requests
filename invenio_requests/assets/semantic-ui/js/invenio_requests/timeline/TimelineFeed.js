@@ -9,11 +9,18 @@
 import PropTypes from "prop-types";
 import React, { Component } from "react";
 import Overridable from "react-overridable";
-import { Container, Divider, Message, Icon } from "semantic-ui-react";
+import {
+  Container,
+  Grid,
+  Label,
+  Segment,
+  Header,
+  Message,
+  Icon,
+} from "semantic-ui-react";
 import Error from "../components/Error";
 import Loader from "../components/Loader";
 import { DeleteConfirmationModal } from "../components/modals/DeleteConfirmationModal";
-import { Pagination } from "../components/Pagination";
 import RequestsFeed from "../components/RequestsFeed";
 import { TimelineCommentEditor } from "../timelineCommentEditor";
 import { TimelineCommentEventControlled } from "../timelineCommentEventControlled";
@@ -51,24 +58,36 @@ class TimelineFeed extends Component {
     timelineStopRefresh();
   }
 
+  loadNextAppendedPage = async () => {
+    const { timeline, fetchTimelinePage, size, appendPage } = this.props;
+    const nextPage = (timeline.firstPageCurrent || 1) + 1;
+
+    try {
+      const response = await fetchTimelinePage(nextPage, size);
+
+      appendPage(response.hits.hits, nextPage);
+    } catch (error) {
+      console.error("Error loading next page of first feed:", error);
+    }
+  };
+
   onOpenModal = (action) => {
     this.setState({ modalOpen: true, modalAction: action });
   };
 
   render() {
-    const {
-      timeline,
-      loading,
-      error,
-      setPage,
-      size,
-      page,
-      userAvatar,
-      request,
-      permissions,
-      warning,
-    } = this.props;
+    const { timeline, loading, error, userAvatar, request, permissions, warning } =
+      this.props;
     const { modalOpen, modalAction } = this.state;
+    const firstPageHits = timeline.firstPage?.hits?.hits || [];
+    const appendedPageHits = timeline.appendedPage || [];
+    const lastPageHits = timeline.lastPage?.hits?.hits || [];
+
+    const totalLoaded =
+      firstPageHits.length + appendedPageHits.length + lastPageHits.length;
+    const totalComments = timeline.firstPage?.hits?.total || 0;
+
+    const remaining = totalComments - totalLoaded;
 
     return (
       <Loader isLoading={loading}>
@@ -89,8 +108,18 @@ class TimelineFeed extends Component {
                 request={request}
                 permissions={permissions}
               />
+              {/* First page (oldest comments) */}
               <RequestsFeed>
-                {timeline.hits?.hits.map((event) => (
+                {firstPageHits.map((event) => (
+                  <TimelineCommentEventControlled
+                    key={event.id}
+                    event={event}
+                    openConfirmModal={this.onOpenModal}
+                  />
+                ))}
+
+                {/* Extra pages appended */}
+                {appendedPageHits.map((event) => (
                   <TimelineCommentEventControlled
                     key={event.id}
                     event={event}
@@ -98,15 +127,63 @@ class TimelineFeed extends Component {
                   />
                 ))}
               </RequestsFeed>
-              <Divider fitted />
-              <Container textAlign="center" className="mb-15 mt-15">
-                <Pagination
-                  page={page}
-                  size={size}
-                  setPage={setPage}
-                  totalLength={timeline.hits?.total}
-                />
-              </Container>
+              {/* Load more comments Segment */}
+              {remaining > 0 && (
+                <Container textAlign="center" className="rel-mb-4 rel-mt-2">
+                  <Grid verticalAlign="middle" columns="three" centered>
+                    <Grid.Row centered>
+                      <Grid.Column
+                        tablet={6}
+                        computer={6}
+                        className="tablet only computer only rel-pl-3 pr-0"
+                      >
+                        <div className="zigzag" />
+                      </Grid.Column>
+                      <Grid.Column mobile={8} tablet={3} computer={3} className="p-0">
+                        <Segment textAlign="center">
+                          <Header as="h3" size="tiny" className="text-muted mb-0">
+                            {remaining} older comments
+                          </Header>
+                          <Label
+                            as="a"
+                            size="large"
+                            basic
+                            color="blue"
+                            className="borderless"
+                            onClick={this.loadNextAppendedPage}
+                            disabled={loading}
+                          >
+                            {loading ? "Loading..." : "Load more..."}
+                          </Label>
+                        </Segment>
+                      </Grid.Column>
+                      <Grid.Column
+                        tablet={6}
+                        computer={6}
+                        className="tablet only computer only pl-0"
+                      >
+                        <div className="zigzag" />
+                      </Grid.Column>
+                    </Grid.Row>
+                  </Grid>
+                </Container>
+              )}
+
+              {/* Last page (newest comments) */}
+              {timeline.lastPage?.hits && (
+                <>
+                  <Header as="h4">Latest Comments</Header>
+                  <RequestsFeed>
+                    {lastPageHits.map((event) => (
+                      <TimelineCommentEventControlled
+                        key={event.id}
+                        event={event}
+                        openConfirmModal={this.onOpenModal}
+                      />
+                    ))}
+                  </RequestsFeed>
+                </>
+              )}
               <TimelineCommentEditor userAvatar={userAvatar} />
               <DeleteConfirmationModal
                 open={modalOpen}
@@ -125,10 +202,11 @@ class TimelineFeed extends Component {
 TimelineFeed.propTypes = {
   getTimelineWithRefresh: PropTypes.func.isRequired,
   timelineStopRefresh: PropTypes.func.isRequired,
+  fetchTimelinePage: PropTypes.func.isRequired,
+  appendPage: PropTypes.func.isRequired, // new
   timeline: PropTypes.object,
   error: PropTypes.object,
   isSubmitting: PropTypes.bool,
-  setPage: PropTypes.func.isRequired,
   page: PropTypes.number,
   size: PropTypes.number,
   userAvatar: PropTypes.string,
