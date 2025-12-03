@@ -39,6 +39,37 @@ class RequestEventItem(RecordItem):
 class RequestEventList(RecordList):
     """RequestEvent result item."""
 
+    def to_dict(self):
+        """Return result as a dictionary with expanded fields for parents and children."""
+        # Call parent to handle standard expansion
+        res = super().to_dict()
+
+        # Additionally expand children fields if present
+        if self._expand and self._fields_resolver:
+            self._expand_children_fields(res["hits"]["hits"])
+
+        return res
+
+    def _expand_children_fields(self, hits):
+        """Apply field expansion to children arrays in hits.
+
+        :param hits: List of hit dictionaries that may contain children arrays
+        """
+        # Collect all children from all hits
+        all_children = []
+        for hit in hits:
+            if "children" in hit and hit["children"]:
+                all_children.extend(hit["children"])
+
+        if all_children:
+            # Batch resolve all children at once for efficiency
+            self._fields_resolver.resolve(self._identity, all_children)
+
+            # Expand each child individually
+            for child in all_children:
+                fields = self._fields_resolver.expand(self._identity, child)
+                child["expanded"] = fields
+
     @property
     def hits(self):
         """Iterator over the hits."""
