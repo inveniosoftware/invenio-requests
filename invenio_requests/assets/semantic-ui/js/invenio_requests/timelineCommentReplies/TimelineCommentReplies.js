@@ -76,42 +76,49 @@ class TimelineCommentReplies extends Component {
       deleteComment,
     } = this.props;
     const { isExpanded, isReplying, deleteModalAction } = this.state;
+    const childrenCount = parentRequestEvent.children_count ?? 0;
+    const hasReplies = childrenCount > 0;
+
     return (
       <>
-        <Button size="tiny" onClick={this.onRepliesClick} className="text-only">
-          {i18next.t("Replies")}
-          <span className="requests-reply-count ml-5">
-            {parentRequestEvent.children_count ?? "7"}
-          </span>
-          <Icon
-            name={`caret ${isExpanded ? "down" : "right"}`}
-            className="requests-reply-caret"
-          />
-        </Button>
-
-        {isExpanded && (
-          <div>
-            {hasMore && (
-              <Button
-                size="tiny"
-                onClick={this.onLoadMoreClick}
-                className="text-only requests-reply-load-more"
-              >
-                {i18next.t("Load more")}
-              </Button>
-            )}
-            {childComments.map((c) => (
-              <TimelineCommentEventControlled
-                key={c.id}
-                event={c}
-                isReply
-                openConfirmModal={this.onDeleteModalOpen}
-                updateComment={updateComment}
-                deleteComment={deleteComment}
+        {hasReplies && (
+          <>
+            <Button size="tiny" onClick={this.onRepliesClick} className="text-only">
+              {i18next.t("Replies")}
+              <span className="requests-reply-count ml-5">
+                {childrenCount}
+              </span>
+              <Icon
+                name={`caret ${isExpanded ? "down" : "right"}`}
+                className="requests-reply-caret"
               />
-            ))}
-            <Divider />
-          </div>
+            </Button>
+
+            {isExpanded && (
+              <div>
+                {hasMore && (
+                  <Button
+                    size="tiny"
+                    onClick={this.onLoadMoreClick}
+                    className="text-only requests-reply-load-more"
+                  >
+                    {i18next.t("Load more")}
+                  </Button>
+                )}
+                {childComments.map((c) => (
+                  <TimelineCommentEventControlled
+                    key={c.id}
+                    event={c}
+                    isReply
+                    openConfirmModal={this.onDeleteModalOpen}
+                    updateComment={updateComment}
+                    deleteComment={deleteComment}
+                  />
+                ))}
+                <Divider />
+              </div>
+            )}
+          </>
         )}
 
         <DeleteConfirmationModal
@@ -126,7 +133,7 @@ class TimelineCommentReplies extends Component {
             placeholder={i18next.t("Write a reply")}
             userAvatar={userAvatar}
             onActivate={this.onFakeInputActivate}
-            className={isExpanded ? undefined : "mt-10"}
+            className={!hasReplies || !isExpanded ? "mt-10" : undefined}
           />
         ) : (
           <TimelineCommentEditor

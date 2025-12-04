@@ -91,13 +91,20 @@ class RequestEventList(RecordList):
             )
 
             # Handle inner_hits from has_child queries (join relationship approach)
+            # Initialize defaults for parents without children
+            projection["children"] = []
+            projection["children_count"] = 0
+
             if (
                 hasattr(hit.meta, "inner_hits")
                 and "replies_preview" in hit.meta.inner_hits
             ):
                 # Extract children from inner_hits
-                inner_children = hit.meta.inner_hits.replies_preview.hits.hits
-                projection["children"] = []
+                inner_hits_data = hit.meta.inner_hits.replies_preview.hits
+                inner_children = inner_hits_data.hits
+                total_children = inner_hits_data.total.value
+
+                projection["children_count"] = total_children
 
                 for inner_hit in inner_children:
                     # Load child record

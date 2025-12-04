@@ -21,12 +21,18 @@ export const REPLY_DELETE_COMMENT = "timelineReplies/REPLY_DELETE_COMMENT";
 
 export const setInitialReplies = (parentRequestEvent) => {
   return (dispatch) => {
+    const children = parentRequestEvent.children || [];
+    const childrenCount = parentRequestEvent.children_count || 0;
+    // If we have children_count, check if there are more children than what's in the preview
+    // Otherwise, assume no more if children array is empty
+    const hasMore = childrenCount > children.length;
+
     dispatch({
       type: HAS_NEWER_DATA,
       payload: {
         parentRequestEventId: parentRequestEvent.id,
-        newChildComments: parentRequestEvent.children,
-        hasMore: true, // TODO: calculate this from the parentRequestEvent object
+        newChildComments: children,
+        hasMore: hasMore,
       },
     });
   };
