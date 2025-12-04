@@ -37,7 +37,7 @@ class TimelineCommentEventControlled extends Component {
     });
 
     try {
-      await updateComment({ content, format, event });
+      await updateComment({ content, format, requestEvent: event });
 
       this.setState({
         isLoading: false,
@@ -56,11 +56,11 @@ class TimelineCommentEventControlled extends Component {
   deleteComment = async () => {
     const { deleteComment, event, openConfirmModal } = this.props;
 
-    openConfirmModal(() => deleteComment({ event }));
+    openConfirmModal(() => deleteComment({ requestEvent: event }));
   };
 
   render() {
-    const { event } = this.props;
+    const { event, userAvatar, isReply } = this.props;
     const { isLoading, isEditing, error } = this.state;
 
     return (
@@ -73,6 +73,8 @@ class TimelineCommentEventControlled extends Component {
           isEditing={isEditing}
           error={error}
           event={event}
+          userAvatar={userAvatar}
+          isReply={isReply}
         />
       </Overridable>
     );
@@ -84,6 +86,13 @@ TimelineCommentEventControlled.propTypes = {
   updateComment: PropTypes.func.isRequired,
   deleteComment: PropTypes.func.isRequired,
   openConfirmModal: PropTypes.func.isRequired,
+  userAvatar: PropTypes.string,
+  isReply: PropTypes.bool,
+};
+
+TimelineCommentEventControlled.defaultProps = {
+  userAvatar: "",
+  isReply: false,
 };
 
 export default Overridable.component(

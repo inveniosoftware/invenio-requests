@@ -9,7 +9,7 @@ import PropTypes from "prop-types";
 import React, { Component, createRef } from "react";
 import { Image } from "react-invenio-forms";
 import Overridable from "react-overridable";
-import { Container, Dropdown, Feed, Icon } from "semantic-ui-react";
+import { Divider, Container, Dropdown, Feed, Icon } from "semantic-ui-react";
 import { CancelButton, SaveButton } from "../components/Buttons";
 import Error from "../components/Error";
 import { RichEditor } from "react-invenio-forms";
@@ -18,6 +18,7 @@ import { TimelineEventBody } from "../components/TimelineEventBody";
 import { toRelativeTime } from "react-invenio-forms";
 import { isEventSelected } from "./utils";
 import { RequestEventsLinksExtractor } from "../api/InvenioRequestEventsApi.js";
+import { TimelineCommentReplies } from "../timelineCommentReplies/index.js";
 
 class TimelineCommentEvent extends Component {
   constructor(props) {
@@ -81,6 +82,8 @@ class TimelineCommentEvent extends Component {
       updateComment,
       deleteComment,
       toggleEditMode,
+      userAvatar: currentUserAvatar,
+      isReply,
     } = this.props;
     const { commentContent, isSelected } = this.state;
 
@@ -97,7 +100,12 @@ class TimelineCommentEvent extends Component {
       userName = null;
     if (isUser) {
       userAvatar = (
-        <RequestsFeed.Avatar src={expandedCreatedBy.links.avatar} as={Image} circular />
+        <RequestsFeed.Avatar
+          src={expandedCreatedBy.links.avatar}
+          as={Image}
+          circular
+          hasLine={isReply}
+        />
       );
       userName = expandedCreatedBy.profile?.full_name || expandedCreatedBy.username;
     } else if (isEmail) {
@@ -113,10 +121,15 @@ class TimelineCommentEvent extends Component {
 
     return (
       <Overridable id={`TimelineEvent.layout.${this.eventToType(event)}`} event={event}>
-        <RequestsFeed.Item id={eventItemId} ref={this.ref} selected={isSelected}>
+        <RequestsFeed.Item
+          id={eventItemId}
+          ref={this.ref}
+          selected={isSelected}
+          isReply={isReply}
+        >
           <RequestsFeed.Content>
             {userAvatar}
-            <RequestsFeed.Event>
+            <RequestsFeed.Event isReply={isReply}>
               <Feed.Content>
                 <Dropdown
                   icon="ellipsis horizontal"
@@ -180,6 +193,16 @@ class TimelineCommentEvent extends Component {
                 </Feed.Extra>
                 {commentHasBeenEdited && <Feed.Meta>{i18next.t("Edited")}</Feed.Meta>}
               </Feed.Content>
+
+              {!isReply && (
+                <>
+                  <Divider />
+                  <TimelineCommentReplies
+                    parentRequestEvent={event}
+                    userAvatar={currentUserAvatar}
+                  />
+                </>
+              )}
             </RequestsFeed.Event>
           </RequestsFeed.Content>
         </RequestsFeed.Item>
@@ -196,12 +219,16 @@ TimelineCommentEvent.propTypes = {
   isLoading: PropTypes.bool,
   isEditing: PropTypes.bool,
   error: PropTypes.string,
+  userAvatar: PropTypes.string,
+  isReply: PropTypes.bool,
 };
 
 TimelineCommentEvent.defaultProps = {
   isLoading: false,
   isEditing: false,
   error: undefined,
+  userAvatar: "",
+  isReply: false,
 };
 
 export default Overridable.component("TimelineEvent", TimelineCommentEvent);

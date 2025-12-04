@@ -11,6 +11,7 @@
 """RequestEvents Service."""
 
 import sqlalchemy.exc
+from flask import current_app
 from flask_principal import AnonymousIdentity
 from invenio_i18n import _
 from invenio_notifications.services.uow import NotificationOp
@@ -19,7 +20,6 @@ from invenio_records_resources.services.base.links import LinksTemplate
 from invenio_records_resources.services.errors import PermissionDeniedError
 from invenio_records_resources.services.records.params import PaginationParam
 from invenio_records_resources.services.uow import (
-    RecordCommitOp,
     RecordIndexOp,
     unit_of_work,
 )
@@ -31,7 +31,9 @@ from invenio_requests.proxies import current_requests_service as requests_servic
 from invenio_requests.records.api import RequestEventFormat
 from invenio_requests.services.results import EntityResolverExpandableField
 
+from ...errors import NestedChildrenNotAllowedError
 from ...resolvers.registry import ResolverRegistry
+from .uow import ParentChildRecordCommitOp
 
 
 class RequestEventsService(RecordService):
@@ -64,15 +66,27 @@ class RequestEventsService(RecordService):
         uow=None,
         expand=False,
         notify=True,
+        parent_id=None,
     ):
-        """Create a request event.
+        """Create a request event (top-level or reply).
 
         :param request_id: Identifier of the request (data-layer id).
         :param identity: Identity of user creating the event.
         :param dict data: Input data according to the data schema.
+        :param event_type: The type of event to create.
+        :param parent_id: Optional parent event ID for replies.
         """
         request = self._get_request(request_id)
-        self.require_permission(identity, "create_comment", request=request)
+
+        # Check permission based on whether this is a reply or top-level comment
+        permission = "reply_comment" if parent_id else "create_comment"
+        self.require_permission(identity, permission, request=request)
+
+        # Validate that nested children (reply to reply) are not allowed
+        if parent_id is not None:
+            parent_event = self._get_event(parent_id)
+            if parent_event.parent_id is not None:
+                raise NestedChildrenNotAllowedError()
 
         # Validate data (if there are errors, .load() raises)
         schema = self._wrap_schema(event_type.marshmallow_schema())
@@ -91,6 +105,10 @@ class RequestEventsService(RecordService):
         event.update(data)
         event.created_by = self._get_creator(identity, request=request)
 
+        # Set parent_id for replies
+        if parent_id is not None:
+            event.parent_id = parent_id
+
         # Run components
         self.run_components(
             "create",
@@ -101,8 +119,8 @@ class RequestEventsService(RecordService):
             uow=uow,
         )
 
-        # Persist record (DB and index)
-        uow.register(RecordCommitOp(event, indexer=self.indexer))
+        # Persist record (DB and index) - top-level events only
+        uow.register(ParentChildRecordCommitOp(event, indexer=self.indexer))
 
         # Reindex the request to update events-related computed fields
         # NOTE: We're not reindexing if the event is a deletion log event, since the
@@ -133,6 +151,37 @@ class RequestEventsService(RecordService):
             ),
             expandable_fields=self.expandable_fields,
             expand=expand,
+        )
+
+    @unit_of_work()
+    def reply(
+        self,
+        identity,
+        request_id,
+        parent_id,
+        data,
+        event_type,
+        uow=None,
+        expand=False,
+        notify=True,
+    ):
+        """Create a reply to an existing comment (child event).
+
+        :param request_id: Identifier of the request (data-layer id).
+        :param parent_id: UUID of the parent event to reply to.
+        :param identity: Identity of user creating the reply.
+        :param dict data: Input data according to the data schema.
+        :param event_type: The type of event to create.
+        """
+        return self.create(
+            identity=identity,
+            request_id=request_id,
+            data=data,
+            event_type=event_type,
+            uow=uow,
+            expand=expand,
+            notify=notify,
+            parent_id=parent_id,
         )
 
     def read(self, identity, id_, expand=False):
@@ -168,7 +217,7 @@ class RequestEventsService(RecordService):
             raise PermissionError("You cannot update this event.")
 
         schema = self._wrap_schema(event.type.marshmallow_schema())
-        data, _ = schema.load(
+        data, _errors = schema.load(
             data,
             context=dict(identity=identity, record=event, event_type=event.type),
         )
@@ -186,7 +235,7 @@ class RequestEventsService(RecordService):
         )
 
         # Persist record (DB and index)
-        uow.register(RecordCommitOp(event, indexer=self.indexer))
+        uow.register(ParentChildRecordCommitOp(event, indexer=self.indexer))
 
         # Reindex the request to update events-related computed fields
         uow.register(RecordIndexOp(request, indexer=requests_service.indexer))
@@ -219,33 +268,21 @@ class RequestEventsService(RecordService):
         if event.type != CommentEventType:
             raise PermissionError("You cannot delete this event.")
 
-        # update the event for the deleted comment with a LogEvent
-        event.type = LogEventType
-        schema = self._wrap_schema(event.type.marshmallow_schema())
-        data = dict(
-            payload=dict(
-                event="comment_deleted",
-                content=_("deleted a comment"),
-                format=RequestEventFormat.HTML.value,
-            )
-        )
-        data, _errors = schema.load(
-            data,
-            context=dict(identity=identity, record=event, event_type=event.type),
-        )
-        event["payload"] = data["payload"]
+        # Update the comment content to show it's deleted (keep as CommentEventType)
+        event["payload"]["content"] = _("Comment was deleted.")
 
         # Run components
         self.run_components(
             "delete_comment",
             identity,
-            data=data,
+            data={},
             event=event,
             request=request,
             uow=uow,
         )
 
-        uow.register(RecordCommitOp(event, indexer=self.indexer))
+        # Commit the updated comment
+        uow.register(ParentChildRecordCommitOp(event, indexer=self.indexer))
 
         # Reindex the request to update events-related computed fields
         uow.register(RecordIndexOp(request, indexer=requests_service.indexer))
@@ -255,34 +292,75 @@ class RequestEventsService(RecordService):
     def search(
         self, identity, request_id, params=None, search_preference=None, **kwargs
     ):
-        """Search for events for a given request matching the querystring."""
+        """Search for events (timeline) for a given request.
+
+        Returns all top-level events (parent comments without parent_id) for the request.
+        For parents that have children, includes a preview via inner_hits using
+        OpenSearch join relationships.
+
+        This is backwards compatible with requests that have no threaded comments.
+        """
         params = params or {}
         params.setdefault("sort", "oldest")
         expand = kwargs.pop("expand", False)
+        preview_size = kwargs.pop(
+            "preview_size",
+            current_app.config.get("REQUESTS_COMMENT_PREVIEW_LIMIT", 10),
+        )
 
         # Permissions - guarded by the request's can_read.
         request = self._get_request(request_id)
         self.require_permission(identity, "read", request=request)
 
-        # Prepare and execute the search
-        search_result = self._search(
+        # Build query for top-level events (parents) with optional children preview
+        # Uses join relationships to include children via inner_hits when they exist
+        search = self._search(
             "search",
             identity,
             params,
             search_preference,
             permission_action="unused",
-            extra_filter=dsl.Q("term", request_id=str(request.id)),
             **kwargs,
-        ).execute()
+        )
+
+        # Query structure:
+        # - must: filter to this request
+        # - must_not: exclude children (events with parent_id)
+        # - should: optionally add children preview via has_child + inner_hits
+        search = search.query(
+            "bool",
+            must=[
+                dsl.Q("term", request_id=str(request.id)),
+            ],
+            must_not=[
+                dsl.Q("exists", field="parent_id"),  # Exclude replies
+            ],
+            should=[
+                dsl.Q(
+                    "has_child",
+                    type="child",
+                    query=dsl.Q("match_all"),
+                    score_mode="none",
+                    inner_hits={
+                        "name": "replies_preview",
+                        "size": preview_size,
+                        "sort": [{"created": "desc"}],
+                    },
+                ),
+            ],
+            minimum_should_match=0,  # Make should clause optional
+        )
+
+        # Execute search
+        search_result = search.execute()
 
         return self.result_list(
             self,
             identity,
             search_result,
             params,
-            links_tpl=LinksTemplate(
-                self.config.links_search,
-                context={"request_id": str(request.id), "args": params},
+            links_tpl=self.links_tpl_factory(
+                self.config.links_search, request_id=str(request.id), args=params
             ),
             links_item_tpl=self.links_tpl_factory(
                 self.config.links_item, request_type=str(request.type)
@@ -384,6 +462,61 @@ class RequestEventsService(RecordService):
             links_tpl=LinksTemplate(
                 self.config.links_search,
                 context={"request_id": str(request.id), "args": params},
+            ),
+            links_item_tpl=self.links_tpl_factory(
+                self.config.links_item, request_type=str(request.type)
+            ),
+            expandable_fields=self.expandable_fields,
+            expand=expand,
+        )
+
+    def get_comment_replies(
+        self, identity, parent_id, params=None, search_preference=None, **kwargs
+    ):
+        """Get paginated replies for a specific comment.
+
+        :param identity: Identity of user.
+        :param parent_id: ID of the parent comment.
+        :param params: Query parameters (page, size, sort, etc.).
+        :param search_preference: Search preference.
+        :returns: Paginated list of reply events.
+        """
+        params = params or {}
+        params.setdefault("sort", "oldest")
+
+        expand = kwargs.pop("expand", False)
+
+        # Get the parent event to verify permissions and get request_id
+        parent_event = self._get_event(parent_id)
+        request = self._get_request(parent_event.request_id)
+
+        # Permissions - guarded by the request's can_read
+        self.require_permission(identity, "read", request=request)
+
+        # Prepare and execute the search for children
+        search = self._search(
+            "search",
+            identity,
+            params,
+            search_preference,
+            permission_action="unused",
+            extra_filter=dsl.Q("term", parent_id=str(parent_id)),
+            **kwargs,
+        )
+        search_result = search.execute()
+
+        return self.result_list(
+            self,
+            identity,
+            search_result,
+            params,
+            links_tpl=LinksTemplate(
+                self.config.links_replies,
+                context={
+                    "parent_id": parent_id,
+                    "request_id": str(request.id),
+                    "args": params,
+                },
             ),
             links_item_tpl=self.links_tpl_factory(
                 self.config.links_item, request_type=str(request.type)
