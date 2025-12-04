@@ -233,7 +233,7 @@ class RequestMetadata extends Component {
             </>
           )}
 
-          {request.topic?.record && (
+          {request.topic?.record && request.type !== "community-submission" && (
             <>
               <Divider />
               <Header as="h3" size="tiny">
