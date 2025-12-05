@@ -4,13 +4,14 @@
 # Hakan Bayindir <hbayindir@gmail.com>, 2024
 # Ben Translation and Interpreting Services <info@bentercume.com>, 2024
 # BEN TERCÜME, 2025
+# Eylül-1 -, 2025
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2025-07-08T19:57:28.912Z\n"
 "PO-Revision-Date: 2022-02-18 11:12+0000\n"
-"Last-Translator: BEN TERCÜME, 2025\n"
+"Last-Translator: Eylül-1 -, 2025\n"
 "Language-Team: Turkish (https://app.transifex.com/inveniosoftware/teams/23537/tr/)\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -34,10 +35,10 @@ msgid "Cancel"
 msgstr "İptal"
 
 msgid "Cancel request"
-msgstr "Talebi iptal et"
+msgstr "İsteği iptal et"
 
 msgid "Request access"
-msgstr "Erişim talebi"
+msgstr "Erişim iste"
 
 msgid "Something went wrong."
 msgstr "Bir şeyler ters gitti."
@@ -52,28 +53,28 @@ msgid "Delete"
 msgstr "Sil"
 
 msgid "Shared with me"
-msgstr ""
+msgstr "Benimle paylaşılanlar"
 
 msgid "My requests"
-msgstr ""
+msgstr "İsteklerim"
 
 msgid "Submitted"
-msgstr "Gönderildi"
+msgstr "Gönderilenler"
 
 msgid "Deleted"
-msgstr "Silinen"
+msgstr "Silinenler"
 
 msgid "Accepted"
-msgstr "Kabul edildi"
+msgstr "Kabul edilenler"
 
 msgid "Declined"
-msgstr "Reddedildi"
+msgstr "Reddedilenler"
 
 msgid "Cancelled"
-msgstr "İptal edildi"
+msgstr "İptal edilenler"
 
 msgid "Expired"
-msgstr "Süresi doldu"
+msgstr "Süresi dolanlar"
 
 msgid "Draft review"
 msgstr "Taslak incelemesi"
@@ -97,16 +98,16 @@ msgid "Subcommunity"
 msgstr "Alt topluluk"
 
 msgid "Subcommunity invitation"
-msgstr ""
+msgstr "Alt topluluk daveti"
 
 msgid "Membership request"
-msgstr "Üyelik talebi"
+msgstr "Üyelik isteği"
 
 msgid "Add comment (optional)"
 msgstr "Yorum ekle (isteğe bağlı)"
 
 msgid "{{action}} request"
-msgstr "{{action}} talebi"
+msgstr "{{action}} isteği"
 
 msgid "Anonymous user"
 msgstr "Anonim kullanıcı"
@@ -124,7 +125,7 @@ msgid "Receiver"
 msgstr "Alıcı"
 
 msgid "Request type"
-msgstr "Talep türü"
+msgstr "İstek türü"
 
 msgid "Status"
 msgstr "Durum"
@@ -139,10 +140,10 @@ msgid "Record"
 msgstr "Kayıt"
 
 msgid "Accept request"
-msgstr "Talebi kabul et"
+msgstr "İsteği kabul et"
 
 msgid "Decline request"
-msgstr "Talebi reddet"
+msgstr "İsteği reddet"
 
 msgid "Expires at: {{- expiringDate}}"
 msgstr "Son kullanma tarihi: {{- expiringDate}}"
@@ -154,10 +155,10 @@ msgid "All done!"
 msgstr "Her şey tamam!"
 
 msgid "You've caught up with all open requests."
-msgstr "Açık olan tüm talepleri karşıladınız."
+msgstr "Açık olan tüm istekleri karşıladınız."
 
 msgid "No requests found!"
-msgstr "Hiç talep bulunamadı!"
+msgstr "Hiç istek bulunamadı!"
 
 msgid "Reset search"
 msgstr "Aramayı sıfırla"
@@ -174,7 +175,7 @@ msgid "Filter results"
 msgstr "Sonuçları filtrele"
 
 msgid "Search in my requests..."
-msgstr "Taleplerimde ara..."
+msgstr "İsteklerimde ara..."
 
 msgid "Open"
 msgstr "Açık"
@@ -189,16 +190,16 @@ msgid "deleted a comment"
 msgstr "bir yorum sildi"
 
 msgid "accepted this request"
-msgstr "bu talebi kabul etti"
+msgstr "bu isteği kabul etti"
 
 msgid "declined this request"
-msgstr "bu talebi reddetti"
+msgstr "bu isteği reddetti"
 
 msgid "this request expired"
-msgstr "bu talebin süresi doldu"
+msgstr "bu isteğin süresi doldu"
 
 msgid "cancelled this request"
-msgstr "bu talebi iptal etti"
+msgstr "bu isteği iptal etti"
 
 msgid "unknown event"
 msgstr "bilinmeyen olay"
