@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2021 TU Wien.
+# Copyright (C) 2025 Graz University of Technology.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -17,7 +18,6 @@ from invenio_requests.customizations import (
     RequestState,
     RequestType,
 )
-from invenio_requests.customizations.actions import CreateAction
 from invenio_requests.errors import NoSuchActionError
 from invenio_requests.records.api import Request
 from invenio_requests.services.permissions import PermissionPolicy
@@ -30,7 +30,7 @@ class CustomCreateAction(CreateAction):
     status_to = "not_closed"
 
 
-class TestAction(RequestAction):
+class ActionTest(RequestAction):
     """Test action."""
 
     status_from = ["not_closed"]
@@ -47,7 +47,7 @@ class CustomizedReferenceRequestType(RequestType):
 
     type_id = "customized-reference-request"
 
-    available_actions = {"custom-create": CustomCreateAction, "test": TestAction}
+    available_actions = {"custom-create": CustomCreateAction, "test": ActionTest}
     available_statuses = {
         "not_closed": RequestState.OPEN,
         "closed": RequestState.CLOSED,
