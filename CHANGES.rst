@@ -10,6 +10,10 @@
 Changes
 =======
 
+Version v7.2.5 (released 2025-12-09)
+
+- i18n: pulled translations
+
 Version v7.2.4 (released 2025-10-22)
 
 - i18n: pulled translations
