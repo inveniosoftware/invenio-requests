@@ -6,7 +6,6 @@
 
 import { errorSerializer, payloadSerializer } from "../../api/serializers";
 import {
-  CHANGE_PAGE,
   clearTimelineInterval,
   setTimelineInterval,
   SUCCESS as TIMELINE_SUCCESS,
@@ -91,20 +90,9 @@ export const submitComment = (content, format) => {
     const payload = payloadSerializer(content, format || "html");
 
     try {
-      /* Because of the delay in ES indexing we need to handle the updated state on the client-side until it is ready to be retrieved from the server.
-      That includes the pagination logic e.g. changing pages if the current page size is exceeded by a new comment. */
+      /* Because of the delay in ES indexing we need to handle the updated state on the client-side until it is ready to be retrieved from the server.*/
 
       const response = await config.requestsApi.submitComment(payload);
-
-      const currentCommentsLength = timelineState.firstPage?.hits?.hits?.length || 0;
-      const shouldGoToNextPage = currentCommentsLength + 1 > timelineState.size;
-
-      if (shouldGoToNextPage) {
-        dispatch({
-          type: CHANGE_PAGE,
-          payload: timelineState.page + 1,
-        });
-      }
 
       dispatch({ type: SUCCESS });
 
@@ -116,7 +104,7 @@ export const submitComment = (content, format) => {
 
       await dispatch({
         type: TIMELINE_SUCCESS,
-        payload: _updatedState(response.data, timelineState, shouldGoToNextPage),
+        payload: _updatedState(response.data, timelineState),
       });
       dispatch(setTimelineInterval());
     } catch (error) {
@@ -133,31 +121,16 @@ export const submitComment = (content, format) => {
   };
 };
 
-const _updatedState = (newComment, timelineState, shouldGoToNextPage) => {
+const _updatedState = (newComment, timelineState) => {
   // return timeline with new comment
   const timelineData = _cloneDeep(timelineState);
 
-  const totalPages = Math.ceil(timelineData.firstPage.hits.total / timelineData.size);
-  const isSinglePage = totalPages <= 1;
-
-  if (isSinglePage) {
-    // Single page: append to firstPage / appendedPage
-    if (!shouldGoToNextPage) {
-      timelineData.firstPage.hits.hits.push(newComment);
-      timelineData.firstPage.hits.total += 1;
-    } else {
-      timelineData.appendedPage = [...(timelineData.appendedPage || []), newComment];
-      timelineData.firstPageCurrent += 1;
-    }
-    // lastPage should remain null
-  } else {
-    // Multi-page: append to lastPage
-    if (!timelineData.lastPage?.hits) {
-      timelineData.lastPage = { hits: { hits: [], total: 0 } };
-    }
-    timelineData.lastPage.hits.hits.push(newComment);
-    timelineData.lastPage.hits.total += 1;
+  // Multi-page: append to lastPage
+  if (!timelineData.lastPage?.hits) {
+    timelineData.lastPage = { hits: { hits: [], total: 0 } };
   }
+  timelineData.lastPage.hits.hits.push(newComment);
+  timelineData.lastPage.hits.total += 1;
 
   return timelineData;
 };

@@ -19,12 +19,15 @@ export const initialState = {
   loading: false,
   refreshing: false,
   data: {},
-  firstPage: {},
-  appendedPage: [],
-  lastPage: {},
+  firstPage: {}, // Dictionary with hits and total
+  afterFirstPageHits: [],
+  focusedPage: {}, // Dictionary with hits and total
+  afterFocusedPageHits: [],
+  lastPage: {}, // Dictionary with hits and total
   error: null,
   size: 15,
   page: 1,
+  pageFocused: null,
   warning: null,
 };
 
@@ -39,17 +42,20 @@ export const timelineReducer = (state = initialState, action) => {
         ...state,
         refreshing: false,
         loading: false,
-        data: action.payload.data || state.data,
         firstPage: action.payload.firstPage || state.firstPage,
-        appendedPage: action.payload.appendedPage || state.appendedPage,
+        afterFirstPageHits:
+          action.payload.afterFirstPageHits || state.afterFirstPageHits,
+        focusedPage: action.payload.focusedPage || state.focusedPage,
+        afterFocusedPageHits:
+          action.payload.afterFocusedPageHits || state.afterFocusedPageHits,
         lastPage: action.payload.lastPage || state.lastPage,
+        pageFocused: action.payload.pageFocused || state.pageFocused,
         error: null,
       };
     case APPEND_PAGE:
       return {
         ...state,
-        appendedPage: [...state.appendedPage, ...action.payload.newHits],
-        firstPageCurrent: action.payload.nextPage,
+        ...action.payload,
       };
     case HAS_ERROR:
       return {
@@ -67,9 +73,7 @@ export const timelineReducer = (state = initialState, action) => {
     case MISSING_REQUESTED_EVENT:
       return {
         ...state,
-        warning: i18next.t(
-          "The requested comment was not found. The first page of comments is shown instead."
-        ),
+        warning: i18next.t("We couldn't find the comment you were looking for."),
       };
 
     default:

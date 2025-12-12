@@ -25,10 +25,12 @@ class intervalManager {
   }
 }
 
-export const appendPage = (newHits, nextPage) => ({
-  type: APPEND_PAGE,
-  payload: { newHits, nextPage },
-});
+export const appendPage = (payload) => {
+  return {
+    type: APPEND_PAGE,
+    payload: payload,
+  };
+};
 
 export const fetchTimeline = (focusEventId = undefined) => {
   return async (dispatch, getState, config) => {
@@ -37,7 +39,7 @@ export const fetchTimeline = (focusEventId = undefined) => {
     dispatch({ type: IS_REFRESHING });
 
     try {
-      let firstPageResponse = await config.requestsApi.getTimeline({
+      const firstPageResponse = await config.requestsApi.getTimeline({
         size,
         page: 1,
         sort: "oldest",
@@ -56,43 +58,45 @@ export const fetchTimeline = (focusEventId = undefined) => {
         });
       }
 
+      let pageFocused = null;
+      let focusedPageResponse = null;
+
       if (focusEventId) {
-        // Fetch focused event info to know which page it's on
-        const focusEventResponse = await config.requestsApi.getTimelineFocused(
-          focusEventId,
-          {
-            size,
-          }
+        // Check if focused event is on first or last page
+        const existsOnFirstPage = firstPageResponse?.data?.hits?.hits?.some(
+          (h) => h.id === focusEventId
         );
-        const focusedEventPage = focusEventResponse?.data?.page || 1;
+        const existsOnLastPage = lastPageResponse?.data?.hits?.hits?.some(
+          (h) => h.id === focusEventId
+        );
 
-        // Only fetch extra page if focused event is not on first or last page
-        if (focusedEventPage > 1 && focusedEventPage < lastPageNumber) {
-          const combinedSize = size * focusedEventPage;
+        if (existsOnFirstPage) {
+          pageFocused = 1;
+        } else if (existsOnLastPage && lastPageNumber > 1) {
+          pageFocused = lastPageNumber;
+        } else {
+          // Fetch focused event info to know which page it's on
+          focusedPageResponse = await config.requestsApi.getTimelineFocused(
+            focusEventId,
+            {
+              size,
+            }
+          );
+          pageFocused = focusedPageResponse?.data?.page;
 
-          firstPageResponse = await config.requestsApi.getTimeline({
-            size: combinedSize,
-            page: 1,
-            sort: "oldest",
-          });
-        }
-
-        const allHits = firstPageResponse.data.hits.hits || [];
-        const lastHits = lastPageResponse?.data.hits.hits || [];
-        const exists =
-          allHits.some((h) => h.id === focusEventId) ||
-          lastHits.some((h) => h.id === focusEventId);
-
-        if (!exists) {
-          dispatch({ type: MISSING_REQUESTED_EVENT });
+          if (focusedPageResponse?.data?.hits?.hits?.length === 0) {
+            dispatch({ type: MISSING_REQUESTED_EVENT });
+          }
         }
       }
 
       dispatch({
         type: SUCCESS,
         payload: {
-          firstPage: firstPageResponse.data,
-          lastPage: lastPageResponse?.data || null,
+          firstPage: firstPageResponse?.data,
+          focusedPage: focusedPageResponse?.data,
+          lastPage: lastPageResponse?.data,
+          pageFocused: pageFocused,
         },
       });
     } catch (error) {
@@ -132,9 +136,9 @@ export const fetchTimelinePage = (page, size) => {
 export const fetchLastTimelinePage = () => {
   return async (dispatch, getState, config) => {
     const state = getState();
-    const { size, firstPage } = state.timeline;
+    const { size, lastPage } = state.timeline;
 
-    const totalHits = firstPage?.hits?.total || 0;
+    const totalHits = lastPage?.hits?.total || 0;
     if (totalHits === 0) return;
 
     const lastPageNumber = Math.ceil(totalHits / size);

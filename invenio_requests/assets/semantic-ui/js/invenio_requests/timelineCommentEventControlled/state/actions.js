@@ -1,7 +1,7 @@
 // This file is part of InvenioRequests
 // Copyright (C) 2022 CERN.
 //
-// Invenio RDM Records is free software; you can redistribute it and/or modify it
+// Invenio Requests is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
 
 import {
@@ -12,7 +12,7 @@ import {
 } from "../../timeline/state/actions";
 import { payloadSerializer } from "../../api/serializers";
 import _cloneDeep from "lodash/cloneDeep";
-import { i18next } from "../../../../translations/invenio_requests/i18next";
+import { i18next } from "@translations/invenio_requests/i18next";
 
 export const updateComment = ({ content, format, event }) => {
   return async (dispatch, getState, config) => {
@@ -31,9 +31,12 @@ export const updateComment = ({ content, format, event }) => {
       type: SUCCESS,
       payload: {
         firstPage: updatedTimeline.firstPage,
-        appendedPage: updatedTimeline.appendedPage,
+        afterFirstPageHits: updatedTimeline.afterFirstPageHits,
+        focusedPage: updatedTimeline.focusedPage,
+        afterFocusedPageHits: updatedTimeline.afterFocusedPageHits,
         lastPage: updatedTimeline.lastPage,
         data: updatedTimeline.data,
+        pageFocused: updatedTimeline.pageFocused,
       },
     });
 
@@ -58,9 +61,12 @@ export const deleteComment = ({ event }) => {
       type: SUCCESS,
       payload: {
         firstPage: deletedTimeline.firstPage,
-        appendedPage: deletedTimeline.appendedPage,
+        afterFirstPageHits: deletedTimeline.afterFirstPageHits,
+        focusedPage: deletedTimeline.focusedPage,
+        afterFocusedPageHits: deletedTimeline.afterFocusedPageHits,
         lastPage: deletedTimeline.lastPage,
         data: deletedTimeline.data,
+        pageFocused: deletedTimeline.pageFocused,
       },
     });
 
@@ -79,8 +85,11 @@ const _newStateWithUpdate = (updatedComment, timelineState) => {
     if (idx !== -1) hitsArray[idx] = updatedComment;
   };
 
+  // Update in firstPage, afterFirstPageHits, focusedPage, afterFocusedPageHits, lastPage
   updateHits(timelineClone.firstPage?.hits?.hits);
-  updateHits(timelineClone.appendedPage);
+  updateHits(timelineClone.afterFirstPageHits);
+  updateHits(timelineClone.focusedPage?.hits?.hits);
+  updateHits(timelineClone.afterFocusedPageHits);
   updateHits(timelineClone.lastPage?.hits?.hits);
 
   return timelineClone;
@@ -106,11 +115,11 @@ const _newStateWithDelete = (eventId, getState) => {
     }
   };
 
-  // Delete in firstPage, appendedPage, lastPage
+  // Delete in firstPage, afterFirstPageHits, focusedPage, afterFocusedPageHits, lastPage
   replaceInHits(timelineState.firstPage?.hits?.hits);
-  if (timelineState.appendedPage?.length) {
-    replaceInHits(timelineState.appendedPage);
-  }
+  replaceInHits(timelineState.afterFirstPageHits);
+  replaceInHits(timelineState.focusedPage?.hits?.hits);
+  replaceInHits(timelineState.afterFocusedPageHits);
   replaceInHits(timelineState.lastPage?.hits?.hits);
 
   return timelineState;
