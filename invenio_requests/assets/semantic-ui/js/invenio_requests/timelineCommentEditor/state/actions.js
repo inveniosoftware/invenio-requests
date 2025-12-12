@@ -6,7 +6,6 @@
 
 import { errorSerializer, payloadSerializer } from "../../api/serializers";
 import {
-  CHANGE_PAGE,
   clearTimelineInterval,
   setTimelineInterval,
   SUCCESS as TIMELINE_SUCCESS,
@@ -91,19 +90,9 @@ export const submitComment = (content, format) => {
     const payload = payloadSerializer(content, format || "html");
 
     try {
-      /* Because of the delay in ES indexing we need to handle the updated state on the client-side until it is ready to be retrieved from the server.
-      That includes the pagination logic e.g. changing pages if the current page size is exceeded by a new comment. */
+      /* Because of the delay in ES indexing we need to handle the updated state on the client-side until it is ready to be retrieved from the server.*/
 
       const response = await config.requestsApi.submitComment(payload);
-
-      const currentPage = timelineState.page;
-      const currentSize = timelineState.size;
-      const currentCommentsLength = timelineState.data.hits.hits.length;
-      const shouldGoToNextPage = currentCommentsLength + 1 > currentSize;
-
-      if (shouldGoToNextPage) {
-        dispatch({ type: CHANGE_PAGE, payload: currentPage + 1 });
-      }
 
       dispatch({ type: SUCCESS });
 
@@ -115,7 +104,7 @@ export const submitComment = (content, format) => {
 
       await dispatch({
         type: TIMELINE_SUCCESS,
-        payload: _updatedState(response.data, timelineState, shouldGoToNextPage),
+        payload: _updatedState(response.data, timelineState),
       });
       dispatch(setTimelineInterval());
     } catch (error) {
@@ -132,16 +121,16 @@ export const submitComment = (content, format) => {
   };
 };
 
-const _updatedState = (newComment, timelineState, shouldGoToNextPage) => {
-  // return timeline with new comment and pagination logic
-  const timelineData = _cloneDeep(timelineState.data);
-  const currentHits = timelineData.hits.hits;
+const _updatedState = (newComment, timelineState) => {
+  // return timeline with new comment
+  const timelineData = _cloneDeep(timelineState);
 
-  timelineData.hits.hits = shouldGoToNextPage
-    ? [newComment]
-    : [...currentHits, newComment];
-
-  timelineData.hits.total++;
+  // Multi-page: append to lastPage
+  if (!timelineData.lastPage?.hits) {
+    timelineData.lastPage = { hits: { hits: [], total: 0 } };
+  }
+  timelineData.lastPage.hits.hits.push(newComment);
+  timelineData.lastPage.hits.total += 1;
 
   return timelineData;
 };

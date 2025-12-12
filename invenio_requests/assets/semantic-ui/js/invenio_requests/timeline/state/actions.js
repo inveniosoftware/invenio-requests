@@ -4,14 +4,13 @@
 // Invenio RDM Records is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
 
-import { updateRequest } from "../../request/state/actions";
-
 export const IS_LOADING = "timeline/IS_LOADING";
 export const SUCCESS = "timeline/SUCCESS";
 export const HAS_ERROR = "timeline/HAS_ERROR";
 export const IS_REFRESHING = "timeline/REFRESHING";
 export const CHANGE_PAGE = "timeline/CHANGE_PAGE";
 export const MISSING_REQUESTED_EVENT = "timeline/MISSING_REQUESTED_EVENT";
+export const APPEND_PAGE = "timeline/APPEND_PAGE";
 
 class intervalManager {
   static IntervalId = undefined;
@@ -26,65 +25,79 @@ class intervalManager {
   }
 }
 
+export const appendPage = (payload) => {
+  return {
+    type: APPEND_PAGE,
+    payload: payload,
+  };
+};
+
 export const fetchTimeline = (focusEventId = undefined) => {
   return async (dispatch, getState, config) => {
-    const state = getState();
-    const { size, page, data: timelineData } = state.timeline;
+    const { size } = getState().timeline;
 
-    dispatch({
-      type: IS_REFRESHING,
-    });
+    dispatch({ type: IS_REFRESHING });
 
     try {
-      let response;
-      if (focusEventId) {
-        response = await config.requestsApi.getTimelineFocused(focusEventId, {
-          size: size,
-        });
-      } else {
-        response = await config.requestsApi.getTimeline({
-          size: size,
-          page: page,
+      const firstPageResponse = await config.requestsApi.getTimeline({
+        size,
+        page: 1,
+        sort: "oldest",
+      });
+
+      const totalHits = firstPageResponse?.data?.hits?.total || 0;
+      const lastPageNumber = Math.ceil(totalHits / size);
+
+      let lastPageResponse = null;
+      if (lastPageNumber > 1) {
+        // Always fetch last page
+        lastPageResponse = await config.requestsApi.getTimeline({
+          size,
+          page: lastPageNumber,
           sort: "oldest",
         });
       }
 
-      // Check if timeline has more events than the current state
-      const hasMoreEvents = response.data?.hits?.total > timelineData?.hits?.total;
-      if (hasMoreEvents) {
-        // Check if a LogEvent was added and fetch request
-        const actionEventFound = response.data.hits.hits.some(
-          (event) =>
-            event.type === "L" &&
-            config.requestsApi.availableRequestStatuses.includes(event?.payload?.event)
+      let pageFocused = null;
+      let focusedPageResponse = null;
+
+      if (focusEventId) {
+        // Check if focused event is on first or last page
+        const existsOnFirstPage = firstPageResponse?.data?.hits?.hits?.some(
+          (h) => h.id === focusEventId
+        );
+        const existsOnLastPage = lastPageResponse?.data?.hits?.hits?.some(
+          (h) => h.id === focusEventId
         );
 
-        if (actionEventFound) {
-          const response = await config.requestsApi.getRequest();
-          dispatch(updateRequest(response.data));
+        if (existsOnFirstPage) {
+          pageFocused = 1;
+        } else if (existsOnLastPage && lastPageNumber > 1) {
+          pageFocused = lastPageNumber;
+        } else {
+          // Fetch focused event info to know which page it's on
+          focusedPageResponse = await config.requestsApi.getTimelineFocused(
+            focusEventId,
+            {
+              size,
+            }
+          );
+          pageFocused = focusedPageResponse?.data?.page;
+
+          if (focusedPageResponse?.data?.hits?.hits?.length === 0) {
+            dispatch({ type: MISSING_REQUESTED_EVENT });
+          }
         }
-      }
-
-      if (response.data.page !== page) {
-        // If a different page was returned (e.g. a specific event ID was requested) we need to update it.
-        // This will _not_ trigger a reload of the timeline.
-        dispatch({
-          type: CHANGE_PAGE,
-          payload: response.data.page,
-        });
-      }
-
-      if (focusEventId && !response.data.hits.hits.some((h) => h.id === focusEventId)) {
-        // Show a warning if the event ID in the hash was not found in the response list of events.
-        // This happens if the server cannot find the requested event.
-        dispatch({
-          type: MISSING_REQUESTED_EVENT,
-        });
       }
 
       dispatch({
         type: SUCCESS,
-        payload: response.data,
+        payload: {
+          firstPage: firstPageResponse?.data,
+          focusedPage: focusedPageResponse?.data,
+          lastPage: lastPageResponse?.data,
+          pageFocused: pageFocused,
+        },
       });
     } catch (error) {
       dispatch({
@@ -109,6 +122,51 @@ export const setPage = (page) => {
   };
 };
 
+export const fetchTimelinePage = (page, size) => {
+  return async (dispatch, getState, config) => {
+    const response = await config.requestsApi.getTimeline({
+      size,
+      page,
+      sort: "oldest",
+    });
+    return response.data;
+  };
+};
+
+export const fetchLastTimelinePage = () => {
+  return async (dispatch, getState, config) => {
+    const state = getState();
+    const { size, lastPage } = state.timeline;
+
+    const totalHits = lastPage?.hits?.total || 0;
+    if (totalHits === 0) return;
+
+    const lastPageNumber = Math.ceil(totalHits / size);
+
+    // Only fetch last page if there are more than 1 page
+    if (lastPageNumber <= 1) return;
+
+    dispatch({ type: IS_REFRESHING });
+
+    try {
+      const response = await config.requestsApi.getTimeline({
+        size,
+        page: lastPageNumber,
+        sort: "oldest",
+      });
+
+      dispatch({
+        type: SUCCESS,
+        payload: {
+          lastPage: response.data,
+        },
+      });
+    } catch (error) {
+      dispatch({ type: HAS_ERROR, payload: error });
+    }
+  };
+};
+
 const timelineReload = (dispatch, getState, config) => {
   const state = getState();
   const { loading, refreshing, error } = state.timeline;
@@ -119,10 +177,10 @@ const timelineReload = (dispatch, getState, config) => {
   }
 
   const concurrentRequests = loading && refreshing && isSubmitting;
-
   if (concurrentRequests) return;
 
-  dispatch(fetchTimeline());
+  // Fetch only the last page
+  dispatch(fetchLastTimelinePage());
 };
 
 export const getTimelineWithRefresh = (focusEventId) => {
@@ -130,7 +188,8 @@ export const getTimelineWithRefresh = (focusEventId) => {
     dispatch({
       type: IS_LOADING,
     });
-    dispatch(fetchTimeline(focusEventId));
+    // Fetch both first and last pages
+    await dispatch(fetchTimeline(focusEventId));
     dispatch(setTimelineInterval());
   };
 };

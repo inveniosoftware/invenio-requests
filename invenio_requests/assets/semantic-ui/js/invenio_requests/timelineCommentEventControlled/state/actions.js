@@ -1,7 +1,7 @@
 // This file is part of InvenioRequests
 // Copyright (C) 2022 CERN.
 //
-// Invenio RDM Records is free software; you can redistribute it and/or modify it
+// Invenio Requests is free software; you can redistribute it and/or modify it
 // under the terms of the MIT License; see LICENSE file for more details.
 
 import {
@@ -12,7 +12,7 @@ import {
 } from "../../timeline/state/actions";
 import { payloadSerializer } from "../../api/serializers";
 import _cloneDeep from "lodash/cloneDeep";
-import { i18next } from "../../../../translations/invenio_requests/i18next";
+import { i18next } from "@translations/invenio_requests/i18next";
 
 export const updateComment = ({ content, format, event }) => {
   return async (dispatch, getState, config) => {
@@ -24,10 +24,20 @@ export const updateComment = ({ content, format, event }) => {
     dispatch({ type: IS_REFRESHING });
 
     const response = await commentsApi.updateComment(payload);
+    const timelineState = getState().timeline;
 
+    const updatedTimeline = _newStateWithUpdate(response.data, timelineState);
     dispatch({
       type: SUCCESS,
-      payload: _newStateWithUpdate(response.data, getState().timeline.data),
+      payload: {
+        firstPage: updatedTimeline.firstPage,
+        afterFirstPageHits: updatedTimeline.afterFirstPageHits,
+        focusedPage: updatedTimeline.focusedPage,
+        afterFocusedPageHits: updatedTimeline.afterFocusedPageHits,
+        lastPage: updatedTimeline.lastPage,
+        data: updatedTimeline.data,
+        pageFocused: updatedTimeline.pageFocused,
+      },
     });
 
     dispatch(setTimelineInterval());
@@ -45,9 +55,19 @@ export const deleteComment = ({ event }) => {
 
     const response = await commentsApi.deleteComment();
 
+    const deletedTimeline = _newStateWithDelete(event.id, getState);
+
     dispatch({
       type: SUCCESS,
-      payload: _newStateWithDelete(event.id, getState),
+      payload: {
+        firstPage: deletedTimeline.firstPage,
+        afterFirstPageHits: deletedTimeline.afterFirstPageHits,
+        focusedPage: deletedTimeline.focusedPage,
+        afterFocusedPageHits: deletedTimeline.afterFocusedPageHits,
+        lastPage: deletedTimeline.lastPage,
+        data: deletedTimeline.data,
+        pageFocused: deletedTimeline.pageFocused,
+      },
     });
 
     dispatch(setTimelineInterval());
@@ -56,41 +76,51 @@ export const deleteComment = ({ event }) => {
   };
 };
 
-const _newStateWithUpdate = (updatedComment, currentState) => {
-  // return timeline with the updated comment
-  const timelineState = _cloneDeep(currentState);
-  const currentHits = timelineState.hits.hits;
-  const currentCommentKey = currentHits.findIndex(
-    (comment) => comment.id === updatedComment.id
-  );
+const _newStateWithUpdate = (updatedComment, timelineState) => {
+  const timelineClone = _cloneDeep(timelineState);
 
-  currentHits[currentCommentKey] = updatedComment;
+  const updateHits = (hitsArray) => {
+    if (!hitsArray) return;
+    const idx = hitsArray.findIndex((c) => c.id === updatedComment.id);
+    if (idx !== -1) hitsArray[idx] = updatedComment;
+  };
 
-  return timelineState;
+  // Update in firstPage, afterFirstPageHits, focusedPage, afterFocusedPageHits, lastPage
+  updateHits(timelineClone.firstPage?.hits?.hits);
+  updateHits(timelineClone.afterFirstPageHits);
+  updateHits(timelineClone.focusedPage?.hits?.hits);
+  updateHits(timelineClone.afterFocusedPageHits);
+  updateHits(timelineClone.lastPage?.hits?.hits);
+
+  return timelineClone;
 };
 
-const _newStateWithDelete = (eventId, currentState) => {
-  // return timeline with the deleted comment replaced by the deletion event
-  const timelineState = _cloneDeep(currentState().timeline.data);
-  const currentHits = timelineState.hits.hits;
-
-  const indexCommentToDelete = currentHits.findIndex(
-    (comment) => comment.id === eventId
-  );
-
-  const currentComment = currentHits[indexCommentToDelete];
-
+const _newStateWithDelete = (eventId, getState) => {
+  const timelineState = _cloneDeep(getState().timeline);
   const deletionPayload = {
     content: i18next.t("deleted a comment"),
     event: "comment_deleted",
     format: "html",
   };
 
-  currentHits[indexCommentToDelete] = {
-    ...currentComment,
-    type: "L",
-    payload: deletionPayload,
+  const replaceInHits = (hitsArray) => {
+    if (!hitsArray) return;
+    const idx = hitsArray.findIndex((c) => c.id === eventId);
+    if (idx !== -1) {
+      hitsArray[idx] = {
+        ...hitsArray[idx],
+        type: "L",
+        payload: deletionPayload,
+      };
+    }
   };
+
+  // Delete in firstPage, afterFirstPageHits, focusedPage, afterFocusedPageHits, lastPage
+  replaceInHits(timelineState.firstPage?.hits?.hits);
+  replaceInHits(timelineState.afterFirstPageHits);
+  replaceInHits(timelineState.focusedPage?.hits?.hits);
+  replaceInHits(timelineState.afterFocusedPageHits);
+  replaceInHits(timelineState.lastPage?.hits?.hits);
 
   return timelineState;
 };
