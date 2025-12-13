@@ -19,6 +19,12 @@ from invenio_search.engine import dsl
 from ...resolvers.registry import ResolverRegistry
 
 
+class _TypeFilterParam(FilterParam):
+    """Filter for _type field."""
+
+    pass
+
+
 class ReferenceFilterParam(FilterParam):
     """Filter for reference dictionaries."""
 
