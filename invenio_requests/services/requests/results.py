@@ -123,7 +123,6 @@ class RequestItem(RecordItem):
         }
 
 
-
 class RequestList(RecordList):
     """List of request results."""
 
