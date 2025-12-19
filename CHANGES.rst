@@ -10,6 +10,11 @@
 Changes
 =======
 
+Version v7.2.6 (released 2025-12-19)
+
+- ci: update tests to run on maint branches
+- fix(routes): use UUID type for request identifiers
+
 Version v7.2.5 (released 2025-12-09)
 
 - i18n: pulled translations
