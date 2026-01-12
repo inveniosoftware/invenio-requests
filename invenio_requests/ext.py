@@ -108,7 +108,7 @@ class InvenioRequests:
         register_entry_point(
             self.request_type_registry, "invenio_requests.types", app=app
         )
-        register_entry_point(self.request_type_registry, "invenio_requests.event_types")
+        register_entry_point(self.event_type_registry, "invenio_requests.event_types")
         register_entry_point(
             self.entity_resolvers_registry, "invenio_requests.entity_resolvers"
         )
