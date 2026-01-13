@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2023 CERN.
+# Copyright (C) 2025 Graz University of Technology.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify
 # it under the terms of the MIT License; see LICENSE file for more details.
@@ -21,7 +22,7 @@ from invenio_requests.proxies import (
 from invenio_requests.services.user_moderation.errors import OpenRequestAlreadyExists
 
 
-def test_request_moderation(app, es_clear, users, identity_simple, mod_identity):
+def test_request_moderation(app, search_clear, users, identity_simple, mod_identity):
     """Tests the service for request moderation."""
 
     user1 = users["user1"]
@@ -46,7 +47,7 @@ def test_request_moderation(app, es_clear, users, identity_simple, mod_identity)
     assert request_item._request.status == "submitted"
 
 
-def test_search_moderation(app, es_clear, users, submit_request, mod_identity):
+def test_search_moderation(app, search_clear, users, submit_request, mod_identity):
     """Tests the search for request moderation."""
 
     user = users["user2"]
@@ -80,7 +81,7 @@ def test_search_moderation(app, es_clear, users, submit_request, mod_identity):
     assert search.total == 2  # System process can see both requests
 
 
-def test_moderation_accept(app, es_clear, users, mod_identity):
+def test_moderation_accept(app, search_clear, users, mod_identity):
     """Tests the service for moderation."""
     user = users["user1"]
 
@@ -103,7 +104,7 @@ def test_moderation_accept(app, es_clear, users, mod_identity):
         )
 
 
-def test_moderation_decline(app, es_clear, users, mod_identity):
+def test_moderation_decline(app, search_clear, users, mod_identity):
     """Tests the service for moderation."""
     user = users["user1"]
 
@@ -126,7 +127,7 @@ def test_moderation_decline(app, es_clear, users, mod_identity):
         )
 
 
-def test_read(app, es_clear, users, mod_identity):
+def test_read(app, search_clear, users, mod_identity):
     """Tests the service for read."""
     user = users["user1"]
 
@@ -146,7 +147,7 @@ def test_read(app, es_clear, users, mod_identity):
         current_requests_service.read(user_identity, request_item.id)
 
 
-def test_invalid_request_data(app, es_clear, users, mod_identity):
+def test_invalid_request_data(app, search_clear, users, mod_identity):
     """Test request creation with invalid data."""
     user = users["user1"]
 
@@ -158,7 +159,7 @@ def test_invalid_request_data(app, es_clear, users, mod_identity):
         )
 
 
-def test_duplicate_request(app, es_clear, users, mod_identity):
+def test_duplicate_request(app, search_clear, users, mod_identity):
     """Test request creation when a request is already open."""
     user = users["user1"]
     service = current_user_moderation_service
