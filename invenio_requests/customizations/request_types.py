@@ -168,13 +168,17 @@ class RequestType:
     community entity or system entity.
     """
 
-    endpoints_item = {}
-    """Endpoints item for the RequestType.
+    links_item = {}
+    """Dict of keys to EndpointLinks for the RequestType.
 
-    This allows a RequestType to specify how self_html (and potentially
-    other fields) on the generic Requests API should render. Keys and values
-    are strings. Keys are "links" key e.g. "self_html" (only use for now) and
-    values are endpoints e.g., "invenio_ui_blueprint.read_request".
+    This specifies how "self_html" (and potentially
+    other keys) should render. Keys are "links" keys e.g. "self_html"
+    (only use for now) and values are EndpointLinks. The defined EndpointLinks
+    are guaranteed to have the following keys in their passed `vars`:
+    - "request": the Request object
+    - "request_type": the RequestType object
+    - "request_event": the optional RequestEvent (the key "request_event" will
+                       always be present, but it may have the value None)
     """
 
     @classmethod

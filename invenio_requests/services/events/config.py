@@ -23,7 +23,7 @@ from invenio_records_resources.services.records.results import (
 
 from invenio_requests.services.links import (
     RequestCommentEndpointLink,
-    RequestTypeEndpointLinkFromEvent,
+    RequestTypeDependentEndpointLink,
 )
 
 from ...records.api import Request, RequestEvent
@@ -221,35 +221,28 @@ class RequestEventsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
         # Note that `request_events` is the name of the blueprint for
         # the RequestCommentsResource actually.
         "self": RequestCommentEndpointLink("request_events.read"),
-        "self_html": RequestTypeEndpointLinkFromEvent(
-            "self_html",
-            # <request_pid_value> must be used in the RequestType's route
-            params=["request_pid_value"],
-            vars=lambda obj, vars: vars.update({"request_pid_value": obj.request_id}),
-            # don't include the '#'
-            anchor=lambda obj, vars: f"commentevent-{obj.id}",
+        # Keeps assumption that there is no dedicated UI endpoint for
+        # a RequestEvent i.e., RequestType is what determines the UI endpoint
+        "self_html": RequestTypeDependentEndpointLink(
+            key="self_html",  # The presence of request_event_retriever
+            # provides for further differentiation
+            request_retriever=lambda obj, vars: vars.get("request"),
+            request_type_retriever=lambda obj, vars: vars.get("request_type"),
+            request_event_retriever=lambda obj, vars: obj,
         ),
         "reply": RequestCommentEndpointLink(
             "request_events.reply",
-            # this runs after the RequestCommentEndpointLink.vars so it
-            # takes precedence
-            vars=lambda obj, vars: vars.update(
-                # This translates previous logic, but does it make sense
-                # to have a reply link if there is no parent_id?
-                # when=lambda obj, ctx: obj.parent_id would solve that
-                {"comment_id": obj.parent_id or obj.id}
-            ),
+            # The reply link is only shown if the request_event is top-level:
+            # to send stronger signal to client that only top-level comments
+            # can be replied to + no need to parse link to figure if parent or
+            # current comment is targeted
+            when=lambda obj, vars: obj.parent_id is None,
         ),
         "replies": RequestCommentEndpointLink(
             "request_events.get_replies",
-            # this runs after the RequestCommentEndpointLink.vars so it
-            # takes precedence
-            vars=lambda obj, vars: vars.update(
-                # This translates previous logic, but does it make sense
-                # to list the replies to the parent if it exists and not
-                # always to the current comment?
-                {"comment_id": obj.parent_id or obj.id}
-            ),
+            # The replies link is only shown if the request_event is top-level
+            # only case where there *can* be replies
+            when=lambda obj, vars: obj.parent_id is None,
         ),
     }
 

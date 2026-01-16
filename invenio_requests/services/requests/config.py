@@ -30,7 +30,7 @@ from ..links import (
     ActionsEndpointLinks,
     RequestCommentsEndpointLink,
     RequestEndpointLink,
-    RequestTypeEndpointLink,
+    RequestTypeDependentEndpointLink,
 )
 from ..permissions import PermissionPolicy
 from .components import (
@@ -113,10 +113,10 @@ class RequestsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
     # links configuration
     links_item = {
         "self": RequestEndpointLink("requests.read"),
-        "self_html": RequestTypeEndpointLink(
-            "self_html",
-            params=["request_pid_value"],
-            vars=lambda obj, vars: vars.update({"request_pid_value": obj.id}),
+        "self_html": RequestTypeDependentEndpointLink(
+            key="self_html",
+            request_retriever=lambda obj, vars: obj,
+            request_type_retriever=lambda obj, vars: obj.type,
         ),
         # Note that `request_events` is the name of the blueprint for
         # the RequestCommentsResource actually.
