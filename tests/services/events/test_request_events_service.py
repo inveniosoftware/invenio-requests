@@ -305,6 +305,7 @@ def test_reply_request_event_notification(
         )
 
         # Parent author (user2) and first reply author (user1) should receive notifications
+        assert mock_build.called
         assert len(outbox) == 2
         recipients_all = [r for msg in outbox for r in msg.recipients]
         assert user2.email in recipients_all
@@ -327,6 +328,7 @@ def test_reply_request_event_notification(
         )
 
         # First reply author (user1) and second reply author (superuser) should receive
+        assert mock_build.called
         assert len(outbox) == 2
         recipients_all = [r for msg in outbox for r in msg.recipients]
         assert user1.email in recipients_all

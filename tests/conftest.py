@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2021-2025 CERN.
-# Copyright (C) 2021 Northwestern University.
+# Copyright (C) 2021-2025 Northwestern University.
 # Copyright (C) 2021 TU Wien.
 # Copyright (C) 2023-2025 Graz University of Technology.
 #
@@ -57,7 +57,6 @@ from marshmallow import fields
 from invenio_requests.customizations import (
     CommentEventType,
     LogEventType,
-    RequestType,
     ReviewersUpdatedType,
 )
 from invenio_requests.notifications.builders import (
@@ -65,6 +64,7 @@ from invenio_requests.notifications.builders import (
     CommentRequestEventReplyNotificationBuilder,
 )
 from invenio_requests.proxies import current_requests
+from tests.mock_module.request_type import FakeRequestType
 
 
 class UserPreferencesNotificationsSchema(UserPreferencesSchema):
@@ -100,20 +100,14 @@ def celery_config():
     return {}
 
 
-# @pytest.fixture(scope="module")
-# def extra_entry_points():
-#     """Extra entry points to load the mock_module features."""
-#     return {
-#         'invenio_db.model': [
-#             'mock_module = mock_module.models',
-#         ],
-#         'invenio_jsonschemas.schemas': [
-#             'mock_module = mock_module.jsonschemas',
-#         ],
-#         'invenio_search.mappings': [
-#             'comments = mock_module.mappings',
-#         ]
-#     }
+@pytest.fixture(scope="module")
+def extra_entry_points():
+    """Extra entry points to load the mock_module features."""
+    return {
+        "invenio_base.blueprints": [
+            "mock_module = tests.mock_module.blueprint:create_ui_blueprint",
+        ],
+    }
 
 
 @pytest.fixture(scope="module")
@@ -128,7 +122,7 @@ def app_config(app_config):
     app_config["RECORDS_REFRESOLVER_STORE"] = (
         "invenio_jsonschemas.proxies.current_refresolver_store"
     )
-    app_config["REQUESTS_REGISTERED_TYPES"] = [RequestType()]
+    app_config["REQUESTS_REGISTERED_TYPES"] = [FakeRequestType()]
     app_config["REQUESTS_REGISTERED_EVENT_TYPES"] = [
         LogEventType(),
         CommentEventType(),
@@ -166,7 +160,7 @@ def app_config(app_config):
 
 
 @pytest.fixture(scope="module")
-def create_app(instance_path):
+def create_app(instance_path, entry_points):
     """Application factory fixture."""
     return _create_api
 
@@ -377,7 +371,7 @@ def example_request(identity_simple, request_record_input_data, user1, user2):
     item = requests_service.create(
         identity_simple,
         request_record_input_data,
-        RequestType,
+        FakeRequestType,
         receiver=user2.user,
         creator=user1.user,
     )
@@ -395,7 +389,7 @@ def request_with_locking_enabled(
     request = requests_service.create(
         identity_simple,
         request_record_input_data,
-        RequestType,
+        FakeRequestType,
         receiver=user2.user,
         creator=user1.user,
     )._request
