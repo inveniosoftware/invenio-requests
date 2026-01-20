@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 #
 # This file is part of Invenio.
-# Copyright (C) 2022 Graz University of Technology.
+# Copyright (C) 2022-2025 Graz University of Technology.
 #
 # Invenio is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """Celery tasks for requests."""
 
-from datetime import datetime
+from datetime import datetime, timezone
 
 from celery import shared_task
 from flask import current_app
@@ -25,7 +25,7 @@ from .proxies import current_requests_service
 def check_expired_requests():
     """Retrieve expired requests and perform expired action."""
     service = current_requests_service
-    now = datetime.utcnow().isoformat()
+    now = datetime.now(timezone.utc).isoformat()
 
     # using scan to get all requests
     requests_list = service.scan(
