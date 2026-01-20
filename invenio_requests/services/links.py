@@ -37,10 +37,13 @@ class RequestTypeDependentEndpointLink(EndpointLink):
     depend on the type of Request. RequestTypeEndpointLink allows that
     by delegating the link to be rendered to one defined in the RequestType
     (where such responsibility should reside) under
-    `endpoints_item = {<key>: ...}`.
+    `links_item = {<key>: ...}`.
 
-    Assumes the constructor's `params` are same across endpoints of
-    RequestTypes.
+    RequestTypeDependentEndpointLink guarantees that the EndpointLink
+    defined in the RequestType will have "request", "request_type", and
+    "request_event" keys in the `vars` dict. "request_event" may be None
+    but the key is guaranteed to exist. This provides all the information
+    that a RequestType can legitimately require to build EndpointLinks.
     """
 
     def __init__(
@@ -103,7 +106,7 @@ class RequestTypeDependentEndpointLink(EndpointLink):
         return endpoint_link.expand(obj, ctx)
 
 
-class RequestCommentsEndpointLink(EndpointLink):
+class RequestListOfCommentsEndpointLink(EndpointLink):
     """Render links for a Request's Comments (Events).
 
     Note that the RequestCommentsResource uses RequestEventsService.
@@ -121,7 +124,7 @@ class RequestCommentsEndpointLink(EndpointLink):
         vars.update({"request_id": record.id})
 
 
-class RequestCommentEndpointLink(EndpointLink):
+class RequestSingleCommentEndpointLink(EndpointLink):
     """Render links for a Request's Comment (Event)."""
 
     def __init__(self, *args, **kwargs):

@@ -22,7 +22,7 @@ from invenio_records_resources.services.records.results import (
 )
 
 from invenio_requests.services.links import (
-    RequestCommentEndpointLink,
+    RequestSingleCommentEndpointLink,
     RequestTypeDependentEndpointLink,
 )
 
@@ -220,17 +220,18 @@ class RequestEventsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
     links_item = {
         # Note that `request_events` is the name of the blueprint for
         # the RequestCommentsResource actually.
-        "self": RequestCommentEndpointLink("request_events.read"),
+        "self": RequestSingleCommentEndpointLink("request_events.read"),
         # Keeps assumption that there is no dedicated UI endpoint for
         # a RequestEvent i.e., RequestType is what determines the UI endpoint
         "self_html": RequestTypeDependentEndpointLink(
-            key="self_html",  # The presence of request_event_retriever
-            # provides for further differentiation
+            key="self_html",
             request_retriever=lambda obj, vars: vars.get("request"),
             request_type_retriever=lambda obj, vars: vars.get("request_type"),
+            # The presence of request_event_retriever
+            # provides for further differentiation
             request_event_retriever=lambda obj, vars: obj,
         ),
-        "reply": RequestCommentEndpointLink(
+        "reply": RequestSingleCommentEndpointLink(
             "request_events.reply",
             # The reply link is only shown if the request_event is top-level:
             # to send stronger signal to client that only top-level comments
@@ -238,7 +239,7 @@ class RequestEventsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
             # current comment is targeted
             when=lambda obj, vars: obj.parent_id is None,
         ),
-        "replies": RequestCommentEndpointLink(
+        "replies": RequestSingleCommentEndpointLink(
             "request_events.get_replies",
             # The replies link is only shown if the request_event is top-level
             # only case where there *can* be replies

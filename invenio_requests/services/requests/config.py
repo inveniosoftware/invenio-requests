@@ -28,8 +28,8 @@ from ...customizations import RequestActions
 from ...records.api import Request
 from ..links import (
     ActionsEndpointLinks,
-    RequestCommentsEndpointLink,
     RequestEndpointLink,
+    RequestListOfCommentsEndpointLink,
     RequestTypeDependentEndpointLink,
 )
 from ..permissions import PermissionPolicy
@@ -120,9 +120,11 @@ class RequestsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
         ),
         # Note that `request_events` is the name of the blueprint for
         # the RequestCommentsResource actually.
-        "comments": RequestCommentsEndpointLink("request_events.create"),
-        "timeline": RequestCommentsEndpointLink("request_events.search"),
-        "timeline_focused": RequestCommentsEndpointLink("request_events.focused_list"),
+        "comments": RequestListOfCommentsEndpointLink("request_events.create"),
+        "timeline": RequestListOfCommentsEndpointLink("request_events.search"),
+        "timeline_focused": RequestListOfCommentsEndpointLink(
+            "request_events.focused_list"
+        ),
         "lock": RequestEndpointLink("requests.lock_request"),
         "unlock": RequestEndpointLink("requests.unlock_request"),
         "actions": ActionsEndpointLinks(
