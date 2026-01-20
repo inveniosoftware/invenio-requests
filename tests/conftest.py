@@ -215,6 +215,7 @@ def users(UserFixture, app, database):
                 "full_name": r,
                 "affiliations": "CERN",
             },
+            username=r,
             preferences={
                 "visibility": "public",
                 "email_visibility": "restricted",
@@ -283,6 +284,7 @@ def superuser(UserFixture, app, database, superuser_role):
             "full_name": "admin",
             "affiliations": "CERN",
         },
+        username="admin",
         preferences={
             "visibility": "public",
             "email_visibility": "restricted",

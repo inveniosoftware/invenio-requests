@@ -39,6 +39,6 @@ class FakeRequestType(RequestType):
             params=["request_pid_value"],
             # Makes use of agreed values
             vars=lambda obj, vars: vars.update(request_pid_value=vars["request"].id),
-            anchor=anchor_func
+            anchor=anchor_func,
         )
     }
