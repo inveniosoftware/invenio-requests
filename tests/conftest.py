@@ -3,7 +3,7 @@
 # Copyright (C) 2021-2025 CERN.
 # Copyright (C) 2021 Northwestern University.
 # Copyright (C) 2021 TU Wien.
-# Copyright (C) 2023-2025 Graz University of Technology.
+# Copyright (C) 2023-2026 Graz University of Technology.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify it
 # under the terms of the MIT License; see LICENSE file for more details.
@@ -100,20 +100,19 @@ def celery_config():
     return {}
 
 
-# @pytest.fixture(scope="module")
-# def extra_entry_points():
-#     """Extra entry points to load the mock_module features."""
-#     return {
-#         'invenio_db.model': [
-#             'mock_module = mock_module.models',
-#         ],
-#         'invenio_jsonschemas.schemas': [
-#             'mock_module = mock_module.jsonschemas',
-#         ],
-#         'invenio_search.mappings': [
-#             'comments = mock_module.mappings',
-#         ]
-#     }
+@pytest.fixture(scope="module")
+def extra_entry_points():
+    """Extra entry points to load the mock_module features."""
+    return {
+        "invenio_base.blueprints": [
+            "mock_module = tests.mock_module.blueprint:create_ui_blueprint",
+        ],
+        "invenio_administration.views": [
+            "invenio_app_rdm_records_list = tests.mock_module.administration:RecordAdminListView",
+            "invenio_app_rdm_drafts_list = tests.mock_module.administration:DraftAdminListView",
+            "invenio_requests_user_moderation_list = tests.mock_module.administration:UserModerationListView",
+        ],
+    }
 
 
 @pytest.fixture(scope="module")
