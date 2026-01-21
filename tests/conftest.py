@@ -107,6 +107,11 @@ def extra_entry_points():
         "invenio_base.blueprints": [
             "mock_module = tests.mock_module.blueprint:create_ui_blueprint",
         ],
+        "invenio_administration.views": [
+            "invenio_app_rdm_records_list = tests.mock_module.administration:RecordAdminListView",
+            "invenio_app_rdm_drafts_list = tests.mock_module.administration:DraftAdminListView",
+            "invenio_requests_user_moderation_list = tests.mock_module.administration:UserModerationListView",
+        ],
     }
 
 
