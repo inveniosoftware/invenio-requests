@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2023 CERN.
+# Copyright (C) 2025 Northwestern University.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify
 # it under the terms of the MIT License; see LICENSE file for more details.
 """Test user moderation resource."""
 
 import pytest
-from invenio_access.permissions import system_identity, system_user_id
 
 from invenio_requests.proxies import current_user_moderation_service
 
@@ -22,7 +22,7 @@ def mod_request(app, user1, moderator_user):
     return request_item
 
 
-def test_moderate(app, es_clear, client_logged_as, headers, mod_request):
+def test_moderate(app, search_clear, client_logged_as, headers, mod_request):
     # Log as moderator
     client = client_logged_as("mod@example.org")
 
@@ -55,7 +55,13 @@ def test_moderate(app, es_clear, client_logged_as, headers, mod_request):
     ],
 )
 def test_moderate_invalid_user(
-    app, es_clear, client_logged_as, headers, mod_request, invalid_action, expected_code
+    app,
+    search_clear,
+    client_logged_as,
+    headers,
+    mod_request,
+    invalid_action,
+    expected_code,
 ):
     """Tests that a regular user can't moderate."""
     # Log as a normal user that can't moderate
@@ -80,7 +86,13 @@ def test_moderate_invalid_user(
     ],
 )
 def test_invalid_actions_after_submit(
-    app, es_clear, client_logged_as, headers, mod_request, invalid_action, expected_code
+    app,
+    search_clear,
+    client_logged_as,
+    headers,
+    mod_request,
+    invalid_action,
+    expected_code,
 ):
     """Test invalid actions on a user moderation request.
 
@@ -105,7 +117,7 @@ def test_invalid_actions_after_submit(
     assert response.status_code == expected_code
 
 
-def test_search_as_moderator(app, es_clear, client_logged_as, headers, mod_request):
+def test_search_as_moderator(app, search_clear, client_logged_as, headers, mod_request):
     """Test search as a moderator."""
     # Log as moderator
     mod_email = "mod@example.org"
@@ -123,7 +135,7 @@ def test_search_as_moderator(app, es_clear, client_logged_as, headers, mod_reque
     assert hit["status"] == "submitted"
 
 
-def test_search_as_user(app, es_clear, client_logged_as, headers, mod_request):
+def test_search_as_user(app, search_clear, client_logged_as, headers, mod_request):
     """Test search as a regular user."""
     client = client_logged_as("user1@example.org")
 
@@ -136,7 +148,7 @@ def test_search_as_user(app, es_clear, client_logged_as, headers, mod_request):
     assert len(hits) == 0
 
 
-def test_links(app, es_clear, client_logged_as, headers, mod_request):
+def test_links(app, search_clear, client_logged_as, headers, mod_request):
     """Test links on search."""
     # Log as moderator
     mod_email = "mod@example.org"

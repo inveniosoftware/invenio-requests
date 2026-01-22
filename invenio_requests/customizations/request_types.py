@@ -168,6 +168,19 @@ class RequestType:
     community entity or system entity.
     """
 
+    links_item = {}
+    """Dict of keys to EndpointLinks for the RequestType.
+
+    This specifies how "self_html" (and potentially
+    other keys) should render. Keys are "links" keys e.g. "self_html"
+    (only use for now) and values are EndpointLinks. The defined EndpointLinks
+    are guaranteed to have the following keys in their passed `vars`:
+    - "request": the Request object
+    - "request_type": the RequestType object
+    - "request_event": the optional RequestEvent (the key "request_event" will
+                       always be present, but it may have the value None)
+    """
+
     @classmethod
     def entity_needs(cls, entity):
         """Generate entity needs for the given entity."""
@@ -243,19 +256,6 @@ class RequestType:
         if type_id not in current_requests._schema_cache:
             current_requests._schema_cache[type_id] = cls._create_marshmallow_schema()
         return current_requests._schema_cache[type_id]
-
-    def _update_link_config(cls, **context_values):
-        """Method for updating the context values when generating links.
-
-        WARNING: this method potentially mixes layers and might be a footgun;
-        it will likely be removed in a future release!
-
-        This method takes the already determined context values for the link as
-        keyword arguments and should return values that will be used to update the
-        original context values.
-        """
-        # FIXME/TODO this should be reworked into a service feature
-        return {}
 
     def generate_request_number(self, request, **kwargs):
         """Generate a new request number identifier.

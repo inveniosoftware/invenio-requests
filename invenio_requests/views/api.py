@@ -18,4 +18,5 @@ def create_requests_bp(app):
 def create_request_events_bp(app):
     """Create request events blueprint."""
     ext = app.extensions["invenio-requests"]
+    # `request_events_resource` is really the RequestCommentsResource
     return ext.request_events_resource.as_blueprint()

@@ -27,7 +27,6 @@ from ...errors import CannotExecuteActionError, RequestLockedError
 from ...proxies import current_events_service, current_request_type_registry
 from ...resolvers.registry import ResolverRegistry
 from ..results import EntityResolverExpandableField, MultiEntityResolverExpandableField
-from .links import RequestLinksTemplate
 
 
 class RequestsService(RecordService):
@@ -36,9 +35,8 @@ class RequestsService(RecordService):
     @property
     def links_item_tpl(self):
         """Item links template."""
-        return RequestLinksTemplate(
+        return LinksTemplate(
             self.config.links_item,
-            self.config.action_link,
             context={
                 "permission_policy_cls": self.config.permission_policy_cls,
             },
