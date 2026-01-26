@@ -97,8 +97,11 @@ const TimelineCommentEditor = ({
           size="medium"
           content={saveButtonLabel}
           loading={isLoading}
-          onClick={() => submitComment(commentContent, "html")}
+          onClick={() =>
+            commentContent.length > 0 && submitComment(commentContent, "html")
+          }
           disabled={!canCreateComment}
+          aria-disabled={commentContent.length > 0}
         />
       </div>
     </div>
