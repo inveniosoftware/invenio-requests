@@ -13,7 +13,6 @@ import { i18next } from "@translations/invenio_requests/i18next";
 import TimelineCommentEditor from "../timelineCommentEditor/TimelineCommentEditor";
 import TimelineCommentEventControlled from "../timelineCommentEventControlled/TimelineCommentEventControlled.js";
 import { DeleteConfirmationModal } from "../components/modals/DeleteConfirmationModal";
-import { getEventIdFromUrl, isReplyEventInUrl } from "../timelineEvents/utils";
 
 class TimelineCommentReplies extends Component {
   constructor() {
@@ -21,80 +20,13 @@ class TimelineCommentReplies extends Component {
     this.state = {
       isExpanded: true,
       deleteModalAction: undefined,
-      isLoadingLinkedReply: false,
     };
   }
 
   componentDidMount() {
     const { setInitialReplies, parentRequestEvent } = this.props;
     setInitialReplies(parentRequestEvent);
-
-    this.checkAndLoadLinkedReply();
-    window.addEventListener("hashchange", this.checkAndLoadLinkedReply);
   }
-
-  componentDidUpdate(prevProps) {
-    const { commentReplies, loading, hasMore } = this.props;
-
-    if (
-      (prevProps.loading && !loading) ||
-      prevProps.commentReplies.length !== commentReplies.length ||
-      prevProps.hasMore !== hasMore
-    ) {
-      this.checkAndLoadLinkedReply();
-    }
-  }
-
-  componentWillUnmount() {
-    window.removeEventListener("hashchange", this.checkAndLoadLinkedReply);
-  }
-
-  checkAndLoadLinkedReply = () => {
-    const { loadOlderReplies, parentRequestEvent, hasMore, commentReplies, loading } =
-      this.props;
-    const { isLoadingLinkedReply } = this.state;
-
-    if (loading) {
-      return;
-    }
-
-    if (!isReplyEventInUrl()) {
-      return;
-    }
-
-    const linkedEventId = getEventIdFromUrl();
-    if (!linkedEventId) {
-      return;
-    }
-
-    const replyIsInThread = commentReplies.some((reply) => reply.id === linkedEventId);
-
-    if (replyIsInThread) {
-      this.setState({ isExpanded: true, isLoadingLinkedReply: false });
-      return;
-    }
-
-    const replyInPreview = parentRequestEvent.children?.some(
-      (child) => child.id === linkedEventId
-    );
-
-    if (replyInPreview) {
-      if (hasMore) {
-        loadOlderReplies(parentRequestEvent);
-      }
-      this.setState({ isExpanded: true, isLoadingLinkedReply: true });
-      return;
-    }
-
-    const previewSize = parentRequestEvent.children?.length || 0;
-    const hasLargePreview = previewSize >= 5;
-    const shouldKeepLoading = hasLargePreview || isLoadingLinkedReply;
-
-    if (shouldKeepLoading && hasMore) {
-      loadOlderReplies(parentRequestEvent);
-      this.setState({ isExpanded: true, isLoadingLinkedReply: true });
-    }
-  };
 
   onRepliesClick = () => {
     const { isExpanded } = this.state;

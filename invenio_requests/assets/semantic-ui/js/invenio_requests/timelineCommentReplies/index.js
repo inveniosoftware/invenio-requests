@@ -1,73 +1,98 @@
+// This file is part of InvenioRequests
+// Copyright (C) 2026 CERN.
+//
+// Invenio RDM Records is free software; you can redistribute it and/or modify it
+// under the terms of the MIT License; see LICENSE file for more details.
+
 import { connect } from "react-redux";
-import TimelineCommentRepliesComponent from "./TimelineCommentReplies.js";
 import { selectCommentReplies, selectCommentRepliesStatus } from "./state/reducer.js";
 import {
   appendEventContent,
-  clearDraft,
-  IS_SUBMITTING,
-  loadOlderReplies,
-  REPLY_DELETE_COMMENT,
+  fetchRepliesPage,
+  REPLY_DELETED_COMMENT,
   REPLY_RESTORE_DRAFT_CONTENT,
   REPLY_SET_DRAFT_CONTENT,
-  REPLY_UPDATE_COMMENT,
+  REPLY_UPDATED_COMMENT,
+  SET_SUBMITTING,
   setInitialReplies,
-  setIsReplying,
   submitReply,
 } from "./state/actions.js";
+import { defaultReplyQueryParams } from "../data.js";
 import {
-  restoreEventContent,
-  setEventContent,
+  restoreDraftContent,
+  setDraftContent,
 } from "../timelineCommentEditor/state/actions.js";
 import {
   deleteComment,
   updateComment,
 } from "../timelineCommentEventControlled/state/actions.js";
+import TimelineFeedRepliesComponent from "./TimelineFeedReplies.js";
 
-const mapStateToProps = (state, ownProps) => {
-  const { parentRequestEvent } = ownProps;
-  const commentReplies = selectCommentReplies(
-    state.timelineReplies,
-    parentRequestEvent.id
-  );
-  const status = selectCommentRepliesStatus(
-    state.timelineReplies,
-    parentRequestEvent.id
-  );
+const mapDispatchToProps = (dispatch, { parentRequestEvent }) => ({
+  fetchPage: (page) => dispatch(fetchRepliesPage(parentRequestEvent, page)),
+  setCommentContent: (content) =>
+    dispatch(setDraftContent(content, parentRequestEvent.id, REPLY_SET_DRAFT_CONTENT)),
+  restoreCommentContent: () =>
+    dispatch(restoreDraftContent(parentRequestEvent.id, REPLY_RESTORE_DRAFT_CONTENT)),
+  submitComment: (content) =>
+    dispatch(submitReply(parentRequestEvent, content, "html")),
+  updateComment: (payload) =>
+    dispatch(
+      updateComment({
+        ...payload,
+        successEvent: REPLY_UPDATED_COMMENT,
+        loadingEvent: SET_SUBMITTING,
+      })
+    ),
+  deleteComment: async (payload) =>
+    dispatch(
+      deleteComment({
+        ...payload,
+        successEvent: REPLY_DELETED_COMMENT,
+        loadingEvent: SET_SUBMITTING,
+      })
+    ),
+  appendCommentContent: (content, eventId) =>
+    dispatch(appendEventContent(eventId, content)),
+  setInitialReplies: (focusEvent) =>
+    dispatch(setInitialReplies(parentRequestEvent, focusEvent)),
+});
+
+const mapStateToProps = (state, { parentRequestEvent }) => {
+  const {
+    pageNumbers,
+    error,
+    submitting: isSubmitting,
+    loading: loadingMore,
+    draftContent: commentContent,
+    storedDraftContent: storedCommentContent,
+    appendedDraftContent: appendedCommentContent,
+    submissionError,
+    totalHits,
+  } = selectCommentRepliesStatus(state.timelineReplies, parentRequestEvent.id);
+
+  const { size } = defaultReplyQueryParams;
+
   return {
-    commentReplies,
-    ...status,
+    hits: selectCommentReplies(state.timelineReplies, parentRequestEvent.id),
+    totalHits,
+    pageNumbers,
+    error,
+    isSubmitting,
+    size,
+    permissions: parentRequestEvent.permissions,
+    initialLoading: false,
+    loadingMore,
+    commentContent,
+    storedCommentContent,
+    appendedCommentContent,
+    submissionError,
   };
 };
 
-const mapDispatchToProps = {
-  loadOlderReplies,
-  setInitialReplies,
-  setIsReplying,
-  setCommentContent: (content, parentRequestEventId) =>
-    setEventContent(content, parentRequestEventId, REPLY_SET_DRAFT_CONTENT),
-  restoreCommentContent: (parentRequestEventId) =>
-    restoreEventContent(parentRequestEventId, REPLY_RESTORE_DRAFT_CONTENT),
-  appendCommentContent: (content, parentRequestEventId) =>
-    appendEventContent(parentRequestEventId, content),
-  submitReply,
-  updateComment: (payload, parentRequestEventId) =>
-    updateComment({
-      ...payload,
-      parentRequestEventId,
-      successEvent: REPLY_UPDATE_COMMENT,
-      loadingEvent: IS_SUBMITTING,
-    }),
-  deleteComment: (payload, parentRequestEventId) =>
-    deleteComment({
-      ...payload,
-      parentRequestEventId,
-      successEvent: REPLY_DELETE_COMMENT,
-      loadingEvent: IS_SUBMITTING,
-    }),
-  clearDraft,
-};
-
-export const TimelineCommentReplies = connect(
+const TimelineFeedReplies = connect(
   mapStateToProps,
   mapDispatchToProps
-)(TimelineCommentRepliesComponent);
+)(TimelineFeedRepliesComponent);
+
+export default TimelineFeedReplies;

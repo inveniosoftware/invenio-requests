@@ -18,7 +18,10 @@ import { TimelineEventBody } from "../components/TimelineEventBody";
 import { toRelativeTime } from "react-invenio-forms";
 import { isEventSelected } from "./utils";
 import { RequestEventsLinksExtractor } from "../api/InvenioRequestEventsApi.js";
-import { TimelineCommentReplies } from "../timelineCommentReplies/index.js";
+
+const TimelineFeedReplies = React.lazy(() =>
+  import("../timelineCommentReplies/index.js")
+);
 
 class TimelineCommentEvent extends Component {
   constructor(props) {
@@ -99,7 +102,7 @@ class TimelineCommentEvent extends Component {
       isReply,
       allowQuoteReply,
       allowCopyLink,
-      allowReply,
+      request,
     } = this.props;
     const { commentContent, isSelected } = this.state;
 
@@ -111,6 +114,7 @@ class TimelineCommentEvent extends Component {
 
     const canDelete = event?.permissions?.can_delete_comment;
     const canUpdate = event?.permissions?.can_update_comment;
+    const canReply = event?.permissions?.can_reply_comment;
 
     const createdBy = event.created_by;
     const isUser = "user" in createdBy;
@@ -226,16 +230,19 @@ class TimelineCommentEvent extends Component {
                 {commentHasBeenEdited && <Feed.Meta>{i18next.t("Edited")}</Feed.Meta>}
               </Feed.Content>
 
-              {!isReply && (
+              {!isReply ? (
                 <>
                   <Divider className="requests-reply-top-divider" />
-                  <TimelineCommentReplies
-                    parentRequestEvent={event}
-                    userAvatar={currentUserAvatar}
-                    allowReply={allowReply}
-                  />
+                  <React.Suspense fallback={<div />}>
+                    <TimelineFeedReplies
+                      parentRequestEvent={event}
+                      userAvatar={currentUserAvatar}
+                      allowReply={canReply}
+                      request={request}
+                    />
+                  </React.Suspense>
                 </>
-              )}
+              ) : null}
             </RequestsFeed.Event>
           </RequestsFeed.Content>
         </RequestsFeed.Item>
@@ -246,6 +253,7 @@ class TimelineCommentEvent extends Component {
 
 TimelineCommentEvent.propTypes = {
   event: PropTypes.object.isRequired,
+  request: PropTypes.object.isRequired,
   deleteComment: PropTypes.func.isRequired,
   updateComment: PropTypes.func.isRequired,
   appendCommentContent: PropTypes.func.isRequired,
@@ -257,7 +265,6 @@ TimelineCommentEvent.propTypes = {
   isReply: PropTypes.bool,
   allowQuoteReply: PropTypes.bool,
   allowCopyLink: PropTypes.bool,
-  allowReply: PropTypes.bool,
 };
 
 TimelineCommentEvent.defaultProps = {
@@ -268,7 +275,6 @@ TimelineCommentEvent.defaultProps = {
   isReply: false,
   allowQuoteReply: true,
   allowCopyLink: true,
-  allowReply: true,
 };
 
 export default Overridable.component("TimelineEvent", TimelineCommentEvent);
