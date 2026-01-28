@@ -14,11 +14,11 @@ import Error from "../components/Error";
 import Loader from "../components/Loader";
 import { DeleteConfirmationModal } from "../components/modals/DeleteConfirmationModal";
 import RequestsFeed from "../components/RequestsFeed";
-import { TimelineCommentEditor } from "../timelineCommentEditor";
-import { TimelineCommentEventControlled } from "../timelineCommentEventControlled";
-import { getEventIdFromUrl } from "../timelineEvents/utils";
+import TimelineCommentEditor from "../timelineCommentEditor/TimelineCommentEditor.js";
 import LoadMore from "./LoadMore";
-import TimelineEventPlaceholder from "../components/TimelineEventPlaceholder";
+import { i18next } from "@translations/invenio_requests/i18next";
+import TimelineCommentEventControlled from "../timelineCommentEventControlled/TimelineCommentEventControlled.js";
+import _cloneDeep from "lodash/cloneDeep";
 
 class TimelineFeed extends Component {
   constructor(props) {
@@ -30,37 +30,9 @@ class TimelineFeed extends Component {
     };
   }
 
-  componentDidMount() {
-    const { getTimelineWithRefresh } = this.props;
-
-    // Check if an event ID is included in the hash
-    getTimelineWithRefresh(getEventIdFromUrl());
-  }
-
-  async componentDidUpdate(prevProps) {
-    const { timeline } = this.props;
-
-    const hasNewComments =
-      prevProps.timeline?.lastPageData?.hits?.total !==
-      timeline?.lastPageData?.hits?.total;
-    if (hasNewComments) {
-      await window.MathJax?.typesetPromise();
-    }
-  }
-
-  componentWillUnmount() {
-    const { timelineStopRefresh } = this.props;
-    timelineStopRefresh();
-  }
-
-  loadNextAppendedPage = () => {
-    const { fetchNextTimelinePage } = this.props;
-    fetchNextTimelinePage("first");
-  };
-
-  loadNextPageAfterFocused = () => {
-    const { fetchNextTimelinePage } = this.props;
-    fetchNextTimelinePage("focused");
+  loadPage = (page) => {
+    const { fetchPage } = this.props;
+    fetchPage(page);
   };
 
   onOpenModal = (action) => {
@@ -68,7 +40,14 @@ class TimelineFeed extends Component {
   };
 
   renderHitList = (hits) => {
-    const { userAvatar, permissions } = this.props;
+    const {
+      userAvatar,
+      permissions,
+      request,
+      updateComment,
+      deleteComment,
+      appendCommentContent,
+    } = this.props;
 
     return (
       <>
@@ -80,60 +59,118 @@ class TimelineFeed extends Component {
             userAvatar={userAvatar}
             allowQuote={false}
             allowReply={permissions.can_reply_comment}
+            request={request}
+            permissions={permissions}
+            updateComment={updateComment}
+            deleteComment={deleteComment}
+            appendCommentContent={appendCommentContent}
           />
         ))}
       </>
     );
   };
 
+  getFeedElements = () => {
+    const {
+      hits: _hits,
+      pageNumbers,
+      size,
+      parentRequestEvent,
+      totalHits,
+    } = this.props;
+    const hits = _cloneDeep(_hits);
+
+    const elements = [];
+    pageNumbers.forEach((pageNumber, i) => {
+      if (i === 0) {
+        if (pageNumber > 1) {
+          elements.push({
+            type: "LoadMore",
+            page: pageNumber - 1,
+            count: (pageNumber - 1) * size,
+            key: "LoadMore-" + pageNumber,
+          });
+        }
+
+        elements.push({
+          type: "RequestFeed",
+          children: hits[pageNumber],
+          key: "RequestFeed-" + pageNumber,
+        });
+        return;
+      }
+
+      const previousPageNumber = pageNumbers[i - 1];
+      const difference = pageNumber - previousPageNumber;
+      if (difference > 1) {
+        elements.push({
+          type: "LoadMore",
+          page: pageNumber - 1,
+          count: (difference - 1) * size,
+
+          key: "LoadMore-" + pageNumber,
+        });
+        elements.push({
+          type: "RequestFeed",
+          children: hits[pageNumber],
+          key: "RequestFeed-" + pageNumber,
+        });
+        return;
+      }
+
+      elements[elements.length - 1].children.push(...hits[pageNumber]);
+    });
+
+    const lastPage = Math.ceil(totalHits / size);
+    const lastLoadedPage = pageNumbers[pageNumbers.length - 1];
+    const difference = lastPage - lastLoadedPage;
+    if (difference > 0) {
+      elements.push({
+        type: "LoadMore",
+        page: lastLoadedPage + 1,
+        count: totalHits - pageNumbers.length * size,
+        key: "LoadMore-" + (lastLoadedPage + 1),
+      });
+    }
+
+    if (parentRequestEvent) {
+      return elements.toReversed();
+    } else {
+      return elements;
+    }
+  };
+
   render() {
     const {
-      timeline,
       initialLoading,
       error,
       userAvatar,
       request,
       permissions,
       warning,
-      size,
+      loadingMore,
+      parentRequestEvent,
+      isSubmitting,
+      commentContent,
+      storedCommentContent,
+      appendedCommentContent,
+      setCommentContent,
+      restoreCommentContent,
+      submissionError,
+      submitComment,
     } = this.props;
     const { modalOpen, modalAction } = this.state;
-    const {
-      firstPageHits,
-      lastPageHits,
-      focusedPageHits,
-      afterFirstPageHits,
-      afterFocusedPageHits,
-      focusedPage,
-      pageAfterFocused,
-      lastPage,
-      totalHits,
-      loadingAfterFirstPage,
-      loadingAfterFocusedPage,
-    } = timeline;
 
-    let remainingBeforeFocused = 0;
-    let remainingAfterFocused = 0;
+    // const firstFeedClassName = remainingBeforeFocused > 0 ? "gradient-feed" : null;
+    // const lastFeedClassName =
+    // remainingAfterFocused > 0 || (remainingBeforeFocused > 0 && focusedPage === null)
+    // ? "stretched-feed gradient-feed"
+    // : null;
+    // const focusedFeedClassName =
+    // (focusedPage !== null && remainingBeforeFocused > 0 ? "stretched-feed" : "") +
+    // (remainingAfterFocused > 0 ? " gradient-feed" : "");
 
-    if (focusedPage && focusedPage !== lastPage) {
-      remainingBeforeFocused =
-        (focusedPage - 1) * size - (firstPageHits.length + afterFirstPageHits.length);
-      remainingAfterFocused =
-        totalHits - (pageAfterFocused * size + lastPageHits.length);
-    } else {
-      remainingBeforeFocused =
-        totalHits -
-        (firstPageHits.length + afterFirstPageHits.length + lastPageHits.length);
-    }
-
-    const firstFeedClassName = remainingBeforeFocused > 0 ? "gradient-feed" : null;
-    const lastFeedClassName =
-      remainingAfterFocused > 0 || (remainingBeforeFocused > 0 && focusedPage === null)
-        ? "stretched-feed gradient-feed"
-        : null;
-    const focusedFeedClassName =
-      (focusedPage !== null && remainingBeforeFocused > 0 ? "stretched-feed" : "") +
-      (remainingAfterFocused > 0 ? " gradient-feed" : "");
+    const isReplyTimeline = parentRequestEvent !== null;
 
     return (
       <Loader isLoading={initialLoading}>
@@ -155,57 +192,44 @@ class TimelineFeed extends Component {
                 permissions={permissions}
               />
 
-              {/* First Feed before focused page (oldest comments) */}
-              <RequestsFeed className={firstFeedClassName}>
-                {this.renderHitList(firstPageHits)}
-
-                {/* Events before focused page */}
-                {afterFirstPageHits && this.renderHitList(afterFirstPageHits)}
-                {loadingAfterFirstPage && <TimelineEventPlaceholder />}
-              </RequestsFeed>
-
-              {/* LoadMore button for events before focused */}
-              {remainingBeforeFocused > 0 && (
-                <LoadMore
-                  remaining={remainingBeforeFocused}
-                  loading={loadingAfterFirstPage}
-                  loadNextAppendedPage={this.loadNextAppendedPage}
-                />
-              )}
-
-              {/* Focused Feed */}
-              {focusedPageHits && (
-                <>
-                  <RequestsFeed className={focusedFeedClassName}>
-                    {/* Events at focused page */}
-                    {this.renderHitList(focusedPageHits)}
-
-                    {/* Events after focused page */}
-                    {this.renderHitList(afterFocusedPageHits)}
-                    {loadingAfterFocusedPage && <TimelineEventPlaceholder />}
+              {this.getFeedElements().map((el) =>
+                el.type === "LoadMore" ? (
+                  <LoadMore
+                    key={el.key}
+                    remaining={el.count}
+                    loading={loadingMore}
+                    loadNextAppendedPage={() => this.loadPage(el.page)}
+                  />
+                ) : (
+                  <RequestsFeed key={el.key}>
+                    {this.renderHitList(el.children)}
                   </RequestsFeed>
-
-                  {/* LoadMore button for events after focused */}
-                  {remainingAfterFocused > 0 && (
-                    <LoadMore
-                      remaining={remainingAfterFocused}
-                      loading={loadingAfterFocusedPage}
-                      loadNextAppendedPage={this.loadNextPageAfterFocused}
-                    />
-                  )}
-                </>
-              )}
-
-              {/* Last Feed (newest comments) */}
-              {lastPageHits.length > 0 && (
-                <RequestsFeed className={lastFeedClassName}>
-                  {this.renderHitList(lastPageHits)}
-                </RequestsFeed>
+                )
               )}
 
               <TimelineCommentEditor
+                isLoading={isSubmitting}
+                commentContent={commentContent}
+                storedCommentContent={storedCommentContent}
+                appendedCommentContent={appendedCommentContent}
+                setCommentContent={setCommentContent}
+                restoreCommentContent={restoreCommentContent}
+                error={submissionError}
+                submitComment={submitComment}
                 userAvatar={userAvatar}
-                canCreateComment={permissions.can_create_comment}
+                canCreateComment={
+                  isReplyTimeline
+                    ? permissions.can_reply_comment
+                    : permissions.can_create_comment
+                }
+                // This is a custom autoFocus prop, not the browser one
+                // eslint-disable-next-line jsx-a11y/no-autofocus
+                autoFocus={isReplyTimeline}
+                saveButtonLabel={
+                  isReplyTimeline ? i18next.t("Reply") : i18next.t("Comment")
+                }
+                saveButtonIcon={isReplyTimeline ? "reply" : "send"}
+                onCancel={this.onCancelClick}
               />
               <DeleteConfirmationModal
                 open={modalOpen}
@@ -222,31 +246,41 @@ class TimelineFeed extends Component {
 }
 
 TimelineFeed.propTypes = {
-  getTimelineWithRefresh: PropTypes.func.isRequired,
-  timelineStopRefresh: PropTypes.func.isRequired,
-  fetchNextTimelinePage: PropTypes.func.isRequired,
-  appendPage: PropTypes.func.isRequired,
-  setLoadingForLoadMore: PropTypes.func.isRequired,
-  timeline: PropTypes.object,
-  error: PropTypes.object,
+  hits: PropTypes.object.isRequired,
+  pageNumbers: PropTypes.array.isRequired,
+  totalHits: PropTypes.number.isRequired,
+  fetchPage: PropTypes.func.isRequired,
+  error: PropTypes.string,
   isSubmitting: PropTypes.bool,
-  page: PropTypes.number,
-  size: PropTypes.number,
+  size: PropTypes.number.isRequired,
   userAvatar: PropTypes.string,
   request: PropTypes.object.isRequired,
   permissions: PropTypes.object.isRequired,
   initialLoading: PropTypes.bool.isRequired,
   warning: PropTypes.string,
+  parentRequestEvent: PropTypes.object,
+  loadingMore: PropTypes.bool.isRequired,
+  commentContent: PropTypes.string.isRequired,
+  storedCommentContent: PropTypes.string,
+  appendedCommentContent: PropTypes.string.isRequired,
+  setCommentContent: PropTypes.func.isRequired,
+  restoreCommentContent: PropTypes.func.isRequired,
+  submissionError: PropTypes.string,
+  submitComment: PropTypes.func.isRequired,
+  updateComment: PropTypes.func.isRequired,
+  deleteComment: PropTypes.func.isRequired,
+  appendCommentContent: PropTypes.func.isRequired,
 };
 
 TimelineFeed.defaultProps = {
   timeline: null,
   error: null,
   isSubmitting: false,
-  page: 1,
-  size: 10,
   userAvatar: "",
   warning: null,
+  parentRequestEvent: null,
+  storedCommentContent: null,
+  submissionError: null,
 };
 
 export default Overridable.component("TimelineFeed", TimelineFeed);

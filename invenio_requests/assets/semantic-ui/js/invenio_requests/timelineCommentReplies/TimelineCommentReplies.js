@@ -33,7 +33,7 @@ class TimelineCommentReplies extends Component {
     this.setState({ isExpanded: !isExpanded });
   };
 
-  onFakeInputActivate = (value) => {
+  onFakeInputActivate = () => {
     const { setIsReplying, parentRequestEvent } = this.props;
     setIsReplying(parentRequestEvent.id, true);
   };
@@ -145,7 +145,7 @@ class TimelineCommentReplies extends Component {
                     updateComment={this.updateComment}
                     deleteComment={this.deleteComment}
                     appendCommentContent={this.appendCommentContent}
-                    allowCopyLink={false}
+                    allowCopyLink
                   />
                 ))}
                 <Divider />
