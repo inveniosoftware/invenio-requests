@@ -70,7 +70,7 @@ class RequestTypeDependentEndpointLink(EndpointLink):
         "request", "request_type", "request_event" that an EndpointLink
         defined on a RequestType can rely on.
         """
-        ctx = copy.deepcopy(context)
+        ctx = context.copy()  # deepcopy can cause problems here
         ctx["request"] = self._request_retriever(obj, ctx)
         ctx["request_type"] = self._request_type_retriever(obj, ctx)
         ctx["request_event"] = self._request_event_retriever(obj, ctx)
@@ -167,10 +167,10 @@ class ActionsEndpointLinks:
         links = {}
         request = obj
 
+        ctx = context.copy()
         for action in request.type.available_actions:
             if action in [request.type.create_action, request.type.delete_action]:
                 continue
-            ctx = context.copy()
             ctx["action"] = action
             if self._endpoint_link.should_render(request, ctx):
                 links[action] = self._endpoint_link.expand(request, ctx)
