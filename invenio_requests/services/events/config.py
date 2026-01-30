@@ -194,8 +194,19 @@ class RequestEventLink(Link):
         """Variables for the URI template."""
         request_type = current_request_type_registry.lookup(vars["request_type"])
         parent_id = obj.parent_id if obj.parent_id else obj.id
+        is_reply = obj.parent_id is not None
+        event_anchor = (
+            f"commentevent-{parent_id}_{obj.id}"
+            if is_reply
+            else f"commentevent-{obj.id}"
+        )
         vars.update(
-            {"id": obj.id, "request_id": obj.request_id, "parent_id": parent_id}
+            {
+                "id": obj.id,
+                "request_id": obj.request_id,
+                "parent_id": parent_id,
+                "event_anchor": event_anchor,
+            }
         )
         vars.update(request_type._update_link_config(**vars))
 
@@ -233,12 +244,15 @@ class RequestEventsServiceConfig(RecordServiceConfig, ConfiguratorMixin):
     # ResultItem configurations
     links_item = {
         "self": RequestEventLink("{+api}/requests/{request_id}/comments/{id}"),
-        "self_html": RequestEventLink("{+ui}/requests/{request_id}#commentevent-{id}"),
+        "self_html": RequestEventLink("{+ui}/requests/{request_id}#{event_anchor}"),
         "reply": RequestEventLink(
             "{+api}/requests/{request_id}/comments/{parent_id}/reply"
         ),
         "replies": RequestEventLink(
             "{+api}/requests/{request_id}/comments/{parent_id}/replies"
+        ),
+        "replies_focused": RequestEventLink(
+            "{+api}/requests/{request_id}/comments/{parent_id}/replies_focused"
         ),
     }
     links_search = pagination_links("{+api}/requests/{request_id}/timeline{?args*}")
