@@ -1,6 +1,6 @@
 ..
     Copyright (C) 2021-2025 CERN.
-    Copyright (C) 2024-2025 Graz University of Technology.
+    Copyright (C) 2024-2026 Graz University of Technology.
 
     Invenio-Requests is free software; you can redistribute it and/or
     modify it under the terms of the MIT License; see LICENSE file for more
@@ -8,6 +8,23 @@
 
 Changes
 =======
+
+Version v12.0.0 (released 2026-01-31)
+
+- fix(compatibility): TypeError
+- fix(tests): provide fake administration views for upgraded users-resources
+- refactor: rename comment(s) links
+- chore(lint): lint for Black 26
+- refactor: refine mechanism for EndpointLinks dependent on RequestType
+- chore(tests): replace deprecated es_clear fixture by search_clear
+- refactor!: replace deprecated Link usage [+]
+- chore(setup): bump dependencies
+- fix:  PytestCollectionWarning
+- fix: DeprecationWarning pytest-invenio
+- fix(chore): DeprecationWarning stdlib
+- refactor: move to context_schema
+- chore: black 26.1.0 formatting
+- CHANGES: fix typo in year
 
 Version v11.2.3 (released 2026-01-16)
 
