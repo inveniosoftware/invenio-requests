@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2022 CERN.
+# Copyright (C) 2026 Graz University of Technology.
 #
 # Invenio-Requests is free software; you can redistribute it and/or
 # modify it under the terms of the MIT License; see LICENSE file for more
@@ -57,5 +58,11 @@ def create_ui_blueprint(app):
         record_tombstone_error,
     )
     blueprint.register_error_handler(PIDDoesNotExistError, not_found_error)
+
+    def details(pid_value):
+        return ""
+
+    # Requests URL rules
+    blueprint.add_url_rule(routes["details"], view_func=details)
 
     return blueprint
