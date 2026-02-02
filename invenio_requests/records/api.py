@@ -58,12 +58,8 @@ class RequestEvent(Record):
 
     model_cls = RequestEventModel
 
-    dumper = SearchDumper(
-        extensions=[
-            ParentChildDumperExt(),
-        ]
-    )
-    """Search dumper with parent-child relationship extension."""
+    dumper = SearchDumper(extensions=[ParentChildDumperExt()])
+    """Search dumper with parent-child relationship extension and files extension."""
 
     # Systemfields
     metadata = None

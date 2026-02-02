@@ -49,7 +49,13 @@ class RequestEventsService(RecordService):
 
     @property
     def expandable_fields(self):
-        """Get expandable fields."""
+        """Get expandable fields for request events.
+
+        Includes:
+        - created_by: User or email who created the event
+
+        Note: payload.files: File attachments in comment events are resolved in the result class.
+        """
         return [EntityResolverExpandableField("created_by")]
 
     def links_tpl_factory(self, links, **context):

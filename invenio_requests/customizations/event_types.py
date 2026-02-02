@@ -200,9 +200,13 @@ class ReviewersUpdatedType(EventType):
 
 
 class FileDetailsSchema(Schema):
-    """File details schema."""
+    """File details schema using entity reference format.
 
-    file_id = fields.String(validate=is_uuid)
+    Files are referenced as {"file": "uuid"} to be compatible with
+    the entity resolver pattern.
+    """
+
+    file_id = fields.String(validate=is_uuid, required=True)
 
 
 class CommentEventType(EventType):
