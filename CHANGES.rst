@@ -9,6 +9,10 @@
 Changes
 =======
 
+Version v12.1.0 (released 2026-02-03)
+
+- feat: enable deepcopy for AttrProxy
+
 Version v12.0.0 (released 2026-01-31)
 
 - fix(compatibility): TypeError
