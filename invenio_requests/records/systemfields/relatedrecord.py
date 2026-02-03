@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2021 CERN.
+# Copyright (C) 2026 Graz University of Technology.
 #
 # Invenio-Requests is free software; you can redistribute it and/or modify
 # it under the terms of the MIT License; see LICENSE file for more details.
@@ -26,6 +27,10 @@ class AttrProxy:
         self._record = record
         self._record_shim = None
         self._record_cls = record_cls
+
+    def __deepcopy__(self, memo):
+        """Deepcopy."""
+        return AttrProxy(self._record_cls, self._record, self._data, self._attrs)
 
     def get_object(self):
         """Get the underlying record."""
