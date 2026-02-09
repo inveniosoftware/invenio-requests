@@ -17,7 +17,9 @@ from invenio_files_rest.models import ObjectVersion
 from invenio_records.dumpers import SearchDumper
 from invenio_records.systemfields import ConstantField, DictField, ModelField
 from invenio_records_resources.records.api import FileRecord, Record
-from invenio_records_resources.records.systemfields import FilesField, IndexField
+from invenio_records_resources.records.systemfields import IndexField
+
+from invenio_requests.records.systemfields.files import RequestFilesField
 
 from ..customizations import RequestState as State
 from .dumpers import (
@@ -215,7 +217,7 @@ class Request(Record):
     bucket = ModelField(dump=False)
 
     # Files NOT dumped or stored in JSON - internal only
-    files = FilesField(
+    files = RequestFilesField(
         store=False,  # Don't serialize to request JSON
         dump=False,  # Don't include in dumps()
         file_cls=RequestFile,

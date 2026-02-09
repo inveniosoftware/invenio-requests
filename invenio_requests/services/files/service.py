@@ -65,6 +65,11 @@ class RequestFilesService(FileService):
         key_root, key_ext = splitext(key)
         unique_key = f"{key_root}-{unique_id}{key_ext}"
 
+        # Lazy files enable initialization (for requests created before request files support)
+        if request.files is None:
+            # RequestFilesField allows to set the files field after initialization.
+            request.files = {"enabled": True}
+
         # Lazy bucket initialization
         if request.files.bucket is None:
             request.files.create_bucket()
