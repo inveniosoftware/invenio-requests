@@ -94,6 +94,7 @@ const TimelineEventBodyRender = React.forwardRef(
     );
   }
 );
+TimelineEventBodyRender.displayName = "TimelineEventBodyRender";
 
 TimelineEventBodyRender.propTypes = {
   refInner: PropTypes.instanceOf(Element).isRequired,
