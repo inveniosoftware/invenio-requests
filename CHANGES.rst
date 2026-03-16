@@ -9,6 +9,10 @@
 Changes
 =======
 
+Version v9.0.2 (released 2026-03-16)
+
+- fix(RequestMetadata): pass required props to the <Overridable>
+
 Version v9.0.1 (released 2025-09-22)
 
 - chores: bump major version of react-overridable
