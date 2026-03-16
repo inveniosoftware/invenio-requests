@@ -154,22 +154,25 @@ class RequestMetadata extends Component {
   isResourceDeleted = (details) => details.is_ghost === true;
 
   render() {
-    const { request } = this.props;
+    const { request, config, permissions } = this.props;
+    const { enableReviewers, allowGroupReviewers, maxReviewers } = config;
+
     const expandedCreatedBy = request.expanded?.created_by;
     const expandedReceiver = request.expanded?.receiver;
 
-    const enableReviewers = this.props.config.enableReviewers;
-    const allowGroupReviewers = this.props.config.allowGroupReviewers;
-    const maxReviewers = this.props.config.maxReviewers;
-
     return (
-      <Overridable id="InvenioRequest.RequestMetadata.Layout" request={request}>
+      <Overridable
+        id="InvenioRequest.RequestMetadata.Layout"
+        request={request}
+        config={config}
+        permissions={permissions}
+      >
         <>
           {enableReviewers && (
             <>
               <RequestReviewers
                 request={request}
-                permissions={this.props.permissions}
+                permissions={permissions}
                 allowGroupReviewers={allowGroupReviewers}
                 maxReviewers={maxReviewers}
               />
