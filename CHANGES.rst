@@ -9,6 +9,10 @@
 Changes
 =======
 
+Version v12.3.2 (released 2026-03-23)
+
+- fix: add missing alembic script
+
 Version v12.3.1 (released 2026-03-16)
 
 - fix(RequestMetadata): pass required props to the <Overridable>
