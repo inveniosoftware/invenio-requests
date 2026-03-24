@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 #
 # Copyright (C) 2025 CERN.
+# Copyright (C) 2026 Graz University of Technology.
 #
 # Invenio-Requests is free software; you can redistribute it and/or
 # modify it under the terms of the MIT License; see LICENSE file for more
@@ -61,9 +62,12 @@ class RequestFilesServiceConfig(FileServiceConfig, ConfiguratorMixin):
 
     # links configuration / ResultItem configurations
     links_item = {
-        "self": RequestFileLink("{+api}/requests/{request_id}/files/{key}"),
-        "content": RequestFileLink("{+api}/requests/{request_id}/files/{key}/content"),
-        "download_html": RequestFileLink("{+ui}/requests/{request_id}/files/{key}"),
+        "self": FileEndpointLink("request_files.delete", params=["pid_value", "key"]),
+        "content": FileEndpointLink("request_files.read", params=["pid_value", "key"]),
+        "download_html": FileEndpointLink(
+            "invenio_requests_files.read_file",
+            params=["pid_value", "key"],
+        ),
     }
 
     file_links_item = {
