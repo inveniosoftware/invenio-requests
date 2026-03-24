@@ -9,6 +9,7 @@
 # under the terms of the MIT License; see LICENSE file for more details.
 
 """RequestEvents Service."""
+
 from flask_principal import AnonymousIdentity
 from invenio_i18n import _
 from invenio_notifications.services.uow import NotificationOp
