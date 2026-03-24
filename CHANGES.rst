@@ -9,6 +9,16 @@
 Changes
 =======
 
+Version v9.0.3 (released 2026-03-24)
+
+- chore: reformat with black v26
+- fix(setup): pin setuptools for the removed pkg_resources
+- ci: update tests to run on maint branches
+- fix(routes): use UUID type for request identifiers
+- i18n: pulled translations
+- i18n: pulled translations
+- events: Adding component calls to RequestEventsService methods
+
 Version v9.0.2 (released 2026-03-16)
 
 - fix(RequestMetadata): pass required props to the <Overridable>
