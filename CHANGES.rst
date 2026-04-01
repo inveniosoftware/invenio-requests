@@ -1,6 +1,7 @@
 ..
     Copyright (C) 2021-2025 CERN.
     Copyright (C) 2024-2026 Graz University of Technology.
+    Copyright (C) 2026 Northwestern University.
 
     Invenio-Requests is free software; you can redistribute it and/or
     modify it under the terms of the MIT License; see LICENSE file for more
@@ -8,6 +9,15 @@
 
 Changes
 =======
+
+Version v12.4.0 (released 2026-04-01)
+
+- feat: RequestTypeDependentEndpointLink dynamically assigns anchor
+- fix(TimelineEventBody): For each comment, render mathjax only for itself
+- fix: wide community logo in request metadata [Oliver Geneser]
+- fix: event entrypoint incorrectly pointed to request type registry [ron]
+- chore: replace usage of Link by EndpointLink [Guillaume Viger]
+- fix: add missing alembic script [Christoph Ladurner]
 
 Version v12.3.1 (released 2026-03-16)
 
