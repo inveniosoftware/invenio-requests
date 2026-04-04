@@ -3,6 +3,7 @@
 # Copyright (C) 2021 CERN.
 # Copyright (C) 2021 Northwestern University.
 # Copyright (C) 2021 TU Wien.
+# Copyright (C) 2026 CESNET, z.s.p.o.
 #
 # Invenio-Requests is free software; you can redistribute it and/or
 # modify it under the terms of the MIT License; see LICENSE file for more
@@ -17,6 +18,7 @@ from invenio_records_permissions.generators import (
     AuthenticatedUser,
     Disable,
     IfConfig,
+    SameAs,
     SystemProcess,
     SystemProcessWithoutSuperUser,
 )
@@ -32,7 +34,7 @@ class PermissionPolicy(RecordPermissionPolicy):
     # Just about ability to perform a search (not what requests you can access)
     can_search = [AuthenticatedUser(), SystemProcess()]
 
-    can_search_user_requests = can_search
+    can_search_user_requests = SameAs("can_search")
 
     # Read/update/delete action deals with requests in **multiple states**, and
     # thus must take the request status into account.
@@ -76,13 +78,13 @@ class PermissionPolicy(RecordPermissionPolicy):
     # with requests in a **single state** and thus doesn't need to take the
     # request status into account.
     can_action_submit = [Creator(), SystemProcess()]
-    can_action_cancel = [Creator(), SystemProcess()]
+    can_action_cancel = SameAs("can_action_submit")
     # `SystemProcessWithoutSuperUser`: expire is an automatic action done only by
     # the system, therefore the `superuser-action` must be explicitly excluded
     # as it's added by default to any permission.
     can_action_expire = [SystemProcessWithoutSuperUser()]
     can_action_accept = [Receiver(), SystemProcess()]
-    can_action_decline = [Receiver(), SystemProcess()]
+    can_action_decline = SameAs("can_action_accept")
 
     can_lock_request = [
         IfConfig(
@@ -115,16 +117,16 @@ class PermissionPolicy(RecordPermissionPolicy):
             then_=[
                 IfLocked(
                     then_=[Administration()],
-                    else_=can_read,
+                    else_=SameAs("can_read"),
                 ),
                 SystemProcess(),
             ],
-            else_=can_read,
+            else_=SameAs("can_read"),
         ),
     ]
 
     # If you can create a comment, you can reply to a comment.
-    can_reply_comment = can_create_comment
+    can_reply_comment = SameAs("can_create_comment")
 
     # Needed by the search events permission because a permission_action must
     # be provided to create_search(), but the event search is already protected
