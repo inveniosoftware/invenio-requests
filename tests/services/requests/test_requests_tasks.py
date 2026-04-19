@@ -24,9 +24,7 @@ def test_check_expired_requests(
     now = datetime.now(timezone.utc).replace(tzinfo=None)
 
     # created only should not be picked up
-    created_request = create_request(
-        identity=identity_simple, expires_at=now.isoformat()
-    )
+    created_request = create_request(identity=identity_simple, expires_at=now)
     Request.index.refresh()
     check_expired_requests()
     Request.index.refresh()
@@ -58,9 +56,7 @@ def test_check_expired_requests(
     assert request_list.total == 0
 
     # expiry date in future should not be touched
-    s2 = submit_request(
-        identity_simple, expires_at=(now + timedelta(days=1)).isoformat()
-    )
+    s2 = submit_request(identity_simple, expires_at=now + timedelta(days=1))
     Request.index.refresh()
     check_expired_requests()
     Request.index.refresh()
@@ -75,7 +71,7 @@ def test_check_expired_requests(
     )
     assert request_list.total == 0
 
-    s3 = submit_request(identity_simple, expires_at=now.isoformat())
+    s3 = submit_request(identity_simple, expires_at=now)
     Request.index.refresh()
     check_expired_requests()
     Request.index.refresh()
