@@ -113,6 +113,11 @@ class SharedOrMyRequestsParam(ParamInterpreter):
             for need in identity.provides
             if need.method in allowed_need_methods
         ]
+        role_grants = [
+            EntityGrant("receiver", need).token
+            for need in identity.provides
+            if need.method in allowed_need_methods
+        ]
         reviewer_grants = [
             EntityGrant("reviewers", need).token
             for need in identity.provides
@@ -122,7 +127,7 @@ class SharedOrMyRequestsParam(ParamInterpreter):
         # Topic grants include requests created by the user or the user is the receiver,
         # so we need to exclude them
         return (
-            dsl.Q("terms", **{"grants": topic_grants + reviewer_grants})
+            dsl.Q("terms", **{"grants": topic_grants + reviewer_grants + role_grants})
             & ~my_requests_query
         )
 
