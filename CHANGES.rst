@@ -10,6 +10,10 @@
 Changes
 =======
 
+Version v12.6.1 (released 2026-05-05)
+
+- fix(comments): ensure "show less" button is hidden for comments <200px height
+
 Version v12.6.0 (released 2026-04-09)
 
 - labels: add quota increase label
