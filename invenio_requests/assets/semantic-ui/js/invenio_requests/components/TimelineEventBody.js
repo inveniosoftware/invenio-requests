@@ -156,9 +156,9 @@ const TimelineEventBodyContainer = ({
   }, []);
 
   useEffect(() => {
-    if (!collapsible) return;
-
     const el = refInner.current;
+    if (!collapsible || !el) return;
+
     if (expanded) {
       // The collapsed comment height is 200px. If the comment is too short to need expanding but `expanded` is true
       // nonetheless, `el.scrollHeight` will still be less than 200, so the comment will not be overflowing.
@@ -175,7 +175,6 @@ const TimelineEventBodyContainer = ({
       setIsOverflowing(el.scrollHeight > el.clientHeight);
     });
 
-    if (!el) return;
     resizeObserver.observe(el);
     return () => {
       resizeObserver.unobserve(el);
