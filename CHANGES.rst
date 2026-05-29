@@ -10,6 +10,12 @@
 Changes
 =======
 
+Version v13.0.0 (released 2026-05-29)
+
+- chore(setup): bump dependencies
+- feat: introduced SameAs to make the policy extendable
+- feat: Extra context for permission checks
+
 Version v12.6.2 (released 2026-05-22)
 
 - fix(comments): null ref for deleted comments
