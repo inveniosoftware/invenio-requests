@@ -157,7 +157,7 @@ class RequestReviewersComponent(ServiceComponent):
             if not event_type == "unchanged":
                 event = ReviewersUpdatedType(
                     payload=dict(
-                        event="reviewers_updated",
+                        event=f"reviewers_{event_type}",
                         content=_(f"{event_type} a reviewer"),
                         reviewers=updated_reviewers,
                     )
