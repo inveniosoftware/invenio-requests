@@ -10,6 +10,13 @@
 Changes
 =======
 
+Version v14.0.0 (released 2026-06-05)
+
+- chore(setup): bump dependencies
+- fix(tests): passing expires_at as datetime, not as string
+- fix(s3): preserve redirect responses for S3 downloads
+- chore(i18n): update string formatting
+
 Version v13.0.0 (released 2026-05-29)
 
 - chore(setup): bump dependencies
