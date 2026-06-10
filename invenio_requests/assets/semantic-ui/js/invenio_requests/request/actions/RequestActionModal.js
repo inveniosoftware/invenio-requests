@@ -40,6 +40,18 @@ export class RequestActionModal extends Component {
 
     const currentModalOpen = modalOpen[modalId];
 
+    const available_actions = {
+      "create": i18next.t("create"),
+      "submit": i18next.t("submit"),
+      "delete": i18next.t("delete"),
+      "accept": i18next.t("accept"),
+      "decline": i18next.t("decline"),
+      "cancel": i18next.t("cancel"),
+      "expire": i18next.t("expire"),
+    };
+
+    const actionLabel = available_actions[action] ? available_actions[action] : action;
+
     return (
       <Overridable id="InvenioRequests.RequestActionModal.layout" {...this.props}>
         {/* currentModalOpen prevents mounting multiple instances */}
@@ -47,7 +59,7 @@ export class RequestActionModal extends Component {
           <Modal aria-label={action} role="dialog" id={modalId} open={currentModalOpen}>
             <Modal.Header as="h2" className="capitalize-first-char">
               <Overridable id={`RequestActionModal.title.${action}`}>
-                <span>{ i18next.t("{{action}} request", {  action: i18next.t(action) }) }</span>
+                <span>{ i18next.t("{{action}} request", {  action: actionLabel }) }</span>
               </Overridable>
             </Modal.Header>
             <Modal.Content>
