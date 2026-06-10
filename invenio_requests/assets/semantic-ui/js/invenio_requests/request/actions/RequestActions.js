@@ -12,7 +12,7 @@ import { RequestAction } from "./RequestAction";
 import { Dropdown } from "semantic-ui-react";
 import { AppMedia } from "@js/invenio_theme/Media";
 import PropTypes from "prop-types";
-import { i18next } from "../../../../translations/invenio_requests/i18next";
+import { i18next } from "@translations/invenio_requests/i18next";
 
 export const RequestActions = ({ request, size }) => {
   const available_actions = [
