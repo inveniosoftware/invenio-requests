@@ -30,9 +30,3 @@ export const updateRequestAfterAction = (request) => {
     window.location.reload();
   };
 };
-
-export const setRefreshInterval = () => {
-  return (dispatch, getState, config) => {
-    return config.refreshIntervalMs;
-  };
-};

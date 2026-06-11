@@ -91,6 +91,11 @@ REQUESTS_FACETS = {
 REQUESTS_TIMELINE_PAGE_SIZE = 10
 """Amount of items per page on the request details timeline"""
 
+REQUESTS_TIMELINE_REFRESH_INTERVAL = 5
+"""Interval in seconds between each periodic refresh of the request details timeline.
+
+Set it to `None` to disable periodic refresh.
+"""
 
 REQUESTS_MODERATION_ROLE = "administration-moderation"
 """ID of the Role used for moderation."""

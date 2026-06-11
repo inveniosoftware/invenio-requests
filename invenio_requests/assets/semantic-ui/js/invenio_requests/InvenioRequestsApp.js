@@ -25,7 +25,7 @@ export class InvenioRequestsApp extends Component {
     const {
       requestsApi,
       requestEventsApi,
-      dataset: { request, defaultQueryParams, defaultReplyQueryParams },
+      dataset: { request, defaultQueryParams, defaultReplyQueryParams, config },
     } = this.props;
 
     const defaultRequestsApi = new InvenioRequestsAPI(
@@ -37,7 +37,8 @@ export class InvenioRequestsApp extends Component {
       requestsApi: requestsApi || defaultRequestsApi,
       request,
       requestEventsApi: requestEventsApi || defaultRequestEventsApi,
-      refreshIntervalMs: 5000,
+      refreshIntervalMs:
+        config.timelineRefreshInterval && config.timelineRefreshInterval * 1000,
       defaultQueryParams,
       defaultReplyQueryParams,
     };
