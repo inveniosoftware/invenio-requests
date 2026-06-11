@@ -54,7 +54,14 @@
          data-default-reply-query-config='{{ dict(size=config["REQUESTS_COMMENT_PREVIEW_LIMIT"]) | tojson }}'
          data-user-avatar='{{ user_avatar | tojson }}'
          data-permissions='{{ permissions | tojson }}'
-         data-config='{{ dict(allowGroupReviewers=config["USERS_RESOURCES_GROUPS_ENABLED"], enableReviewers=config["REQUESTS_REVIEWERS_ENABLED"], maxReviewers=config["REQUESTS_REVIEWERS_MAX_NUMBER"], lockingEnabled=config["REQUESTS_LOCKING_ENABLED"]) | tojson }}'
+         data-config='{{ dict(
+           allowGroupReviewers=config["USERS_RESOURCES_GROUPS_ENABLED"],
+           enableReviewers=config["REQUESTS_REVIEWERS_ENABLED"],
+           maxReviewers=config["REQUESTS_REVIEWERS_MAX_NUMBER"],
+           lockingEnabled=config["REQUESTS_LOCKING_ENABLED"],
+           timelineRefreshInterval=config["REQUESTS_TIMELINE_REFRESH_INTERVAL"]
+         ) | tojson }}'
+
     >{# react app root #}
       <div class="ui grid">
         <div class="stretched row">
