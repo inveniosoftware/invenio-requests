@@ -162,6 +162,7 @@ class RequestMetadata extends Component {
 
     const expandedCreatedBy = request.expanded?.created_by;
     const expandedReceiver = request.expanded?.receiver;
+    const topicVersion = request.expanded?.topic?.version;
 
     return (
       <Overridable
@@ -249,7 +250,10 @@ class RequestMetadata extends Component {
                 <Header as="h3" size="tiny">
                   {i18next.t("Record")}
                 </Header>
-                <a href={`/records/${request.topic.record}`}>{request.title}</a>
+                <a href={`/records/${request.topic.record}`}>
+                  {request.title}
+                  {topicVersion && ` (${topicVersion})`}
+                </a>
               </>
             )}
           {permissions.can_lock_request && <LockRequest request={request} />}
