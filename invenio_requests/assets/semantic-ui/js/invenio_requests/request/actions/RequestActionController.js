@@ -8,11 +8,18 @@ import { errorSerializer } from "@js/invenio_requests/api/serializers";
 import { RequestActions } from "@js/invenio_requests/request/actions/RequestActions";
 import PropTypes from "prop-types";
 import { RequestActionContext } from "./context";
-import React, { Component } from "react";
+import { Component } from "react";
 
+const requestActionControllerDefaultPropActionSuccessCallback = () => {};
 export class RequestActionController extends Component {
   constructor(props) {
-    super(props);
+    super({
+      requestApi: null,
+      actionSuccessCallback: requestActionControllerDefaultPropActionSuccessCallback,
+      size: "medium",
+      children: null,
+      ...props,
+    });
     const { request, requestApi } = props;
     this.linkExtractor = new RequestLinksExtractor(request);
     this.requestApi = requestApi || new InvenioRequestsAPI(this.linkExtractor);
@@ -77,11 +84,4 @@ RequestActionController.propTypes = {
   actionSuccessCallback: PropTypes.func,
   size: PropTypes.string,
   children: PropTypes.node,
-};
-
-RequestActionController.defaultProps = {
-  requestApi: null,
-  actionSuccessCallback: () => {},
-  size: "medium",
-  children: null,
 };

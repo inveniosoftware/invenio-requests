@@ -3,14 +3,14 @@
  * SPDX-FileCopyrightText: 2024 KTH Royal Institute of Technology.
  * SPDX-License-Identifier: MIT
  */
-import React, { Component } from "react";
+import { Component } from "react";
 import Overridable from "react-overridable";
 import PropTypes from "prop-types";
 import Error from "./Error";
 
 class ErrorBoundary extends Component {
   constructor(props) {
-    super(props);
+    super({ children: null, ...props });
     this.state = { error: null, errorInfo: null };
   }
 
@@ -37,10 +37,6 @@ class ErrorBoundary extends Component {
 
 ErrorBoundary.propTypes = {
   children: PropTypes.node,
-};
-
-ErrorBoundary.defaultProps = {
-  children: null,
 };
 
 export default Overridable.component("ErrorBoundary", ErrorBoundary);

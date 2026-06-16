@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-import React from "react";
 import RequestsFeed from "./RequestsFeed";
 import { Placeholder, Feed } from "semantic-ui-react";
 import Overridable from "react-overridable";

@@ -4,7 +4,6 @@
  */
 
 import PropTypes from "prop-types";
-import React from "react";
 import { Grid, Header, Icon } from "semantic-ui-react";
 
 // Renders the header when the menu is collapsed.

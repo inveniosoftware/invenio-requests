@@ -6,7 +6,7 @@
 
 import { RequestActionContext } from "@js/invenio_requests/request/actions/context";
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import { Component, createRef } from "react";
 import { i18next } from "@translations/invenio_requests/i18next";
 import Overridable from "react-overridable";
 import { Modal } from "semantic-ui-react";
@@ -16,8 +16,8 @@ import { RequestActionButton } from "./RequestActionButton";
 
 export class RequestActionModal extends Component {
   constructor(props) {
-    super(props);
-    this.cancelBtnRef = React.createRef();
+    super({ loading: false, modalOpen: false, ...props });
+    this.cancelBtnRef = createRef();
   }
 
   componentDidMount() {
@@ -105,11 +105,6 @@ RequestActionModal.propTypes = {
   requestType: PropTypes.string.isRequired,
   loading: PropTypes.bool,
   modalOpen: PropTypes.bool,
-};
-
-RequestActionModal.defaultProps = {
-  loading: false,
-  modalOpen: false,
 };
 
 export default Overridable.component(

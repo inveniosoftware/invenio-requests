@@ -5,13 +5,18 @@
 
 import { i18next } from "@translations/invenio_requests/i18next";
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import { Component } from "react";
 import { withState } from "react-searchkit";
 import { Button } from "semantic-ui-react";
 
 class SharedOrMineFilterComponent extends Component {
   constructor(props) {
-    super(props);
+    super({
+      keepFiltersOnUpdate: true,
+      sharedWithMeLabel: i18next.t("Shared with me"),
+      mineLabel: i18next.t("My requests"),
+      ...props,
+    });
 
     // Extract `sharedWithMe` from `currentQueryState.filters`
     const { currentQueryState } = props;
@@ -76,12 +81,6 @@ SharedOrMineFilterComponent.propTypes = {
   keepFiltersOnUpdate: PropTypes.bool,
   sharedWithMeLabel: PropTypes.string,
   mineLabel: PropTypes.string,
-};
-
-SharedOrMineFilterComponent.defaultProps = {
-  keepFiltersOnUpdate: true,
-  sharedWithMeLabel: i18next.t("Shared with me"),
-  mineLabel: i18next.t("My requests"),
 };
 
 export const SharedOrMineFilter = withState(SharedOrMineFilterComponent);

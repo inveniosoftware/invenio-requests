@@ -3,9 +3,9 @@
  * SPDX-License-Identifier: MIT
  */
 
-import React from "react";
+import { createContext } from "react";
 
-export const RequestActionContext = React.createContext({
+export const RequestActionContext = createContext({
   modalOpen: false,
   toggleModal: () => {},
   linkExtractor: undefined,

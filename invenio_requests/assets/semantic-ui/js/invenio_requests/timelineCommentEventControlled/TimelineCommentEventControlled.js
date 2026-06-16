@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import React, { Component } from "react";
+import { Component } from "react";
 import PropTypes from "prop-types";
 import { TimelineEvent } from "../timelineEvents";
 import { errorSerializer } from "../api/serializers";
@@ -11,7 +11,14 @@ import Overridable from "react-overridable";
 
 class TimelineCommentEventControlled extends Component {
   constructor(props) {
-    super(props);
+    super({
+      userAvatar: "",
+      isReply: false,
+      allowQuoteReply: true,
+      allowCopyLink: true,
+      allowReply: true,
+      ...props,
+    });
 
     this.state = {
       isLoading: false,
@@ -109,14 +116,6 @@ TimelineCommentEventControlled.propTypes = {
   allowReply: PropTypes.bool,
   request: PropTypes.object.isRequired,
   isBeforeLoadMore: PropTypes.bool.isRequired,
-};
-
-TimelineCommentEventControlled.defaultProps = {
-  userAvatar: "",
-  isReply: false,
-  allowQuoteReply: true,
-  allowCopyLink: true,
-  allowReply: true,
 };
 
 export default Overridable.component(

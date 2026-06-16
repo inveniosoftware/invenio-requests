@@ -11,16 +11,22 @@ import {
   RequestEventsLinksExtractor,
 } from "./api";
 import { Request } from "./request";
-import React, { Component } from "react";
+import { Component } from "react";
 import PropTypes from "prop-types";
 import { configureStore } from "./store";
 import { OverridableContext } from "react-overridable";
 import { Provider } from "react-redux";
 import { DatasetContext } from "./data";
 
+const invenioRequestsAppDefaultPropOverriddenCmps = {};
 export class InvenioRequestsApp extends Component {
   constructor(props) {
-    super(props);
+    super({
+      overriddenCmps: invenioRequestsAppDefaultPropOverriddenCmps,
+      requestsApi: null,
+      requestEventsApi: null,
+      ...props,
+    });
     const {
       requestsApi,
       requestEventsApi,
@@ -70,10 +76,4 @@ InvenioRequestsApp.propTypes = {
   requestsApi: PropTypes.object,
   requestEventsApi: PropTypes.object,
   overriddenCmps: PropTypes.object,
-};
-
-InvenioRequestsApp.defaultProps = {
-  overriddenCmps: {},
-  requestsApi: null,
-  requestEventsApi: null,
 };

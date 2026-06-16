@@ -4,12 +4,16 @@
  * SPDX-License-Identifier: MIT
  */
 
-import React, { Component } from "react";
+import { Component } from "react";
 import PropTypes from "prop-types";
 import Overridable from "react-overridable";
 import { Button } from "semantic-ui-react";
 
 export class RequestActionModalTrigger extends Component {
+  constructor(props) {
+    super({ size: "medium", ...props });
+  }
+
   render() {
     const { action, toggleModal, loading, modalOpen, requestType, size } = this.props;
     const buttonAria = {
@@ -46,10 +50,6 @@ RequestActionModalTrigger.propTypes = {
   modalOpen: PropTypes.object.isRequired,
   requestType: PropTypes.string.isRequired,
   size: PropTypes.string,
-};
-
-RequestActionModalTrigger.defaultProps = {
-  size: "medium",
 };
 
 export default Overridable.component(
