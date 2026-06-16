@@ -5,7 +5,7 @@
  */
 
 import RequestMetadata from "./RequestMetadata";
-import React, { Component } from "react";
+import { Component } from "react";
 import PropTypes from "prop-types";
 import Overridable from "react-overridable";
 import { Grid } from "semantic-ui-react";
@@ -13,7 +13,7 @@ import { Timeline } from "../timelineParent";
 
 class RequestDetails extends Component {
   render() {
-    const { request, userAvatar, permissions, config } = this.props;
+    const { request, userAvatar = "", permissions, config } = this.props;
     return (
       <Overridable id="InvenioRequests.RequestDetails.layout" {...this.props}>
         <Grid stackable reversed="mobile">
@@ -42,10 +42,6 @@ RequestDetails.propTypes = {
   userAvatar: PropTypes.string,
   permissions: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
-};
-
-RequestDetails.defaultProps = {
-  userAvatar: "",
 };
 
 export default Overridable.component("InvenioRequests.RequestDetails", RequestDetails);

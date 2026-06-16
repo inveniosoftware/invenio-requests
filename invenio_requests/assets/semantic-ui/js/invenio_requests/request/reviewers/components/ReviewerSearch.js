@@ -4,7 +4,6 @@
  */
 
 import PropTypes from "prop-types";
-import React from "react";
 import { Button, Search } from "semantic-ui-react";
 
 // Renders the filter buttons and search input.
