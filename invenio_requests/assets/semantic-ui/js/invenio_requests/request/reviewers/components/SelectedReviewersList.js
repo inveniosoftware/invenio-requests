@@ -4,7 +4,7 @@
  */
 
 import PropTypes from "prop-types";
-import React from "react";
+import { Fragment } from "react";
 import { Grid, Header, HeaderSubheader, Icon } from "semantic-ui-react";
 import { DeletedResource, EntityDetails } from "../../RequestMetadata";
 
@@ -29,15 +29,15 @@ export const SelectedReviewersList = ({
       ) : (
         <Grid className="pt-10 mb-5">
           {selectedReviewers.map((reviewer) => (
-            <React.Fragment key={reviewer.id}>
+            <Fragment key={reviewer.id}>
               <Grid.Column width={13} className="pb-0">
-                <React.Fragment key={reviewer.id}>
+                <Fragment key={reviewer.id}>
                   {isResourceDeleted(reviewer) ? (
                     <DeletedResource details={reviewer} />
                   ) : (
                     <EntityDetails userData={reviewer} details={reviewer} />
                   )}
-                </React.Fragment>
+                </Fragment>
               </Grid.Column>
               <Grid.Column width={2}>
                 <Icon
@@ -46,7 +46,7 @@ export const SelectedReviewersList = ({
                   onClick={() => removeReviewer(reviewer.id)}
                 />
               </Grid.Column>
-            </React.Fragment>
+            </Fragment>
           ))}
         </Grid>
       )}

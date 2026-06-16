@@ -8,12 +8,13 @@ import { errorSerializer } from "@js/invenio_requests/api/serializers";
 import { RequestActions } from "@js/invenio_requests/request/actions/RequestActions";
 import PropTypes from "prop-types";
 import { RequestActionContext } from "./context";
-import React, { Component } from "react";
+import { Component } from "react";
 
+const requestActionControllerDefaultPropActionSuccessCallback = () => {};
 export class RequestActionController extends Component {
   constructor(props) {
     super(props);
-    const { request, requestApi } = props;
+    const { request, requestApi = null } = props;
     this.linkExtractor = new RequestLinksExtractor(request);
     this.requestApi = requestApi || new InvenioRequestsAPI(this.linkExtractor);
     this.state = { modalOpen: {}, loading: false, error: undefined };
@@ -31,7 +32,9 @@ export class RequestActionController extends Component {
 
   performAction = async (action, commentContent) => {
     this.setState({ loading: true });
-    const { actionSuccessCallback } = this.props;
+    const {
+      actionSuccessCallback = requestActionControllerDefaultPropActionSuccessCallback,
+    } = this.props;
     try {
       const response = await this.requestApi.performAction(action, commentContent);
       this.setState({ loading: false });
@@ -49,7 +52,7 @@ export class RequestActionController extends Component {
 
   render() {
     const { modalOpen, error, loading } = this.state;
-    const { request, children, size } = this.props;
+    const { request, children = null, size = "medium" } = this.props;
 
     return (
       <RequestActionContext.Provider
@@ -77,11 +80,4 @@ RequestActionController.propTypes = {
   actionSuccessCallback: PropTypes.func,
   size: PropTypes.string,
   children: PropTypes.node,
-};
-
-RequestActionController.defaultProps = {
-  requestApi: null,
-  actionSuccessCallback: () => {},
-  size: "medium",
-  children: null,
 };

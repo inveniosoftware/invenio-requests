@@ -5,14 +5,13 @@
 
 import { RequestActionController } from "@js/invenio_requests/request/actions/RequestActionController";
 import PropTypes from "prop-types";
-import ReactDOM from "react-dom";
-import React from "react";
+import { createPortal } from "react-dom";
 import Overridable from "react-overridable";
 
 const element = document.getElementById("request-actions");
 
 const RequestActionsPortalCmp = ({ request, actionSuccessCallback }) => {
-  return ReactDOM.createPortal(
+  return createPortal(
     <RequestActionController
       request={request}
       actionSuccessCallback={actionSuccessCallback}

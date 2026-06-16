@@ -4,7 +4,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-import React from "react";
 import PropTypes from "prop-types";
 import Overridable from "react-overridable";
 import { Button } from "semantic-ui-react";
@@ -13,8 +12,8 @@ export const RequestActionButton = ({
   action,
   handleActionClick,
   loading,
-  className,
-  size,
+  className = "",
+  size = "medium",
   requestType,
 }) => {
   return (
@@ -45,11 +44,6 @@ RequestActionButton.propTypes = {
   className: PropTypes.string,
   size: PropTypes.string,
   requestType: PropTypes.string.isRequired,
-};
-
-RequestActionButton.defaultProps = {
-  className: "",
-  size: "medium",
 };
 
 export default Overridable.component(

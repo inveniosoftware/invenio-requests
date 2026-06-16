@@ -5,7 +5,7 @@
 
 import { i18next } from "@translations/invenio_requests/i18next";
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import { Component } from "react";
 import { withState } from "react-searchkit";
 import { Button } from "semantic-ui-react";
 
@@ -27,7 +27,11 @@ class RequestStatusFilterComponent extends Component {
    * @param {string} OpenStatus true if open requests and false if closed requests
    */
   retrieveRequests = (OpenStatus) => {
-    const { currentQueryState, updateQueryState, keepFiltersOnUpdate } = this.props;
+    const {
+      currentQueryState,
+      updateQueryState,
+      keepFiltersOnUpdate = false,
+    } = this.props;
     const { open } = this.state;
 
     if (open === OpenStatus) {
@@ -78,10 +82,6 @@ RequestStatusFilterComponent.propTypes = {
   updateQueryState: PropTypes.func.isRequired,
   currentQueryState: PropTypes.object.isRequired,
   keepFiltersOnUpdate: PropTypes.bool,
-};
-
-RequestStatusFilterComponent.defaultProps = {
-  keepFiltersOnUpdate: false,
 };
 
 export const RequestStatusFilter = withState(RequestStatusFilterComponent);
