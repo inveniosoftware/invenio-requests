@@ -5,7 +5,7 @@
 
 import { i18next } from "@translations/invenio_requests/i18next";
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import { Component } from "react";
 import { withState } from "react-searchkit";
 import { Button } from "semantic-ui-react";
 
@@ -31,7 +31,11 @@ class SharedOrMineFilterComponent extends Component {
    * @param {string} sharedWithMeStatus is evaluated to true or false based on `shared_with_me` URL parameter
    */
   retrieveSharedOrMine = (sharedWithMeStatus) => {
-    const { currentQueryState, updateQueryState, keepFiltersOnUpdate } = this.props;
+    const {
+      currentQueryState,
+      updateQueryState,
+      keepFiltersOnUpdate = true,
+    } = this.props;
 
     this.setState({
       sharedWithMe: sharedWithMeStatus,
@@ -45,7 +49,10 @@ class SharedOrMineFilterComponent extends Component {
 
   render() {
     const { sharedWithMe } = this.state;
-    const { sharedWithMeLabel, mineLabel } = this.props;
+    const {
+      sharedWithMeLabel = i18next.t("Shared with me"),
+      mineLabel = i18next.t("My requests"),
+    } = this.props;
 
     return (
       <Button.Group basic fluid>
@@ -76,12 +83,6 @@ SharedOrMineFilterComponent.propTypes = {
   keepFiltersOnUpdate: PropTypes.bool,
   sharedWithMeLabel: PropTypes.string,
   mineLabel: PropTypes.string,
-};
-
-SharedOrMineFilterComponent.defaultProps = {
-  keepFiltersOnUpdate: true,
-  sharedWithMeLabel: i18next.t("Shared with me"),
-  mineLabel: i18next.t("My requests"),
 };
 
 export const SharedOrMineFilter = withState(SharedOrMineFilterComponent);

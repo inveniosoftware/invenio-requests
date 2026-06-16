@@ -5,7 +5,6 @@
 
 import { AppMedia } from "@js/invenio_theme/Media";
 import { i18next } from "@translations/invenio_requests/i18next";
-import React from "react";
 import PropTypes from "prop-types";
 import { Dropdown } from "semantic-ui-react";
 import {
@@ -19,12 +18,13 @@ const { MediaContextProvider, Media } = AppMedia;
 
 // components for most common actions, used in other modules, not explicitly in invenio-requests
 
+const requestDeclineModalTriggerDefaultPropAriaAttributes = {};
 export const RequestDeclineModalTrigger = ({
   onClick,
-  loading,
-  ariaAttributes,
-  size,
-  className,
+  loading = false,
+  ariaAttributes = requestDeclineModalTriggerDefaultPropAriaAttributes,
+  size = "mini",
+  className = "ml-5",
 }) => {
   return (
     <MediaContextProvider>
@@ -61,20 +61,14 @@ RequestDeclineModalTrigger.propTypes = {
   className: PropTypes.string,
 };
 
-RequestDeclineModalTrigger.defaultProps = {
-  loading: false,
-  ariaAttributes: {},
-  size: "mini",
-  className: "ml-5",
-};
-
+const requestAcceptModalTriggerDefaultPropAriaAttributes = {};
 export const RequestAcceptModalTrigger = ({
   onClick,
   requestType,
-  loading,
-  ariaAttributes,
-  size,
-  className,
+  loading = false,
+  ariaAttributes = requestAcceptModalTriggerDefaultPropAriaAttributes,
+  size = "mini",
+  className = "ml-5",
 }) => {
   let text; // logic duplicated from Buttons.js for Dropdown text
   switch (requestType) {
@@ -124,19 +118,13 @@ RequestAcceptModalTrigger.propTypes = {
   className: PropTypes.string,
 };
 
-RequestAcceptModalTrigger.defaultProps = {
-  loading: false,
-  ariaAttributes: {},
-  size: "mini",
-  className: "ml-5",
-};
-
+const requestCancelModalTriggerDefaultPropAriaAttributes = {};
 export const RequestCancelModalTrigger = ({
   onClick,
-  loading,
-  ariaAttributes,
-  size,
-  className,
+  loading = false,
+  ariaAttributes = requestCancelModalTriggerDefaultPropAriaAttributes,
+  size = "mini",
+  className = "ml-5",
 }) => {
   return (
     <MediaContextProvider>
@@ -174,20 +162,14 @@ RequestCancelModalTrigger.propTypes = {
   className: PropTypes.string,
 };
 
-RequestCancelModalTrigger.defaultProps = {
-  loading: false,
-  ariaAttributes: {},
-  size: "mini",
-  className: "ml-5",
-};
-
+const requestSubmitModalTriggerDefaultPropAriaAttributes = {};
 export const RequestSubmitModalTrigger = ({
   onClick,
   requestType,
-  loading,
-  ariaAttributes,
-  size,
-  className,
+  loading = false,
+  ariaAttributes = requestSubmitModalTriggerDefaultPropAriaAttributes,
+  size = "mini",
+  className = "ml-5",
 }) => {
   const text = i18next.t("Request access");
   return (
@@ -225,11 +207,4 @@ RequestSubmitModalTrigger.propTypes = {
   ariaAttributes: PropTypes.object,
   size: PropTypes.string,
   className: PropTypes.string,
-};
-
-RequestSubmitModalTrigger.defaultProps = {
-  loading: false,
-  ariaAttributes: {},
-  size: "mini",
-  className: "ml-5",
 };

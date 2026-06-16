@@ -3,7 +3,7 @@
  * SPDX-FileCopyrightText: 2024 KTH Royal Institute of Technology.
  * SPDX-License-Identifier: MIT
  */
-import React, { Component } from "react";
+import { Component } from "react";
 import BaseModal from "./BaseModal";
 import { i18next } from "@translations/invenio_requests/i18next";
 import PropTypes from "prop-types";
