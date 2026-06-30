@@ -1,4 +1,167 @@
-# pyproject.toml
+# SPDX-FileCopyrightText: 2021-2025 CERN.
+# SPDX-FileCopyrightText: 2021 Northwestern University.
+# SPDX-FileCopyrightText: 2022-2026 Graz University of Technology.
+# SPDX-FileCopyrightText: 2021-2026 TU Wien.
+# SPDX-License-Identifier: MIT
+
+[project]
+name = "invenio-requests"
+description = "Invenio module for generic and customizable requests."
+readme = "README.rst"
+requires-python = ">=3.9"
+license = "MIT"
+authors = [
+  { name = "CERN", email = "info@inveniosoftware.org" },
+]
+keywords = [
+  "invenio",
+  "requests",
+]
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+]
+dependencies = [
+  "invenio-records-resources>=10.0.0,<11.0.0",
+  "invenio-theme>=4.0.0,<5.0.0",
+  "invenio-users-resources>=12.0.0,<13.0.0",
+]
+dynamic = ["version"]
+
+[project.urls]
+Repository = "https://github.com/inveniosoftware/invenio-requests"
+
+[project.entry-points."invenio_assets.webpack"]
+invenio_requests = "invenio_requests.webpack:requests"
+
+[project.entry-points."invenio_base.api_apps"]
+invenio_requests = "invenio_requests:InvenioRequests"
+
+[project.entry-points."invenio_base.api_blueprints"]
+invenio_request_events = "invenio_requests.views:create_request_events_bp"
+invenio_request_files = "invenio_requests.views:create_request_files_bp"
+invenio_requests = "invenio_requests.views:create_requests_bp"
+invenio_requests_ext = "invenio_requests.views:blueprint"
+invenio_requests_ui = "invenio_requests.views:create_ui_blueprint"
+
+[project.entry-points."invenio_base.api_finalize_app"]
+invenio_requests = "invenio_requests.ext:api_finalize_app"
+
+[project.entry-points."invenio_base.apps"]
+invenio_requests = "invenio_requests:InvenioRequests"
+
+[project.entry-points."invenio_base.blueprints"]
+invenio_requests = "invenio_requests.views:create_ui_blueprint"
+invenio_requests_ext = "invenio_requests.views:blueprint"
+invenio_requests_files = "invenio_requests.views.files:create_ui_blueprint"
+
+[project.entry-points."invenio_base.finalize_app"]
+invenio_requests = "invenio_requests.ext:finalize_app"
+
+[project.entry-points."invenio_celery.tasks"]
+invenio_requests = "invenio_requests.tasks"
+
+[project.entry-points."invenio_db.alembic"]
+invenio_requests = "invenio_requests:alembic"
+
+[project.entry-points."invenio_db.models"]
+invenio_requests = "invenio_requests.records.models"
+
+[project.entry-points."invenio_i18n.translations"]
+messages = "invenio_requests"
+
+[project.entry-points."invenio_jsonschemas.schemas"]
+jsonschemas = "invenio_requests.records.jsonschemas"
+
+[project.entry-points."invenio_requests.types"]
+users_moderation = "invenio_requests.customizations.user_moderation:UserModerationRequest"
+
+[project.entry-points."invenio_search.mappings"]
+requestevents = "invenio_requests.records.mappings"
+requests = "invenio_requests.records.mappings"
+
+[project.optional-dependencies]
+elasticsearch7 = [
+  "invenio-search[elasticsearch7]>=3.0.0,<4.0.0",
+]
+opensearch1 = [
+  "invenio-search[opensearch1]>=3.0.0,<4.0.0",
+]
+opensearch2 = [
+  "invenio-search[opensearch2]>=3.0.0,<4.0.0",
+]
+tests = [
+  "invenio-app>=3.0.0,<4.0.0",
+  "invenio-db[postgresql,mysql]>=2.2.0,<3.0.0",
+  "pytest-black>=0.6.0",
+  "pytest-invenio>=4.0.0,<5.0.0",
+  "sphinx>=4.5.0",
+  "time-machine>=2.19.0,<3.0.0",
+]
+
 [build-system]
-requires = ["setuptools", "wheel", "babel>2.8"]
-build-backend = "setuptools.build_meta"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+# pyproject.toml
+# see https://babel.pocoo.org/en/latest/messages.html#toml-configuration-format
+[tool.babel]
+[tool.babel.compile_catalog]
+directory = "invenio_requests/translations/"
+use_fuzzy = true
+
+[tool.babel.extract_messages]
+copyright_holder = "CERN"
+msgid_bugs_address = "info@inveniosoftware.org"
+mapping_file = "pyproject.toml"
+output_file = "invenio_requests/translations/messages.pot"
+add_comments = "NOTE"
+
+[tool.babel.init_catalog]
+input_file = "invenio_requests/translations/messages.pot"
+output_dir = "invenio_requests/translations/"
+
+[[tool.babel.mappings]]
+method = "javascript"
+pattern = "**.js"
+encoding = "utf-8"
+extract_messages = "$._, jQuery._"
+
+[[tool.babel.mappings]]
+method = "python"
+pattern = "**.py"
+encoding = "utf-8"
+
+[[tool.babel.mappings]]
+method = "jinja2"
+pattern = "**/templates/**.html"
+encoding = "utf-8"
+
+[tool.hatch.version]
+path = "invenio_requests/__init__.py"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "/invenio_requests",
+]
+
+[tool.isort]
+profile = "black"
+
+[tool.pydocstyle]
+add_ignore = "D401"
+
+[tool.pytest.ini_options]
+addopts = '--black --isort --pydocstyle --doctest-glob="*.rst" --doctest-modules --cov=invenio_requests --cov-report=term-missing'
+testpaths = "tests invenio_requests"
+live_server_scope = "module"
+
+# UV needs to be told explicitly which extras are conflicting:
+# https://docs.astral.sh/uv/concepts/projects/config/#conflicting-dependencies
+[tool.uv]
+conflicts = [
+  [
+    { extra = "opensearch1" },
+    { extra = "opensearch2" },
+    { extra = "elasticsearch7" },
+  ]
+]

@@ -9,9 +9,9 @@
 
 # Translate python strings
 # 1) Create message catalog:
-#    $ python setup.py extract_messages
-#    $ python setup.py init_catalog -l <lang>
-#    $ python setup.py compile_catalog
+#    $ pybabel extract -F pyproject.toml -o invenio_requests/translations/messages.pot invenio_requests
+#    $ pybabel init -i invenio_requests/translations/messages.pot -d invenio_requests/translations -l <lang>
+#    $ pybabel compile -d invenio_requests/translations --use-fuzzy
 # 2) Ensure inveniosoftware project has been created on Transifex
 #    organisation.
 # 3) Install the transifex-client
