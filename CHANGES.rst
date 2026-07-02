@@ -7,6 +7,10 @@
 Changes
 =======
 
+Version v15.1.0 (released 2026-07-02)
+
+- feat(requests): add role grant to shared with me param
+
 Version v15.0.0 (released 2026-06-16)
 
 - chore(setup): bump dependencies
