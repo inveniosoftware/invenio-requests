@@ -14,6 +14,7 @@ import PropTypes from "prop-types";
 
 export const RequestActions = ({ request, size }) => {
   const actions = Object.keys(new RequestLinksExtractor(request).actions);
+
   const { MediaContextProvider, Media } = AppMedia;
 
   return (

@@ -7,7 +7,6 @@
 import { RequestActionContext } from "@js/invenio_requests/request/actions/context";
 import PropTypes from "prop-types";
 import React, { Component } from "react";
-import { Trans } from "react-i18next";
 import { i18next } from "@translations/invenio_requests/i18next";
 import Overridable from "react-overridable";
 import { Modal } from "semantic-ui-react";
@@ -40,6 +39,18 @@ export class RequestActionModal extends Component {
 
     const currentModalOpen = modalOpen[modalId];
 
+    const availableActions = {
+      create: i18next.t("create"),
+      submit: i18next.t("submit"),
+      delete: i18next.t("delete"),
+      accept: i18next.t("accept"),
+      decline: i18next.t("decline"),
+      cancel: i18next.t("cancel"),
+      expire: i18next.t("expire"),
+    };
+
+    const actionLabel = availableActions[action] ? availableActions[action] : action;
+
     return (
       <Overridable id="InvenioRequests.RequestActionModal.layout" {...this.props}>
         {/* currentModalOpen prevents mounting multiple instances */}
@@ -47,10 +58,7 @@ export class RequestActionModal extends Component {
           <Modal aria-label={action} role="dialog" id={modalId} open={currentModalOpen}>
             <Modal.Header as="h2" className="capitalize-first-char">
               <Overridable id={`RequestActionModal.title.${action}`}>
-                <Trans
-                  defaults="{{action}} request"
-                  values={{ action: i18next.t(action) }}
-                />
+                <span>{i18next.t("{{action}} request", { action: actionLabel })}</span>
               </Overridable>
             </Modal.Header>
             <Modal.Content>
