@@ -1,134 +1,229 @@
 # Translations template for invenio-requests.
-# Copyright (C) 2025 CERN
+# Copyright (C) 2026 CERN
 # This file is distributed under the same license as the invenio-requests
 # project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 #
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: invenio-requests 7.0.0\n"
+"Project-Id-Version: invenio-requests 14.0.0\n"
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
-"POT-Creation-Date: 2025-07-08 19:57+0000\n"
+"POT-Creation-Date: 2026-07-06 12:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.18.0\n"
 
-#: invenio_requests/config.py:47 invenio_requests/config.py:96
+#: invenio_requests/config.py:49 invenio_requests/config.py:106
 msgid "Best match"
 msgstr ""
 
-#: invenio_requests/config.py:51 invenio_requests/config.py:100
+#: invenio_requests/config.py:53 invenio_requests/config.py:110
 msgid "Newest"
 msgstr ""
 
-#: invenio_requests/config.py:55 invenio_requests/config.py:104
+#: invenio_requests/config.py:57 invenio_requests/config.py:114
 msgid "Oldest"
 msgstr ""
 
-#: invenio_requests/customizations/user_moderation/user_moderation.py:48
-#: invenio_requests/services/requests/facets.py:31
+#: invenio_requests/config.py:61
+msgid "Newest activity"
+msgstr ""
+
+#: invenio_requests/config.py:65
+msgid "Oldest activity"
+msgstr ""
+
+#: invenio_requests/errors.py:59
+msgid "The request is locked."
+msgstr ""
+
+#: invenio_requests/errors.py:79
+msgid "Permission denied."
+msgstr ""
+
+#: invenio_requests/customizations/event_types.py:25
+msgid "The ID must be an Universally Unique IDentifier (UUID)."
+msgstr ""
+
+#: invenio_requests/customizations/user_moderation/user_moderation.py:44
+#: invenio_requests/services/requests/facets.py:27
 msgid "User moderation"
 msgstr ""
 
-#: invenio_requests/resources/requests/fields.py:24
+#: invenio_requests/resources/requests/fields.py:19
 msgid "Not a valid reference."
 msgstr ""
 
-#: invenio_requests/services/events/service.py:167
-msgid "deleted a comment"
+#: invenio_requests/services/events/service.py:116
+msgid "Commenting is now locked for this conversation."
 msgstr ""
 
-#: invenio_requests/services/requests/facets.py:16
+#: invenio_requests/services/events/service.py:121
+msgid "You do not have permission to comment on this conversation."
+msgstr ""
+
+#: invenio_requests/services/events/service.py:240
+msgid "Updating is now locked for this comment."
+msgstr ""
+
+#: invenio_requests/services/events/service.py:244
+msgid "You do not have permission to update this comment."
+msgstr ""
+
+#: invenio_requests/services/events/service.py:250
+msgid "You cannot update this event."
+msgstr ""
+
+#: invenio_requests/services/events/service.py:313
+msgid "You cannot delete this event."
+msgstr ""
+
+#: invenio_requests/services/files/errors.py:14
+msgid "File size exceeds limit"
+msgstr ""
+
+#: invenio_requests/services/files/errors.py:22
+msgid "File not found"
+msgstr ""
+
+#: invenio_requests/services/files/errors.py:30
+msgid "Missing required argument file_key or file_id"
+msgstr ""
+
+#: invenio_requests/services/requests/components.py:117
+msgid "Reviewers are not enabled for this request type."
+msgstr ""
+
+#: invenio_requests/services/requests/components.py:121
+msgid "Group reviewers are not enabled."
+msgstr ""
+
+#: invenio_requests/services/requests/components.py:126
+#, python-format
+msgid "You can only add up to %(max_reviewers)s reviewers."
+msgstr ""
+
+#: invenio_requests/services/requests/components.py:160
+#, python-format
+msgid "%(event_type)s a reviewer"
+msgstr ""
+
+#: invenio_requests/services/requests/components.py:239
+#, python-format
+msgid "File %(file_id)s not found."
+msgstr ""
+
+#: invenio_requests/services/requests/facets.py:12
 msgid "Type"
 msgstr ""
 
-#: invenio_requests/services/requests/facets.py:19
+#: invenio_requests/services/requests/facets.py:15
 msgid "Guest access"
 msgstr ""
 
-#: invenio_requests/services/requests/facets.py:20
+#: invenio_requests/services/requests/facets.py:16
 msgid "User access"
 msgstr ""
 
-#: invenio_requests/services/requests/facets.py:22
+#: invenio_requests/services/requests/facets.py:18
 msgid "Community inclusion"
 msgstr ""
 
-#: invenio_requests/services/requests/facets.py:23
+#: invenio_requests/services/requests/facets.py:19
 msgid "Draft review"
 msgstr ""
 
-#: invenio_requests/services/requests/facets.py:25
+#: invenio_requests/services/requests/facets.py:21
 msgid "Membership request"
 msgstr ""
 
-#: invenio_requests/services/requests/facets.py:26
+#: invenio_requests/services/requests/facets.py:22
 msgid "Member invitation"
 msgstr ""
 
-#: invenio_requests/services/requests/facets.py:28
+#: invenio_requests/services/requests/facets.py:24
 msgid "Subcommunity"
 msgstr ""
 
-#: invenio_requests/services/requests/facets.py:29
+#: invenio_requests/services/requests/facets.py:25
 msgid "Subcommunity invitation"
 msgstr ""
 
-#: invenio_requests/services/requests/facets.py:33
+#: invenio_requests/services/requests/facets.py:28
+msgid "Record deletion"
+msgstr ""
+
+#: invenio_requests/services/requests/facets.py:29
+msgid "File modification"
+msgstr ""
+
+#: invenio_requests/services/requests/facets.py:30
+msgid "Quota increase"
+msgstr ""
+
+#: invenio_requests/services/requests/facets.py:32
 msgid "Community manage record"
 msgstr ""
 
-#: invenio_requests/services/requests/facets.py:34
+#: invenio_requests/services/requests/facets.py:33
 msgid "Upgrade legacy record"
 msgstr ""
 
-#: invenio_requests/services/requests/facets.py:40
+#: invenio_requests/services/requests/facets.py:39
 msgid "Status"
 msgstr ""
 
-#: invenio_requests/services/requests/facets.py:42
+#: invenio_requests/services/requests/facets.py:41
 msgid "Submitted"
 msgstr ""
 
-#: invenio_requests/services/requests/facets.py:43
+#: invenio_requests/services/requests/facets.py:42
 msgid "Expired"
 msgstr ""
 
-#: invenio_requests/services/requests/facets.py:44
+#: invenio_requests/services/requests/facets.py:43
 msgid "Accepted"
 msgstr ""
 
-#: invenio_requests/services/requests/facets.py:45
+#: invenio_requests/services/requests/facets.py:44
 msgid "Declined"
 msgstr ""
 
-#: invenio_requests/services/requests/facets.py:46
+#: invenio_requests/services/requests/facets.py:45
 msgid "Cancelled"
 msgstr ""
 
-#: invenio_requests/services/requests/facets.py:53
-#: invenio_requests/services/requests/facets.py:55
+#: invenio_requests/services/requests/facets.py:52
+#: invenio_requests/services/requests/facets.py:54
 msgid "Open"
 msgstr ""
 
-#: invenio_requests/services/requests/facets.py:56
+#: invenio_requests/services/requests/facets.py:55
 msgid "Closed"
 msgstr ""
 
-#: invenio_requests/services/user_moderation/errors.py:14
+#: invenio_requests/services/requests/service.py:343
+msgid "The request is already locked."
+msgstr ""
+
+#: invenio_requests/services/requests/service.py:357
+msgid "The request is already unlocked."
+msgstr ""
+
+#: invenio_requests/services/user_moderation/errors.py:11
 msgid "Invalid creator for user moderation request."
 msgstr ""
 
-#: invenio_requests/services/user_moderation/errors.py:20
+#: invenio_requests/services/user_moderation/errors.py:17
 msgid "There is already an open moderation request for this user."
 msgstr ""
 
-#: invenio_requests/services/user_moderation/service.py:82
+#: invenio_requests/services/user_moderation/service.py:80
 msgid "Moderation role must exist to enable user moderation requests."
 msgstr ""
 
@@ -144,14 +239,18 @@ msgstr ""
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:33
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:59
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:40
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:67
 msgid "Check out the request"
 msgstr ""
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:39
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:46
 msgid "This is an auto-generated message. To manage notifications, visit your"
 msgstr ""
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:39
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:46
 msgid "account settings"
 msgstr ""
 
@@ -161,6 +260,7 @@ msgid "@{user_name} commented on '{request_title}'"
 msgstr ""
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:49
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:57
 #, python-brace-format
 msgid "Check out the request: {request_link}"
 msgstr ""
@@ -170,15 +270,40 @@ msgstr ""
 msgid "*@{user_name}* commented on *{request_title}*"
 msgstr ""
 
-#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:9
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:28
+#, python-brace-format
+msgid "💬 New reply on '{request_title}'"
+msgstr ""
+
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:34
+#, python-brace-format
+msgid "'@{user_name}' replied on <a href='{reply_link}'>comment</a>:"
+msgstr ""
+
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:52
+#, python-brace-format
+msgid "@{user_name} replied on comment"
+msgstr ""
+
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:56
+#, python-brace-format
+msgid "View reply: {reply_link}"
+msgstr ""
+
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:63
+#, python-brace-format
+msgid "*@{user_name}* replied on [comment]({reply_link})"
+msgstr ""
+
+#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:7
 msgid "Tombstone"
 msgstr ""
 
-#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:12
+#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:10
 msgid "Gone"
 msgstr ""
 
-#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:14
+#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:12
 #, python-format
 msgid ""
 "\n"
@@ -188,11 +313,7 @@ msgid ""
 "  "
 msgstr ""
 
-#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:21
+#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:19
 msgid "Reason for removal:"
-msgstr ""
-
-#: invenio_requests/templates/semantic-ui/invenio_requests/details/index.html:19
-msgid "Request "
 msgstr ""
 
