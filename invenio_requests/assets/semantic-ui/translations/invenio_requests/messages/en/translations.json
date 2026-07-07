@@ -64,8 +64,6 @@
   "Edit": "Edit",
   "commented {{commentTime}}": "commented {{commentTime}}",
   "Edited": "Edited",
-  "{{link_name}} links are undefined. Please refresh the page.": "{{link_name}} links are undefined. Please refresh the page.",
-  "{{link_name}} link missing from resource.": "{{link_name}} link missing from resource.",
   "Accept and delete": "Accept and delete",
   "Show less": "Show less",
   "Show more": "Show more",
@@ -103,5 +101,7 @@
   "locked this conversation": "locked this conversation",
   "unlocked this conversation": "unlocked this conversation",
   "Copy link": "Copy link",
-  "We couldn't find the comment you were looking for.": "We couldn't find the comment you were looking for."
+  "We couldn't find the comment you were looking for.": "We couldn't find the comment you were looking for.",
+  "{{linkName}} links are undefined. Please refresh the page.": "{{linkName}} links are undefined. Please refresh the page.",
+  "{{linkName}} link missing from resource.": "{{linkName}} link missing from resource."
 }
