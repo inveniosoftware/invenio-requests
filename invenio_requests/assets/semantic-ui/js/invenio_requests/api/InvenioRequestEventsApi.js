@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2022 CERN.
+ * SPDX-FileCopyrightText: 2026 KTH Royal Institute of Technology.
  * SPDX-License-Identifier: MIT
  */
 import { http } from "react-invenio-forms";
@@ -15,8 +16,8 @@ export class RequestEventsLinksExtractor {
   get eventUrl() {
     if (!this.#links.self) {
       throw TypeError(
-        i18next.t("{{link_name}} link missing from resource.", {
-          link_name: "Self",
+        i18next.t("{{linkName}} link missing from resource.", {
+          linkName: "Self",
         })
       );
     }
@@ -26,8 +27,8 @@ export class RequestEventsLinksExtractor {
   get eventHtmlUrl() {
     if (!this.#links.self_html) {
       throw TypeError(
-        i18next.t("{{link_name}} link missing from resource.", {
-          link_name: "Self HTML",
+        i18next.t("{{linkName}} link missing from resource.", {
+          linkName: "Self HTML",
         })
       );
     }
@@ -37,8 +38,8 @@ export class RequestEventsLinksExtractor {
   get repliesUrl() {
     if (!this.#links.replies) {
       throw TypeError(
-        i18next.t("{{link_name}} link missing from resource.", {
-          link_name: "Replies",
+        i18next.t("{{linkName}} link missing from resource.", {
+          linkName: "Replies",
         })
       );
     }
@@ -48,8 +49,8 @@ export class RequestEventsLinksExtractor {
   get focusedRepliesUrl() {
     if (!this.#links.replies_focused) {
       throw TypeError(
-        i18next.t("{{link_name}} link missing from resource.", {
-          link_name: "Focused replies",
+        i18next.t("{{linkName}} link missing from resource.", {
+          linkName: "Focused replies",
         })
       );
     }
@@ -59,8 +60,8 @@ export class RequestEventsLinksExtractor {
   get replyUrl() {
     if (!this.#links.reply) {
       throw TypeError(
-        i18next.t("{{link_name}} link missing from resource.", {
-          link_name: "Reply",
+        i18next.t("{{linkName}} link missing from resource.", {
+          linkName: "Reply",
         })
       );
     }

@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2022 CERN.
+ * SPDX-FileCopyrightText: 2026 KTH Royal Institute of Technology.
  * SPDX-License-Identifier: MIT
  */
 
@@ -13,8 +14,8 @@ export class RequestLinksExtractor {
   constructor(request) {
     if (!request?.links) {
       throw TypeError(
-        i18next.t("{{link_name}} links are undefined. Please refresh the page.", {
-          link_name: "Request resource",
+        i18next.t("{{linkName}} links are undefined. Please refresh the page.", {
+          linkName: "Request resource",
         })
       );
     }
@@ -28,8 +29,8 @@ export class RequestLinksExtractor {
   get timeline() {
     if (!this.#urls.timeline) {
       throw TypeError(
-        i18next.t("{{link_name}} link missing from resource.", {
-          link_name: "Timeline",
+        i18next.t("{{linkName}} link missing from resource.", {
+          linkName: "Timeline",
         })
       );
     }
@@ -39,8 +40,8 @@ export class RequestLinksExtractor {
   get timelineFocused() {
     if (!this.#urls.timeline_focused) {
       throw TypeError(
-        i18next.t("{{link_name}} link missing from resource.", {
-          link_name: "Focused timeline",
+        i18next.t("{{linkName}} link missing from resource.", {
+          linkName: "Focused timeline",
         })
       );
     }
@@ -50,8 +51,8 @@ export class RequestLinksExtractor {
   get comments() {
     if (!this.#urls.comments) {
       throw TypeError(
-        i18next.t("{{link_name}} link missing from resource.", {
-          link_name: "Comments",
+        i18next.t("{{linkName}} link missing from resource.", {
+          linkName: "Comments",
         })
       );
     }
@@ -61,8 +62,8 @@ export class RequestLinksExtractor {
   get actions() {
     if (!this.#urls.actions) {
       throw TypeError(
-        i18next.t("{{link_name}} link missing from resource.", {
-          link_name: "Actions",
+        i18next.t("{{linkName}} link missing from resource.", {
+          linkName: "Actions",
         })
       );
     }
