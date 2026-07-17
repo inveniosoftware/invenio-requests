@@ -40,10 +40,10 @@ class RequestsCommentsSanitizedHTML(utils_fields.SanitizedHTML):
             current_app.config.get("ALLOWED_HTML_TAGS", [])
             + current_app.config["REQUESTS_COMMENTS_ALLOWED_EXTRA_HTML_TAGS"]
         )
-        self.attrs = self.attrs = dict(
+        self.attrs = {
             **current_app.config.get("ALLOWED_HTML_ATTRS", {}),
             **current_app.config["REQUESTS_COMMENTS_ALLOWED_EXTRA_HTML_ATTRS"],
-        )
+        }
 
         return super()._deserialize(value, attr, data, **kwargs)
 
