@@ -237,21 +237,25 @@ export const getTimelineWithRefresh = (focusEventId) => {
 
 export const setTimelineInterval = () => {
   return async (dispatch, getState, config) => {
-    const intervalAlreadySet = intervalManager.intervalId;
+    if (config.refreshIntervalMs !== null) {
+      const intervalAlreadySet = intervalManager.intervalId;
 
-    if (!intervalAlreadySet) {
-      const intervalId = setInterval(
-        () => timelineReload(dispatch, getState, config),
-        config.refreshIntervalMs
-      );
-      intervalManager.setIntervalId(intervalId);
+      if (!intervalAlreadySet) {
+        const intervalId = setInterval(
+          () => timelineReload(dispatch, getState, config),
+          config.refreshIntervalMs
+        );
+        intervalManager.setIntervalId(intervalId);
+      }
     }
   };
 };
 
 export const clearTimelineInterval = () => {
-  return () => {
-    intervalManager.resetInterval();
+  return async (dispatch, getState, config) => {
+    if (config.refreshIntervalMs !== null) {
+      intervalManager.resetInterval();
+    }
   };
 };
 
