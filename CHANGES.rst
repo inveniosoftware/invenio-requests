@@ -7,6 +7,16 @@
 Changes
 =======
 
+Version v14.0.1 (released 2026-07-21)
+
+- chore(setup): migrate from setuptools to hatchling
+- fix(comments): resolve collisions in allowed tags configuration
+- fix(i18n): update variable naming in translations
+- i18n: push translations (#620)
+- fix(CI): include maint branch for tests workflow
+- i18n: Static request actions (#598)
+- chore(licenses): update license headers to use SPDX
+
 Version v14.0.0 (released 2026-06-05)
 
 - chore(setup): bump dependencies
