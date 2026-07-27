@@ -1,212 +1,330 @@
-# 
 # Translators:
-# Minjae Kwon, 2024
+# Minjae Kwon, 2026
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2025-07-08T19:57:28.912Z\n"
+"POT-Creation-Date: 2026-07-07T11:13:08.464Z\n"
 "PO-Revision-Date: 2022-02-18 11:12+0000\n"
-"Last-Translator: Minjae Kwon, 2024\n"
+"Last-Translator: Minjae Kwon, 2026\n"
 "Language-Team: Korean (https://app.transifex.com/inveniosoftware/teams/23537/ko/)\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "mime-version: 1.0\n"
 
 msgid "Save"
-msgstr ""
+msgstr "저장"
 
 msgid "Decline"
-msgstr ""
+msgstr "거절"
 
 msgid "Accept and publish"
-msgstr ""
+msgstr "수락 후 게시"
 
 msgid "Accept"
-msgstr ""
+msgstr "수락"
 
 msgid "Cancel"
-msgstr ""
+msgstr "취소"
 
 msgid "Cancel request"
-msgstr ""
+msgstr "요청 취소"
 
 msgid "Request access"
-msgstr ""
+msgstr "접근 요청"
 
 msgid "Something went wrong."
-msgstr ""
+msgstr "문제가 발생했습니다."
 
 msgid "Are you sure you want to delete this comment?"
-msgstr ""
+msgstr "이 댓글을 제거하시겠습니까?"
 
 msgid "Confirm"
-msgstr ""
+msgstr "확인"
 
 msgid "Delete"
-msgstr ""
+msgstr "제거"
 
 msgid "Shared with me"
-msgstr ""
+msgstr "나와 공유됨"
 
 msgid "My requests"
-msgstr ""
+msgstr "내 요청"
 
 msgid "Submitted"
-msgstr ""
+msgstr "제출됨"
 
 msgid "Deleted"
 msgstr "삭제됨"
 
 msgid "Accepted"
-msgstr ""
+msgstr "수락됨"
 
 msgid "Declined"
-msgstr ""
+msgstr "거절됨"
 
 msgid "Cancelled"
-msgstr ""
+msgstr "취소됨"
 
 msgid "Expired"
-msgstr ""
+msgstr "만료됨"
 
 msgid "Draft review"
-msgstr ""
+msgstr "초안 검토"
 
 msgid "Community inclusion"
-msgstr ""
+msgstr "커뮤니티 포함"
 
 msgid "Member invitation"
-msgstr ""
+msgstr "구성원 초대"
 
 msgid "Guest access"
-msgstr ""
+msgstr "게스트 접근"
 
 msgid "User access"
-msgstr ""
+msgstr "사용자 접근"
 
 msgid "Community manage record"
-msgstr ""
+msgstr "커뮤니티 레코드 관리"
 
 msgid "Subcommunity"
-msgstr ""
+msgstr "하위 커뮤니티"
 
 msgid "Subcommunity invitation"
-msgstr ""
+msgstr "하위 커뮤니티 초대"
 
 msgid "Membership request"
-msgstr ""
+msgstr "가입 요청"
 
 msgid "Add comment (optional)"
-msgstr ""
+msgstr "댓글 추가 (선택)"
 
 msgid "{{action}} request"
-msgstr ""
+msgstr "요청 {{action}}"
 
 msgid "Anonymous user"
-msgstr ""
+msgstr "익명 사용자"
 
 msgid "Email"
 msgstr "이메일"
 
-msgid "Group"
-msgstr ""
-
 msgid "Creator"
-msgstr ""
+msgstr "생성자"
 
 msgid "Receiver"
-msgstr ""
+msgstr "수신자"
 
 msgid "Request type"
-msgstr ""
+msgstr "요청 유형"
 
 msgid "Status"
 msgstr "상태"
 
 msgid "Created"
-msgstr ""
+msgstr "생성일"
 
 msgid "Expires"
-msgstr ""
+msgstr "만료"
 
 msgid "Record"
-msgstr ""
+msgstr "레코드"
 
 msgid "Accept request"
-msgstr ""
+msgstr "요청 수락"
 
 msgid "Decline request"
-msgstr ""
+msgstr "요청 거절"
 
 msgid "Expires at: {{- expiringDate}}"
-msgstr ""
+msgstr "만료: {{- expiringDate}}"
 
 msgid "Opened {{relativeTime}} by"
-msgstr ""
+msgstr "{{relativeTime}}에 개설 · 개설자:"
 
 msgid "All done!"
-msgstr ""
+msgstr "모두 완료."
 
 msgid "You've caught up with all open requests."
-msgstr ""
+msgstr "열린 요청을 모두 확인했습니다."
 
 msgid "No requests found!"
-msgstr ""
+msgstr "요청이 없습니다."
 
 msgid "Reset search"
-msgstr ""
+msgstr "검색 초기화"
 
 msgid "{{count}} results found"
 msgid_plural "{{count}} results found"
-msgstr[0] ""
+msgstr[0] "{{count}}개 결과를 찾았습니다"
 
 msgid "Sort by"
-msgstr ""
+msgstr "정렬 기준"
 
 msgid "Filter results"
-msgstr ""
+msgstr "결과 필터링"
 
 msgid "Search in my requests..."
-msgstr ""
+msgstr "내 요청에서 검색..."
 
 msgid "Open"
-msgstr ""
+msgstr "열림"
 
 msgid "Closed"
-msgstr ""
+msgstr "닫힘"
 
 msgid "Comment"
-msgstr ""
+msgstr "댓글"
 
 msgid "deleted a comment"
-msgstr ""
+msgstr "댓글을 삭제했습니다"
 
 msgid "accepted this request"
-msgstr ""
+msgstr "이 요청을 수락했습니다"
 
 msgid "declined this request"
-msgstr ""
+msgstr "이 요청을 거절했습니다"
 
 msgid "this request expired"
-msgstr ""
+msgstr "이 요청이 만료되었습니다"
 
 msgid "cancelled this request"
-msgstr ""
+msgstr "이 요청을 취소했습니다"
 
 msgid "unknown event"
-msgstr ""
+msgstr "알 수 없는 이벤트"
 
 msgid "Actions"
-msgstr ""
+msgstr "작업"
 
 msgid "Edit"
-msgstr ""
+msgstr "수정"
 
 msgid "commented {{commentTime}}"
-msgstr ""
+msgstr "{{commentTime}}에 댓글을 남겼습니다"
 
 msgid "Edited"
-msgstr ""
+msgstr "수정됨"
+
+msgid "Accept and delete"
+msgstr "수락 후 제거"
+
+msgid "Show less"
+msgstr "간략히 보기"
+
+msgid "Show more"
+msgstr "더 보기"
+
+msgid "Comment was deleted."
+msgstr "댓글이 삭제되었습니다."
+
+msgid "Quote reply"
+msgstr "인용 답글"
+
+msgid "Record deletion"
+msgstr "레코드 삭제"
+
+msgid "File modification"
+msgstr "파일 수정"
+
+msgid "Quota increase"
+msgstr "할당량 증가"
+
+msgid "create"
+msgstr "생성"
+
+msgid "submit"
+msgstr "제출"
+
+msgid "delete"
+msgstr "삭제"
+
+msgid "accept"
+msgstr "수락"
+
+msgid "decline"
+msgstr "거절"
+
+msgid "cancel"
+msgstr "취소"
+
+msgid "expire"
+msgstr "만료"
+
+msgid ""
+"Locking the conversation will disallow users with access to add/update "
+"comments."
+msgstr "대화를 잠그면 접근 권한이 있는 사용자도 댓글을 추가하거나 수정할 수 없게 됩니다."
+
+msgid ""
+"Unlocking the conversation will allow users with access to add/update "
+"comments."
+msgstr "대화의 잠금을 해제하면 접근 권한이 있는 사용자가 댓글을 추가하거나 수정할 수 있게 됩니다."
+
+msgid "People"
+msgstr "사용자"
+
+msgid "Groups"
+msgstr "그룹"
+
+msgid "Search for user"
+msgstr "사용자 검색"
+
+msgid "Search for groups"
+msgstr "그룹 검색"
+
+msgid "No reviewers selected"
+msgstr "선택된 검토자가 없습니다"
+
+msgid "Reviewers"
+msgstr "검토자"
+
+msgid "Load more ({{count}} remaining)"
+msgid_plural "Load more ({{count}} remaining)"
+msgstr[0] "더 보기 ({{count}}개 남음)"
+
+msgid "{{remaining}} older comments"
+msgstr "이전 댓글 {{remaining}}개"
+
+msgid "Loading..."
+msgstr "불러오는 중..."
+
+msgid "Load more..."
+msgstr "더 보기..."
+
+msgid "Replies"
+msgstr "답글"
+
+msgid "Write a reply"
+msgstr "답글 작성"
+
+msgid "Reply"
+msgstr "답글"
+
+msgid "Adding or editing comments is now locked."
+msgstr "댓글 추가 또는 수정이 잠겼습니다."
+
+msgid "We couldn't find the reply you were looking for."
+msgstr "찾으시는 답글을 찾을 수 없습니다."
+
+msgid "updated reviewers"
+msgstr "검토자를 업데이트했습니다"
+
+msgid "locked this conversation"
+msgstr "이 대화를 잠갔습니다"
+
+msgid "unlocked this conversation"
+msgstr "이 대화의 잠금을 해제했습니다"
+
+msgid "Copy link"
+msgstr "링크 복사"
+
+msgid "We couldn't find the comment you were looking for."
+msgstr "찾으시는 댓글을 찾을 수 없습니다."
+
+msgid "{{linkName}} links are undefined. Please refresh the page."
+msgstr "{{linkName}} 링크가 정의되어 있지 않습니다. 페이지를 새로고침하십시오."
+
+msgid "{{linkName}} link missing from resource."
+msgstr "리소스에 {{linkName}} 링크가 없습니다."

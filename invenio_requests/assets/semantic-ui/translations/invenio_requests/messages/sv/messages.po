@@ -1,18 +1,17 @@
-# 
 # Translators:
-# Tibor Simko <tibor.simko@cern.ch>, 2024
-# Rim Sharif, 2024
-# Mattias Vesterlund, 2025
-# Sam Arbid, 2025
+# Rim Sharif, 2026
+# Tibor Simko <tibor.simko@cern.ch>, 2026
+# Mattias Vesterlund, 2026
+# Sam Arbid, 2026
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2025-07-08T19:57:28.912Z\n"
+"POT-Creation-Date: 2026-07-07T11:13:08.464Z\n"
 "PO-Revision-Date: 2022-02-18 11:12+0000\n"
-"Last-Translator: Sam Arbid, 2025\n"
+"Last-Translator: Sam Arbid, 2026\n"
 "Language-Team: Swedish (https://app.transifex.com/inveniosoftware/teams/23537/sv/)\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sv\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -114,9 +113,6 @@ msgstr "Anonym användare"
 msgid "Email"
 msgstr "E-post"
 
-msgid "Group"
-msgstr "Grupp"
-
 msgid "Creator"
 msgstr "Skapare"
 
@@ -214,3 +210,130 @@ msgstr "kommenterade {{commentTime}}"
 
 msgid "Edited"
 msgstr "Redigerat"
+
+msgid "Accept and delete"
+msgstr "Acceptera och radera"
+
+msgid "Show less"
+msgstr "Visa mindre"
+
+msgid "Show more"
+msgstr "Visa mer"
+
+msgid "Comment was deleted."
+msgstr "Kommentaren har raderats."
+
+msgid "Quote reply"
+msgstr "Citera svar"
+
+msgid "Record deletion"
+msgstr "Radering av post"
+
+msgid "File modification"
+msgstr "Filändring"
+
+msgid "Quota increase"
+msgstr "Ökning av lagringskvot"
+
+msgid "create"
+msgstr "skapa"
+
+msgid "submit"
+msgstr "skicka in"
+
+msgid "delete"
+msgstr "radera"
+
+msgid "accept"
+msgstr "acceptera"
+
+msgid "decline"
+msgstr "avböj"
+
+msgid "cancel"
+msgstr "avbryt"
+
+msgid "expire"
+msgstr "utgånget"
+
+msgid ""
+"Locking the conversation will disallow users with access to add/update "
+"comments."
+msgstr ""
+"Om du låser konversationen kan användare med åtkomst inte längre lägga till "
+"eller uppdatera kommentarer."
+
+msgid ""
+"Unlocking the conversation will allow users with access to add/update "
+"comments."
+msgstr ""
+"Om du låser upp konversationen kan användare med åtkomst lägga till och "
+"uppdatera kommentarer."
+
+msgid "People"
+msgstr "Personer"
+
+msgid "Groups"
+msgstr "Grupper"
+
+msgid "Search for user"
+msgstr "Sök efter användare"
+
+msgid "Search for groups"
+msgstr "Sök efter grupper"
+
+msgid "No reviewers selected"
+msgstr "Inga granskare valda"
+
+msgid "Reviewers"
+msgstr "Granskare"
+
+msgid "Load more ({{count}} remaining)"
+msgid_plural "Load more ({{count}} remaining)"
+msgstr[0] "Visa fler ({{count}} kvar)"
+msgstr[1] "Visa fler ({{count}} kvar)"
+
+msgid "{{remaining}} older comments"
+msgstr "{{remaining}} äldre kommentarer"
+
+msgid "Loading..."
+msgstr "Läser in..."
+
+msgid "Load more..."
+msgstr "Visa fler..."
+
+msgid "Replies"
+msgstr "Svar"
+
+msgid "Write a reply"
+msgstr "Skriv ett svar"
+
+msgid "Reply"
+msgstr "Svara"
+
+msgid "Adding or editing comments is now locked."
+msgstr "Det går inte längre att lägga till eller redigera kommentarer."
+
+msgid "We couldn't find the reply you were looking for."
+msgstr "Vi kunde inte hitta svaret du letade efter."
+
+msgid "updated reviewers"
+msgstr "uppdaterade granskare"
+
+msgid "locked this conversation"
+msgstr "låste den här konversationen"
+
+msgid "unlocked this conversation"
+msgstr "låste upp den här konversationen"
+
+msgid "Copy link"
+msgstr "Kopiera länk"
+
+msgid "We couldn't find the comment you were looking for."
+msgstr "Vi kunde inte hitta kommentaren du letade efter."
+
+msgid "{{linkName}} links are undefined. Please refresh the page."
+msgstr "{{linkName}}-länkar är odefinierade. Uppdatera sidan."
+
+msgid "{{linkName}} link missing from resource."
+msgstr "{{linkName}}-länk saknas från resursen."

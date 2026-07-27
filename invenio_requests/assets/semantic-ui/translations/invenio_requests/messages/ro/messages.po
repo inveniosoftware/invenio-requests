@@ -1,16 +1,15 @@
-# 
 # Translators:
-# Tibor Simko <tibor.simko@cern.ch>, 2024
-# Nicolaie Constantinescu, 2025
+# Tibor Simko <tibor.simko@cern.ch>, 2026
+# Nicolaie Constantinescu, 2026
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2025-07-08T19:57:28.912Z\n"
+"POT-Creation-Date: 2026-07-07T11:13:08.464Z\n"
 "PO-Revision-Date: 2022-02-18 11:12+0000\n"
-"Last-Translator: Nicolaie Constantinescu, 2025\n"
+"Last-Translator: Nicolaie Constantinescu, 2026\n"
 "Language-Team: Romanian (https://app.transifex.com/inveniosoftware/teams/23537/ro/)\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ro\n"
 "Plural-Forms: nplurals=3; plural=(n==1?0:(((n%100>19)||((n%100==0)&&(n!=0)))?2:1));\n"
@@ -112,9 +111,6 @@ msgstr "User anonim"
 msgid "Email"
 msgstr "Email"
 
-msgid "Group"
-msgstr "Grup"
-
 msgid "Creator"
 msgstr "Creator"
 
@@ -213,3 +209,127 @@ msgstr "comentat la {{commentTime}}"
 
 msgid "Edited"
 msgstr "Editat"
+
+msgid "Accept and delete"
+msgstr ""
+
+msgid "Show less"
+msgstr "Afișează mai puține"
+
+msgid "Show more"
+msgstr "Afișează mai multe"
+
+msgid "Comment was deleted."
+msgstr ""
+
+msgid "Quote reply"
+msgstr ""
+
+msgid "Record deletion"
+msgstr ""
+
+msgid "File modification"
+msgstr ""
+
+msgid "Quota increase"
+msgstr ""
+
+msgid "create"
+msgstr ""
+
+msgid "submit"
+msgstr "trimite"
+
+msgid "delete"
+msgstr "șterge"
+
+msgid "accept"
+msgstr ""
+
+msgid "decline"
+msgstr ""
+
+msgid "cancel"
+msgstr ""
+
+msgid "expire"
+msgstr ""
+
+msgid ""
+"Locking the conversation will disallow users with access to add/update "
+"comments."
+msgstr ""
+
+msgid ""
+"Unlocking the conversation will allow users with access to add/update "
+"comments."
+msgstr ""
+
+msgid "People"
+msgstr "Oameni"
+
+msgid "Groups"
+msgstr "Grupuri"
+
+msgid "Search for user"
+msgstr ""
+
+msgid "Search for groups"
+msgstr "Caută după grupuri"
+
+msgid "No reviewers selected"
+msgstr ""
+
+msgid "Reviewers"
+msgstr ""
+
+msgid "Load more ({{count}} remaining)"
+msgid_plural "Load more ({{count}} remaining)"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+msgid "{{remaining}} older comments"
+msgstr ""
+
+msgid "Loading..."
+msgstr "Încărcare..."
+
+msgid "Load more..."
+msgstr ""
+
+msgid "Replies"
+msgstr ""
+
+msgid "Write a reply"
+msgstr ""
+
+msgid "Reply"
+msgstr "Răspunde"
+
+msgid "Adding or editing comments is now locked."
+msgstr ""
+
+msgid "We couldn't find the reply you were looking for."
+msgstr ""
+
+msgid "updated reviewers"
+msgstr ""
+
+msgid "locked this conversation"
+msgstr ""
+
+msgid "unlocked this conversation"
+msgstr ""
+
+msgid "Copy link"
+msgstr "Copiază un link"
+
+msgid "We couldn't find the comment you were looking for."
+msgstr ""
+
+msgid "{{linkName}} links are undefined. Please refresh the page."
+msgstr ""
+
+msgid "{{linkName}} link missing from resource."
+msgstr ""

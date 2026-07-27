@@ -1,19 +1,18 @@
-# 
 # Translators:
-# Alizee Pace <alizee.pace@gmail.com>, 2023
 # Zacharias Zacharodimos <zacharias.zacharodimos@cern.ch>, 2024
-# Tibor Simko <tibor.simko@cern.ch>, 2024
 # Ignacio Estevo, 2024
-# Jesús Martín <jesusmartin@sallep.net>, 2025
+# Alizee Pace <alizee.pace@gmail.com>, 2026
+# Jesús Martín <jesusmartin@sallep.net>, 2026
+# Tibor Simko <tibor.simko@cern.ch>, 2026
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2025-07-08T19:57:28.912Z\n"
+"POT-Creation-Date: 2026-07-07T11:13:08.464Z\n"
 "PO-Revision-Date: 2022-02-18 11:12+0000\n"
-"Last-Translator: Jesús Martín <jesusmartin@sallep.net>, 2025\n"
+"Last-Translator: Tibor Simko <tibor.simko@cern.ch>, 2026\n"
 "Language-Team: Spanish (https://app.transifex.com/inveniosoftware/teams/23537/es/)\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: es\n"
 "Plural-Forms: nplurals=3; plural=n == 1 ? 0 : n != 0 && n % 1000000 == 0 ? 1 : 2;\n"
@@ -98,7 +97,7 @@ msgid "Subcommunity"
 msgstr "Sub-comunidad"
 
 msgid "Subcommunity invitation"
-msgstr ""
+msgstr "Invitación a la subcomunidad"
 
 msgid "Membership request"
 msgstr "Solicitud de membresía"
@@ -114,9 +113,6 @@ msgstr "Usuario anonimo"
 
 msgid "Email"
 msgstr "Email"
-
-msgid "Group"
-msgstr "Grupo"
 
 msgid "Creator"
 msgstr "Creador"
@@ -216,3 +212,127 @@ msgstr "comentado {{commentTime}}"
 
 msgid "Edited"
 msgstr "Editado"
+
+msgid "Accept and delete"
+msgstr ""
+
+msgid "Show less"
+msgstr "Mostrar menos"
+
+msgid "Show more"
+msgstr "Mostrar más"
+
+msgid "Comment was deleted."
+msgstr ""
+
+msgid "Quote reply"
+msgstr ""
+
+msgid "Record deletion"
+msgstr ""
+
+msgid "File modification"
+msgstr ""
+
+msgid "Quota increase"
+msgstr ""
+
+msgid "create"
+msgstr ""
+
+msgid "submit"
+msgstr "enviar"
+
+msgid "delete"
+msgstr "suprimir"
+
+msgid "accept"
+msgstr ""
+
+msgid "decline"
+msgstr ""
+
+msgid "cancel"
+msgstr ""
+
+msgid "expire"
+msgstr ""
+
+msgid ""
+"Locking the conversation will disallow users with access to add/update "
+"comments."
+msgstr ""
+
+msgid ""
+"Unlocking the conversation will allow users with access to add/update "
+"comments."
+msgstr ""
+
+msgid "People"
+msgstr "Personas"
+
+msgid "Groups"
+msgstr "Grupos"
+
+msgid "Search for user"
+msgstr ""
+
+msgid "Search for groups"
+msgstr "Buscar grupos"
+
+msgid "No reviewers selected"
+msgstr ""
+
+msgid "Reviewers"
+msgstr ""
+
+msgid "Load more ({{count}} remaining)"
+msgid_plural "Load more ({{count}} remaining)"
+msgstr[0] ""
+msgstr[1] ""
+msgstr[2] ""
+
+msgid "{{remaining}} older comments"
+msgstr ""
+
+msgid "Loading..."
+msgstr "Cargando..."
+
+msgid "Load more..."
+msgstr ""
+
+msgid "Replies"
+msgstr ""
+
+msgid "Write a reply"
+msgstr ""
+
+msgid "Reply"
+msgstr "Contestar"
+
+msgid "Adding or editing comments is now locked."
+msgstr ""
+
+msgid "We couldn't find the reply you were looking for."
+msgstr ""
+
+msgid "updated reviewers"
+msgstr ""
+
+msgid "locked this conversation"
+msgstr ""
+
+msgid "unlocked this conversation"
+msgstr ""
+
+msgid "Copy link"
+msgstr "Copiar enlace"
+
+msgid "We couldn't find the comment you were looking for."
+msgstr ""
+
+msgid "{{linkName}} links are undefined. Please refresh the page."
+msgstr ""
+
+msgid "{{linkName}} link missing from resource."
+msgstr ""

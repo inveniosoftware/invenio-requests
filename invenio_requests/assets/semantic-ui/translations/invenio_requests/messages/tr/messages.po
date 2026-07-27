@@ -1,18 +1,19 @@
-# 
 # Translators:
 # Berat Aldemir <berataldemir@gmail.com>, 2022
 # Hakan Bayindir <hbayindir@gmail.com>, 2024
-# Ben Translation and Interpreting Services <info@bentercume.com>, 2024
-# BEN TERCÜME, 2025
+# Eylül-1 -, 2025
+# BEN TERCÜME, 2026
+# Ben Translation and Interpreting Services <info@bentercume.com>, 2026
+# Furkan Kalkan <furkan.kalkan3@gmail.com>, 2026
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2025-07-08T19:57:28.912Z\n"
+"POT-Creation-Date: 2026-07-07T11:13:08.464Z\n"
 "PO-Revision-Date: 2022-02-18 11:12+0000\n"
-"Last-Translator: BEN TERCÜME, 2025\n"
+"Last-Translator: Furkan Kalkan <furkan.kalkan3@gmail.com>, 2026\n"
 "Language-Team: Turkish (https://app.transifex.com/inveniosoftware/teams/23537/tr/)\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
@@ -34,10 +35,10 @@ msgid "Cancel"
 msgstr "İptal"
 
 msgid "Cancel request"
-msgstr "Talebi iptal et"
+msgstr "İsteği iptal et"
 
 msgid "Request access"
-msgstr "Erişim talebi"
+msgstr "Erişim iste"
 
 msgid "Something went wrong."
 msgstr "Bir şeyler ters gitti."
@@ -52,28 +53,28 @@ msgid "Delete"
 msgstr "Sil"
 
 msgid "Shared with me"
-msgstr ""
+msgstr "Benimle paylaşılanlar"
 
 msgid "My requests"
-msgstr ""
+msgstr "İsteklerim"
 
 msgid "Submitted"
-msgstr "Gönderildi"
+msgstr "Gönderilenler"
 
 msgid "Deleted"
-msgstr "Silinen"
+msgstr "Silinenler"
 
 msgid "Accepted"
-msgstr "Kabul edildi"
+msgstr "Kabul edilenler"
 
 msgid "Declined"
-msgstr "Reddedildi"
+msgstr "Reddedilenler"
 
 msgid "Cancelled"
-msgstr "İptal edildi"
+msgstr "İptal edilenler"
 
 msgid "Expired"
-msgstr "Süresi doldu"
+msgstr "Süresi dolanlar"
 
 msgid "Draft review"
 msgstr "Taslak incelemesi"
@@ -97,25 +98,22 @@ msgid "Subcommunity"
 msgstr "Alt topluluk"
 
 msgid "Subcommunity invitation"
-msgstr ""
+msgstr "Alt topluluk daveti"
 
 msgid "Membership request"
-msgstr "Üyelik talebi"
+msgstr "Üyelik isteği"
 
 msgid "Add comment (optional)"
 msgstr "Yorum ekle (isteğe bağlı)"
 
 msgid "{{action}} request"
-msgstr "{{action}} talebi"
+msgstr "{{action}} isteği"
 
 msgid "Anonymous user"
 msgstr "Anonim kullanıcı"
 
 msgid "Email"
 msgstr "E-posta"
-
-msgid "Group"
-msgstr "Grup"
 
 msgid "Creator"
 msgstr "Oluşturan"
@@ -124,7 +122,7 @@ msgid "Receiver"
 msgstr "Alıcı"
 
 msgid "Request type"
-msgstr "Talep türü"
+msgstr "İstek türü"
 
 msgid "Status"
 msgstr "Durum"
@@ -139,10 +137,10 @@ msgid "Record"
 msgstr "Kayıt"
 
 msgid "Accept request"
-msgstr "Talebi kabul et"
+msgstr "İsteği kabul et"
 
 msgid "Decline request"
-msgstr "Talebi reddet"
+msgstr "İsteği reddet"
 
 msgid "Expires at: {{- expiringDate}}"
 msgstr "Son kullanma tarihi: {{- expiringDate}}"
@@ -154,10 +152,10 @@ msgid "All done!"
 msgstr "Her şey tamam!"
 
 msgid "You've caught up with all open requests."
-msgstr "Açık olan tüm talepleri karşıladınız."
+msgstr "Açık olan tüm istekleri karşıladınız."
 
 msgid "No requests found!"
-msgstr "Hiç talep bulunamadı!"
+msgstr "Hiç istek bulunamadı!"
 
 msgid "Reset search"
 msgstr "Aramayı sıfırla"
@@ -174,7 +172,7 @@ msgid "Filter results"
 msgstr "Sonuçları filtrele"
 
 msgid "Search in my requests..."
-msgstr "Taleplerimde ara..."
+msgstr "İsteklerimde ara..."
 
 msgid "Open"
 msgstr "Açık"
@@ -189,16 +187,16 @@ msgid "deleted a comment"
 msgstr "bir yorum sildi"
 
 msgid "accepted this request"
-msgstr "bu talebi kabul etti"
+msgstr "bu isteği kabul etti"
 
 msgid "declined this request"
-msgstr "bu talebi reddetti"
+msgstr "bu isteği reddetti"
 
 msgid "this request expired"
-msgstr "bu talebin süresi doldu"
+msgstr "bu isteğin süresi doldu"
 
 msgid "cancelled this request"
-msgstr "bu talebi iptal etti"
+msgstr "bu isteği iptal etti"
 
 msgid "unknown event"
 msgstr "bilinmeyen olay"
@@ -214,3 +212,130 @@ msgstr "{{commentTime}} saatinde yorum yapıldı"
 
 msgid "Edited"
 msgstr "Düzenlendi"
+
+msgid "Accept and delete"
+msgstr "Kabul et ve sil"
+
+msgid "Show less"
+msgstr "Daha az göster"
+
+msgid "Show more"
+msgstr "Daha fazla göster"
+
+msgid "Comment was deleted."
+msgstr "Yorum silindi."
+
+msgid "Quote reply"
+msgstr "Yanıtı alıntıla"
+
+msgid "Record deletion"
+msgstr "Kayıt silme"
+
+msgid "File modification"
+msgstr "Dosya değişikliği"
+
+msgid "Quota increase"
+msgstr "Kota arttırımı"
+
+msgid "create"
+msgstr "oluştur"
+
+msgid "submit"
+msgstr "gönder"
+
+msgid "delete"
+msgstr "sil"
+
+msgid "accept"
+msgstr "kabul et"
+
+msgid "decline"
+msgstr "reddet"
+
+msgid "cancel"
+msgstr "iptal"
+
+msgid "expire"
+msgstr "sona erdir"
+
+msgid ""
+"Locking the conversation will disallow users with access to add/update "
+"comments."
+msgstr ""
+"Konuşmayı kilitlemek, erişim izni olan kullanıcıların yorum "
+"eklemesini/güncellemesini engeller."
+
+msgid ""
+"Unlocking the conversation will allow users with access to add/update "
+"comments."
+msgstr ""
+"Konuşmanın kilidini açmak, erişim izni olan kullanıcıların yorum "
+"eklemesine/güncellemesine olanak tanır."
+
+msgid "People"
+msgstr "Kişiler"
+
+msgid "Groups"
+msgstr "Gruplar"
+
+msgid "Search for user"
+msgstr "Kullanıcıyı ara"
+
+msgid "Search for groups"
+msgstr "Grupları ara"
+
+msgid "No reviewers selected"
+msgstr "Değerlendiren seçilmedi"
+
+msgid "Reviewers"
+msgstr "Değerlendirenler"
+
+msgid "Load more ({{count}} remaining)"
+msgid_plural "Load more ({{count}} remaining)"
+msgstr[0] "Daha fazla yükle ({{count}} kalan)"
+msgstr[1] "Daha fazla yükle ({{count}} kalan)"
+
+msgid "{{remaining}} older comments"
+msgstr "{{kalan}} eski yorum"
+
+msgid "Loading..."
+msgstr "Yükleniyor..."
+
+msgid "Load more..."
+msgstr "Daha fazla yükle..."
+
+msgid "Replies"
+msgstr "Yanıtlar"
+
+msgid "Write a reply"
+msgstr "Yanıt yaz"
+
+msgid "Reply"
+msgstr "Yanıtla"
+
+msgid "Adding or editing comments is now locked."
+msgstr "Yorum ekleme veya düzenleme artık kilitlendi."
+
+msgid "We couldn't find the reply you were looking for."
+msgstr "Aradığınız yanıtlı bulamadık."
+
+msgid "updated reviewers"
+msgstr "güncellenmiş değerlendirenler"
+
+msgid "locked this conversation"
+msgstr "bu konuşmayı kilitledi"
+
+msgid "unlocked this conversation"
+msgstr "bu konuşmanın kilidini açtı"
+
+msgid "Copy link"
+msgstr "Bağlantıyı kopyala"
+
+msgid "We couldn't find the comment you were looking for."
+msgstr "Aradığınız yorumu bulamadık."
+
+msgid "{{linkName}} links are undefined. Please refresh the page."
+msgstr "{{linkName}} bağlantıları tanımsız. Lütfen sayfayı yenileyiniz."
+
+msgid "{{linkName}} link missing from resource."
+msgstr "Kaynakta {{linkName}} bağlantısı eksik."

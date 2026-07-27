@@ -1,17 +1,16 @@
-# 
 # Translators:
-# Tibor Simko <tibor.simko@cern.ch>, 2024
-# Salaheddine Ben Ali <salaheddine.benali@cnudst.tn>, 2025
-# Bessem Aamira <bessemamira@gmail.com>, 2025
+# Tibor Simko <tibor.simko@cern.ch>, 2026
+# Bessem Aamira <bessemamira@gmail.com>, 2026
+# Salaheddine Ben Ali <salaheddine.benali@cnudst.tn>, 2026
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2025-07-08T19:57:28.912Z\n"
+"POT-Creation-Date: 2026-07-07T11:13:08.464Z\n"
 "PO-Revision-Date: 2022-02-18 11:12+0000\n"
-"Last-Translator: Bessem Aamira <bessemamira@gmail.com>, 2025\n"
+"Last-Translator: Salaheddine Ben Ali <salaheddine.benali@cnudst.tn>, 2026\n"
 "Language-Team: Arabic (https://app.transifex.com/inveniosoftware/teams/23537/ar/)\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: ar\n"
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
@@ -51,10 +50,10 @@ msgid "Delete"
 msgstr "حذف"
 
 msgid "Shared with me"
-msgstr ""
+msgstr " تمت مشاركته معي"
 
 msgid "My requests"
-msgstr ""
+msgstr "طلباتي"
 
 msgid "Submitted"
 msgstr "تم الإيداع"
@@ -112,9 +111,6 @@ msgstr "مستخدم مجهول"
 
 msgid "Email"
 msgstr "البريد الإلكتروني"
-
-msgid "Group"
-msgstr "فريق"
 
 msgid "Creator"
 msgstr "المنشئ:"
@@ -217,3 +213,134 @@ msgstr "تم التعليق {{commentTime}}"
 
 msgid "Edited"
 msgstr "تم التعديل"
+
+msgid "Accept and delete"
+msgstr " قبول وحذف"
+
+msgid "Show less"
+msgstr "أظهر أقل"
+
+msgid "Show more"
+msgstr "عرض المزيد"
+
+msgid "Comment was deleted."
+msgstr " تم حذف التعليق."
+
+msgid "Quote reply"
+msgstr " الرد مع اقتباس"
+
+msgid "Record deletion"
+msgstr "حذف التّسجيلة"
+
+msgid "File modification"
+msgstr " تعديل الملف"
+
+msgid "Quota increase"
+msgstr " زيادة الحصة"
+
+msgid "create"
+msgstr "إنشاء"
+
+msgid "submit"
+msgstr "إيداع"
+
+msgid "delete"
+msgstr "حذف"
+
+msgid "accept"
+msgstr " قبول"
+
+msgid "decline"
+msgstr "رفض"
+
+msgid "cancel"
+msgstr "إلغاء"
+
+msgid "expire"
+msgstr " انتهاء الصلاحية"
+
+msgid ""
+"Locking the conversation will disallow users with access to add/update "
+"comments."
+msgstr ""
+" عند غلق المحادثة، لن يتمكن المستخدمون الذين لديهم حق الوصول من إضافة "
+"التعليقات أو تعديلها."
+
+msgid ""
+"Unlocking the conversation will allow users with access to add/update "
+"comments."
+msgstr ""
+" عند إلغاء غلق المحادثة، سيتمكن المستخدمون الذين لديهم حق الوصول من إضافة "
+"التعليقات أو تعديلها."
+
+msgid "People"
+msgstr "الجمهور"
+
+msgid "Groups"
+msgstr "الفرق"
+
+msgid "Search for user"
+msgstr " البحث عن مستخدم"
+
+msgid "Search for groups"
+msgstr "البحث عن مجموعات"
+
+msgid "No reviewers selected"
+msgstr " لم يتم اختيار أي مراجعين"
+
+msgid "Reviewers"
+msgstr "المراجعون"
+
+msgid "Load more ({{count}} remaining)"
+msgid_plural "Load more ({{count}} remaining)"
+msgstr[0] "تحميل المزيد ({{حساب}} المتبق)"
+msgstr[1] "تحميل المزيد ({{حساب}} المتبق)"
+msgstr[2] "تحميل المزيد ({{حساب}} المتبق)"
+msgstr[3] "تحميل المزيد ({{حساب}} المتبق)"
+msgstr[4] "تحميل المزيد ({{حساب}} المتبق)"
+msgstr[5] "تحميل المزيد ({{حساب}} المتبق)"
+
+msgid "{{remaining}} older comments"
+msgstr " {{remaining}} تعليقًا أقدم"
+
+msgid "Loading..."
+msgstr "بصدد التحميل..."
+
+msgid "Load more..."
+msgstr " تحميل المزيد..."
+
+msgid "Replies"
+msgstr "ردود"
+
+msgid "Write a reply"
+msgstr " اكتب ردًا"
+
+msgid "Reply"
+msgstr "أجب"
+
+msgid "Adding or editing comments is now locked."
+msgstr "تم غلق إضافة التعليقات أو تعديلها."
+
+msgid "We couldn't find the reply you were looking for."
+msgstr " تعذر العثور على الرد الذي تبحث عنه."
+
+msgid "updated reviewers"
+msgstr " تم تحديث المراجعين"
+
+msgid "locked this conversation"
+msgstr " قم بغلق هذه المحادثة"
+
+msgid "unlocked this conversation"
+msgstr " قم بإلغاء غلق هذه المحادثة"
+
+msgid "Copy link"
+msgstr "نسخ الرابط"
+
+msgid "We couldn't find the comment you were looking for."
+msgstr " تعذر العثور على التعليق الذي تبحث عنه."
+
+msgid "{{linkName}} links are undefined. Please refresh the page."
+msgstr " روابط {{linkName}} غير معرّفة. يُرجى تحديث الصفحة."
+
+msgid "{{linkName}} link missing from resource."
+msgstr " رابط {{linkName}} غير موجود في المورد."

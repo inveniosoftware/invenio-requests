@@ -5,7 +5,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 # 
 # Translators:
-# Jiří Kunčar <jiri.kuncar@gmail.com>, 2022
+# Suthep Yonphimai <tomztt@gmail.com>, 2026
 # 
 #, fuzzy
 msgid ""
@@ -14,299 +14,300 @@ msgstr ""
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
 "POT-Creation-Date: 2026-07-07 11:13+0000\n"
 "PO-Revision-Date: 2022-02-15 12:46+0000\n"
-"Last-Translator: Jiří Kunčar <jiri.kuncar@gmail.com>, 2022\n"
-"Language-Team: Danish (https://app.transifex.com/inveniosoftware/teams/23537/da/)\n"
+"Last-Translator: Suthep Yonphimai <tomztt@gmail.com>, 2026\n"
+"Language-Team: Thai (https://app.transifex.com/inveniosoftware/teams/23537/th/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
-"Language: da\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"Language: th\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
 
 #: invenio_requests/config.py:49 invenio_requests/config.py:106
 msgid "Best match"
-msgstr ""
+msgstr "ตรงที่สุด"
 
 #: invenio_requests/config.py:53 invenio_requests/config.py:110
 msgid "Newest"
-msgstr ""
+msgstr "ใหม่ที่สุด"
 
 #: invenio_requests/config.py:57 invenio_requests/config.py:114
 msgid "Oldest"
-msgstr ""
+msgstr "เก่าที่สุด"
 
 #: invenio_requests/config.py:61
 msgid "Newest activity"
-msgstr ""
+msgstr "กิจกรรมล่าสุด"
 
 #: invenio_requests/config.py:65
 msgid "Oldest activity"
-msgstr ""
+msgstr "กิจกรรมเก่าสุด"
 
 #: invenio_requests/errors.py:59
 msgid "The request is locked."
-msgstr ""
+msgstr "คำขอถูกล็อกไว้แล้ว"
 
 #: invenio_requests/errors.py:79
 msgid "Permission denied."
-msgstr ""
+msgstr "ไม่มีสิทธิ์"
 
 #: invenio_requests/customizations/event_types.py:25
 msgid "The ID must be an Universally Unique IDentifier (UUID)."
-msgstr ""
+msgstr "รหัสประจำตัวต้องเป็นรหัสประจำตัวที่ไม่ซ้ำกันทั่วโลก (UUID)"
 
 #: invenio_requests/customizations/user_moderation/user_moderation.py:44
 #: invenio_requests/services/requests/facets.py:27
 msgid "User moderation"
-msgstr ""
+msgstr "การกลั่นกรองผู้ใช้"
 
 #: invenio_requests/resources/requests/fields.py:19
 msgid "Not a valid reference."
-msgstr ""
+msgstr "ไม่ใช่แหล่งอ้างอิงที่ถูกต้อง"
 
 #: invenio_requests/services/events/service.py:116
 msgid "Commenting is now locked for this conversation."
-msgstr ""
+msgstr "ขณะนี้ได้ปิดการแสดงความคิดเห็นสำหรับบทสนทนานี้แล้ว"
 
 #: invenio_requests/services/events/service.py:121
 msgid "You do not have permission to comment on this conversation."
-msgstr ""
+msgstr "คุณไม่มีสิทธิ์แสดงความคิดเห็นในบทสนทนานี้"
 
 #: invenio_requests/services/events/service.py:240
 msgid "Updating is now locked for this comment."
-msgstr ""
+msgstr "การอัปเดตความคิดเห็นนี้ถูกล็อกไว้แล้ว"
 
 #: invenio_requests/services/events/service.py:244
 msgid "You do not have permission to update this comment."
-msgstr ""
+msgstr "คุณไม่มีสิทธิ์แก้ไขความคิดเห็นนี้"
 
 #: invenio_requests/services/events/service.py:250
 msgid "You cannot update this event."
-msgstr ""
+msgstr "คุณไม่สามารถแก้ไขกิจกรรมนี้ได้"
 
 #: invenio_requests/services/events/service.py:313
 msgid "You cannot delete this event."
-msgstr ""
+msgstr "คุณไม่สามารถลบกิจกรรมนี้ได้"
 
 #: invenio_requests/services/files/errors.py:14
 msgid "File size exceeds limit"
-msgstr ""
+msgstr "ขนาดไฟล์เกินขีดจำกัด"
 
 #: invenio_requests/services/files/errors.py:22
 msgid "File not found"
-msgstr ""
+msgstr "ไม่พบไฟล์"
 
 #: invenio_requests/services/files/errors.py:30
 msgid "Missing required argument file_key or file_id"
-msgstr ""
+msgstr "ขาดอาร์กิวเมนต์ที่จำเป็น file_key หรือ file_id"
 
 #: invenio_requests/services/requests/components.py:117
 msgid "Reviewers are not enabled for this request type."
-msgstr ""
+msgstr "ระบบไม่ได้เปิดใช้งานผู้ตรวจสอบสำหรับคำขอประเภทนี้"
 
 #: invenio_requests/services/requests/components.py:121
 msgid "Group reviewers are not enabled."
-msgstr ""
+msgstr "การตรวจสอบโดยกลุ่มผู้ตรวจสอบยังไม่เปิดใช้งาน"
 
 #: invenio_requests/services/requests/components.py:126
 #, python-format
 msgid "You can only add up to %(max_reviewers)s reviewers."
-msgstr ""
+msgstr "คุณสามารถเพิ่มจำนวนผู้รีวิวได้สูงสุดเพียง%(max_reviewers)sเท่านั้น"
 
 #: invenio_requests/services/requests/components.py:160
 #, python-format
 msgid "%(event_type)s a reviewer"
-msgstr ""
+msgstr "%(event_type)sผู้รีวิว"
 
 #: invenio_requests/services/requests/components.py:239
 #, python-format
 msgid "File %(file_id)s not found."
-msgstr ""
+msgstr "ไม่พบไฟล์ %(file_id)s"
 
 #: invenio_requests/services/requests/facets.py:12
 msgid "Type"
-msgstr ""
+msgstr "ประเภท"
 
 #: invenio_requests/services/requests/facets.py:15
 msgid "Guest access"
-msgstr ""
+msgstr "การเข้าถึงของผู้เยี่ยมชม"
 
 #: invenio_requests/services/requests/facets.py:16
 msgid "User access"
-msgstr ""
+msgstr "การเข้าถึงของผู้ใช้"
 
 #: invenio_requests/services/requests/facets.py:18
 msgid "Community inclusion"
-msgstr ""
+msgstr "การรวมเข้าชุมชน"
 
 #: invenio_requests/services/requests/facets.py:19
 msgid "Draft review"
-msgstr ""
+msgstr "ตรวจสอบฉบับร่าง"
 
 #: invenio_requests/services/requests/facets.py:21
 msgid "Membership request"
-msgstr ""
+msgstr "คำขอเป็นสมาชิก"
 
 #: invenio_requests/services/requests/facets.py:22
 msgid "Member invitation"
-msgstr ""
+msgstr "คำเชิญเป็นสมาชิก"
 
 #: invenio_requests/services/requests/facets.py:24
 msgid "Subcommunity"
-msgstr ""
+msgstr "ชุมชนย่อย"
 
 #: invenio_requests/services/requests/facets.py:25
 msgid "Subcommunity invitation"
-msgstr ""
+msgstr "คำเชิญชุมชนย่อย"
 
 #: invenio_requests/services/requests/facets.py:28
 msgid "Record deletion"
-msgstr ""
+msgstr "การลบระเบียน"
 
 #: invenio_requests/services/requests/facets.py:29
 msgid "File modification"
-msgstr ""
+msgstr "การแก้ไขไฟล์"
 
 #: invenio_requests/services/requests/facets.py:30
 msgid "Quota increase"
-msgstr ""
+msgstr "การเพิ่มโควต้า"
 
 #: invenio_requests/services/requests/facets.py:32
 msgid "Community manage record"
-msgstr ""
+msgstr "ชุมชนจัดการระเบียน"
 
 #: invenio_requests/services/requests/facets.py:33
 msgid "Upgrade legacy record"
-msgstr ""
+msgstr "อัปเกรดระเบียนเดิม"
 
 #: invenio_requests/services/requests/facets.py:39
 msgid "Status"
-msgstr "Status"
+msgstr "สถานะ"
 
 #: invenio_requests/services/requests/facets.py:41
 msgid "Submitted"
-msgstr ""
+msgstr "ส่งแล้ว"
 
 #: invenio_requests/services/requests/facets.py:42
 msgid "Expired"
-msgstr ""
+msgstr "หมดอายุแล้ว"
 
 #: invenio_requests/services/requests/facets.py:43
 msgid "Accepted"
-msgstr ""
+msgstr "ยอมรับแล้ว"
 
 #: invenio_requests/services/requests/facets.py:44
 msgid "Declined"
-msgstr ""
+msgstr "ปฏิเสธแล้ว"
 
 #: invenio_requests/services/requests/facets.py:45
 msgid "Cancelled"
-msgstr ""
+msgstr "ยกเลิกแล้ว"
 
 #: invenio_requests/services/requests/facets.py:52
 #: invenio_requests/services/requests/facets.py:54
 msgid "Open"
-msgstr ""
+msgstr "เปิด"
 
 #: invenio_requests/services/requests/facets.py:55
 msgid "Closed"
-msgstr ""
+msgstr "ปิดแล้ว"
 
 #: invenio_requests/services/requests/service.py:343
 msgid "The request is already locked."
-msgstr ""
+msgstr "คำขอถูกล็อกไว้แล้ว"
 
 #: invenio_requests/services/requests/service.py:357
 msgid "The request is already unlocked."
-msgstr ""
+msgstr "คำขอถูกปลดล็อกไว้แล้ว"
 
 #: invenio_requests/services/user_moderation/errors.py:11
 msgid "Invalid creator for user moderation request."
-msgstr ""
+msgstr "ผู้สร้างไม่ถูกต้องสำหรับคำขอกลั่นกรองผู้ใช้"
 
 #: invenio_requests/services/user_moderation/errors.py:17
 msgid "There is already an open moderation request for this user."
-msgstr ""
+msgstr "มีคำขอกลั่นกรองที่เปิดอยู่สำหรับผู้ใช้นี้แล้ว"
 
 #: invenio_requests/services/user_moderation/service.py:80
 msgid "Moderation role must exist to enable user moderation requests."
-msgstr ""
+msgstr "ต้องมีบทบาทกลั่นกรองเพื่อเปิดใช้งานคำขอกลั่นกรองผู้ใช้"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:21
 #, python-brace-format
 msgid "💬 New comment on '{request_title}'"
-msgstr ""
+msgstr "💬 มีความคิดเห็นใหม่ใน '{request_title}'"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:27
 #, python-brace-format
 msgid "'@{user_name}' commented on '{request_title}':"
-msgstr ""
+msgstr "'@{user_name}' แสดงความคิดเห็นใน '{request_title}':"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:33
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:59
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:40
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:67
 msgid "Check out the request"
-msgstr ""
+msgstr "ตรวจสอบคำขอ"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:39
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:46
 msgid "This is an auto-generated message. To manage notifications, visit your"
 msgstr ""
+"นี่คือข้อความที่สร้างขึ้นโดยอัตโนมัติ หากต้องการจัดการการแจ้งเตือน โปรดไปที่"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:39
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:46
 msgid "account settings"
-msgstr ""
+msgstr "การตั้งค่าบัญชี"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:45
 #, python-brace-format
 msgid "@{user_name} commented on '{request_title}'"
-msgstr ""
+msgstr "@{user_name} แสดงความคิดเห็นใน '{request_title}'"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:49
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:57
 #, python-brace-format
 msgid "Check out the request: {request_link}"
-msgstr ""
+msgstr "ตรวจสอบคำขอ: {request_link}"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:55
 #, python-brace-format
 msgid "*@{user_name}* commented on *{request_title}*"
-msgstr ""
+msgstr "*@{user_name}* แสดงความคิดเห็นใน *{request_title}*"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:28
 #, python-brace-format
 msgid "💬 New reply on '{request_title}'"
-msgstr ""
+msgstr "💬 มีการตอบกลับใหม่ใน '{request_title}'"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:34
 #, python-brace-format
 msgid "'@{user_name}' replied on <a href='{reply_link}'>comment</a>:"
-msgstr ""
+msgstr "'@{user_name}' ตอบกลับ<a href='{reply_link}'>ความคิดเห็น</a>:"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:52
 #, python-brace-format
 msgid "@{user_name} replied on comment"
-msgstr ""
+msgstr "@{user_name} ตอบกลับความคิดเห็น"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:56
 #, python-brace-format
 msgid "View reply: {reply_link}"
-msgstr ""
+msgstr "ดูการตอบกลับ: {reply_link}"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:63
 #, python-brace-format
 msgid "*@{user_name}* replied on [comment]({reply_link})"
-msgstr ""
+msgstr "*@{user_name}* ตอบกลับ[ความคิดเห็น]({reply_link})"
 
 #: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:7
 msgid "Tombstone"
-msgstr ""
+msgstr "บันทึกลบ"
 
 #: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:10
 msgid "Gone"
-msgstr ""
+msgstr "ถูกลบแล้ว"
 
 #: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:12
 #, python-format
@@ -316,7 +317,9 @@ msgid ""
 "    metadata of the record is kept for archival purposes.\n"
 "  "
 msgstr ""
+"ระเบียนที่คุณพยายามเข้าถึงถูกลบออกจาก %(sitename)s ข้อมูล metadata "
+"ของระเบียนถูกเก็บไว้เพื่อการจัดเก็บถาวร"
 
 #: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:19
 msgid "Reason for removal:"
-msgstr ""
+msgstr "เหตุผลที่ลบ:"

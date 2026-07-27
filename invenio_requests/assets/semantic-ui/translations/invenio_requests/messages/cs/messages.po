@@ -1,18 +1,17 @@
-# 
 # Translators:
-# Jiří Kunčar <jiri.kuncar@gmail.com>, 2024
-# Tibor Simko <tibor.simko@cern.ch>, 2024
-# Mirek Simek <miroslav.simek@gmail.com>, 2025
-# daniela.hornickova, 2025
+# Mirek Simek <miroslav.simek@gmail.com>, 2026
+# Tibor Simko <tibor.simko@cern.ch>, 2026
+# Jiří Kunčar <jiri.kuncar@gmail.com>, 2026
+# daniela.hornickova, 2026
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2025-07-08T19:57:28.912Z\n"
+"POT-Creation-Date: 2026-07-07T11:13:08.464Z\n"
 "PO-Revision-Date: 2022-02-18 11:12+0000\n"
-"Last-Translator: daniela.hornickova, 2025\n"
+"Last-Translator: daniela.hornickova, 2026\n"
 "Language-Team: Czech (https://app.transifex.com/inveniosoftware/teams/23537/cs/)\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: cs\n"
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
@@ -114,9 +113,6 @@ msgstr "Anonymní uživatel"
 msgid "Email"
 msgstr "E-mail"
 
-msgid "Group"
-msgstr "Skupina"
-
 msgid "Creator"
 msgstr "Žadatel"
 
@@ -216,3 +212,132 @@ msgstr "komentováno {{commentTime}}"
 
 msgid "Edited"
 msgstr "Upraveno"
+
+msgid "Accept and delete"
+msgstr "Přijmout a smazat"
+
+msgid "Show less"
+msgstr "Ukázat méně"
+
+msgid "Show more"
+msgstr "Ukázat více"
+
+msgid "Comment was deleted."
+msgstr "Komentář byl smazán."
+
+msgid "Quote reply"
+msgstr "Citovat odpověď"
+
+msgid "Record deletion"
+msgstr "Smazání záznamu"
+
+msgid "File modification"
+msgstr "Úprava souboru"
+
+msgid "Quota increase"
+msgstr "Navýšení kvóty"
+
+msgid "create"
+msgstr "vytvořit"
+
+msgid "submit"
+msgstr "odeslat"
+
+msgid "delete"
+msgstr "smazat"
+
+msgid "accept"
+msgstr "schválit"
+
+msgid "decline"
+msgstr "zamítnout"
+
+msgid "cancel"
+msgstr "zrušit"
+
+msgid "expire"
+msgstr "vypršet"
+
+msgid ""
+"Locking the conversation will disallow users with access to add/update "
+"comments."
+msgstr ""
+"Uzamčením konverzace bude znemožněno uživatelům s přístupem "
+"přidávat/aktualizovat komentáře."
+
+msgid ""
+"Unlocking the conversation will allow users with access to add/update "
+"comments."
+msgstr ""
+"Odemčení konverzace umožní uživatelům s přístupem přidávat/aktualizovat "
+"komentáře."
+
+msgid "People"
+msgstr "Osoby"
+
+msgid "Groups"
+msgstr "Skupiny"
+
+msgid "Search for user"
+msgstr "Hledat uživatele"
+
+msgid "Search for groups"
+msgstr "Hledat skupiny"
+
+msgid "No reviewers selected"
+msgstr "Nevybráni žádní hodnotitelé"
+
+msgid "Reviewers"
+msgstr "Hodnotitelé"
+
+msgid "Load more ({{count}} remaining)"
+msgid_plural "Load more ({{count}} remaining)"
+msgstr[0] "Načíst více (zbývá {{count}} )"
+msgstr[1] "Načíst více (zbývá {{count}} )"
+msgstr[2] "Načíst více (zbývá {{count}} )"
+msgstr[3] "Načíst více (zbývá {{count}} )"
+
+msgid "{{remaining}} older comments"
+msgstr "{{remaining}} starší komentáře"
+
+msgid "Loading..."
+msgstr "Probíhá načítání..."
+
+msgid "Load more..."
+msgstr "Načíst více..."
+
+msgid "Replies"
+msgstr "Odpovědi"
+
+msgid "Write a reply"
+msgstr "Napsat odpověď"
+
+msgid "Reply"
+msgstr "Odpovědět"
+
+msgid "Adding or editing comments is now locked."
+msgstr "Přidávání nebo úpravy komentářů je nyní uzamčeno."
+
+msgid "We couldn't find the reply you were looking for."
+msgstr "Nemohli jsme nalézt odpověď, kterou hledáte."
+
+msgid "updated reviewers"
+msgstr "aktualizovaní hodnotitelé"
+
+msgid "locked this conversation"
+msgstr "zamkl tuto konverzaci"
+
+msgid "unlocked this conversation"
+msgstr "odemkl tuto konverzaci"
+
+msgid "Copy link"
+msgstr "Kopírovat odkaz"
+
+msgid "We couldn't find the comment you were looking for."
+msgstr "Nemohli jsme nalézt komentář, který hledáte."
+
+msgid "{{linkName}} links are undefined. Please refresh the page."
+msgstr "Odkazy {{linkName}} nejsou definovány. Obnovte prosím stránku."
+
+msgid "{{linkName}} link missing from resource."
+msgstr "Odkaz {{linkName}} ve zdroji chybí."

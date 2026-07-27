@@ -1,16 +1,15 @@
-# 
 # Translators:
-# Mart Jantson, 2023
-# Martin Jantson <martinjantson97@gmail.com>, 2024
+# Mart Jantson, 2026
+# Martin Jantson <martinjantson97@gmail.com>, 2026
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2025-07-08T19:57:28.912Z\n"
+"POT-Creation-Date: 2026-07-07T11:13:08.464Z\n"
 "PO-Revision-Date: 2022-02-18 11:12+0000\n"
-"Last-Translator: Martin Jantson <martinjantson97@gmail.com>, 2024\n"
+"Last-Translator: Martin Jantson <martinjantson97@gmail.com>, 2026\n"
 "Language-Team: Estonian (https://app.transifex.com/inveniosoftware/teams/23537/et/)\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: et\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -112,9 +111,6 @@ msgstr ""
 msgid "Email"
 msgstr "E-mail"
 
-msgid "Group"
-msgstr "Grupp"
-
 msgid "Creator"
 msgstr "Looja"
 
@@ -146,7 +142,7 @@ msgid "Expires at: {{- expiringDate}}"
 msgstr ""
 
 msgid "Opened {{relativeTime}} by"
-msgstr ""
+msgstr "Avas {{relativeTime}}"
 
 msgid "All done!"
 msgstr "Valmis!"
@@ -212,3 +208,126 @@ msgstr ""
 
 msgid "Edited"
 msgstr "Redigeeritud"
+
+msgid "Accept and delete"
+msgstr ""
+
+msgid "Show less"
+msgstr "Näita vähem"
+
+msgid "Show more"
+msgstr "Näita rohkem"
+
+msgid "Comment was deleted."
+msgstr ""
+
+msgid "Quote reply"
+msgstr ""
+
+msgid "Record deletion"
+msgstr ""
+
+msgid "File modification"
+msgstr ""
+
+msgid "Quota increase"
+msgstr ""
+
+msgid "create"
+msgstr ""
+
+msgid "submit"
+msgstr "lisa"
+
+msgid "delete"
+msgstr "kustuta"
+
+msgid "accept"
+msgstr ""
+
+msgid "decline"
+msgstr ""
+
+msgid "cancel"
+msgstr ""
+
+msgid "expire"
+msgstr ""
+
+msgid ""
+"Locking the conversation will disallow users with access to add/update "
+"comments."
+msgstr ""
+
+msgid ""
+"Unlocking the conversation will allow users with access to add/update "
+"comments."
+msgstr ""
+
+msgid "People"
+msgstr "Inimesed"
+
+msgid "Groups"
+msgstr "Grupid"
+
+msgid "Search for user"
+msgstr ""
+
+msgid "Search for groups"
+msgstr "Otsi gruppe"
+
+msgid "No reviewers selected"
+msgstr ""
+
+msgid "Reviewers"
+msgstr ""
+
+msgid "Load more ({{count}} remaining)"
+msgid_plural "Load more ({{count}} remaining)"
+msgstr[0] ""
+msgstr[1] ""
+
+msgid "{{remaining}} older comments"
+msgstr ""
+
+msgid "Loading..."
+msgstr "Laeb..."
+
+msgid "Load more..."
+msgstr ""
+
+msgid "Replies"
+msgstr ""
+
+msgid "Write a reply"
+msgstr ""
+
+msgid "Reply"
+msgstr "Vasta"
+
+msgid "Adding or editing comments is now locked."
+msgstr ""
+
+msgid "We couldn't find the reply you were looking for."
+msgstr ""
+
+msgid "updated reviewers"
+msgstr ""
+
+msgid "locked this conversation"
+msgstr ""
+
+msgid "unlocked this conversation"
+msgstr ""
+
+msgid "Copy link"
+msgstr "Kopeeri link"
+
+msgid "We couldn't find the comment you were looking for."
+msgstr ""
+
+msgid "{{linkName}} links are undefined. Please refresh the page."
+msgstr ""
+
+msgid "{{linkName}} link missing from resource."
+msgstr ""

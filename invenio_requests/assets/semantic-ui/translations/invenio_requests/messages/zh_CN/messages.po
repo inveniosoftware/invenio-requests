@@ -1,17 +1,16 @@
-# 
 # Translators:
-# Tibor Simko <tibor.simko@cern.ch>, 2024
 # Weizheng Lu, 2024
-# Kalven Richie, 2024
+# Tibor Simko <tibor.simko@cern.ch>, 2026
+# Kalven Richie, 2026
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2025-07-08T19:57:28.912Z\n"
+"POT-Creation-Date: 2026-07-07T11:13:08.464Z\n"
 "PO-Revision-Date: 2022-02-18 11:12+0000\n"
-"Last-Translator: Kalven Richie, 2024\n"
+"Last-Translator: Kalven Richie, 2026\n"
 "Language-Team: Chinese (China) (https://app.transifex.com/inveniosoftware/teams/23537/zh_CN/)\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: zh_CN\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
@@ -113,9 +112,6 @@ msgstr ""
 msgid "Email"
 msgstr "电邮"
 
-msgid "Group"
-msgstr "组别"
-
 msgid "Creator"
 msgstr "创作者"
 
@@ -212,3 +208,125 @@ msgstr ""
 
 msgid "Edited"
 msgstr "已编辑"
+
+msgid "Accept and delete"
+msgstr ""
+
+msgid "Show less"
+msgstr "显示更少"
+
+msgid "Show more"
+msgstr "显示更多"
+
+msgid "Comment was deleted."
+msgstr ""
+
+msgid "Quote reply"
+msgstr ""
+
+msgid "Record deletion"
+msgstr ""
+
+msgid "File modification"
+msgstr ""
+
+msgid "Quota increase"
+msgstr ""
+
+msgid "create"
+msgstr ""
+
+msgid "submit"
+msgstr "提交"
+
+msgid "delete"
+msgstr "删除"
+
+msgid "accept"
+msgstr ""
+
+msgid "decline"
+msgstr ""
+
+msgid "cancel"
+msgstr ""
+
+msgid "expire"
+msgstr ""
+
+msgid ""
+"Locking the conversation will disallow users with access to add/update "
+"comments."
+msgstr ""
+
+msgid ""
+"Unlocking the conversation will allow users with access to add/update "
+"comments."
+msgstr ""
+
+msgid "People"
+msgstr "人数"
+
+msgid "Groups"
+msgstr "组别"
+
+msgid "Search for user"
+msgstr ""
+
+msgid "Search for groups"
+msgstr "搜索组别"
+
+msgid "No reviewers selected"
+msgstr ""
+
+msgid "Reviewers"
+msgstr ""
+
+msgid "Load more ({{count}} remaining)"
+msgid_plural "Load more ({{count}} remaining)"
+msgstr[0] ""
+
+msgid "{{remaining}} older comments"
+msgstr ""
+
+msgid "Loading..."
+msgstr "载入中..."
+
+msgid "Load more..."
+msgstr ""
+
+msgid "Replies"
+msgstr ""
+
+msgid "Write a reply"
+msgstr ""
+
+msgid "Reply"
+msgstr "回复"
+
+msgid "Adding or editing comments is now locked."
+msgstr ""
+
+msgid "We couldn't find the reply you were looking for."
+msgstr ""
+
+msgid "updated reviewers"
+msgstr ""
+
+msgid "locked this conversation"
+msgstr ""
+
+msgid "unlocked this conversation"
+msgstr ""
+
+msgid "Copy link"
+msgstr "复制链接"
+
+msgid "We couldn't find the comment you were looking for."
+msgstr ""
+
+msgid "{{linkName}} links are undefined. Please refresh the page."
+msgstr ""
+
+msgid "{{linkName}} link missing from resource."
+msgstr ""

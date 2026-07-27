@@ -1,141 +1,236 @@
 # Translations template for invenio-requests.
-# Copyright (C) 2025 CERN
+# Copyright (C) 2026 CERN
 # This file is distributed under the same license as the invenio-requests
 # project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 # 
 # Translators:
 # Tibor Simko <tibor.simko@cern.ch>, 2022
-# daniela.hornickova, 2025
-# Mirek Simek <miroslav.simek@gmail.com>, 2025
+# Mirek Simek <miroslav.simek@gmail.com>, 2026
+# daniela.hornickova, 2026
 # 
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: invenio-requests 7.0.0\n"
+"Project-Id-Version: invenio-requests 14.0.0\n"
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
-"POT-Creation-Date: 2025-07-08 19:57+0000\n"
+"POT-Creation-Date: 2026-07-07 11:13+0000\n"
 "PO-Revision-Date: 2022-02-15 12:46+0000\n"
-"Last-Translator: Mirek Simek <miroslav.simek@gmail.com>, 2025\n"
+"Last-Translator: daniela.hornickova, 2026\n"
 "Language-Team: Czech (https://app.transifex.com/inveniosoftware/teams/23537/cs/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.18.0\n"
 "Language: cs\n"
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
-#: invenio_requests/config.py:47 invenio_requests/config.py:96
+#: invenio_requests/config.py:49 invenio_requests/config.py:106
 msgid "Best match"
 msgstr "Dle nejlepší shody"
 
-#: invenio_requests/config.py:51 invenio_requests/config.py:100
+#: invenio_requests/config.py:53 invenio_requests/config.py:110
 msgid "Newest"
 msgstr "Od nejnovějšího"
 
-#: invenio_requests/config.py:55 invenio_requests/config.py:104
+#: invenio_requests/config.py:57 invenio_requests/config.py:114
 msgid "Oldest"
 msgstr "Od nejstaršího"
 
-#: invenio_requests/customizations/user_moderation/user_moderation.py:48
-#: invenio_requests/services/requests/facets.py:31
+#: invenio_requests/config.py:61
+msgid "Newest activity"
+msgstr "Nejnovější aktivita"
+
+#: invenio_requests/config.py:65
+msgid "Oldest activity"
+msgstr "Nejstarší aktivita"
+
+#: invenio_requests/errors.py:59
+msgid "The request is locked."
+msgstr "Žádost je uzamčena."
+
+#: invenio_requests/errors.py:79
+msgid "Permission denied."
+msgstr "Přístup odepřen."
+
+#: invenio_requests/customizations/event_types.py:25
+msgid "The ID must be an Universally Unique IDentifier (UUID)."
+msgstr "Identifikátor musí být univerzálně unikátní identifikátor (UUID)."
+
+#: invenio_requests/customizations/user_moderation/user_moderation.py:44
+#: invenio_requests/services/requests/facets.py:27
 msgid "User moderation"
 msgstr "Schvalování uživatelů"
 
-#: invenio_requests/resources/requests/fields.py:24
+#: invenio_requests/resources/requests/fields.py:19
 msgid "Not a valid reference."
 msgstr "Nejde o platnou referenci."
 
-#: invenio_requests/services/events/service.py:167
-msgid "deleted a comment"
-msgstr "smazal(a) komentář"
+#: invenio_requests/services/events/service.py:116
+msgid "Commenting is now locked for this conversation."
+msgstr "Komentování v této konverzaci je nyní zablokováno."
 
-#: invenio_requests/services/requests/facets.py:16
+#: invenio_requests/services/events/service.py:121
+msgid "You do not have permission to comment on this conversation."
+msgstr "Nemáte oprávnění komentovat v této konverzaci."
+
+#: invenio_requests/services/events/service.py:240
+msgid "Updating is now locked for this comment."
+msgstr "Aktualizace tohoto komentáře je nyní uzamčena."
+
+#: invenio_requests/services/events/service.py:244
+msgid "You do not have permission to update this comment."
+msgstr "Nemáte oprávnění aktualizovat tento komentář."
+
+#: invenio_requests/services/events/service.py:250
+msgid "You cannot update this event."
+msgstr "Nemůžete aktualizovat tuto událost."
+
+#: invenio_requests/services/events/service.py:313
+msgid "You cannot delete this event."
+msgstr "Nemůžete smazat tuto událost."
+
+#: invenio_requests/services/files/errors.py:14
+msgid "File size exceeds limit"
+msgstr "Velikost souboru přesahuje limit"
+
+#: invenio_requests/services/files/errors.py:22
+msgid "File not found"
+msgstr "Soubor nenalezen"
+
+#: invenio_requests/services/files/errors.py:30
+msgid "Missing required argument file_key or file_id"
+msgstr "Chybí povinný argument file_key or file_id"
+
+#: invenio_requests/services/requests/components.py:117
+msgid "Reviewers are not enabled for this request type."
+msgstr "Pro tento typ požadavku nejsou povoleni žádní hodnotitelé."
+
+#: invenio_requests/services/requests/components.py:121
+msgid "Group reviewers are not enabled."
+msgstr "Skupinoví hodnotitelé nejsou povoleni."
+
+#: invenio_requests/services/requests/components.py:126
+#, python-format
+msgid "You can only add up to %(max_reviewers)s reviewers."
+msgstr "Můžete přidat jen maximálně %(max_reviewers)s hodnotitelů."
+
+#: invenio_requests/services/requests/components.py:160
+#, python-format
+msgid "%(event_type)s a reviewer"
+msgstr "Hodnotitel %(event_type)s"
+
+#: invenio_requests/services/requests/components.py:239
+#, python-format
+msgid "File %(file_id)s not found."
+msgstr "Soubor %(file_id)s nenalezen. "
+
+#: invenio_requests/services/requests/facets.py:12
 msgid "Type"
 msgstr "Typ"
 
-#: invenio_requests/services/requests/facets.py:19
+#: invenio_requests/services/requests/facets.py:15
 msgid "Guest access"
 msgstr "Přístup pro hosty"
 
-#: invenio_requests/services/requests/facets.py:20
+#: invenio_requests/services/requests/facets.py:16
 msgid "User access"
 msgstr "Přístup pro uživatele"
 
-#: invenio_requests/services/requests/facets.py:22
+#: invenio_requests/services/requests/facets.py:18
 msgid "Community inclusion"
 msgstr "Přidání do komunity"
 
-#: invenio_requests/services/requests/facets.py:23
+#: invenio_requests/services/requests/facets.py:19
 msgid "Draft review"
 msgstr "Kontrola konceptu"
 
-#: invenio_requests/services/requests/facets.py:25
+#: invenio_requests/services/requests/facets.py:21
 msgid "Membership request"
 msgstr "Žádost o členství"
 
-#: invenio_requests/services/requests/facets.py:26
+#: invenio_requests/services/requests/facets.py:22
 msgid "Member invitation"
 msgstr "Pozvánka k členství"
 
-#: invenio_requests/services/requests/facets.py:28
+#: invenio_requests/services/requests/facets.py:24
 msgid "Subcommunity"
 msgstr "Podkomunita"
 
-#: invenio_requests/services/requests/facets.py:29
+#: invenio_requests/services/requests/facets.py:25
 msgid "Subcommunity invitation"
 msgstr "Pozvánka do podkomunity"
 
-#: invenio_requests/services/requests/facets.py:33
+#: invenio_requests/services/requests/facets.py:28
+msgid "Record deletion"
+msgstr "Smazání záznamu"
+
+#: invenio_requests/services/requests/facets.py:29
+msgid "File modification"
+msgstr "Úprava souboru"
+
+#: invenio_requests/services/requests/facets.py:30
+msgid "Quota increase"
+msgstr "Navýšení kvóty"
+
+#: invenio_requests/services/requests/facets.py:32
 msgid "Community manage record"
 msgstr "Správa záznamu komunity"
 
-#: invenio_requests/services/requests/facets.py:34
+#: invenio_requests/services/requests/facets.py:33
 msgid "Upgrade legacy record"
 msgstr "Aktualizace staršího záznamu"
 
-#: invenio_requests/services/requests/facets.py:40
+#: invenio_requests/services/requests/facets.py:39
 msgid "Status"
 msgstr "Status"
 
-#: invenio_requests/services/requests/facets.py:42
+#: invenio_requests/services/requests/facets.py:41
 msgid "Submitted"
 msgstr "Odeslána"
 
-#: invenio_requests/services/requests/facets.py:43
+#: invenio_requests/services/requests/facets.py:42
 msgid "Expired"
 msgstr "Vypršený"
 
-#: invenio_requests/services/requests/facets.py:44
+#: invenio_requests/services/requests/facets.py:43
 msgid "Accepted"
 msgstr "Přijata"
 
-#: invenio_requests/services/requests/facets.py:45
+#: invenio_requests/services/requests/facets.py:44
 msgid "Declined"
 msgstr "Zamítnuto"
 
-#: invenio_requests/services/requests/facets.py:46
+#: invenio_requests/services/requests/facets.py:45
 msgid "Cancelled"
 msgstr "Zrušena"
 
-#: invenio_requests/services/requests/facets.py:53
-#: invenio_requests/services/requests/facets.py:55
+#: invenio_requests/services/requests/facets.py:52
+#: invenio_requests/services/requests/facets.py:54
 msgid "Open"
 msgstr "Otevřený"
 
-#: invenio_requests/services/requests/facets.py:56
+#: invenio_requests/services/requests/facets.py:55
 msgid "Closed"
 msgstr "Zavřená"
 
-#: invenio_requests/services/user_moderation/errors.py:14
+#: invenio_requests/services/requests/service.py:343
+msgid "The request is already locked."
+msgstr "Žádost je již uzamčena."
+
+#: invenio_requests/services/requests/service.py:357
+msgid "The request is already unlocked."
+msgstr "Žádost již byla odemknuta."
+
+#: invenio_requests/services/user_moderation/errors.py:11
 msgid "Invalid creator for user moderation request."
 msgstr "Nesprávný žadatel pro požadavek na schválení uživatele."
 
-#: invenio_requests/services/user_moderation/errors.py:20
+#: invenio_requests/services/user_moderation/errors.py:17
 msgid "There is already an open moderation request for this user."
 msgstr "Žádost pro schválení tohoto uživatele již byla podána."
 
-#: invenio_requests/services/user_moderation/service.py:82
+#: invenio_requests/services/user_moderation/service.py:80
 msgid "Moderation role must exist to enable user moderation requests."
 msgstr ""
 "Aby bylo možno schvalovat uživatele, je nutno nejprve vytvořit roli pro "
@@ -153,15 +248,19 @@ msgstr "'@{user_name}' komentoval(a) '{request_title}':"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:33
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:59
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:40
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:67
 msgid "Check out the request"
 msgstr "Zkontrolujte žádost"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:39
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:46
 msgid "This is an auto-generated message. To manage notifications, visit your"
 msgstr ""
 "Toto je automaticky generovaná zpráva. Pro správu notifikací navštivte své"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:39
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:46
 msgid "account settings"
 msgstr "Nastavení účtu"
 
@@ -171,6 +270,7 @@ msgid "@{user_name} commented on '{request_title}'"
 msgstr "@{user_name} komentoval(a) '{request_title}'"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:49
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:57
 #, python-brace-format
 msgid "Check out the request: {request_link}"
 msgstr "Zkontrolujte žádost: {request_link}"
@@ -180,15 +280,40 @@ msgstr "Zkontrolujte žádost: {request_link}"
 msgid "*@{user_name}* commented on *{request_title}*"
 msgstr "*@{user_name}* komentoval(a) *{request_title}*"
 
-#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:9
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:28
+#, python-brace-format
+msgid "💬 New reply on '{request_title}'"
+msgstr "Nová odpověď k '{request_title}'"
+
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:34
+#, python-brace-format
+msgid "'@{user_name}' replied on <a href='{reply_link}'>comment</a>:"
+msgstr "'@{user_name}' odpověděl na <a href='{reply_link}'> komentář </a> :"
+
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:52
+#, python-brace-format
+msgid "@{user_name} replied on comment"
+msgstr "@{user_name} odpověděl na komentář"
+
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:56
+#, python-brace-format
+msgid "View reply: {reply_link}"
+msgstr "Zobrazit odpověď: {reply_link}"
+
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:63
+#, python-brace-format
+msgid "*@{user_name}* replied on [comment]({reply_link})"
+msgstr "*@{user_name}* odpověděl na [comment]({reply_link})"
+
+#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:7
 msgid "Tombstone"
 msgstr "Náhrobní kámen"
 
-#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:12
+#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:10
 msgid "Gone"
 msgstr "Odstraněn(o)"
 
-#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:14
+#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:12
 #, python-format
 msgid ""
 "\n"
@@ -200,10 +325,6 @@ msgstr ""
 "    Záznam, ke kterému se snažíte přistoupit, byl odstraněn z repozitáře %(sitename)s. Metadata záznamu jsou uchována k archivním účelům.\n"
 "  "
 
-#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:21
+#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:19
 msgid "Reason for removal:"
 msgstr "Důvod smazání:"
-
-#: invenio_requests/templates/semantic-ui/invenio_requests/details/index.html:19
-msgid "Request "
-msgstr "Žádost "

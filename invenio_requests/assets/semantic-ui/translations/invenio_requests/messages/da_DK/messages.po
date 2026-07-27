@@ -1,22 +1,18 @@
-# Translators:
-# Karolina, 2022
-# Tibor Simko <tibor.simko@cern.ch>, 2026
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2026-07-07T11:13:08.464Z\n"
 "PO-Revision-Date: 2022-02-18 11:12+0000\n"
-"Last-Translator: Tibor Simko <tibor.simko@cern.ch>, 2026\n"
-"Language-Team: Polish (https://app.transifex.com/inveniosoftware/teams/23537/pl/)\n"
+"Language-Team: Danish (Denmark) (https://app.transifex.com/inveniosoftware/teams/23537/da_DK/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Language: pl\n"
-"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n%100<12 || n%100>14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+"Language: da_DK\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "mime-version: 1.0\n"
 
 msgid "Save"
-msgstr "Zapisz"
+msgstr ""
 
 msgid "Decline"
 msgstr ""
@@ -28,7 +24,7 @@ msgid "Accept"
 msgstr ""
 
 msgid "Cancel"
-msgstr "Anuluj"
+msgstr ""
 
 msgid "Cancel request"
 msgstr ""
@@ -40,13 +36,13 @@ msgid "Something went wrong."
 msgstr ""
 
 msgid "Are you sure you want to delete this comment?"
-msgstr "Czy na pewno chcesz usunąć ten komentarz?"
+msgstr ""
 
 msgid "Confirm"
-msgstr "Potwierdź"
+msgstr ""
 
 msgid "Delete"
-msgstr "Usuń"
+msgstr ""
 
 msgid "Shared with me"
 msgstr ""
@@ -58,7 +54,7 @@ msgid "Submitted"
 msgstr ""
 
 msgid "Deleted"
-msgstr "usunięty"
+msgstr ""
 
 msgid "Accepted"
 msgstr ""
@@ -67,7 +63,7 @@ msgid "Declined"
 msgstr ""
 
 msgid "Cancelled"
-msgstr "Anulowane"
+msgstr ""
 
 msgid "Expired"
 msgstr ""
@@ -109,7 +105,7 @@ msgid "Anonymous user"
 msgstr ""
 
 msgid "Email"
-msgstr "Email"
+msgstr ""
 
 msgid "Creator"
 msgstr ""
@@ -118,19 +114,19 @@ msgid "Receiver"
 msgstr ""
 
 msgid "Request type"
-msgstr "Typ prośby"
+msgstr ""
 
 msgid "Status"
-msgstr "Status"
+msgstr ""
 
 msgid "Created"
 msgstr ""
 
 msgid "Expires"
-msgstr "Wygasa"
+msgstr ""
 
 msgid "Record"
-msgstr "Rekord"
+msgstr ""
 
 msgid "Accept request"
 msgstr ""
@@ -160,8 +156,6 @@ msgid "{{count}} results found"
 msgid_plural "{{count}} results found"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
 
 msgid "Sort by"
 msgstr ""
@@ -179,7 +173,7 @@ msgid "Closed"
 msgstr ""
 
 msgid "Comment"
-msgstr "Skomentuj"
+msgstr ""
 
 msgid "deleted a comment"
 msgstr ""
@@ -200,16 +194,16 @@ msgid "unknown event"
 msgstr ""
 
 msgid "Actions"
-msgstr "Działania"
+msgstr ""
 
 msgid "Edit"
-msgstr "Edytuj"
+msgstr ""
 
 msgid "commented {{commentTime}}"
 msgstr ""
 
 msgid "Edited"
-msgstr "zedytowany"
+msgstr ""
 
 msgid "Accept and delete"
 msgstr ""
@@ -270,7 +264,7 @@ msgid "People"
 msgstr ""
 
 msgid "Groups"
-msgstr "Grupy"
+msgstr ""
 
 msgid "Search for user"
 msgstr ""
@@ -288,8 +282,6 @@ msgid "Load more ({{count}} remaining)"
 msgid_plural "Load more ({{count}} remaining)"
 msgstr[0] ""
 msgstr[1] ""
-msgstr[2] ""
-msgstr[3] ""
 
 msgid "{{remaining}} older comments"
 msgstr ""
@@ -307,7 +299,7 @@ msgid "Write a reply"
 msgstr ""
 
 msgid "Reply"
-msgstr "Odpowiedz"
+msgstr ""
 
 msgid "Adding or editing comments is now locked."
 msgstr ""

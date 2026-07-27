@@ -1,23 +1,23 @@
-# 
 # Translators:
-# Mojib Wali <mojib.wali@tugraz.at>, 2022
-# Hermann Schranzhofer <hermann.schranzhofer@tugraz.at>, 2022
-# Zacharias Zacharodimos <zacharias.zacharodimos@cern.ch>, 2023
 # David Eckhard <dabombeeer@gmail.com>, 2023
 # Alizee Pace <alizee.pace@gmail.com>, 2024
-# Tibor Simko <tibor.simko@cern.ch>, 2024
 # c960a0736ea0fb7507bb1c3555e7d33f_88b575f <3cef15c38ce2563e884ec389656c9161_1006830>, 2024
-# Adienne Karsten-Welker, 2025
-# Sarah Wiechers, 2025
+# Mojib Wali <mojib.wali@tugraz.at>, 2026
+# Zacharias Zacharodimos <zacharias.zacharodimos@cern.ch>, 2026
+# Hermann Schranzhofer <hermann.schranzhofer@tugraz.at>, 2026
+# Tibor Simko <tibor.simko@cern.ch>, 2026
+# Alexander Gruber <alexander.gruber@tugraz.at>, 2026
+# Sarah Wiechers, 2026
+# Adienne Karsten-Welker, 2026
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
-"POT-Creation-Date: 2025-07-08T19:57:28.912Z\n"
+"POT-Creation-Date: 2026-07-07T11:13:08.464Z\n"
 "PO-Revision-Date: 2022-02-18 11:12+0000\n"
-"Last-Translator: Sarah Wiechers, 2025\n"
+"Last-Translator: Adienne Karsten-Welker, 2026\n"
 "Language-Team: German (https://app.transifex.com/inveniosoftware/teams/23537/de/)\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: de\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -93,7 +93,7 @@ msgid "Guest access"
 msgstr "Gastzugang"
 
 msgid "User access"
-msgstr "Benutzerzugang"
+msgstr "Benutzer*innen-Zugang"
 
 msgid "Community manage record"
 msgstr "Community-Eintrag verwalten"
@@ -118,9 +118,6 @@ msgstr "Anonyme*r Benutzer*in"
 
 msgid "Email"
 msgstr "E-Mail"
-
-msgid "Group"
-msgstr "Gruppe"
 
 msgid "Creator"
 msgstr "Ersteller*in"
@@ -219,3 +216,131 @@ msgstr "kommentiert {{commentTime}}"
 
 msgid "Edited"
 msgstr "Editiert"
+
+msgid "Accept and delete"
+msgstr "Akzeptieren und löschen"
+
+msgid "Show less"
+msgstr "Weniger anzeigen"
+
+msgid "Show more"
+msgstr "Mehr anzeigen"
+
+msgid "Comment was deleted."
+msgstr "Kommentar wurde gelöscht."
+
+msgid "Quote reply"
+msgstr "Antwort zitieren"
+
+msgid "Record deletion"
+msgstr "Datensatzlöschung"
+
+msgid "File modification"
+msgstr "Dateiänderung"
+
+msgid "Quota increase"
+msgstr "Kontingenterhöhung"
+
+msgid "create"
+msgstr "erstellen"
+
+msgid "submit"
+msgstr "einreichen"
+
+msgid "delete"
+msgstr "löschen"
+
+msgid "accept"
+msgstr "akzeptieren"
+
+msgid "decline"
+msgstr "ablehnen"
+
+msgid "cancel"
+msgstr "abbrechen"
+
+msgid "expire"
+msgstr "ablaufen"
+
+msgid ""
+"Locking the conversation will disallow users with access to add/update "
+"comments."
+msgstr ""
+"Durch das Sperren der Konversation können Benutzer*innen mit Zugriff keine "
+"Kommentare mehr hinzufügen/aktualisieren."
+
+msgid ""
+"Unlocking the conversation will allow users with access to add/update "
+"comments."
+msgstr ""
+"Durch das Entsperren der Konversation können Benutzer*innen mit Zugriff "
+"Kommentare hinzufügen/aktualisieren."
+
+msgid "People"
+msgstr "Personen"
+
+msgid "Groups"
+msgstr "Gruppen"
+
+msgid "Search for user"
+msgstr "Nach Benutzer*in suchen"
+
+msgid "Search for groups"
+msgstr "Suche nach Gruppen"
+
+msgid "No reviewers selected"
+msgstr "Keine Prüfer*innen ausgewählt"
+
+msgid "Reviewers"
+msgstr "Prüfer*innen"
+
+msgid "Load more ({{count}} remaining)"
+msgid_plural "Load more ({{count}} remaining)"
+msgstr[0] "Mehr laden ({{count}} verbleibend)"
+msgstr[1] "Mehr laden ({{count}} verbleibend)"
+
+msgid "{{remaining}} older comments"
+msgstr "{{remaining}} ältere Kommentare"
+
+msgid "Loading..."
+msgstr "Laden ..."
+
+msgid "Load more..."
+msgstr "Mehr laden ..."
+
+msgid "Replies"
+msgstr "Antworten"
+
+msgid "Write a reply"
+msgstr "Antwort verfassen"
+
+msgid "Reply"
+msgstr "Antworten"
+
+msgid "Adding or editing comments is now locked."
+msgstr "Das Hinzufügen oder Bearbeiten von Kommentaren ist jetzt gesperrt."
+
+msgid "We couldn't find the reply you were looking for."
+msgstr "Wir konnten die gesuchte Antwort nicht finden."
+
+msgid "updated reviewers"
+msgstr "Prüfer*innen aktualisiert"
+
+msgid "locked this conversation"
+msgstr "diese Konversation gesperrt"
+
+msgid "unlocked this conversation"
+msgstr "diese Konversation entsperrt"
+
+msgid "Copy link"
+msgstr "Link kopieren"
+
+msgid "We couldn't find the comment you were looking for."
+msgstr "Wir konnten den gesuchten Kommentar nicht finden."
+
+msgid "{{linkName}} links are undefined. Please refresh the page."
+msgstr ""
+"{{linkName}}-Links sind nicht definiert. Bitte laden Sie die Seite neu."
+
+msgid "{{linkName}} link missing from resource."
+msgstr "{{linkName}}-Link fehlt in der Ressource."

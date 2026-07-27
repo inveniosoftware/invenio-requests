@@ -1,201 +1,322 @@
 # Translations template for invenio-requests.
-# Copyright (C) 2025 CERN
+# Copyright (C) 2026 CERN
 # This file is distributed under the same license as the invenio-requests
 # project.
-# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 # 
 # Translators:
-# Minjae Kwon, 2024
+# Minjae Kwon, 2026
 # 
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: invenio-requests 7.0.0\n"
+"Project-Id-Version: invenio-requests 14.0.0\n"
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
-"POT-Creation-Date: 2025-07-08 19:57+0000\n"
+"POT-Creation-Date: 2026-07-07 11:13+0000\n"
 "PO-Revision-Date: 2022-02-15 12:46+0000\n"
-"Last-Translator: Minjae Kwon, 2024\n"
+"Last-Translator: Minjae Kwon, 2026\n"
 "Language-Team: Korean (https://app.transifex.com/inveniosoftware/teams/23537/ko/)\n"
 "MIME-Version: 1.0\n"
-"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Generated-By: Babel 2.17.0\n"
+"Generated-By: Babel 2.18.0\n"
 "Language: ko\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: invenio_requests/config.py:47 invenio_requests/config.py:96
+#: invenio_requests/config.py:49 invenio_requests/config.py:106
 msgid "Best match"
 msgstr "가장 적절함"
 
-#: invenio_requests/config.py:51 invenio_requests/config.py:100
+#: invenio_requests/config.py:53 invenio_requests/config.py:110
 msgid "Newest"
-msgstr ""
+msgstr "최신순"
 
-#: invenio_requests/config.py:55 invenio_requests/config.py:104
+#: invenio_requests/config.py:57 invenio_requests/config.py:114
 msgid "Oldest"
-msgstr ""
+msgstr "오래된순"
 
-#: invenio_requests/customizations/user_moderation/user_moderation.py:48
-#: invenio_requests/services/requests/facets.py:31
+#: invenio_requests/config.py:61
+msgid "Newest activity"
+msgstr "최신 활동순"
+
+#: invenio_requests/config.py:65
+msgid "Oldest activity"
+msgstr "오래된 활동순"
+
+#: invenio_requests/errors.py:59
+msgid "The request is locked."
+msgstr "요청이 잠겨 있습니다."
+
+#: invenio_requests/errors.py:79
+msgid "Permission denied."
+msgstr "권한이 거부되었습니다."
+
+#: invenio_requests/customizations/event_types.py:25
+msgid "The ID must be an Universally Unique IDentifier (UUID)."
+msgstr "ID는 범용 고유 식별자(UUID)여야 합니다."
+
+#: invenio_requests/customizations/user_moderation/user_moderation.py:44
+#: invenio_requests/services/requests/facets.py:27
 msgid "User moderation"
-msgstr ""
+msgstr "사용자 심사"
 
-#: invenio_requests/resources/requests/fields.py:24
+#: invenio_requests/resources/requests/fields.py:19
 msgid "Not a valid reference."
-msgstr ""
+msgstr "올바른 참조가 아닙니다."
 
-#: invenio_requests/services/events/service.py:167
-msgid "deleted a comment"
-msgstr ""
+#: invenio_requests/services/events/service.py:116
+msgid "Commenting is now locked for this conversation."
+msgstr "이 대화의 댓글 작성이 잠겼습니다."
+
+#: invenio_requests/services/events/service.py:121
+msgid "You do not have permission to comment on this conversation."
+msgstr "이 대화에 댓글을 달 권한이 없습니다."
+
+#: invenio_requests/services/events/service.py:240
+msgid "Updating is now locked for this comment."
+msgstr "이 댓글의 수정이 잠겼습니다."
+
+#: invenio_requests/services/events/service.py:244
+msgid "You do not have permission to update this comment."
+msgstr "이 댓글을 수정할 권한이 없습니다."
+
+#: invenio_requests/services/events/service.py:250
+msgid "You cannot update this event."
+msgstr "이 이벤트를 수정할 수 없습니다."
+
+#: invenio_requests/services/events/service.py:313
+msgid "You cannot delete this event."
+msgstr "이 이벤트를 제거할 수 없습니다."
+
+#: invenio_requests/services/files/errors.py:14
+msgid "File size exceeds limit"
+msgstr "파일 크기가 제한을 초과합니다"
+
+#: invenio_requests/services/files/errors.py:22
+msgid "File not found"
+msgstr "파일을 찾을 수 없습니다"
+
+#: invenio_requests/services/files/errors.py:30
+msgid "Missing required argument file_key or file_id"
+msgstr "필수 인수 file_key 또는 file_id가 없습니다"
+
+#: invenio_requests/services/requests/components.py:117
+msgid "Reviewers are not enabled for this request type."
+msgstr "이 요청 유형에는 검토자가 활성화되어 있지 않습니다."
+
+#: invenio_requests/services/requests/components.py:121
+msgid "Group reviewers are not enabled."
+msgstr "그룹 검토자가 활성화되어 있지 않습니다."
+
+#: invenio_requests/services/requests/components.py:126
+#, python-format
+msgid "You can only add up to %(max_reviewers)s reviewers."
+msgstr "검토자는 최대 %(max_reviewers)s명까지 추가할 수 있습니다."
+
+#: invenio_requests/services/requests/components.py:160
+#, python-format
+msgid "%(event_type)s a reviewer"
+msgstr "검토자 %(event_type)s"
+
+#: invenio_requests/services/requests/components.py:239
+#, python-format
+msgid "File %(file_id)s not found."
+msgstr "파일 %(file_id)s을(를) 찾을 수 없습니다."
+
+#: invenio_requests/services/requests/facets.py:12
+msgid "Type"
+msgstr "유형"
+
+#: invenio_requests/services/requests/facets.py:15
+msgid "Guest access"
+msgstr "게스트 접근"
 
 #: invenio_requests/services/requests/facets.py:16
-msgid "Type"
-msgstr ""
+msgid "User access"
+msgstr "사용자 접근"
+
+#: invenio_requests/services/requests/facets.py:18
+msgid "Community inclusion"
+msgstr "커뮤니티 포함"
 
 #: invenio_requests/services/requests/facets.py:19
-msgid "Guest access"
-msgstr ""
+msgid "Draft review"
+msgstr "초안 검토"
 
-#: invenio_requests/services/requests/facets.py:20
-msgid "User access"
-msgstr ""
+#: invenio_requests/services/requests/facets.py:21
+msgid "Membership request"
+msgstr "가입 요청"
 
 #: invenio_requests/services/requests/facets.py:22
-msgid "Community inclusion"
-msgstr ""
+msgid "Member invitation"
+msgstr "구성원 초대"
 
-#: invenio_requests/services/requests/facets.py:23
-msgid "Draft review"
-msgstr ""
+#: invenio_requests/services/requests/facets.py:24
+msgid "Subcommunity"
+msgstr "하위 커뮤니티"
 
 #: invenio_requests/services/requests/facets.py:25
-msgid "Membership request"
-msgstr ""
-
-#: invenio_requests/services/requests/facets.py:26
-msgid "Member invitation"
-msgstr ""
+msgid "Subcommunity invitation"
+msgstr "하위 커뮤니티 초대"
 
 #: invenio_requests/services/requests/facets.py:28
-msgid "Subcommunity"
-msgstr ""
+msgid "Record deletion"
+msgstr "레코드 삭제"
 
 #: invenio_requests/services/requests/facets.py:29
-msgid "Subcommunity invitation"
-msgstr ""
+msgid "File modification"
+msgstr "파일 수정"
+
+#: invenio_requests/services/requests/facets.py:30
+msgid "Quota increase"
+msgstr "할당량 증가"
+
+#: invenio_requests/services/requests/facets.py:32
+msgid "Community manage record"
+msgstr "커뮤니티 레코드 관리"
 
 #: invenio_requests/services/requests/facets.py:33
-msgid "Community manage record"
-msgstr ""
-
-#: invenio_requests/services/requests/facets.py:34
 msgid "Upgrade legacy record"
-msgstr ""
+msgstr "레거시 레코드 업그레이드"
 
-#: invenio_requests/services/requests/facets.py:40
+#: invenio_requests/services/requests/facets.py:39
 msgid "Status"
 msgstr "상태"
 
-#: invenio_requests/services/requests/facets.py:42
+#: invenio_requests/services/requests/facets.py:41
 msgid "Submitted"
-msgstr ""
+msgstr "제출됨"
+
+#: invenio_requests/services/requests/facets.py:42
+msgid "Expired"
+msgstr "만료됨"
 
 #: invenio_requests/services/requests/facets.py:43
-msgid "Expired"
-msgstr ""
+msgid "Accepted"
+msgstr "수락됨"
 
 #: invenio_requests/services/requests/facets.py:44
-msgid "Accepted"
-msgstr ""
+msgid "Declined"
+msgstr "거절됨"
 
 #: invenio_requests/services/requests/facets.py:45
-msgid "Declined"
-msgstr ""
-
-#: invenio_requests/services/requests/facets.py:46
 msgid "Cancelled"
-msgstr ""
+msgstr "취소됨"
 
-#: invenio_requests/services/requests/facets.py:53
-#: invenio_requests/services/requests/facets.py:55
+#: invenio_requests/services/requests/facets.py:52
+#: invenio_requests/services/requests/facets.py:54
 msgid "Open"
-msgstr ""
+msgstr "열림"
 
-#: invenio_requests/services/requests/facets.py:56
+#: invenio_requests/services/requests/facets.py:55
 msgid "Closed"
-msgstr ""
+msgstr "닫힘"
 
-#: invenio_requests/services/user_moderation/errors.py:14
+#: invenio_requests/services/requests/service.py:343
+msgid "The request is already locked."
+msgstr "요청이 이미 잠겨 있습니다."
+
+#: invenio_requests/services/requests/service.py:357
+msgid "The request is already unlocked."
+msgstr "요청이 이미 잠금 해제되어 있습니다."
+
+#: invenio_requests/services/user_moderation/errors.py:11
 msgid "Invalid creator for user moderation request."
-msgstr ""
+msgstr "사용자 심사 요청의 생성자가 잘못되었습니다."
 
-#: invenio_requests/services/user_moderation/errors.py:20
+#: invenio_requests/services/user_moderation/errors.py:17
 msgid "There is already an open moderation request for this user."
-msgstr ""
+msgstr "이 사용자에 대한 열린 심사 요청이 이미 있습니다."
 
-#: invenio_requests/services/user_moderation/service.py:82
+#: invenio_requests/services/user_moderation/service.py:80
 msgid "Moderation role must exist to enable user moderation requests."
-msgstr ""
+msgstr "사용자 심사 요청을 활성화하려면 심사 역할이 있어야 합니다."
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:21
 #, python-brace-format
 msgid "💬 New comment on '{request_title}'"
-msgstr ""
+msgstr "💬 '{request_title}'에 새 댓글"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:27
 #, python-brace-format
 msgid "'@{user_name}' commented on '{request_title}':"
-msgstr ""
+msgstr "'@{user_name}'님이 '{request_title}'에 댓글을 남겼습니다:"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:33
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:59
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:40
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:67
 msgid "Check out the request"
-msgstr ""
+msgstr "요청 확인하기"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:39
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:46
 msgid "This is an auto-generated message. To manage notifications, visit your"
-msgstr ""
+msgstr "이것은 자동 생성된 메시지입니다. 알림을 관리하려면 다음을 방문하십시오:"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:39
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:46
 msgid "account settings"
-msgstr ""
+msgstr "계정 설정"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:45
 #, python-brace-format
 msgid "@{user_name} commented on '{request_title}'"
-msgstr ""
+msgstr "@{user_name}님이 '{request_title}'에 댓글을 남겼습니다"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:49
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:57
 #, python-brace-format
 msgid "Check out the request: {request_link}"
-msgstr ""
+msgstr "요청을 확인하세요: {request_link}"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:55
 #, python-brace-format
 msgid "*@{user_name}* commented on *{request_title}*"
-msgstr ""
+msgstr "*@{user_name}*님이 *{request_title}*에 댓글을 남겼습니다"
 
-#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:9
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:28
+#, python-brace-format
+msgid "💬 New reply on '{request_title}'"
+msgstr "💬 '{request_title}'에 새 답글"
+
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:34
+#, python-brace-format
+msgid "'@{user_name}' replied on <a href='{reply_link}'>comment</a>:"
+msgstr "'@{user_name}'님이 <a href='{reply_link}'>댓글</a>에 답글을 남겼습니다:"
+
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:52
+#, python-brace-format
+msgid "@{user_name} replied on comment"
+msgstr "@{user_name}님이 댓글에 답글을 남겼습니다"
+
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:56
+#, python-brace-format
+msgid "View reply: {reply_link}"
+msgstr "답글 보기: {reply_link}"
+
+#: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:63
+#, python-brace-format
+msgid "*@{user_name}* replied on [comment]({reply_link})"
+msgstr "*@{user_name}*님이 [댓글]({reply_link})에 답글을 남겼습니다"
+
+#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:7
 msgid "Tombstone"
-msgstr ""
+msgstr "삭제된 레코드"
+
+#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:10
+msgid "Gone"
+msgstr "사라짐"
 
 #: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:12
-msgid "Gone"
-msgstr ""
-
-#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:14
 #, python-format
 msgid ""
 "\n"
 "    The record  you are trying to access was removed from %(sitename)s. The\n"
 "    metadata of the record is kept for archival purposes.\n"
 "  "
-msgstr ""
+msgstr "접근하려는 레코드가 %(sitename)s에서 제거되었습니다. 레코드의 메타데이터는 보관 목적으로 유지됩니다."
 
-#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:21
+#: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:19
 msgid "Reason for removal:"
-msgstr ""
-
-#: invenio_requests/templates/semantic-ui/invenio_requests/details/index.html:19
-msgid "Request "
-msgstr ""
+msgstr "제거 사유:"

@@ -5,7 +5,7 @@
 # FIRST AUTHOR <EMAIL@ADDRESS>, 2026.
 # 
 # Translators:
-# Jiří Kunčar <jiri.kuncar@gmail.com>, 2022
+# Matti Lassila <matti.lassila@gmail.com>, 2026
 # 
 #, fuzzy
 msgid ""
@@ -14,26 +14,26 @@ msgstr ""
 "Report-Msgid-Bugs-To: info@inveniosoftware.org\n"
 "POT-Creation-Date: 2026-07-07 11:13+0000\n"
 "PO-Revision-Date: 2022-02-15 12:46+0000\n"
-"Last-Translator: Jiří Kunčar <jiri.kuncar@gmail.com>, 2022\n"
-"Language-Team: Danish (https://app.transifex.com/inveniosoftware/teams/23537/da/)\n"
+"Last-Translator: Matti Lassila <matti.lassila@gmail.com>, 2026\n"
+"Language-Team: Finnish (https://app.transifex.com/inveniosoftware/teams/23537/fi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.18.0\n"
-"Language: da\n"
+"Language: fi\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #: invenio_requests/config.py:49 invenio_requests/config.py:106
 msgid "Best match"
-msgstr ""
+msgstr "Paras osuma"
 
 #: invenio_requests/config.py:53 invenio_requests/config.py:110
 msgid "Newest"
-msgstr ""
+msgstr "Uusin"
 
 #: invenio_requests/config.py:57 invenio_requests/config.py:114
 msgid "Oldest"
-msgstr ""
+msgstr "Vanhin"
 
 #: invenio_requests/config.py:61
 msgid "Newest activity"
@@ -49,7 +49,7 @@ msgstr ""
 
 #: invenio_requests/errors.py:79
 msgid "Permission denied."
-msgstr ""
+msgstr "Käyttö estetty."
 
 #: invenio_requests/customizations/event_types.py:25
 msgid "The ID must be an Universally Unique IDentifier (UUID)."
@@ -58,11 +58,11 @@ msgstr ""
 #: invenio_requests/customizations/user_moderation/user_moderation.py:44
 #: invenio_requests/services/requests/facets.py:27
 msgid "User moderation"
-msgstr ""
+msgstr "Käyttäjien moderointi"
 
 #: invenio_requests/resources/requests/fields.py:19
 msgid "Not a valid reference."
-msgstr ""
+msgstr "Ei kelvollinen viite."
 
 #: invenio_requests/services/events/service.py:116
 msgid "Commenting is now locked for this conversation."
@@ -125,39 +125,39 @@ msgstr ""
 
 #: invenio_requests/services/requests/facets.py:12
 msgid "Type"
-msgstr ""
+msgstr "Tyyppi"
 
 #: invenio_requests/services/requests/facets.py:15
 msgid "Guest access"
-msgstr ""
+msgstr "Vieraspääsy"
 
 #: invenio_requests/services/requests/facets.py:16
 msgid "User access"
-msgstr ""
+msgstr "Käyttäjän pääsy"
 
 #: invenio_requests/services/requests/facets.py:18
 msgid "Community inclusion"
-msgstr ""
+msgstr "Yhteisöön sisällyttäminen"
 
 #: invenio_requests/services/requests/facets.py:19
 msgid "Draft review"
-msgstr ""
+msgstr "Luonnoksen arviointi"
 
 #: invenio_requests/services/requests/facets.py:21
 msgid "Membership request"
-msgstr ""
+msgstr "Jäsenyyspyyntö"
 
 #: invenio_requests/services/requests/facets.py:22
 msgid "Member invitation"
-msgstr ""
+msgstr "Jäsenkutsu"
 
 #: invenio_requests/services/requests/facets.py:24
 msgid "Subcommunity"
-msgstr ""
+msgstr "Alayhteisö"
 
 #: invenio_requests/services/requests/facets.py:25
 msgid "Subcommunity invitation"
-msgstr ""
+msgstr "Alayhteisökutsu"
 
 #: invenio_requests/services/requests/facets.py:28
 msgid "Record deletion"
@@ -173,44 +173,44 @@ msgstr ""
 
 #: invenio_requests/services/requests/facets.py:32
 msgid "Community manage record"
-msgstr ""
+msgstr "Yhteisön tietueen hallinta"
 
 #: invenio_requests/services/requests/facets.py:33
 msgid "Upgrade legacy record"
-msgstr ""
+msgstr "Päivitä vanha tietue"
 
 #: invenio_requests/services/requests/facets.py:39
 msgid "Status"
-msgstr "Status"
+msgstr "Tila"
 
 #: invenio_requests/services/requests/facets.py:41
 msgid "Submitted"
-msgstr ""
+msgstr "Lähetetty"
 
 #: invenio_requests/services/requests/facets.py:42
 msgid "Expired"
-msgstr ""
+msgstr "Vanhentunut"
 
 #: invenio_requests/services/requests/facets.py:43
 msgid "Accepted"
-msgstr ""
+msgstr "Hyväksytty"
 
 #: invenio_requests/services/requests/facets.py:44
 msgid "Declined"
-msgstr ""
+msgstr "Hylätty"
 
 #: invenio_requests/services/requests/facets.py:45
 msgid "Cancelled"
-msgstr ""
+msgstr "Peruttu"
 
 #: invenio_requests/services/requests/facets.py:52
 #: invenio_requests/services/requests/facets.py:54
 msgid "Open"
-msgstr ""
+msgstr "Avoin"
 
 #: invenio_requests/services/requests/facets.py:55
 msgid "Closed"
-msgstr ""
+msgstr "Suljettu"
 
 #: invenio_requests/services/requests/service.py:343
 msgid "The request is already locked."
@@ -222,58 +222,60 @@ msgstr ""
 
 #: invenio_requests/services/user_moderation/errors.py:11
 msgid "Invalid creator for user moderation request."
-msgstr ""
+msgstr "Virheellinen tekijä käyttäjän moderointipyynnölle."
 
 #: invenio_requests/services/user_moderation/errors.py:17
 msgid "There is already an open moderation request for this user."
-msgstr ""
+msgstr "Tälle käyttäjälle on jo avoin moderointipyyntö."
 
 #: invenio_requests/services/user_moderation/service.py:80
 msgid "Moderation role must exist to enable user moderation requests."
 msgstr ""
+"Moderointiroolin on oltava olemassa, jotta käyttäjien moderointipyynnöt "
+"voidaan ottaa käyttöön."
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:21
 #, python-brace-format
 msgid "💬 New comment on '{request_title}'"
-msgstr ""
+msgstr "💬 Uusi kommentti kohteessa '{request_title}'"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:27
 #, python-brace-format
 msgid "'@{user_name}' commented on '{request_title}':"
-msgstr ""
+msgstr "'@{user_name}' kommentoi kohdetta '{request_title}':"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:33
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:59
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:40
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:67
 msgid "Check out the request"
-msgstr ""
+msgstr "Katso pyyntö"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:39
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:46
 msgid "This is an auto-generated message. To manage notifications, visit your"
-msgstr ""
+msgstr "Tämä on automaattisesti luotu viesti. Hallitse ilmoituksia kohdassa"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:39
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:46
 msgid "account settings"
-msgstr ""
+msgstr "tiliasetukset"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:45
 #, python-brace-format
 msgid "@{user_name} commented on '{request_title}'"
-msgstr ""
+msgstr "@{user_name} kommentoi kohdetta '{request_title}'"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:49
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:57
 #, python-brace-format
 msgid "Check out the request: {request_link}"
-msgstr ""
+msgstr "Katso pyyntö: {request_link}"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:55
 #, python-brace-format
 msgid "*@{user_name}* commented on *{request_title}*"
-msgstr ""
+msgstr "*@{user_name}* kommentoi kohdetta *{request_title}*"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:28
 #, python-brace-format
@@ -302,11 +304,11 @@ msgstr ""
 
 #: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:7
 msgid "Tombstone"
-msgstr ""
+msgstr "Poistomerkintä"
 
 #: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:10
 msgid "Gone"
-msgstr ""
+msgstr "Poistettu"
 
 #: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:12
 #, python-format
@@ -316,7 +318,11 @@ msgid ""
 "    metadata of the record is kept for archival purposes.\n"
 "  "
 msgstr ""
+"\n"
+"    Aineisto on poistettu palvelusta %(sitename)s.\n"
+"    Aineiston metatiedot säilytetään arkistointitarkoituksiin.\n"
+"  "
 
 #: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:19
 msgid "Reason for removal:"
-msgstr ""
+msgstr "Poiston syy:"
