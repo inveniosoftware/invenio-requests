@@ -175,6 +175,11 @@ export const fetchTimelinePage = (page) => {
         sort: "oldest",
       });
 
+      // If e.g. the user navigates away from the page mid-refresh, this request will be cancelled
+      // without an error but also without a response (empty `response.data`). We do not want to
+      // throw an error in this case.
+      if (!response.data) return;
+
       dispatch({
         type: SET_PAGE,
         payload: {
