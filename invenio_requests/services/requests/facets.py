@@ -10,6 +10,10 @@ from invenio_records_resources.services.records.facets import TermsFacet
 type = TermsFacet(
     field="type",
     label=_("Type"),
+    # Apply as a query filter so facet aggregations match the result list.
+    # With the default post_filter=True, type filters hide hits while leaving
+    # unrelated type counts visible (e.g. admin Requests with type=record-deletion).
+    post_filter=False,
     value_labels={
         # Access
         "guest-access-request": _("Guest access"),
