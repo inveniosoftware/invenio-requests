@@ -65,7 +65,7 @@ class RequestLockedError(PermissionDeniedError):
 
     def __str__(self):
         """Return str(self)."""
-        return self.description
+        return str(self.description)
 
 
 class RequestEventPermissionError(PermissionDeniedError):
@@ -85,7 +85,7 @@ class RequestEventPermissionError(PermissionDeniedError):
 
     def __str__(self):
         """Return str(self)."""
-        return self.description
+        return str(self.description)
 
 
 class ChildrenNotSupportedError(Exception):
