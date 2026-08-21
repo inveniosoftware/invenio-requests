@@ -37,7 +37,7 @@ msgstr "Más nuevo"
 
 #: invenio_requests/config.py:57 invenio_requests/config.py:114
 msgid "Oldest"
-msgstr "Más viejo"
+msgstr "Más antiguo"
 
 #: invenio_requests/config.py:61
 msgid "Newest activity"
@@ -49,7 +49,7 @@ msgstr "Actividad menos reciente"
 
 #: invenio_requests/errors.py:59
 msgid "The request is locked."
-msgstr ""
+msgstr "La solicitud está bloqueada."
 
 #: invenio_requests/errors.py:79
 msgid "Permission denied."
@@ -57,7 +57,7 @@ msgstr "Permiso denegado."
 
 #: invenio_requests/customizations/event_types.py:25
 msgid "The ID must be an Universally Unique IDentifier (UUID)."
-msgstr ""
+msgstr "El identificador debe ser un identificador único universal (UUID)."
 
 #: invenio_requests/customizations/user_moderation/user_moderation.py:44
 #: invenio_requests/services/requests/facets.py:27
@@ -66,66 +66,66 @@ msgstr "Moderación de usuarios"
 
 #: invenio_requests/resources/requests/fields.py:19
 msgid "Not a valid reference."
-msgstr ""
+msgstr "No es una referencia válida."
 
 #: invenio_requests/services/events/service.py:116
 msgid "Commenting is now locked for this conversation."
-msgstr ""
+msgstr "Los comentarios están bloqueados para esta conversación."
 
 #: invenio_requests/services/events/service.py:121
 msgid "You do not have permission to comment on this conversation."
-msgstr ""
+msgstr "No tiene permiso para comentar en esta conversación."
 
 #: invenio_requests/services/events/service.py:240
 msgid "Updating is now locked for this comment."
-msgstr ""
+msgstr "Las actualizaciones están bloqueadas para este comentario."
 
 #: invenio_requests/services/events/service.py:244
 msgid "You do not have permission to update this comment."
-msgstr ""
+msgstr "No tiene permiso para actualizar este comentario."
 
 #: invenio_requests/services/events/service.py:250
 msgid "You cannot update this event."
-msgstr ""
+msgstr "No puede actualizar este evento."
 
 #: invenio_requests/services/events/service.py:313
 msgid "You cannot delete this event."
-msgstr ""
+msgstr "No puede eliminar este evento."
 
 #: invenio_requests/services/files/errors.py:14
 msgid "File size exceeds limit"
-msgstr ""
+msgstr "El tamaño del archivo supera el límite."
 
 #: invenio_requests/services/files/errors.py:22
 msgid "File not found"
-msgstr ""
+msgstr "Archivo no encontrado"
 
 #: invenio_requests/services/files/errors.py:30
 msgid "Missing required argument file_key or file_id"
-msgstr ""
+msgstr "Falta el argumento obligatorio file_key o file_id."
 
 #: invenio_requests/services/requests/components.py:117
 msgid "Reviewers are not enabled for this request type."
-msgstr ""
+msgstr "Los revisores no están habilitados para este tipo de solicitud."
 
 #: invenio_requests/services/requests/components.py:121
 msgid "Group reviewers are not enabled."
-msgstr ""
+msgstr "Los revisores del grupo no están habilitados."
 
 #: invenio_requests/services/requests/components.py:126
 #, python-format
 msgid "You can only add up to %(max_reviewers)s reviewers."
-msgstr ""
+msgstr "Solo puede añadir hasta %(max_reviewers)s revisores."
 
 #: invenio_requests/services/requests/components.py:160
 #, python-format
 msgid "%(event_type)s a reviewer"
-msgstr ""
+msgstr "%(event_type)s un revisor"
 
 #: invenio_requests/services/requests/components.py:239
 #, python-format
 msgid "File %(file_id)s not found."
-msgstr ""
+msgstr "Archivo %(file_id)s no encontrado."
 
 #: invenio_requests/services/requests/facets.py:12
 msgid "Type"
@@ -165,15 +165,15 @@ msgstr "Invitación a la subcomunidad"
 
 #: invenio_requests/services/requests/facets.py:28
 msgid "Record deletion"
-msgstr ""
+msgstr "Eliminación de registros"
 
 #: invenio_requests/services/requests/facets.py:29
 msgid "File modification"
-msgstr ""
+msgstr "Modificación de archivos"
 
 #: invenio_requests/services/requests/facets.py:30
 msgid "Quota increase"
-msgstr ""
+msgstr "Aumento de cuota"
 
 #: invenio_requests/services/requests/facets.py:32
 msgid "Community manage record"
@@ -181,7 +181,7 @@ msgstr "Registro de gestión de la comunidad"
 
 #: invenio_requests/services/requests/facets.py:33
 msgid "Upgrade legacy record"
-msgstr ""
+msgstr "Actualizar el registro heredado"
 
 #: invenio_requests/services/requests/facets.py:39
 msgid "Status"
@@ -218,11 +218,11 @@ msgstr "Cerrado"
 
 #: invenio_requests/services/requests/service.py:343
 msgid "The request is already locked."
-msgstr ""
+msgstr "La solicitud ya está bloqueada."
 
 #: invenio_requests/services/requests/service.py:357
 msgid "The request is already unlocked."
-msgstr ""
+msgstr "La solicitud ya está desbloqueada."
 
 #: invenio_requests/services/user_moderation/errors.py:11
 msgid "Invalid creator for user moderation request."
@@ -270,7 +270,7 @@ msgstr "configuraciones de la cuenta"
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:45
 #, python-brace-format
 msgid "@{user_name} commented on '{request_title}'"
-msgstr ""
+msgstr "@{user_name} comentó en '{request_title}'"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.create.jinja:49
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:57
@@ -286,27 +286,27 @@ msgstr "*@{user_name}* comentó en *{request_title}*"
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:28
 #, python-brace-format
 msgid "💬 New reply on '{request_title}'"
-msgstr ""
+msgstr "💬 Nueva respuesta en '{request_title}'"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:34
 #, python-brace-format
 msgid "'@{user_name}' replied on <a href='{reply_link}'>comment</a>:"
-msgstr ""
+msgstr "'@{user_name}' respondió al <a href='{reply_link}'>comentario</a>:"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:52
 #, python-brace-format
 msgid "@{user_name} replied on comment"
-msgstr ""
+msgstr "'@{user_name}' respondió al comentario"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:56
 #, python-brace-format
 msgid "View reply: {reply_link}"
-msgstr ""
+msgstr "Ver respuesta: {reply_link}"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:63
 #, python-brace-format
 msgid "*@{user_name}* replied on [comment]({reply_link})"
-msgstr ""
+msgstr "*@{user_name}* respondió en [comentario]({reply_link})"
 
 #: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:7
 msgid "Tombstone"

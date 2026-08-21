@@ -3,13 +3,14 @@
 # Tibor Simko <tibor.simko@cern.ch>, 2026
 # Mattias Vesterlund, 2026
 # Sam Arbid, 2026
+# Taha Ahmed, 2026
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2026-07-07T11:13:08.464Z\n"
 "PO-Revision-Date: 2022-02-18 11:12+0000\n"
-"Last-Translator: Sam Arbid, 2026\n"
+"Last-Translator: Taha Ahmed, 2026\n"
 "Language-Team: Swedish (https://app.transifex.com/inveniosoftware/teams/23537/sv/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -233,7 +234,7 @@ msgid "File modification"
 msgstr "Filändring"
 
 msgid "Quota increase"
-msgstr "Ökning av lagringskvot"
+msgstr "Kvotökning"
 
 msgid "create"
 msgstr "skapa"
@@ -254,7 +255,7 @@ msgid "cancel"
 msgstr "avbryt"
 
 msgid "expire"
-msgstr "utgånget"
+msgstr "upphöra"
 
 msgid ""
 "Locking the conversation will disallow users with access to add/update "
@@ -333,7 +334,7 @@ msgid "We couldn't find the comment you were looking for."
 msgstr "Vi kunde inte hitta kommentaren du letade efter."
 
 msgid "{{linkName}} links are undefined. Please refresh the page."
-msgstr "{{linkName}}-länkar är odefinierade. Uppdatera sidan."
+msgstr "{{linkName}}-länkar är odefinierade. Var vänlig uppdatera sidan."
 
 msgid "{{linkName}} link missing from resource."
 msgstr "{{linkName}}-länk saknas från resursen."

@@ -47,7 +47,7 @@ msgstr " أقدم نشاط"
 
 #: invenio_requests/errors.py:59
 msgid "The request is locked."
-msgstr ""
+msgstr " \"الطلب مقفل."
 
 #: invenio_requests/errors.py:79
 msgid "Permission denied."
@@ -55,7 +55,7 @@ msgstr "تم رفض الإذن."
 
 #: invenio_requests/customizations/event_types.py:25
 msgid "The ID must be an Universally Unique IDentifier (UUID)."
-msgstr ""
+msgstr " يجب أن يكون المعرّف ID معرّفًا عالميًا فريدًا (UUID)."
 
 #: invenio_requests/customizations/user_moderation/user_moderation.py:44
 #: invenio_requests/services/requests/facets.py:27
@@ -68,62 +68,62 @@ msgstr "ليس مرجعًا صالحًا."
 
 #: invenio_requests/services/events/service.py:116
 msgid "Commenting is now locked for this conversation."
-msgstr ""
+msgstr " أُغلِق التعليق على هذه المحادثة."
 
 #: invenio_requests/services/events/service.py:121
 msgid "You do not have permission to comment on this conversation."
-msgstr ""
+msgstr " لا تملك الإذن لإضافة تعليقات إلى هذه المحادثة."
 
 #: invenio_requests/services/events/service.py:240
 msgid "Updating is now locked for this comment."
-msgstr ""
+msgstr " أُغلقت إمكانية التحديث لهذا التعليق."
 
 #: invenio_requests/services/events/service.py:244
 msgid "You do not have permission to update this comment."
-msgstr ""
+msgstr " ليس لديك إذن بتحديث هذا التعليق."
 
 #: invenio_requests/services/events/service.py:250
 msgid "You cannot update this event."
-msgstr ""
+msgstr " يتعذّر عليك تحيين هذا الحدث."
 
 #: invenio_requests/services/events/service.py:313
 msgid "You cannot delete this event."
-msgstr ""
+msgstr " يتعذّر عليك حذف هذا الحدث."
 
 #: invenio_requests/services/files/errors.py:14
 msgid "File size exceeds limit"
-msgstr ""
+msgstr " حجم الملف يتجاوز الحد المسموح"
 
 #: invenio_requests/services/files/errors.py:22
 msgid "File not found"
-msgstr ""
+msgstr "الملف غير متوفر"
 
 #: invenio_requests/services/files/errors.py:30
 msgid "Missing required argument file_key or file_id"
-msgstr ""
+msgstr " لم يتم تحديد file_key أو file_id، وهما عاملان مطلوبان"
 
 #: invenio_requests/services/requests/components.py:117
 msgid "Reviewers are not enabled for this request type."
-msgstr ""
+msgstr " المراجعون غير مفعّلين لهذا النوع من الطلبات."
 
 #: invenio_requests/services/requests/components.py:121
 msgid "Group reviewers are not enabled."
-msgstr ""
+msgstr " مراجعو المجموعات غير مُفعّلين."
 
 #: invenio_requests/services/requests/components.py:126
 #, python-format
 msgid "You can only add up to %(max_reviewers)s reviewers."
-msgstr ""
+msgstr " يُسمح لك بإضافة حد أقصى قدره %(max_reviewers)s من المراجعين."
 
 #: invenio_requests/services/requests/components.py:160
 #, python-format
 msgid "%(event_type)s a reviewer"
-msgstr ""
+msgstr "%(event_type)s  مراجع"
 
 #: invenio_requests/services/requests/components.py:239
 #, python-format
 msgid "File %(file_id)s not found."
-msgstr ""
+msgstr "لم يتم العثور على الملف %(file_id)s."
 
 #: invenio_requests/services/requests/facets.py:12
 msgid "Type"
@@ -216,11 +216,11 @@ msgstr "مغلق"
 
 #: invenio_requests/services/requests/service.py:343
 msgid "The request is already locked."
-msgstr ""
+msgstr " الطلب مقفَل بالفعل."
 
 #: invenio_requests/services/requests/service.py:357
 msgid "The request is already unlocked."
-msgstr ""
+msgstr " الطلب مفتوح بالفعل."
 
 #: invenio_requests/services/user_moderation/errors.py:11
 msgid "Invalid creator for user moderation request."
@@ -280,27 +280,27 @@ msgstr "*@{user_name}* علّق على *{request_title}*"
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:28
 #, python-brace-format
 msgid "💬 New reply on '{request_title}'"
-msgstr ""
+msgstr "💬 رد جديد على '{request_title}'"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:34
 #, python-brace-format
 msgid "'@{user_name}' replied on <a href='{reply_link}'>comment</a>:"
-msgstr ""
+msgstr " ردّ '{user_name}@' على <a href='{reply_link}'>تعليق</a>: "
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:52
 #, python-brace-format
 msgid "@{user_name} replied on comment"
-msgstr ""
+msgstr " ردّ {user_name}@ على تعليق "
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:56
 #, python-brace-format
 msgid "View reply: {reply_link}"
-msgstr ""
+msgstr " عرض الرد: {reply_link}"
 
 #: invenio_requests/templates/semantic-ui/invenio_notifications/comment-request-event.reply.jinja:63
 #, python-brace-format
 msgid "*@{user_name}* replied on [comment]({reply_link})"
-msgstr ""
+msgstr " ردّ *{user_name}@* على [تعليق]({reply_link})"
 
 #: invenio_requests/templates/semantic-ui/invenio_requests/tombstone.html:7
 msgid "Tombstone"

@@ -2,15 +2,15 @@
 # Zacharias Zacharodimos <zacharias.zacharodimos@cern.ch>, 2024
 # Ignacio Estevo, 2024
 # Alizee Pace <alizee.pace@gmail.com>, 2026
-# Jesús Martín <jesusmartin@sallep.net>, 2026
 # Tibor Simko <tibor.simko@cern.ch>, 2026
+# Jesús Martín <jesusmartin@sallep.net>, 2026
 # 
 msgid ""
 msgstr ""
 "Project-Id-Version: i18next-conv\n"
 "POT-Creation-Date: 2026-07-07T11:13:08.464Z\n"
 "PO-Revision-Date: 2022-02-18 11:12+0000\n"
-"Last-Translator: Tibor Simko <tibor.simko@cern.ch>, 2026\n"
+"Last-Translator: Jesús Martín <jesusmartin@sallep.net>, 2026\n"
 "Language-Team: Spanish (https://app.transifex.com/inveniosoftware/teams/23537/es/)\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -52,10 +52,10 @@ msgid "Delete"
 msgstr "Suprimir"
 
 msgid "Shared with me"
-msgstr ""
+msgstr "Compartido conmigo"
 
 msgid "My requests"
-msgstr ""
+msgstr "Mis peticiones"
 
 msgid "Submitted"
 msgstr "Enviado"
@@ -109,7 +109,7 @@ msgid "{{action}} request"
 msgstr "{{action}} solicitud"
 
 msgid "Anonymous user"
-msgstr "Usuario anonimo"
+msgstr "Usuario anónimo"
 
 msgid "Email"
 msgstr "Email"
@@ -214,7 +214,7 @@ msgid "Edited"
 msgstr "Editado"
 
 msgid "Accept and delete"
-msgstr ""
+msgstr "Aceptar y eliminar"
 
 msgid "Show less"
 msgstr "Mostrar menos"
@@ -223,22 +223,22 @@ msgid "Show more"
 msgstr "Mostrar más"
 
 msgid "Comment was deleted."
-msgstr ""
+msgstr "El comentario fue eliminado."
 
 msgid "Quote reply"
-msgstr ""
+msgstr "Citar respuesta"
 
 msgid "Record deletion"
-msgstr ""
+msgstr "Eliminación de registros"
 
 msgid "File modification"
-msgstr ""
+msgstr "Modificación de archivos"
 
 msgid "Quota increase"
-msgstr ""
+msgstr "Aumento de cuota"
 
 msgid "create"
-msgstr ""
+msgstr "crear"
 
 msgid "submit"
 msgstr "enviar"
@@ -247,26 +247,30 @@ msgid "delete"
 msgstr "suprimir"
 
 msgid "accept"
-msgstr ""
+msgstr "aceptar"
 
 msgid "decline"
-msgstr ""
+msgstr "rechazar"
 
 msgid "cancel"
-msgstr ""
+msgstr "cancelar"
 
 msgid "expire"
-msgstr ""
+msgstr "caducar"
 
 msgid ""
 "Locking the conversation will disallow users with access to add/update "
 "comments."
 msgstr ""
+"Bloquear la conversación impedirá que los usuarios con acceso puedan añadir "
+"o actualizar comentarios."
 
 msgid ""
 "Unlocking the conversation will allow users with access to add/update "
 "comments."
 msgstr ""
+"Desbloquear la conversación permitirá a los usuarios con acceso añadir o "
+"actualizar comentarios."
 
 msgid "People"
 msgstr "Personas"
@@ -275,64 +279,65 @@ msgid "Groups"
 msgstr "Grupos"
 
 msgid "Search for user"
-msgstr ""
+msgstr "Buscar usuario"
 
 msgid "Search for groups"
 msgstr "Buscar grupos"
 
 msgid "No reviewers selected"
-msgstr ""
+msgstr "No se han seleccionado revisores"
 
 msgid "Reviewers"
-msgstr ""
+msgstr "Revisores"
 
 msgid "Load more ({{count}} remaining)"
 msgid_plural "Load more ({{count}} remaining)"
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "Cargar más ({{count}} restante)"
+msgstr[1] "Cargar más ({{count}} restantes)"
+msgstr[2] "Cargar más ({{count}} restantes)"
 
 msgid "{{remaining}} older comments"
-msgstr ""
+msgstr "{{remaining}} comentarios antiguos"
 
 msgid "Loading..."
 msgstr "Cargando..."
 
 msgid "Load more..."
-msgstr ""
+msgstr "Cargar más..."
 
 msgid "Replies"
-msgstr ""
+msgstr "Respuestas"
 
 msgid "Write a reply"
-msgstr ""
+msgstr "Escribe una respuesta"
 
 msgid "Reply"
 msgstr "Contestar"
 
 msgid "Adding or editing comments is now locked."
-msgstr ""
+msgstr "La opción de añadir o editar comentarios está bloqueada."
 
 msgid "We couldn't find the reply you were looking for."
-msgstr ""
+msgstr "No pudimos encontrar la respuesta que buscaba."
 
 msgid "updated reviewers"
-msgstr ""
+msgstr "Revisores actualizados"
 
 msgid "locked this conversation"
-msgstr ""
+msgstr "bloquear esta conversación"
 
 msgid "unlocked this conversation"
-msgstr ""
+msgstr "desbloquear esta conversación"
 
 msgid "Copy link"
 msgstr "Copiar enlace"
 
 msgid "We couldn't find the comment you were looking for."
-msgstr ""
+msgstr "No pudimos encontrar el comentario que buscaba."
 
 msgid "{{linkName}} links are undefined. Please refresh the page."
 msgstr ""
+"Los enlaces {{linkName}} no están definidos. Por favor, actualice la página."
 
 msgid "{{linkName}} link missing from resource."
-msgstr ""
+msgstr "Falta el enlace {{linkName}} en el recurso."
