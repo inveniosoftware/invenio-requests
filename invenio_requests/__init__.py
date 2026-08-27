@@ -1,6 +1,7 @@
 # SPDX-FileCopyrightText: 2021-2026 CERN.
 # SPDX-FileCopyrightText: 2021-2023 TU Wien.
 # SPDX-FileCopyrightText: 2024-2026 Graz University of Technology.
+# SPDX-FileCopyrightText: 2026 KTH Royal Institute of Technology.
 # SPDX-License-Identifier: MIT
 
 """Invenio module for generic and customizable requests."""
@@ -17,7 +18,7 @@ from .proxies import (
     current_requests_service,
 )
 
-__version__ = "14.1.0"
+__version__ = "14.1.1"
 
 __all__ = (
     "__version__",
