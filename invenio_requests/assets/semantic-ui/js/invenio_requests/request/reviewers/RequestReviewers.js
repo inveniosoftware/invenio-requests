@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import React, { useState } from "react";
+import { Fragment, useState } from "react";
 import PropTypes from "prop-types";
 import { HeaderSubheader, Grid, List, Image, Segment } from "semantic-ui-react";
 import { UsersApi } from "@js/invenio_communities/api/UsersApi";
@@ -105,13 +105,13 @@ export const RequestReviewers = ({
           {selectedReviewers.length > 0 ? (
             selectedReviewers.map((reviewer) => (
               <Grid.Column width={14} className="pb-0" key={reviewer.id}>
-                <React.Fragment>
+                <Fragment>
                   {isResourceDeleted(reviewer) ? (
                     <DeletedResource details={reviewer} />
                   ) : (
                     <EntityDetails userData={reviewer} details={reviewer} />
                   )}
-                </React.Fragment>
+                </Fragment>
               </Grid.Column>
             ))
           ) : (

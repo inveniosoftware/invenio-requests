@@ -6,7 +6,7 @@
  */
 
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import { Component } from "react";
 import Overridable from "react-overridable";
 import { Container, Message, Icon, Button } from "semantic-ui-react";
 import Error from "../components/Error";
@@ -36,7 +36,20 @@ TimelineContainerElement.propTypes = {
 
 class TimelineFeed extends Component {
   constructor(props) {
-    super(props);
+    super({
+      error: null,
+      isSubmitting: false,
+      userAvatar: "",
+      warning: null,
+      parentRequestEvent: null,
+      storedCommentContent: null,
+      submissionError: null,
+      replying: false,
+      setIsReplying: null,
+      appendedCommentContent: null,
+      clearDraft: null,
+      ...props,
+    });
 
     this.state = {
       modalOpen: false,
@@ -249,20 +262,6 @@ TimelineFeed.propTypes = {
   replying: PropTypes.bool,
   setIsReplying: PropTypes.func,
   clearDraft: PropTypes.func,
-};
-
-TimelineFeed.defaultProps = {
-  error: null,
-  isSubmitting: false,
-  userAvatar: "",
-  warning: null,
-  parentRequestEvent: null,
-  storedCommentContent: null,
-  submissionError: null,
-  replying: false,
-  setIsReplying: null,
-  appendedCommentContent: null,
-  clearDraft: null,
 };
 
 export default Overridable.component("TimelineFeed", TimelineFeed);

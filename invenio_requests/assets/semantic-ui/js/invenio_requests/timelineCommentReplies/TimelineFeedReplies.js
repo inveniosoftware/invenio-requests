@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import React, { Component } from "react";
+import { Component } from "react";
 import TimelineFeedComponent from "../timeline/TimelineFeed";
 import PropTypes from "prop-types";
 import { getEventIdFromUrl } from "../timelineEvents/utils";

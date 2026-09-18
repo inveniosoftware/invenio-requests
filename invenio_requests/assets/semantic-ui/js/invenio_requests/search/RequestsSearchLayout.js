@@ -10,15 +10,19 @@ import {
 import { i18next } from "@translations/invenio_requests/i18next";
 import { RequestStatusFilter } from "./RequestStatusFilterComponent";
 import PropTypes from "prop-types";
-import React from "react";
+import { useState } from "react";
 import { GridResponsiveSidebarColumn } from "react-invenio-forms";
 import { SearchBar } from "react-searchkit";
 import { Button, Container, Grid } from "semantic-ui-react";
 
 import { SharedOrMineFilter } from "@js/invenio_requests/components/SharedOrMineFilter";
 
-export const RequestsSearchLayout = ({ config, appName, showSharedFilters }) => {
-  const [sidebarVisible, setSidebarVisible] = React.useState(false);
+export const RequestsSearchLayout = ({
+  config,
+  appName = undefined,
+  showSharedFilters = false,
+}) => {
+  const [sidebarVisible, setSidebarVisible] = useState(false);
   return (
     <Container>
       <Grid>
@@ -92,9 +96,4 @@ RequestsSearchLayout.propTypes = {
   config: PropTypes.object.isRequired,
   appName: PropTypes.string,
   showSharedFilters: PropTypes.bool,
-};
-
-RequestsSearchLayout.defaultProps = {
-  appName: undefined,
-  showSharedFilters: false,
 };

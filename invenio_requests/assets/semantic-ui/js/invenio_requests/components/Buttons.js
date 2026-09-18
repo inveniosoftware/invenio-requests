@@ -4,7 +4,7 @@
  * SPDX-License-Identifier: MIT
  */
 import { i18next } from "@translations/invenio_requests/i18next";
-import React, { useEffect } from "react";
+import { forwardRef, useEffect } from "react";
 import { Button } from "semantic-ui-react";
 import PropTypes from "prop-types";
 
@@ -21,12 +21,13 @@ export const SaveButton = (props) => (
   />
 );
 
+const requestDeclineButtonDefaultPropAriaAttributes = {};
 export const RequestDeclineButton = ({
   onClick,
-  loading,
-  ariaAttributes,
-  size,
-  className,
+  loading = false,
+  ariaAttributes = requestDeclineButtonDefaultPropAriaAttributes,
+  size = "mini",
+  className = "",
 }) => {
   return (
     <Button
@@ -52,20 +53,14 @@ RequestDeclineButton.propTypes = {
   className: PropTypes.string,
 };
 
-RequestDeclineButton.defaultProps = {
-  loading: false,
-  ariaAttributes: {},
-  size: "mini",
-  className: "",
-};
-
+const requestAcceptButtonDefaultPropAriaAttributes = {};
 export const RequestAcceptButton = ({
   onClick,
   requestType,
-  loading,
-  ariaAttributes,
-  size,
-  className,
+  loading = false,
+  ariaAttributes = requestAcceptButtonDefaultPropAriaAttributes,
+  size = "mini",
+  className = "",
 }) => {
   let buttonText;
   switch (requestType) {
@@ -103,14 +98,7 @@ RequestAcceptButton.propTypes = {
   className: PropTypes.string,
 };
 
-RequestAcceptButton.defaultProps = {
-  loading: false,
-  ariaAttributes: {},
-  size: "mini",
-  className: "",
-};
-
-export const CancelButton = React.forwardRef((props, ref) => {
+export const CancelButton = forwardRef((props, ref) => {
   useEffect(() => {
     ref?.current?.focus();
   }, [ref]);
@@ -129,13 +117,14 @@ export const CancelButton = React.forwardRef((props, ref) => {
 
 CancelButton.displayName = "CancelButton";
 
+const requestCancelButtonDefaultPropAriaAttributes = {};
 export const RequestCancelButton = ({
   onClick,
-  loading,
-  ariaAttributes,
-  size,
+  loading = false,
+  ariaAttributes = requestCancelButtonDefaultPropAriaAttributes,
+  size = "mini",
   content = i18next.t("Cancel request"),
-  className,
+  className = "",
   negative = true,
 }) => {
   return (
@@ -164,22 +153,14 @@ RequestCancelButton.propTypes = {
   negative: PropTypes.bool,
 };
 
-RequestCancelButton.defaultProps = {
-  loading: false,
-  ariaAttributes: {},
-  size: "mini",
-  content: i18next.t("Cancel request"),
-  className: "",
-  negative: true,
-};
-
+const requestSubmitButtonDefaultPropAriaAttributes = {};
 export const RequestSubmitButton = ({
   onClick,
-  loading,
-  ariaAttributes,
-  size,
-  content,
-  className,
+  loading = false,
+  ariaAttributes = requestSubmitButtonDefaultPropAriaAttributes,
+  size = "mini",
+  content = i18next.t("Request access"),
+  className = "",
 }) => {
   return (
     <Button
@@ -206,20 +187,13 @@ RequestSubmitButton.propTypes = {
   className: PropTypes.string,
 };
 
-RequestSubmitButton.defaultProps = {
-  loading: false,
-  ariaAttributes: {},
-  size: "mini",
-  content: i18next.t("Request access"),
-  className: "",
-};
-
+const requestLockButtonDefaultPropAriaAttributes = {};
 export const RequestLockButton = ({
   onClick,
-  loading,
-  ariaAttributes,
-  size,
-  className,
+  loading = false,
+  ariaAttributes = requestLockButtonDefaultPropAriaAttributes,
+  size = "small",
+  className = "request-lock-button",
   content,
   icon,
 }) => {
@@ -246,11 +220,4 @@ RequestLockButton.propTypes = {
   className: PropTypes.string,
   icon: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
-};
-
-RequestLockButton.defaultProps = {
-  loading: false,
-  ariaAttributes: {},
-  size: "small",
-  className: "request-lock-button",
 };

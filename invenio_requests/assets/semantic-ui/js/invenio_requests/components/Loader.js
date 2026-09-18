@@ -2,12 +2,16 @@
  * SPDX-FileCopyrightText: 2022 CERN.
  * SPDX-License-Identifier: MIT
  */
-import React, { Component } from "react";
+import { Component } from "react";
 import Overridable from "react-overridable";
 import { Loader as UILoader, Dimmer, Segment } from "semantic-ui-react";
 import PropTypes from "prop-types";
 
 class Loader extends Component {
+  constructor(props) {
+    super({ isLoading: false, children: null, ...props });
+  }
+
   render() {
     const { isLoading, children } = this.props;
     return (
@@ -30,11 +34,6 @@ class Loader extends Component {
 Loader.propTypes = {
   isLoading: PropTypes.bool,
   children: PropTypes.node,
-};
-
-Loader.defaultProps = {
-  isLoading: false,
-  children: null,
 };
 
 export default Overridable.component("Loader", Loader);

@@ -3,7 +3,6 @@
  * SPDX-FileCopyrightText: 2024 KTH Royal Institute of Technology.
  * SPDX-License-Identifier: MIT
  */
-import React from "react";
 import { Modal, Button, Message } from "semantic-ui-react";
 import PropTypes from "prop-types";
 
@@ -11,7 +10,7 @@ export const BaseModal = ({
   contentText,
   action,
   isLoading,
-  error,
+  error = "",
   headerText,
   cancelButtonText,
   actionButtonText,
@@ -53,10 +52,6 @@ BaseModal.propTypes = {
   open: PropTypes.bool.isRequired,
   onOpen: PropTypes.func.isRequired,
   onClose: PropTypes.func.isRequired,
-};
-
-BaseModal.defaultProps = {
-  error: "",
 };
 
 export default BaseModal;

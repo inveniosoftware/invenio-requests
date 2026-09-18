@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import React, { Component } from "react";
+import { Component } from "react";
 import { Divider, Popup, Icon, Grid } from "semantic-ui-react";
 import { RequestLockButton } from "@js/invenio_requests/components/Buttons";
 import {
@@ -16,9 +16,29 @@ import Overridable from "react-overridable";
 import Error from "../components/Error";
 import { errorSerializer } from "../api/serializers";
 
+const lockRequestDefaultPropPopupComponent = (props) => (
+  <Popup
+    trigger={
+      <span role="button" tabIndex="0">
+        <Icon name="question circle outline" />
+      </span>
+    }
+    {...props}
+  />
+);
+
 export class LockRequestComponent extends Component {
   constructor(props) {
-    super(props);
+    super({
+      popupComponent: lockRequestDefaultPropPopupComponent,
+      lockHelpText: i18next.t(
+        "Locking the conversation will disallow users with access to add/update comments."
+      ),
+      unlockHelpText: i18next.t(
+        "Unlocking the conversation will allow users with access to add/update comments."
+      ),
+      ...props,
+    });
     this.state = {
       loading: false,
       error: null,
@@ -82,25 +102,6 @@ LockRequestComponent.propTypes = {
   popupComponent: PropTypes.func,
   lockHelpText: PropTypes.string,
   unlockHelpText: PropTypes.string,
-};
-
-LockRequestComponent.defaultProps = {
-  popupComponent: (props) => (
-    <Popup
-      trigger={
-        <span role="button" tabIndex="0">
-          <Icon name="question circle outline" />
-        </span>
-      }
-      {...props}
-    />
-  ),
-  lockHelpText: i18next.t(
-    "Locking the conversation will disallow users with access to add/update comments."
-  ),
-  unlockHelpText: i18next.t(
-    "Unlocking the conversation will allow users with access to add/update comments."
-  ),
 };
 
 export const LockRequest = Overridable.component(

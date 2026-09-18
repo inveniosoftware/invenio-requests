@@ -5,13 +5,13 @@
  */
 
 import PropTypes from "prop-types";
-import React, { forwardRef } from "react";
+import { forwardRef } from "react";
 import { Image } from "react-invenio-forms";
 import { Container, Feed, Icon } from "semantic-ui-react";
 
 // Wrapper component for the custom styles being used inside the request events timeline
 // Enables centralizing the styles and abstracts it away from the template
-export const RequestsFeed = ({ children, className }) => (
+export const RequestsFeed = ({ children = null, className = null }) => (
   <Container className="requests-feed-container rich-input-content ml-0-mobile mr-0-mobile">
     <Feed className={className}>{children}</Feed>
   </Container>
@@ -22,13 +22,8 @@ RequestsFeed.propTypes = {
   className: PropTypes.string,
 };
 
-RequestsFeed.defaultProps = {
-  children: null,
-  className: null,
-};
-
 export const RequestEventItem = forwardRef(function RequestEventItem(
-  { id, children, selected, isReply },
+  { id = null, children = null, selected = false, isReply = false },
   ref
 ) {
   return (
@@ -51,14 +46,7 @@ RequestEventItem.propTypes = {
   isReply: PropTypes.bool,
 };
 
-RequestEventItem.defaultProps = {
-  id: null,
-  children: null,
-  selected: false,
-  isReply: false,
-};
-
-export const RequestEventInnerContainer = ({ children, isEvent }) => (
+export const RequestEventInnerContainer = ({ children = null, isEvent = false }) => (
   <div className={`requests-event-inner-container${isEvent ? " thread" : ""}`}>
     {children}
   </div>
@@ -69,12 +57,12 @@ RequestEventInnerContainer.propTypes = {
   isEvent: PropTypes.bool,
 };
 
-RequestEventInnerContainer.defaultProps = {
-  children: null,
-  isEvent: false,
-};
-
-export const RequestEventAvatarContainer = ({ src, hasLine, lineFade, ...uiProps }) => (
+export const RequestEventAvatarContainer = ({
+  src = null,
+  hasLine = false,
+  lineFade = false,
+  ...uiProps
+}) => (
   <div
     className={`requests-avatar-container${hasLine ? " has-line" : ""}${
       lineFade ? " line-fade" : ""
@@ -91,12 +79,6 @@ RequestEventAvatarContainer.propTypes = {
   lineFade: PropTypes.bool,
 };
 
-RequestEventAvatarContainer.defaultProps = {
-  src: null,
-  hasLine: false,
-  lineFade: false,
-};
-
 export const RequestEventItemIconContainer = ({ name, size, color }) => (
   <div className="requests-action-event-icon">
     <Icon name={name} size={size} className={color} />
@@ -109,7 +91,11 @@ RequestEventItemIconContainer.propTypes = {
   color: PropTypes.string.isRequired,
 };
 
-export const RequestEventItemBody = ({ isActionEvent, isReply, ...props }) => (
+export const RequestEventItemBody = ({
+  isActionEvent = false,
+  isReply = false,
+  ...props
+}) => (
   <Feed.Event
     {...props}
     className={
@@ -122,11 +108,6 @@ RequestEventItemBody.propTypes = {
   isActionEvent: PropTypes.bool,
   isReply: PropTypes.bool,
 };
-RequestEventItemBody.defaultProps = {
-  isActionEvent: false,
-  isReply: false,
-};
-
 RequestsFeed.Content = RequestEventInnerContainer;
 RequestsFeed.Avatar = RequestEventAvatarContainer;
 RequestsFeed.Icon = RequestEventItemIconContainer;

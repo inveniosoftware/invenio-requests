@@ -5,7 +5,6 @@
 
 import { i18next } from "@translations/invenio_requests/i18next";
 import PropTypes from "prop-types";
-import React from "react";
 import { Button, Header, Icon, Segment } from "semantic-ui-react";
 
 import { withState } from "react-searchkit";

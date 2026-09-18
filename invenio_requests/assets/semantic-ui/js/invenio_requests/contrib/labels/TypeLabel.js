@@ -5,7 +5,6 @@
  */
 
 import { i18next } from "@translations/invenio_requests/i18next";
-import React from "react";
 import { Label } from "semantic-ui-react";
 
 export const LabelTypeCommunitySubmission = (props) => (

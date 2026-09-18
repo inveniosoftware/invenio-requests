@@ -5,7 +5,6 @@
  */
 
 import { RequestLinksExtractor } from "../../api";
-import React from "react";
 import Overridable from "react-overridable";
 import { RequestAction } from "./RequestAction";
 import { Dropdown } from "semantic-ui-react";

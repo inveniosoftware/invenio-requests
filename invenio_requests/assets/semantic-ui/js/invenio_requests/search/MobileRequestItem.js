@@ -4,7 +4,6 @@
  */
 
 import { i18next } from "@translations/invenio_requests/i18next";
-import React from "react";
 import RequestTypeLabel from "@js/invenio_requests/request/RequestTypeLabel";
 import RequestStatusLabel from "@js/invenio_requests/request/RequestStatusLabel";
 import { RequestActionController } from "@js/invenio_requests/request/actions/RequestActionController";

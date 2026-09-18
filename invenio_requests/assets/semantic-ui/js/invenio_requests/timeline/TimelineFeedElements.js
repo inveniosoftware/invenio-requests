@@ -4,7 +4,7 @@
  */
 
 import Overridable from "react-overridable";
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import PropTypes from "prop-types";
 import _cloneDeep from "lodash/cloneDeep";
 import LoadMore from "./LoadMore";
@@ -13,12 +13,12 @@ import TimelineCommentEventControlled from "../timelineCommentEventControlled/Ti
 import { Divider } from "semantic-ui-react";
 
 const TimelineFeedElementRequestFeed = ({
-  userAvatar,
+  userAvatar = null,
   permissions,
   request,
   updateComment,
   deleteComment,
-  parentRequestEvent,
+  parentRequestEvent = null,
   isBeforeLoadMore,
   isAfterLoadMore,
   openConfirmModal,
@@ -66,11 +66,6 @@ TimelineFeedElementRequestFeed.propTypes = {
   appendCommentContent: PropTypes.func.isRequired,
 };
 
-TimelineFeedElementRequestFeed.defaultProps = {
-  parentRequestEvent: null,
-  userAvatar: null,
-};
-
 /**
  * Converts the Redux `hits` object into a series of "instructions" for rendering contiguous feed blocks
  * and load-more buttons. The instructions are then rendered into React elements. We don't directly generate
@@ -83,10 +78,10 @@ const TimelineFeedElements = ({
   size,
   totalHits,
   loadPage,
-  userAvatar,
+  userAvatar = null,
   permissions,
   request,
-  parentRequestEvent,
+  parentRequestEvent = null,
   updateComment,
   deleteComment,
   appendCommentContent,
@@ -239,11 +234,6 @@ TimelineFeedElements.propTypes = {
   appendCommentContent: PropTypes.func.isRequired,
   openConfirmModal: PropTypes.func.isRequired,
 };
-TimelineFeedElements.defaultProps = {
-  userAvatar: null,
-  parentRequestEvent: null,
-};
-
 export default Overridable.component(
   "InvenioRequests.TimelineFeed.Elements",
   TimelineFeedElements

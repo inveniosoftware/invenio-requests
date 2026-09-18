@@ -5,9 +5,8 @@
  * SPDX-License-Identifier: MIT
  */
 
+import { createRoot } from "react-dom/client";
 import { i18next } from "@translations/invenio_requests/i18next";
-import React from "react";
-import ReactDOM from "react-dom";
 import { overrideStore } from "react-overridable";
 import { InvenioRequestsApp } from "./InvenioRequestsApp";
 import { defaultContribComponents } from "./contrib";
@@ -56,10 +55,11 @@ const defaultComponents = {
 
 const overriddenComponents = overrideStore.getAll();
 
-ReactDOM.render(
+const root = createRoot(requestDetailsDiv);
+
+root.render(
   <InvenioRequestsApp
     dataset={getDataset()}
     overriddenCmps={{ ...defaultComponents, ...overriddenComponents }}
-  />,
-  requestDetailsDiv
+  />
 );

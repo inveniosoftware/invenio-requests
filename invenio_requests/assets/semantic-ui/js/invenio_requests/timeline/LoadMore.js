@@ -5,7 +5,7 @@
  * SPDX-License-Identifier: MIT
  */
 
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { i18next } from "@translations/invenio_requests/i18next";
 import { Container, Grid, Button, Segment, Header } from "semantic-ui-react";
 import PropTypes from "prop-types";

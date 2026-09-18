@@ -3,13 +3,17 @@
  * SPDX-FileCopyrightText: 2024 KTH Royal Institute of Technology.
  * SPDX-License-Identifier: MIT
  */
-import React, { Component } from "react";
+import { Component } from "react";
 import Overridable from "react-overridable";
 import { Message } from "semantic-ui-react";
 import PropTypes from "prop-types";
 import { i18next } from "@translations/invenio_requests/i18next";
 
 class Error extends Component {
+  constructor(props) {
+    super({ error: null, errorInfo: null, children: null, ...props });
+  }
+
   render() {
     const { children, error, errorInfo } = this.props;
     if (error) {
@@ -34,12 +38,6 @@ Error.propTypes = {
   error: PropTypes.object,
   errorInfo: PropTypes.string,
   children: PropTypes.node,
-};
-
-Error.defaultProps = {
-  error: null,
-  errorInfo: null,
-  children: null,
 };
 
 export default Overridable.component("Error", Error);

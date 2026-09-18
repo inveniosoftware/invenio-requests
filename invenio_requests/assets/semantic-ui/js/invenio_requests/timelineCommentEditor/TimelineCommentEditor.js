@@ -4,7 +4,7 @@
  */
 
 import { RichEditor } from "react-invenio-forms";
-import React, { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { CancelButton, SaveButton } from "../components/Buttons";
 import { Container, Message, Icon } from "semantic-ui-react";
 import PropTypes from "prop-types";
@@ -12,25 +12,26 @@ import { i18next } from "@translations/invenio_requests/i18next";
 import { RequestEventAvatarContainer } from "../components/RequestsFeed";
 import { InvenioRequestFilesApi } from "../api/InvenioRequestFilesApi";
 
+const timelineCommentEditorDefaultPropFiles = [];
 const TimelineCommentEditor = ({
-  isLoading,
-  commentContent,
-  storedCommentContent,
+  isLoading = false,
+  commentContent = "",
+  storedCommentContent = null,
   restoreCommentContent,
   setCommentContent,
-  appendedCommentContent,
-  files,
+  appendedCommentContent = "",
+  files = timelineCommentEditorDefaultPropFiles,
   restoreCommentFiles,
   setCommentFiles,
-  error,
+  error = "",
   submitComment,
-  userAvatar,
-  canCreateComment,
-  autoFocus,
-  saveButtonLabel,
-  saveButtonIcon,
-  onCancel,
-  disabled,
+  userAvatar = "",
+  canCreateComment = true,
+  autoFocus = false,
+  saveButtonLabel = i18next.t("Comment"),
+  saveButtonIcon = "send",
+  onCancel = null,
+  disabled = false,
   requestId,
 }) => {
   useEffect(() => {
@@ -157,22 +158,6 @@ TimelineCommentEditor.propTypes = {
   onCancel: PropTypes.func,
   disabled: PropTypes.bool,
   requestId: PropTypes.string.isRequired,
-};
-
-TimelineCommentEditor.defaultProps = {
-  commentContent: "",
-  files: [],
-  storedCommentContent: null,
-  appendedCommentContent: "",
-  isLoading: false,
-  error: "",
-  userAvatar: "",
-  canCreateComment: true,
-  autoFocus: false,
-  saveButtonLabel: i18next.t("Comment"),
-  saveButtonIcon: "send",
-  onCancel: null,
-  disabled: false,
 };
 
 export default TimelineCommentEditor;

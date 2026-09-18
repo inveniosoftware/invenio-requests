@@ -5,13 +5,13 @@
 
 import { i18next } from "@translations/invenio_requests/i18next";
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import { Component } from "react";
 import { withState } from "react-searchkit";
 import { Button } from "semantic-ui-react";
 
 class RequestStatusFilterComponent extends Component {
   constructor(props) {
-    super(props);
+    super({ keepFiltersOnUpdate: false, ...props });
 
     const { currentQueryState } = props;
     const userSelectionFilters = currentQueryState.filters;
@@ -78,10 +78,6 @@ RequestStatusFilterComponent.propTypes = {
   updateQueryState: PropTypes.func.isRequired,
   currentQueryState: PropTypes.object.isRequired,
   keepFiltersOnUpdate: PropTypes.bool,
-};
-
-RequestStatusFilterComponent.defaultProps = {
-  keepFiltersOnUpdate: false,
 };
 
 export const RequestStatusFilter = withState(RequestStatusFilterComponent);

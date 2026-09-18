@@ -5,7 +5,7 @@
 
 import { i18next } from "@translations/invenio_requests/i18next";
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import { Component } from "react";
 import { Image } from "react-invenio-forms";
 import Overridable from "react-overridable";
 import { Feed } from "semantic-ui-react";
@@ -14,6 +14,10 @@ import RequestsFeed from "./RequestsFeed";
 import TimelineEventBody from "./TimelineEventBody";
 
 class TimelineActionEvent extends Component {
+  constructor(props) {
+    super({ iconColor: "grey", ...props });
+  }
+
   render() {
     const { event, iconName, iconColor, eventContent } = this.props;
 
@@ -73,10 +77,6 @@ TimelineActionEvent.propTypes = {
   iconName: PropTypes.string.isRequired,
   eventContent: PropTypes.string.isRequired,
   iconColor: PropTypes.string,
-};
-
-TimelineActionEvent.defaultProps = {
-  iconColor: "grey",
 };
 
 export default Overridable.component("TimelineActionEvent", TimelineActionEvent);

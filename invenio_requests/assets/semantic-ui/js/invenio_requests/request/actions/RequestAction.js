@@ -6,7 +6,7 @@
 
 import { RequestActionContext } from "@js/invenio_requests/request/actions/context";
 import { RichEditor } from "react-invenio-forms";
-import React, { Component } from "react";
+import { Component } from "react";
 import PropTypes from "prop-types";
 import Overridable from "react-overridable";
 import { Divider, Modal, Message } from "semantic-ui-react";
@@ -16,7 +16,7 @@ import { i18next } from "@translations/invenio_requests/i18next";
 
 export class RequestAction extends Component {
   constructor(props) {
-    super(props);
+    super({ size: "medium", ...props });
     this.state = { actionComment: "" };
   }
 
@@ -88,10 +88,6 @@ RequestAction.propTypes = {
   action: PropTypes.string.isRequired,
   requestType: PropTypes.string.isRequired,
   size: PropTypes.string,
-};
-
-RequestAction.defaultProps = {
-  size: "medium",
 };
 
 export default Overridable.component("InvenioRequests.RequestAction", RequestAction);
