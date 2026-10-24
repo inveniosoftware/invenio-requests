@@ -4,6 +4,7 @@
  */
 
 import { RichEditor } from "react-invenio-forms";
+import { richEditorLabels } from "../components/richEditorLabels";
 import React, { useCallback, useEffect, useRef } from "react";
 import { CancelButton, SaveButton } from "../components/Buttons";
 import { Container, Message, Icon } from "semantic-ui-react";
@@ -109,6 +110,7 @@ const TimelineCommentEditor = ({
             }}
             onFileUpload={onFileUpload}
             onFileDelete={onFileDelete}
+            labels={richEditorLabels}
           />
         </Container>
       </div>

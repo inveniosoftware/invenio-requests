@@ -12,6 +12,7 @@ import { Divider, Container, Dropdown, Feed, Icon } from "semantic-ui-react";
 import { CancelButton, SaveButton } from "../components/Buttons";
 import Error from "../components/Error";
 import { RichEditor } from "react-invenio-forms";
+import { richEditorLabels } from "../components/richEditorLabels";
 import RequestsFeed from "../components/RequestsFeed";
 import TimelineEventBody from "../components/TimelineEventBody";
 import { toRelativeTime } from "react-invenio-forms";
@@ -221,6 +222,7 @@ class TimelineCommentEvent extends Component {
                       // This is an existing comment, so we do not delete the file via the API.
                       onFileUpload={this.onFileUpload}
                       minHeight={150}
+                      labels={richEditorLabels}
                     />
                   ) : (
                     <TimelineEventBody
