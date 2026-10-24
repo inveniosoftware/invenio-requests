@@ -6,7 +6,6 @@
 import { InvenioSearchPagination } from "@js/invenio_search_ui/components";
 import { i18next } from "@translations/invenio_requests/i18next";
 import PropTypes from "prop-types";
-import React from "react";
 import { Count, ResultsList, Sort } from "react-searchkit";
 import { Grid, Segment } from "semantic-ui-react";
 

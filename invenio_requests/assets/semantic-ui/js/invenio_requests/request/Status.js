@@ -3,7 +3,6 @@
  * SPDX-License-Identifier: MIT
  */
 
-import React from "react";
 import { Icon } from "semantic-ui-react";
 import { i18next } from "@translations/invenio_requests/i18next";
 

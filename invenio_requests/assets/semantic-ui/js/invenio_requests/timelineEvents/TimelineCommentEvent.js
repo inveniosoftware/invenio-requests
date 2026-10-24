@@ -5,7 +5,7 @@
 
 import { i18next } from "@translations/invenio_requests/i18next";
 import PropTypes from "prop-types";
-import React, { Component, createRef } from "react";
+import { Component, createRef } from "react";
 import { Image } from "react-invenio-forms";
 import Overridable from "react-overridable";
 import { Divider, Container, Dropdown, Feed, Icon } from "semantic-ui-react";
@@ -95,17 +95,17 @@ class TimelineCommentEvent extends Component {
 
   render() {
     const {
-      isLoading,
-      isEditing,
+      isLoading = false,
+      isEditing = false,
       error,
       event,
       updateComment,
       deleteComment,
       toggleEditMode,
-      userAvatar: currentUserAvatar,
-      isReply,
-      allowQuoteReply,
-      allowCopyLink,
+      userAvatar: currentUserAvatar = "",
+      isReply = false,
+      allowQuoteReply = true,
+      allowCopyLink = true,
       request,
       isBeforeLoadMore,
     } = this.props;
@@ -276,16 +276,6 @@ TimelineCommentEvent.propTypes = {
   isBeforeLoadMore: PropTypes.bool.isRequired,
   allowQuoteReply: PropTypes.bool,
   allowCopyLink: PropTypes.bool,
-};
-
-TimelineCommentEvent.defaultProps = {
-  isLoading: false,
-  isEditing: false,
-  error: undefined,
-  userAvatar: "",
-  isReply: false,
-  allowQuoteReply: true,
-  allowCopyLink: true,
 };
 
 export default Overridable.component("TimelineEvent", TimelineCommentEvent);

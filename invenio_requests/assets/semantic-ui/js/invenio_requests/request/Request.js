@@ -7,7 +7,7 @@ import Overridable from "react-overridable";
 import Loader from "../components/Loader";
 import RequestActionsPortal from "./actions";
 import RequestDetails from "./RequestDetails";
-import React, { Component } from "react";
+import { Component } from "react";
 import PropTypes from "prop-types";
 import isEmpty from "lodash/isEmpty";
 
@@ -18,8 +18,13 @@ export class Request extends Component {
   }
 
   render() {
-    const { request, updateRequestAfterAction, userAvatar, permissions, config } =
-      this.props;
+    const {
+      request,
+      updateRequestAfterAction,
+      userAvatar = "",
+      permissions,
+      config,
+    } = this.props;
 
     return (
       <Overridable id="InvenioRequest.Request.layout">
@@ -47,10 +52,6 @@ Request.propTypes = {
   userAvatar: PropTypes.string,
   permissions: PropTypes.object.isRequired,
   config: PropTypes.object.isRequired,
-};
-
-Request.defaultProps = {
-  userAvatar: "",
 };
 
 export default Overridable.component("InvenioRequests.Request", Request);
