@@ -6,7 +6,7 @@
 
 from datetime import datetime, timezone
 
-import arrow
+import pendulum
 from invenio_records_resources.records.systemfields.calculated import CalculatedField
 
 
@@ -25,7 +25,11 @@ class ExpiredStateCalculatedField(CalculatedField):
         if expires_at is None:
             return False
 
-        expires_at = arrow.get(expires_at, tzinfo=timezone.utc).datetime
-        now = datetime.now(timezone.utc)
+        if isinstance(expires_at, str):
+            expires_at = pendulum.parse(expires_at, tzinfo=timezone.utc)
+        else:
+            expires_at = pendulum.instance(expires_at, tz=timezone.utc)
+
+        now = pendulum.now(timezone.utc)
 
         return expires_at < now
