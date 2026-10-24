@@ -280,7 +280,7 @@ class RequestType:
     def __str__(self):
         """Return str(self)."""
         # Value used by marshmallow schemas to represent the type.
-        return self.type_id
+        return str(self.type_id)
 
     def __repr__(self):
         """Return repr(self)."""

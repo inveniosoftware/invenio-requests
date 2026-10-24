@@ -4,8 +4,10 @@
 """Module tests."""
 
 from flask import Flask
+from invenio_i18n import lazy_gettext as _
 
 from invenio_requests import InvenioRequests
+from invenio_requests.errors import RequestEventPermissionError
 
 
 def test_version():
@@ -26,3 +28,11 @@ def test_init():
     assert "invenio-requests" not in app.extensions
     ext.init_app(app)
     assert "invenio-requests" in app.extensions
+
+
+def test_exception_to_string():
+    """Test if ``str(exception)`` actually gives us a string."""
+    exception = RequestEventPermissionError(
+        description=_("You do not have permission to update this comment.")
+    )
+    assert isinstance(str(exception), str)
