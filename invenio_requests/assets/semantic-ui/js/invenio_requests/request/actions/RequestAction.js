@@ -6,7 +6,7 @@
 
 import { RequestActionContext } from "@js/invenio_requests/request/actions/context";
 import { RichEditor } from "react-invenio-forms";
-import React, { Component } from "react";
+import { Component } from "react";
 import PropTypes from "prop-types";
 import Overridable from "react-overridable";
 import { Divider, Modal, Message } from "semantic-ui-react";
@@ -35,7 +35,7 @@ export class RequestAction extends Component {
 
   render() {
     const { loading, performAction, toggleModal, error, modalOpen } = this.context;
-    const { action, requestType, size } = this.props;
+    const { action, requestType, size = "medium" } = this.props;
     const { actionComment } = this.state;
     const modalId = action;
 
@@ -88,10 +88,6 @@ RequestAction.propTypes = {
   action: PropTypes.string.isRequired,
   requestType: PropTypes.string.isRequired,
   size: PropTypes.string,
-};
-
-RequestAction.defaultProps = {
-  size: "medium",
 };
 
 export default Overridable.component("InvenioRequests.RequestAction", RequestAction);

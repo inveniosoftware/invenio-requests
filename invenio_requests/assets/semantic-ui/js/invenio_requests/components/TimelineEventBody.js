@@ -3,14 +3,20 @@
  * SPDX-License-Identifier: MIT
  */
 
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { forwardRef, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import Overridable from "react-overridable";
 import { Button, Popup, ButtonGroup } from "semantic-ui-react";
 import { FilesList } from "react-invenio-forms";
 import { i18next } from "@translations/invenio_requests/i18next";
 
-const TimelineEventBody = ({ payload, quoteReply, collapsible, expandedByDefault }) => {
+const timelineEventBodyDefaultPropPayload = {};
+const TimelineEventBody = ({
+  payload = timelineEventBodyDefaultPropPayload,
+  quoteReply = null,
+  collapsible = true,
+  expandedByDefault = false,
+}) => {
   return (
     <Overridable
       id="InvenioRequests.TimelineEventBody.layout"
@@ -34,13 +40,6 @@ TimelineEventBody.propTypes = {
   expandedByDefault: PropTypes.bool,
 };
 
-TimelineEventBody.defaultProps = {
-  payload: {},
-  quoteReply: null,
-  collapsible: true,
-  expandedByDefault: false,
-};
-
 const disableMathJaxProcessEnvironments = () => {
   // Disable MathJax from scanning bare LaTeX environments by setting `processEnvironments` to false.
   // https://docs.mathjax.org/en/v3.0/options/input/tex.html#processenvironments
@@ -54,7 +53,8 @@ const disableMathJaxProcessEnvironments = () => {
   }
 };
 
-const TimelineEventBodyRender = React.forwardRef(
+const timelineEventBodyRenderDefaultPropFiles = [];
+const TimelineEventBodyRender = forwardRef(
   (
     {
       refInner,
@@ -63,8 +63,8 @@ const TimelineEventBodyRender = React.forwardRef(
       collapsible,
       toggleCollapsed,
       content,
-      format,
-      files,
+      format = null,
+      files = timelineEventBodyRenderDefaultPropFiles,
     },
     ref
   ) => {
@@ -119,16 +119,12 @@ TimelineEventBodyRender.propTypes = {
   files: PropTypes.array,
 };
 
-TimelineEventBodyRender.defaultProps = {
-  format: null,
-  files: [],
-};
-
+const timelineEventBodyContainerDefaultPropPayload = {};
 const TimelineEventBodyContainer = ({
-  payload,
-  quoteReply,
-  collapsible,
-  expandedByDefault,
+  payload = timelineEventBodyContainerDefaultPropPayload,
+  quoteReply = null,
+  collapsible = true,
+  expandedByDefault = false,
 }) => {
   const ref = useRef(null);
   const refInner = useRef(null);
@@ -291,13 +287,6 @@ TimelineEventBodyContainer.propTypes = {
   quoteReply: PropTypes.func,
   collapsible: PropTypes.bool,
   expandedByDefault: PropTypes.bool,
-};
-
-TimelineEventBodyContainer.defaultProps = {
-  payload: {},
-  quoteReply: null,
-  collapsible: true,
-  expandedByDefault: false,
 };
 
 export default Overridable.component(

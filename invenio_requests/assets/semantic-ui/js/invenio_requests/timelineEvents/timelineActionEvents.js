@@ -5,7 +5,6 @@
  */
 
 import { i18next } from "@translations/invenio_requests/i18next";
-import React from "react";
 import TimelineActionEvent from "../components/TimelineActionEvent";
 import PropTypes from "prop-types";
 

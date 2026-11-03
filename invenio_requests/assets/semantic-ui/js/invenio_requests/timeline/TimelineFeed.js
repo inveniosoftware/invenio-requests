@@ -6,7 +6,7 @@
  */
 
 import PropTypes from "prop-types";
-import React, { Component } from "react";
+import { Component } from "react";
 import Overridable from "react-overridable";
 import { Container, Message, Icon, Button } from "semantic-ui-react";
 import Error from "../components/Error";
@@ -70,7 +70,7 @@ class TimelineFeed extends Component {
   };
 
   appendCommentContent = (eventId, content) => {
-    const { appendCommentContent, parentRequestEvent } = this.props;
+    const { appendCommentContent, parentRequestEvent = null } = this.props;
     if (parentRequestEvent) {
       appendCommentContent(parentRequestEvent.id, content);
     } else {
@@ -81,24 +81,24 @@ class TimelineFeed extends Component {
   render() {
     const {
       initialLoading,
-      error,
-      userAvatar,
+      error = null,
+      userAvatar = "",
       request,
       permissions,
-      warning,
-      parentRequestEvent,
-      isSubmitting,
+      warning = null,
+      parentRequestEvent = null,
+      isSubmitting = false,
       commentContent,
-      storedCommentContent,
-      appendedCommentContent,
+      storedCommentContent = null,
+      appendedCommentContent = null,
       setCommentContent,
       restoreCommentContent,
       setCommentFiles,
       restoreCommentFiles,
-      submissionError,
+      submissionError = null,
       submitComment,
       totalHits,
-      replying,
+      replying = false,
       hits,
       pageNumbers,
       size,
@@ -249,20 +249,6 @@ TimelineFeed.propTypes = {
   replying: PropTypes.bool,
   setIsReplying: PropTypes.func,
   clearDraft: PropTypes.func,
-};
-
-TimelineFeed.defaultProps = {
-  error: null,
-  isSubmitting: false,
-  userAvatar: "",
-  warning: null,
-  parentRequestEvent: null,
-  storedCommentContent: null,
-  submissionError: null,
-  replying: false,
-  setIsReplying: null,
-  appendedCommentContent: null,
-  clearDraft: null,
 };
 
 export default Overridable.component("TimelineFeed", TimelineFeed);
