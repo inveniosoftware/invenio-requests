@@ -8,6 +8,13 @@
 Changes
 =======
 
+Version v15.2.3 (released 2026-11-03)
+
+- fix(mathjax): ignore bare LaTeX environments in comments
+- fix(types): ensure that the result of `str()` is actually a string
+- chore: add test if `str(exception)` returns a string
+- fix: remove trailing '/' from requests.search route [+]
+
 Version v15.2.2 (released 2026-10-01)
 
 - fix(notifications): refresh replies before resolving participants
