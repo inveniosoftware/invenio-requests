@@ -12,6 +12,7 @@ import inspect
 from invenio_base.utils import entry_points
 
 from . import config
+from .notifications.jinja import get_notification_user_name
 from .registry import TypeRegistry
 from .resources import (
     RequestCommentsResource,
@@ -52,6 +53,7 @@ class InvenioRequests:
         self.init_services(app)
         self.init_resources(app)
         self.init_registry(app)
+        app.add_template_global(get_notification_user_name)
         app.extensions["invenio-requests"] = self
 
     def init_config(self, app):
