@@ -41,6 +41,19 @@ TimelineEventBody.defaultProps = {
   expandedByDefault: false,
 };
 
+const disableMathJaxProcessEnvironments = () => {
+  // Disable MathJax from scanning bare LaTeX environments by setting `processEnvironments` to false.
+  // https://docs.mathjax.org/en/v3.0/options/input/tex.html#processenvironments
+  const texInput = window.MathJax?.startup?.document?.inputJax?.find(
+    (inputJax) => inputJax.name === "TeX"
+  );
+  if (texInput?.findTeX?.options) {
+    texInput.findTeX.options.processEnvironments = false;
+    // Refresh FindTeX patterns after disabling environment processing
+    texInput.findTeX.getPatterns();
+  }
+};
+
 const TimelineEventBodyRender = React.forwardRef(
   (
     {
@@ -204,10 +217,13 @@ const TimelineEventBodyContainer = ({
   }, [selectionRange, quoteReply]);
 
   useEffect(() => {
-    if (refInner.current !== null) {
-      // Run MathJax typesetting only on the inner element that contains the content of the comment
-      window.invenio?.onSearchResultsRendered([refInner.current]);
-    }
+    const element = refInner.current;
+    if (!element) return;
+
+    disableMathJaxProcessEnvironments();
+
+    // Run MathJax typesetting only on the inner element that contains the content of the comment.
+    window.invenio?.onSearchResultsRendered([element]);
   }, []);
 
   const { format, content, files, event } = payload;
