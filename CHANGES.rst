@@ -8,6 +8,11 @@
 Changes
 =======
 
+Version v16.0.0 (released 2026-11-10)
+
+- chore(setup): bump dependencies
+- feat: upgrade to react 18
+
 Version v15.2.3 (released 2026-11-03)
 
 - fix(mathjax): ignore bare LaTeX environments in comments
