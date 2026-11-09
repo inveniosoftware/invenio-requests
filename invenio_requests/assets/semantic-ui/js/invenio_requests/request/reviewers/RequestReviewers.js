@@ -1,10 +1,11 @@
 /*
- * SPDX-FileCopyrightText: 2025 CERN.
+ * SPDX-FileCopyrightText: 2025-2026 CERN.
  * SPDX-License-Identifier: MIT
  */
 
 import { Fragment, useState } from "react";
 import PropTypes from "prop-types";
+import Overridable from "react-overridable";
 import { HeaderSubheader, Grid, List, Image, Segment } from "semantic-ui-react";
 import { UsersApi } from "@js/invenio_communities/api/UsersApi";
 import { GroupsApi } from "@js/invenio_communities/api/GroupsApi";
@@ -21,11 +22,12 @@ import { SelectedReviewersList } from "./components/SelectedReviewersList";
 
 const isResourceDeleted = (details) => details.is_ghost === true;
 
-export const RequestReviewers = ({
+const RequestReviewersComponent = ({
   request,
   permissions,
   allowGroupReviewers,
   maxReviewers,
+  helpText,
 }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [searchType, setSearchType] = useState("user");
@@ -99,6 +101,7 @@ export const RequestReviewers = ({
         canUpdateReviewers={permissions.can_action_accept}
         onOpen={() => setIsMenuOpen(!isMenuOpen)}
         label={i18next.t("Reviewers")}
+        helpText={helpText}
       />
       {!isMenuOpen ? (
         <Grid className="mt-0 mb-5">
@@ -146,11 +149,23 @@ export const RequestReviewers = ({
   );
 };
 
-RequestReviewers.propTypes = {
+RequestReviewersComponent.propTypes = {
   request: PropTypes.object.isRequired,
   permissions: PropTypes.shape({
     can_action_accept: PropTypes.bool.isRequired,
   }).isRequired,
   allowGroupReviewers: PropTypes.bool.isRequired,
   maxReviewers: PropTypes.number.isRequired,
+  helpText: PropTypes.string,
 };
+
+RequestReviewersComponent.defaultProps = {
+  helpText: i18next.t(
+    "Anyone with permission to review on behalf of the receiver can also review this request."
+  ),
+};
+
+export const RequestReviewers = Overridable.component(
+  "InvenioRequests.RequestReviewers",
+  RequestReviewersComponent
+);
