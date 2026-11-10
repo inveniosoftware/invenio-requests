@@ -8,6 +8,10 @@
 Changes
 =======
 
+Version v16.1.0 (released 2026-11-10)
+
+- feat(reviewers): add help text for clarification
+
 Version v16.0.0 (released 2026-11-10)
 
 - chore(setup): bump dependencies
