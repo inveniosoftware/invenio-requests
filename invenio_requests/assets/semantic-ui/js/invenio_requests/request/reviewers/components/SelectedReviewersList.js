@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2025 CERN.
+ * SPDX-FileCopyrightText: 2026 KTH Royal Institute of Technology.
  * SPDX-License-Identifier: MIT
  */
 
@@ -20,7 +21,7 @@ export const SelectedReviewersList = ({
   return (
     <>
       <Header fluid as="h4" className="mb-5" size="tiny">
-        {i18next.t(`Add up to ${maxReviewers} reviewers`)}
+        {i18next.t("Add up to {{maxReviewers}} reviewers", { maxReviewers })}
       </Header>
       {selectedReviewers.length === 0 ? (
         <HeaderSubheader className="pl-2 pt-2">
