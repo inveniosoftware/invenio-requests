@@ -1,0 +1,332 @@
+# Translators:
+# Suthep Yonphimai <tomztt@gmail.com>, 2026
+# 
+msgid ""
+msgstr ""
+"Project-Id-Version: i18next-conv\n"
+"POT-Creation-Date: 2026-07-07T11:13:08.464Z\n"
+"PO-Revision-Date: 2022-02-18 11:12+0000\n"
+"Last-Translator: Suthep Yonphimai <tomztt@gmail.com>, 2026\n"
+"Language-Team: Thai (https://app.transifex.com/inveniosoftware/teams/23537/th/)\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: th\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"mime-version: 1.0\n"
+
+msgid "Save"
+msgstr "บันทึก"
+
+msgid "Decline"
+msgstr "ปฏิเสธ"
+
+msgid "Accept and publish"
+msgstr "ยอมรับและเผยแพร่"
+
+msgid "Accept"
+msgstr "ยอมรับ"
+
+msgid "Cancel"
+msgstr "ยกเลิก"
+
+msgid "Cancel request"
+msgstr "ยกเลิกคำขอ"
+
+msgid "Request access"
+msgstr "ขอสิทธิ์เข้าถึง"
+
+msgid "Something went wrong."
+msgstr "เกิดข้อผิดพลาด"
+
+msgid "Are you sure you want to delete this comment?"
+msgstr "คุณแน่ใจหรือไม่ว่าต้องการลบความคิดเห็นนี้?"
+
+msgid "Confirm"
+msgstr "ยืนยัน"
+
+msgid "Delete"
+msgstr "ลบ"
+
+msgid "Shared with me"
+msgstr "แชร์กับฉัน"
+
+msgid "My requests"
+msgstr "คำขอของฉัน"
+
+msgid "Submitted"
+msgstr "ส่งแล้ว"
+
+msgid "Deleted"
+msgstr "ถูกลบแล้ว"
+
+msgid "Accepted"
+msgstr "ยอมรับแล้ว"
+
+msgid "Declined"
+msgstr "ปฏิเสธแล้ว"
+
+msgid "Cancelled"
+msgstr "ยกเลิกแล้ว"
+
+msgid "Expired"
+msgstr "หมดอายุแล้ว"
+
+msgid "Draft review"
+msgstr "ตรวจสอบฉบับร่าง"
+
+msgid "Community inclusion"
+msgstr "การรวมเข้าชุมชน"
+
+msgid "Member invitation"
+msgstr "คำเชิญเป็นสมาชิก"
+
+msgid "Guest access"
+msgstr "การเข้าถึงของผู้เยี่ยมชม"
+
+msgid "User access"
+msgstr "การเข้าถึงของผู้ใช้"
+
+msgid "Community manage record"
+msgstr "ชุมชนจัดการระเบียน"
+
+msgid "Subcommunity"
+msgstr "ชุมชนย่อย"
+
+msgid "Subcommunity invitation"
+msgstr "คำเชิญชุมชนย่อย"
+
+msgid "Membership request"
+msgstr "คำขอเป็นสมาชิก"
+
+msgid "Add comment (optional)"
+msgstr "เพิ่มความคิดเห็น (ไม่บังคับ)"
+
+msgid "{{action}} request"
+msgstr "คำขอ {{action}}"
+
+msgid "Anonymous user"
+msgstr "ผู้ใช้ที่ไม่ระบุตัวตน"
+
+msgid "Email"
+msgstr "อีเมล"
+
+msgid "Creator"
+msgstr "ผู้สร้าง"
+
+msgid "Receiver"
+msgstr "ผู้รับ"
+
+msgid "Request type"
+msgstr "ประเภทคำขอ"
+
+msgid "Status"
+msgstr "สถานะ"
+
+msgid "Created"
+msgstr "สร้างเมื่อ"
+
+msgid "Expires"
+msgstr "หมดอายุ"
+
+msgid "Record"
+msgstr "ระเบียน"
+
+msgid "Accept request"
+msgstr "ยอมรับคำขอ"
+
+msgid "Decline request"
+msgstr "ปฏิเสธคำขอ"
+
+msgid "Expires at: {{- expiringDate}}"
+msgstr "หมดอายุเมื่อ: {{- expiringDate}}"
+
+msgid "Opened {{relativeTime}} by"
+msgstr "เปิดเมื่อ {{relativeTime}} โดย"
+
+msgid "All done!"
+msgstr "เสร็จสิ้นทั้งหมด!"
+
+msgid "You've caught up with all open requests."
+msgstr "คุณดูคำขอที่เปิดอยู่ทั้งหมดแล้ว"
+
+msgid "No requests found!"
+msgstr "ไม่พบคำขอ!"
+
+msgid "Reset search"
+msgstr "รีเซ็ตการค้นหา"
+
+msgid "{{count}} results found"
+msgid_plural "{{count}} results found"
+msgstr[0] "พบผลลัพธ์ {{count}} รายการ"
+
+msgid "Sort by"
+msgstr "เรียงตาม"
+
+msgid "Filter results"
+msgstr "กรองผลลัพธ์"
+
+msgid "Search in my requests..."
+msgstr "ค้นหาในคำขอของฉัน..."
+
+msgid "Open"
+msgstr "เปิด"
+
+msgid "Closed"
+msgstr "ปิดแล้ว"
+
+msgid "Comment"
+msgstr "ความคิดเห็น"
+
+msgid "deleted a comment"
+msgstr "ลบความคิดเห็น"
+
+msgid "accepted this request"
+msgstr "ยอมรับคำขอนี้"
+
+msgid "declined this request"
+msgstr "ปฏิเสธคำขอนี้"
+
+msgid "this request expired"
+msgstr "คำขอนี้หมดอายุแล้ว"
+
+msgid "cancelled this request"
+msgstr "ยกเลิกคำขอนี้"
+
+msgid "unknown event"
+msgstr "เหตุการณ์ที่ไม่รู้จัก"
+
+msgid "Actions"
+msgstr "การดำเนินการ"
+
+msgid "Edit"
+msgstr "แก้ไข"
+
+msgid "commented {{commentTime}}"
+msgstr "แสดงความคิดเห็นเมื่อ {{commentTime}}"
+
+msgid "Edited"
+msgstr "แก้ไขแล้ว"
+
+msgid "Accept and delete"
+msgstr "ยอมรับและลบ"
+
+msgid "Show less"
+msgstr "แสดงน้อยลง"
+
+msgid "Show more"
+msgstr "แสดงเพิ่มเติม"
+
+msgid "Comment was deleted."
+msgstr "ความคิดเห็นถูกลบแล้ว"
+
+msgid "Quote reply"
+msgstr "ตอบกลับพร้อมอ้างอิง"
+
+msgid "Record deletion"
+msgstr "การลบระเบียน"
+
+msgid "File modification"
+msgstr "การแก้ไขไฟล์"
+
+msgid "Quota increase"
+msgstr "การเพิ่มโควต้า"
+
+msgid "create"
+msgstr "สร้าง"
+
+msgid "submit"
+msgstr "ส่ง"
+
+msgid "delete"
+msgstr "ลบ"
+
+msgid "accept"
+msgstr "ยอมรับ"
+
+msgid "decline"
+msgstr "ปฏิเสธ"
+
+msgid "cancel"
+msgstr "ยกเลิก"
+
+msgid "expire"
+msgstr "หมดอายุ"
+
+msgid ""
+"Locking the conversation will disallow users with access to add/update "
+"comments."
+msgstr ""
+"การล็อกการสนทนาจะไม่อนุญาตให้ผู้ใช้ที่มีสิทธิ์เข้าถึงเพิ่ม/อัปเดตความคิดเห็น"
+
+msgid ""
+"Unlocking the conversation will allow users with access to add/update "
+"comments."
+msgstr ""
+"การปลดล็อกการสนทนาจะอนุญาตให้ผู้ใช้ที่มีสิทธิ์เข้าถึงเพิ่ม/อัปเดตความคิดเห็น"
+
+msgid "People"
+msgstr "บุคคล"
+
+msgid "Groups"
+msgstr "กลุ่ม"
+
+msgid "Search for user"
+msgstr "ค้นหาผู้ใช้"
+
+msgid "Search for groups"
+msgstr "ค้นหากลุ่ม"
+
+msgid "No reviewers selected"
+msgstr "ไม่ได้เลือกผู้ตรวจสอบ"
+
+msgid "Reviewers"
+msgstr "ผู้ตรวจสอบ"
+
+msgid "Load more ({{count}} remaining)"
+msgid_plural "Load more ({{count}} remaining)"
+msgstr[0] "Load more ({{count}} remaining)"
+
+msgid "{{remaining}} older comments"
+msgstr "ความคิดเห็นเก่า {{remaining}} รายการ"
+
+msgid "Loading..."
+msgstr "กำลังโหลด..."
+
+msgid "Load more..."
+msgstr "โหลดเพิ่มเติม..."
+
+msgid "Replies"
+msgstr "การตอบกลับ"
+
+msgid "Write a reply"
+msgstr "เขียนการตอบกลับ"
+
+msgid "Reply"
+msgstr "ตอบกลับ"
+
+msgid "Adding or editing comments is now locked."
+msgstr "การเพิ่มหรือแก้ไขความคิดเห็นถูกล็อกแล้ว"
+
+msgid "We couldn't find the reply you were looking for."
+msgstr "ไม่พบการตอบกลับที่คุณค้นหา"
+
+msgid "updated reviewers"
+msgstr "อัปเดตผู้ตรวจสอบ"
+
+msgid "locked this conversation"
+msgstr "ล็อกการสนทนานี้"
+
+msgid "unlocked this conversation"
+msgstr "ปลดล็อกการสนทนานี้"
+
+msgid "Copy link"
+msgstr "คัดลอกลิงก์"
+
+msgid "We couldn't find the comment you were looking for."
+msgstr "ไม่พบความคิดเห็นที่คุณค้นหา"
+
+msgid "{{linkName}} links are undefined. Please refresh the page."
+msgstr "ลิงก์ {{linkName}} ไม่ได้กำหนด โปรดรีเฟรชหน้า"
+
+msgid "{{linkName}} link missing from resource."
+msgstr "ลิงก์ {{linkName}} ขาดหายจากทรัพยากร"
