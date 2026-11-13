@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2025 CERN.
+ * SPDX-FileCopyrightText: 2026 KTH Royal Institute of Technology.
  * SPDX-License-Identifier: MIT
  */
 
@@ -76,9 +77,11 @@ export class LockRequestComponent extends Component {
               className="request-lock-button"
               loading={loading}
               disabled={error !== null}
-              content={i18next.t(
-                isLocked ? "Unlock conversation" : "Lock conversation"
-              )}
+              content={
+                isLocked
+                  ? i18next.t("Unlock conversation")
+                  : i18next.t("Lock conversation")
+              }
               icon={isLocked ? "unlock" : "lock"}
             />
           </Grid.Column>
