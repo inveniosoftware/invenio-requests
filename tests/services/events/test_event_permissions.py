@@ -8,7 +8,7 @@ import pytest
 from invenio_records_resources.services.errors import PermissionDeniedError
 
 from invenio_requests.customizations.event_types import CommentEventType, LogEventType
-from invenio_requests.errors import RequestLockedError
+from invenio_requests.errors import CannotExecuteActionError, RequestLockedError
 from invenio_requests.records.api import RequestEvent
 
 
@@ -195,11 +195,11 @@ def test_commenting_on_locked_request(
             identity_stranger, request.id, {"payload": {"event": "test"}}, LogEventType
         )
 
-    # Log events are not blocked by locked request
-    # For eg. decline action can be executed on locked request
-    requests_service.execute_action(identity_simple_2, request.id, "decline")
+    # A locked request cannot be declined without the required comment.
+    with pytest.raises(CannotExecuteActionError):
+        requests_service.execute_action(identity_simple_2, request.id, "decline")
     RequestEvent.index.refresh()
 
     results = request_events_service.search(identity_simple_2, request.id)
-    assert 3 == results.total  # comment + locked + declined
+    assert 2 == results.total  # comment + locked
     # Creation and submission events are not logged because they have log_event=False

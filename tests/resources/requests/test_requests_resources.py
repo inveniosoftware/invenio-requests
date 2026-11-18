@@ -118,6 +118,38 @@ def test_empty_comment(
     assert "submitted" == response.json["status"]
 
 
+def test_decline_requires_comment(
+    app, client_logged_as, headers, example_requests, request_action_resource_data
+):
+    """Declining a request through the REST API requires a comment."""
+    client = client_logged_as("admin@example.org")
+    r1, r2, r3 = example_requests
+    for request in example_requests:
+        request.status = "submitted"
+        request.commit()
+
+    # With a comment is Ok
+    response = client.post(
+        f"/requests/{r1.id}/actions/decline",
+        headers=headers,
+        json=request_action_resource_data,
+    )
+    assert 200 == response.status_code
+    assert "declined" == response.json["status"]
+
+    # No payload or {} is an error
+    response = client.post(f"/requests/{r2.id}/actions/decline", headers=headers)
+    assert 400 == response.status_code
+    response = client.post(
+        f"/requests/{r3.id}/actions/decline", headers=headers, json={}
+    )
+    assert 400 == response.status_code
+
+    for request in (r2, r3):
+        response = client.get(f"/requests/{request.id}", headers=headers)
+        assert "submitted" == response.json["status"]
+
+
 def test_create_is_disallowed(app, client_logged_as, headers, request_resource_data):
     """Test if the user cannot create a new generic request."""
     client = client_logged_as("user1@example.org")

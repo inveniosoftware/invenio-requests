@@ -12,6 +12,7 @@ export const RequestActionButton = ({
   action,
   handleActionClick,
   loading,
+  disabled = false,
   className = "",
   size = "medium",
   requestType,
@@ -21,12 +22,14 @@ export const RequestActionButton = ({
       id={`RequestActionButton.${action}`}
       onClick={handleActionClick}
       loading={loading}
+      disabled={disabled}
       className={className}
       size={size}
     >
       <Button
         onClick={handleActionClick}
         loading={loading}
+        disabled={disabled}
         className={className}
         size={size}
         requestType={requestType}
@@ -41,6 +44,7 @@ RequestActionButton.propTypes = {
   action: PropTypes.string.isRequired,
   handleActionClick: PropTypes.func.isRequired,
   loading: PropTypes.bool.isRequired,
+  disabled: PropTypes.bool,
   className: PropTypes.string,
   size: PropTypes.string,
   requestType: PropTypes.string.isRequired,

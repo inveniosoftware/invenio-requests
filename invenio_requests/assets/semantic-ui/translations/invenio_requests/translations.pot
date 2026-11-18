@@ -96,6 +96,9 @@ msgstr "Membership request"
 msgid "Add comment (optional)"
 msgstr "Add comment (optional)"
 
+msgid "Add comment (required)"
+msgstr "Add comment (required)"
+
 msgid "{{action}} request"
 msgstr "{{action}} request"
 

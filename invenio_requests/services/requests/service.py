@@ -6,6 +6,7 @@
 
 """Requests service."""
 
+from invenio_access.permissions import system_process
 from invenio_i18n import lazy_gettext as _
 from invenio_records_resources.services import RecordService, ServiceSchemaWrapper
 from invenio_records_resources.services.base import LinksTemplate
@@ -16,6 +17,7 @@ from invenio_records_resources.services.uow import (
     unit_of_work,
 )
 from invenio_search.engine import dsl
+from marshmallow_utils.html import strip_html
 
 from ...customizations import RequestActions
 from ...customizations.event_types import CommentEventType
@@ -265,6 +267,17 @@ class RequestsService(RecordService):
         # is allowed).
         if not action_obj.can_execute():
             raise CannotExecuteActionError(action)
+
+        # Actions such as decline need a reason, unless run by a system process
+        content = ((data or {}).get("payload") or {}).get("content") or ""
+        if (
+            getattr(action_obj, "comment_required", False)
+            and system_process not in identity.provides
+            and not strip_html(str(content)).strip()
+        ):
+            raise CannotExecuteActionError(
+                action, _("A comment is required to decline a request.")
+            )
 
         # Execute action and register request for persistence.
         action_obj.execute(identity, uow, **kwargs)

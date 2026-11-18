@@ -8,6 +8,7 @@ import pytest
 from invenio_records_resources.services.errors import PermissionDeniedError
 
 from invenio_requests.customizations.event_types import CommentEventType
+from invenio_requests.errors import CannotExecuteActionError
 from invenio_requests.records.api import Request, RequestEvent, RequestEventFormat
 
 
@@ -128,6 +129,30 @@ def test_decline_request(
     assert "declined" == request.status
     results = request_events_service.search(identity_simple, request_id)
     assert 3 == results.total  # submit comment + decline event + comment
+
+
+@pytest.mark.parametrize(
+    "data",
+    [
+        None,
+        {},
+        {"payload": {}},
+        {"payload": {"content": "", "format": "html"}},
+        {"payload": {"content": "<p> </p>", "format": "html"}},
+        {"payload": {"content": "<p>&nbsp;</p>", "format": "html"}},
+        {"payload": {"content": "<p><br></p>", "format": "html"}},
+    ],
+)
+def test_decline_requires_comment(
+    app, identity_simple, identity_simple_2, submit_request, requests_service, data
+):
+    """Declining a request requires a non-blank comment."""
+    request = submit_request(identity_simple)
+
+    with pytest.raises(CannotExecuteActionError):
+        requests_service.execute_action(identity_simple_2, request.id, "decline", data)
+
+    assert "submitted" == requests_service.read(identity_simple, request.id)["status"]
 
 
 def test_update_request(app, identity_simple, submit_request, requests_service):

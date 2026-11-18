@@ -25,6 +25,7 @@ const requestDeclineButtonDefaultPropAriaAttributes = {};
 export const RequestDeclineButton = ({
   onClick,
   loading = false,
+  disabled = false,
   ariaAttributes = requestDeclineButtonDefaultPropAriaAttributes,
   size = "mini",
   className = "",
@@ -36,7 +37,7 @@ export const RequestDeclineButton = ({
       content={i18next.t("Decline")}
       onClick={onClick}
       loading={loading}
-      disabled={loading}
+      disabled={loading || disabled}
       negative
       size={size}
       className={className}
@@ -48,6 +49,7 @@ export const RequestDeclineButton = ({
 RequestDeclineButton.propTypes = {
   onClick: PropTypes.func.isRequired,
   loading: PropTypes.bool,
+  disabled: PropTypes.bool,
   ariaAttributes: PropTypes.object,
   size: PropTypes.string,
   className: PropTypes.string,

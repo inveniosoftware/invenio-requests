@@ -12,6 +12,9 @@ from invenio_requests.customizations import RequestType, actions
 class DeclineUserAction(actions.DeclineAction):
     """Represents a decline action used to block a user."""
 
+    # Blocking is done from the administration panel, which sends no comment
+    comment_required = False
+
     def execute(self, identity, uow):
         """Executes block action."""
         user = self.request.topic.resolve()

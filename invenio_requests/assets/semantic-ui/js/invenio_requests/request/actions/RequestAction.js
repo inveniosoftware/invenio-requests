@@ -22,6 +22,13 @@ export class RequestAction extends Component {
 
   static contextType = RequestActionContext;
 
+  openModal = (...args) => {
+    // Start with an empty comment each time the modal is opened
+    const { toggleModal } = this.context;
+    this.setState({ actionComment: "" });
+    toggleModal(...args);
+  };
+
   onCommentChange = (event, editor) => {
     this.setState({ actionComment: editor.getContent() });
   };
@@ -34,10 +41,17 @@ export class RequestAction extends Component {
   };
 
   render() {
-    const { loading, performAction, toggleModal, error, modalOpen } = this.context;
+    const { loading, performAction, error, modalOpen } = this.context;
     const { action, requestType, size = "medium" } = this.props;
     const { actionComment } = this.state;
     const modalId = action;
+    // Blocking users (user moderation) is done without a comment
+    const commentRequired = action === "decline" && requestType !== "user-moderation";
+    const declineCommentMissing =
+      commentRequired &&
+      !new DOMParser()
+        .parseFromString(actionComment, "text/html")
+        .body.textContent.trim();
 
     return (
       <Overridable
@@ -50,7 +64,7 @@ export class RequestAction extends Component {
           <RequestActionModalTrigger
             action={action}
             loading={loading}
-            toggleModal={toggleModal}
+            toggleModal={this.openModal}
             modalOpen={modalOpen}
             requestType={requestType}
             size={size}
@@ -61,6 +75,7 @@ export class RequestAction extends Component {
             handleActionClick={this.handleActionClick}
             modalId={modalId}
             requestType={requestType}
+            actionDisabled={declineCommentMissing}
           >
             <Modal.Content>
               {error && (
@@ -69,11 +84,13 @@ export class RequestAction extends Component {
                 </Message>
               )}
               <Modal.Description>
-                {i18next.t("Add comment (optional)")}
+                {commentRequired
+                  ? i18next.t("Add comment (required)")
+                  : i18next.t("Add comment (optional)")}
                 <Divider hidden />
                 <RichEditor
                   inputValue={() => actionComment}
-                  onChange={this.onCommentChange}
+                  onEditorChange={this.onCommentChange}
                 />
               </Modal.Description>
             </Modal.Content>
