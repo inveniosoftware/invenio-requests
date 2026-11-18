@@ -33,7 +33,14 @@ export class RequestActionModal extends Component {
   };
 
   render() {
-    const { action, handleActionClick, modalId, children, requestType } = this.props;
+    const {
+      action,
+      handleActionClick,
+      modalId,
+      children,
+      requestType,
+      actionDisabled = false,
+    } = this.props;
     const { modalOpen, loading, toggleModal, error, cleanError, className, size } =
       this.context;
 
@@ -83,6 +90,7 @@ export class RequestActionModal extends Component {
                 action={action}
                 handleActionClick={handleActionClick}
                 loading={loading}
+                disabled={actionDisabled}
                 className={className}
                 size={size}
                 requestType={requestType}
@@ -103,6 +111,7 @@ RequestActionModal.propTypes = {
   modalId: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   requestType: PropTypes.string.isRequired,
+  actionDisabled: PropTypes.bool,
   loading: PropTypes.bool,
   modalOpen: PropTypes.bool,
 };

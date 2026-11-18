@@ -24,6 +24,9 @@ class RequestAction:
     log_event = True
     """Define if the action should be logged through a `LogEventType`."""
 
+    comment_required = False
+    """Define if the action can only be executed with a non-blank comment."""
+
     def __init__(self, request):
         """Constructor."""
         self.request = request
@@ -131,6 +134,7 @@ class DeclineAction(RequestAction):
 
     status_from = ["submitted"]
     status_to = "declined"
+    comment_required = True
 
 
 class CancelAction(RequestAction):
