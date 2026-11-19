@@ -1,4 +1,5 @@
 # SPDX-FileCopyrightText: 2016-2021 CERN.
+# SPDX-FileCopyrightText: 2026 KTH Royal Institute of Technology.
 # SPDX-License-Identifier: MIT
 
 """JS/CSS bundles for communities.
@@ -43,9 +44,9 @@ requests = WebpackThemeBundle(
                 "redux-devtools-extension": "^2.13.8",
                 "redux-thunk": "^2.3.0",
                 "react-redux": "^7.2.0",
-                "i18next": "^20.3.0",
-                "i18next-browser-languagedetector": "^6.1.0",
-                "react-i18next": "^11.11.0",
+                "i18next": "^27.1.1",
+                "i18next-browser-languagedetector": "^8.3.0",
+                "react-i18next": "^18.0.1",
             },
             aliases={
                 "@translations/invenio_requests": "translations/invenio_requests",

@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2023-2024 CERN.
+ * SPDX-FileCopyrightText: 2026 KTH Royal Institute of Technology.
  * SPDX-License-Identifier: MIT
  */
 
@@ -74,16 +75,10 @@ export const ComputerTabletRequestItem = ({
         </Item.Header>
         <Item.Meta>
           <small>
-            <Trans
-              defaults="Opened {{relativeTime}} by"
-              values={{
-                relativeTime: toRelativeTime(
-                  createdDate.toISOString(),
-                  i18next.language
-                ),
-              }}
-            />{" "}
-            {creatorName}
+            {i18next.t("Opened {{relativeTime}} by {{creatorName}}", {
+              relativeTime: toRelativeTime(createdDate.toISOString(), i18next.language),
+              creatorName,
+            })}
           </small>
           <small className="right floated">
             {result.receiver?.community &&

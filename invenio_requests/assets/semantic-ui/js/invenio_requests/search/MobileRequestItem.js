@@ -1,5 +1,6 @@
 /*
  * SPDX-FileCopyrightText: 2022-2024 CERN.
+ * SPDX-FileCopyrightText: 2026 KTH Royal Institute of Technology.
  * SPDX-License-Identifier: MIT
  */
 
@@ -9,7 +10,6 @@ import RequestStatusLabel from "@js/invenio_requests/request/RequestStatusLabel"
 import { RequestActionController } from "@js/invenio_requests/request/actions/RequestActionController";
 import { Icon, Item } from "semantic-ui-react";
 import PropTypes from "prop-types";
-import { Trans } from "react-i18next";
 import { toRelativeTime } from "react-invenio-forms";
 import { DateTime } from "luxon";
 
@@ -62,16 +62,10 @@ export const MobileRequestItem = ({
         </Item.Header>
         <Item.Meta>
           <small>
-            <Trans
-              defaults="Opened {{relativeTime}} by"
-              values={{
-                relativeTime: toRelativeTime(
-                  createdDate.toISOString(),
-                  i18next.language
-                ),
-              }}
-            />{" "}
-            {creatorName}
+            {i18next.t("Opened {{relativeTime}} by {{creatorName}}", {
+              relativeTime: toRelativeTime(createdDate.toISOString(), i18next.language),
+              creatorName,
+            })}
           </small>
           <small className="block rel-mt-1">
             {result.receiver?.community &&

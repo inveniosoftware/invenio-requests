@@ -5,8 +5,8 @@ msgstr ""
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
-"POT-Creation-Date: 2025-07-08T19:57:28.970Z\n"
-"PO-Revision-Date: 2025-07-08T19:57:28.970Z\n"
+"POT-Creation-Date: 2026-11-13T22:29:30.337Z\n"
+"PO-Revision-Date: 2026-11-13T22:29:30.338Z\n"
 "Language: en\n"
 
 msgid "Save"
@@ -105,9 +105,6 @@ msgstr "Anonymous user"
 msgid "Email"
 msgstr "Email"
 
-msgid "Group"
-msgstr "Group"
-
 msgid "Creator"
 msgstr "Creator"
 
@@ -137,9 +134,6 @@ msgstr "Decline request"
 
 msgid "Expires at: {{- expiringDate}}"
 msgstr "Expires at: {{- expiringDate}}"
-
-msgid "Opened {{relativeTime}} by"
-msgstr "Opened {{relativeTime}} by"
 
 msgid "All done!"
 msgstr "All done!"
@@ -205,3 +199,149 @@ msgstr "commented {{commentTime}}"
 
 msgid "Edited"
 msgstr "Edited"
+
+msgid "{{linkName}} links are undefined. Please refresh the page."
+msgstr "{{linkName}} links are undefined. Please refresh the page."
+
+msgid "{{linkName}} link missing from resource."
+msgstr "{{linkName}} link missing from resource."
+
+msgid "Accept and delete"
+msgstr "Accept and delete"
+
+msgid "Show less"
+msgstr "Show less"
+
+msgid "Show more"
+msgstr "Show more"
+
+msgid "Comment was deleted."
+msgstr "Comment was deleted."
+
+msgid "Quote reply"
+msgstr "Quote reply"
+
+msgid "Record deletion"
+msgstr "Record deletion"
+
+msgid "File modification"
+msgstr "File modification"
+
+msgid "Quota increase"
+msgstr "Quota increase"
+
+msgid "create"
+msgstr "create"
+
+msgid "submit"
+msgstr "submit"
+
+msgid "delete"
+msgstr "delete"
+
+msgid "accept"
+msgstr "accept"
+
+msgid "decline"
+msgstr "decline"
+
+msgid "cancel"
+msgstr "cancel"
+
+msgid "expire"
+msgstr "expire"
+
+msgid ""
+"Locking the conversation will disallow users with access to add/update "
+"comments."
+msgstr ""
+"Locking the conversation will disallow users with access to add/update "
+"comments."
+
+msgid ""
+"Unlocking the conversation will allow users with access to add/update "
+"comments."
+msgstr ""
+"Unlocking the conversation will allow users with access to add/update "
+"comments."
+
+msgid "Unlock conversation"
+msgstr "Unlock conversation"
+
+msgid "Lock conversation"
+msgstr "Lock conversation"
+
+msgid "People"
+msgstr "People"
+
+msgid "Groups"
+msgstr "Groups"
+
+msgid "Search for user"
+msgstr "Search for user"
+
+msgid "Search for groups"
+msgstr "Search for groups"
+
+msgid "Add up to {{maxReviewers}} reviewers"
+msgstr "Add up to {{maxReviewers}} reviewers"
+
+msgid "No reviewers selected"
+msgstr "No reviewers selected"
+
+msgid "Reviewers"
+msgstr "Reviewers"
+
+msgid ""
+"Anyone with permission to review on behalf of the receiver can also review "
+"this request."
+msgstr ""
+"Anyone with permission to review on behalf of the receiver can also review "
+"this request."
+
+msgid "Opened {{relativeTime}} by {{creatorName}}"
+msgstr "Opened {{relativeTime}} by {{creatorName}}"
+
+msgid "Load more ({{count}} remaining)"
+msgid_plural "Load more ({{count}} remaining)"
+msgstr[0] "Load more ({{count}} remaining)"
+msgstr[1] "Load more ({{count}} remaining)"
+
+msgid "{{remaining}} older comments"
+msgstr "{{remaining}} older comments"
+
+msgid "Loading..."
+msgstr "Loading..."
+
+msgid "Load more..."
+msgstr "Load more..."
+
+msgid "Replies"
+msgstr "Replies"
+
+msgid "Write a reply"
+msgstr "Write a reply"
+
+msgid "Reply"
+msgstr "Reply"
+
+msgid "Adding or editing comments is now locked."
+msgstr "Adding or editing comments is now locked."
+
+msgid "We couldn't find the reply you were looking for."
+msgstr "We couldn't find the reply you were looking for."
+
+msgid "updated reviewers"
+msgstr "updated reviewers"
+
+msgid "locked this conversation"
+msgstr "locked this conversation"
+
+msgid "unlocked this conversation"
+msgstr "unlocked this conversation"
+
+msgid "Copy link"
+msgstr "Copy link"
+
+msgid "We couldn't find the comment you were looking for."
+msgstr "We couldn't find the comment you were looking for."
