@@ -8,7 +8,7 @@
 name = "invenio-requests"
 description = "Invenio module for generic and customizable requests."
 readme = "README.rst"
-requires-python = ">=3.9"
+requires-python = ">=3.11"
 license = "MIT"
 authors = [
   { name = "CERN", email = "info@inveniosoftware.org" },
